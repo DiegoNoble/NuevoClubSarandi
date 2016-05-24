@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="82516180-c0c1-4cbe-972b-57bf31112d4c">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fotoDependiente" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logoClub" class="java.lang.String"/>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     tbsocio.`NOMBRE` AS tbsocio_NOMBRE,
+     tbdependiente.`ID` AS tbdependiente_ID,
+     tbdependiente.`NOMBRE` AS tbdependiente_NOMBRE,
+     tbdependiente.`CI` AS tbdependiente_CI,
+     tbdependiente.`FECHANACIMIENTO` AS tbdependiente_FECHANACIMIENTO
+FROM
+     `tbsocio` tbsocio INNER JOIN `tbdependiente` tbdependiente ON tbsocio.`ID` = tbdependiente.`ID_SOCIO` where tbdependiente.`ID`= $P{id}]]>
+	</queryString>
+	<field name="tbsocio_NOMBRE" class="java.lang.String"/>
+	<field name="tbdependiente_ID" class="java.lang.Integer"/>
+	<field name="tbdependiente_NOMBRE" class="java.lang.String"/>
+	<field name="tbdependiente_CI" class="java.lang.String"/>
+	<field name="tbdependiente_FECHANACIMIENTO" class="java.sql.Date"/>
+	<detail>
+		<band height="200" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="f6adc536-b53e-4fd9-b9be-834b1e80a459" mode="Opaque" x="152" y="95" width="32" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Ingreso:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6bb73798-7c50-4c2c-844c-5fec31f76780" x="99" y="43" width="132" height="51" forecolor="#009933"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Dr. Anollés 533
+Tel: 4622 3478
+dssu@adinet.com.uy
+www.sarandiuniversitario.com]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="8ca39f4b-c6df-4817-aea9-ea22bfc59318" x="280" y="10" width="265" height="181" backcolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="beb7a7ff-c934-4322-a80b-259a683267ff" x="42" y="180" width="54" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[SECRETARIO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="13db0cd9-2cbc-4a71-a3a9-a9d9dd3ef5d2" x="15" y="10" width="265" height="181" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="81a6cf2a-e883-45f4-acea-47b0f9fd24b8" x="192" y="133" width="77" height="11"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_CI}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b561a184-a831-4672-8ab9-042bce460559" mode="Opaque" x="192" y="124" width="17" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[CI:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="f683d66f-1b4c-4612-85fe-a40764855bd5" x="21" y="109" width="45" height="13"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_ID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="23b8c32c-8bf3-47ec-a3db-9fbb4d9e66c9" x="180" y="177" width="54" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[PRESIDENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="55c86f4c-af14-473a-8cc6-0d3245beef5e" mode="Opaque" x="21" y="100" width="38" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Nr. Socio:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="1c495438-2337-482c-bd4e-afde16b43f19" x="192" y="111" width="77" height="11"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_FECHANACIMIENTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6f537c68-47c3-4a12-9c2a-12df9e590377" mode="Opaque" x="21" y="145" width="38" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Titular:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="fe1d3cd5-2a3e-4ce4-8a1e-25c7c7bc88fb" x="19" y="154" width="175" height="11"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="8714c92f-e8e0-41d0-b813-b5a88c282d5a" mode="Opaque" x="21" y="124" width="45" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Dependiente]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="2e96006f-25de-4b19-b498-7088732ae51f" x="19" y="133" width="173" height="11"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ce5bc4f7-e549-4216-b2af-9947573c73fe" x="42" y="178" width="54" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[SECRETARIO]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="3727238f-f00b-4e68-b6dd-98bfef142503" x="170" y="15" width="116" height="85"/>
+				<imageExpression><![CDATA[$P{logoClub}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement uuid="8f50bd50-056e-4d4c-8080-6df84cbd89f5" x="280" y="9" width="1" height="182"/>
+			</line>
+			<staticText>
+				<reportElement uuid="b2dd0549-dc88-444c-b900-4cbaf75500cb" mode="Opaque" x="192" y="100" width="44" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Nacimiento:]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="e2bd1e03-4d36-4bb7-86e5-0b7e9040a3bc" x="310" y="42" width="218" height="138"/>
+				<imageExpression><![CDATA[$P{logoClub}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="7970d78d-17ea-4b80-96ca-d601f60c1275" mode="Opaque" x="295" y="105" width="38" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Nr. Socio:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="405c4832-ea25-48c4-b82c-31cfb4c821e6" x="295" y="115" width="45" height="20"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_ID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="75997a16-c2d1-488f-893e-f0c506218070" x="333" y="8" width="190" height="52" forecolor="#009933"/>
+				<textElement>
+					<font fontName="Times New Roman" size="20" isBold="true" isItalic="false" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[   Deportivo Social
+Sarandí Universitario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="aaffc2cc-4f9f-474b-9ef9-42ab4ebd2522" x="305" y="159" width="230" height="32" forecolor="#009933"/>
+				<textElement>
+					<font fontName="Times New Roman" size="20" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[La familia está en Sarandí]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7e7d078b-61bd-4d5f-9b0e-162de1d8e102" mode="Opaque" x="284" y="139" width="91" height="19"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Socio dependiente]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="26ee6f48-e6a8-4e71-afa5-b2e4b4848ea0" x="19" y="13" width="66" height="88"/>
+				<imageExpression><![CDATA[$P{fotoDependiente}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="4eec6cce-58d3-4af1-95e7-b71994d18489" x="88" y="43" width="132" height="51" forecolor="#009933"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Dr. Anollés 533
+Tel: 4622 3478
+dssu@adinet.com.uy
+www.sarandiuniversitario.com]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

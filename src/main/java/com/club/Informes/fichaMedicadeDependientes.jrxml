@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaMedica" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="729459b1-aef8-4c50-83ef-8c8861326502">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logoClub" class="java.lang.String"/>
+	<parameter name="idDependiente" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     tbfichamedicadependientes.`ID` AS tbfichamedicadependientes_ID,
+     tbfichamedicadependientes.`ID_DEPENDIENTE` AS tbfichamedicadependientes_ID_DEPENDIENTE,
+     tbfichamedicadependientes.`FECHA_EMISION` AS tbfichamedicadependientes_FECHA_EMISION,
+     tbfichamedicadependientes.`FECHA_VENCIMIENTO` AS tbfichamedicadependientes_FECHA_VENCIMIENTO,
+     tbdependiente.`ID` AS tbdependiente_ID,
+     tbdependiente.`CI` AS tbdependiente_CI,
+     tbdependiente.`NOMBRE` AS tbdependiente_NOMBRE
+FROM
+     `tbdependiente` tbdependiente INNER JOIN `tbfichamedicadependientes` tbfichamedicadependientes ON tbdependiente.`ID` = tbfichamedicadependientes.`ID_DEPENDIENTE` where tbdependiente.`ID` = $P{idDependiente} and tbfichamedicadependientes.`ID` =(select max(tbfichamedicadependientes.`ID`) from tbfichamedicadependientes)]]>
+	</queryString>
+	<field name="tbfichamedicadependientes_ID" class="java.lang.Long"/>
+	<field name="tbfichamedicadependientes_ID_DEPENDIENTE" class="java.lang.Integer"/>
+	<field name="tbfichamedicadependientes_FECHA_EMISION" class="java.sql.Date"/>
+	<field name="tbfichamedicadependientes_FECHA_VENCIMIENTO" class="java.sql.Date"/>
+	<field name="tbdependiente_ID" class="java.lang.Integer"/>
+	<field name="tbdependiente_CI" class="java.lang.String"/>
+	<field name="tbdependiente_NOMBRE" class="java.lang.String"/>
+	<detail>
+		<band height="195" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="ea97b6b9-aa61-491f-9c1f-4572b7eb4c1c" x="10" y="10" width="261" height="177"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="bd5aad4a-e902-4c64-9e6a-d0347aac50a5" x="178" y="111" width="78" height="14"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_CI}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9aadfc49-fda8-4f66-a9f4-c1410ccfb481" x="29" y="152" width="49" height="14"/>
+				<textElement>
+					<font fontName="Verdana" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Firma:]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="74e098b6-57c8-4fcd-8eb7-67157e9715cf" x="29" y="15" width="55" height="61"/>
+				<imageExpression><![CDATA[$P{logoClub}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="2d5cab73-7a7f-4aa5-bf6b-b6f09805c4dc" x="141" y="13" width="100" height="20"/>
+				<textElement>
+					<font fontName="Brush Script MT" size="16"/>
+				</textElement>
+				<text><![CDATA[Deportivo Social]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="643c309a-ce24-4876-adb6-0bbccc23b7c3" x="88" y="152" width="168" height="14"/>
+				<textElement/>
+				<text><![CDATA[..........................................................]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="52191f36-0d2c-4671-8bce-8c136255cbf7" x="83" y="95" width="173" height="14"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9770c3d0-f853-4401-8155-9ec746a276e8" x="91" y="126" width="73" height="14"/>
+				<textElement>
+					<font fontName="Verdana" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Vencimiento]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="9ae0c6d9-0b07-429a-965b-57df61013c73" x="178" y="126" width="78" height="14"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbfichamedicadependientes_FECHA_VENCIMIENTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1e7a5b71-1353-4009-a4c6-df54ed508cda" x="29" y="95" width="49" height="14"/>
+				<textElement>
+					<font fontName="Verdana" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="24bce601-2bcd-43eb-84d1-edf3f3289338" x="129" y="168" width="24" height="14"/>
+				<textElement>
+					<font fontName="Verdana" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Nro.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ad171494-db77-41dd-8cd9-6342245b87b1" x="61" y="58" width="167" height="32"/>
+				<textElement>
+					<font fontName="Arial Black" size="11"/>
+				</textElement>
+				<text><![CDATA[ HABILITACIÓN MÉDICA
+DEPARTAMENTO PISCINA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9aa8f106-e526-445a-b185-550fb20e888b" x="108" y="27" width="157" height="25"/>
+				<textElement>
+					<font fontName="Brush Script MT" size="20"/>
+				</textElement>
+				<text><![CDATA[Sarandi Universitario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5aa0f196-0c83-4203-9d99-3b775d848210" x="40" y="111" width="34" height="14"/>
+				<textElement>
+					<font fontName="Verdana" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Socio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d23b0901-143e-4396-b72d-7b451a0004b6" x="137" y="111" width="35" height="14"/>
+				<textElement>
+					<font fontName="Verdana" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[C.I.:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="acca0ac5-c49a-413e-91f3-29dcbcd37516" x="15" y="56" width="250" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="aa06ba8e-b53b-425c-a692-732ef0f96b3c" x="161" y="168" width="46" height="14"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbfichamedicadependientes_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="74c3f064-86f9-448a-8736-17386717d213" x="83" y="111" width="43" height="14"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_ID}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

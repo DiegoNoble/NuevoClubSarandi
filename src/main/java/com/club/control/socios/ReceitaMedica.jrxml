@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReceitaMedica" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     receitas.`data` AS receitas_data,
+     medicamentos.`apresentacao` AS medicamentos_apresentacao,
+     medicamentos.`descricao` AS medicamentos_descricao,
+     medicamentosreceita.`quantidade` AS medicamentosreceita_quantidade,
+     medicamentosreceita.`uso` AS medicamentosreceita_uso,
+     pacientes.`nombre` AS pacientes_nombre,
+     doutores.`nome` AS doutores_nome,
+     pacientes.`identidade` AS pacientes_identidade
+FROM
+     `receitas` receitas INNER JOIN `medicamentosreceita` medicamentosreceita ON receitas.`id` = medicamentosreceita.`idReceita`
+     INNER JOIN `medicamentos` medicamentos ON medicamentosreceita.`idMedicamento` = medicamentos.`id`
+     INNER JOIN `pacientes` pacientes ON receitas.`idPaciente` = pacientes.`id`
+     INNER JOIN `doutores` doutores ON receitas.`idDoutor` = doutores.`id`]]>
+	</queryString>
+	<field name="receitas_data" class="java.sql.Date"/>
+	<field name="medicamentos_apresentacao" class="java.lang.String"/>
+	<field name="medicamentos_descricao" class="java.lang.String"/>
+	<field name="medicamentosreceita_quantidade" class="java.lang.String"/>
+	<field name="medicamentosreceita_uso" class="java.lang.String"/>
+	<field name="pacientes_nombre" class="java.lang.String"/>
+	<field name="doutores_nome" class="java.lang.String"/>
+	<field name="pacientes_identidade" class="java.lang.String"/>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement x="31" y="0" width="183" height="136"/>
+				<textElement>
+					<font fontName="Haettenschweiler" size="40"/>
+				</textElement>
+				<text><![CDATA[Dr. Tulio
+Menezes
+Assman]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="110" width="413" height="22"/>
+				<textElement>
+					<font fontName="Arial" size="16"/>
+				</textElement>
+				<text><![CDATA[Cardiologista 	   Medicina Interna        Terapía Intensiva]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="128" width="555" height="1"/>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="92">
+			<staticText>
+				<reportElement x="321" y="5" width="111" height="20"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de expedição:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="447" y="5" width="100" height="20"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{receitas_data}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="40" y="72" width="56" height="20"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Paciente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="126" y="72" width="158" height="20"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{pacientes_nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="307" y="72" width="70" height="20"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Identidade:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="377" y="72" width="146" height="20"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{pacientes_identidade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="50" y="8" width="139" height="26"/>
+				<textElement>
+					<font fontName="Arial" size="20" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Receita médica]]></text>
+			</staticText>
+			<line>
+				<reportElement x="46" y="32" width="147" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="15" y="3" width="96" height="20"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Medicamento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="126" y="3" width="158" height="20"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{medicamentos_descricao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="24" y="27" width="82" height="20"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantidade:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="126" y="27" width="158" height="20"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{medicamentosreceita_quantidade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="293" y="3" width="81" height="20"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aprecentação:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="378" y="3" width="177" height="20"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{medicamentos_apresentacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="50" width="95" height="20"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Termos de Uso:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="123" y="50" width="161" height="20"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{medicamentosreceita_uso}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="43">
+			<staticText>
+				<reportElement x="31" y="6" width="492" height="34"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[                 Rua 13 de Maio, 535 - Telefone: +55 55 3241-1471 / 3243-7456
+e-mail: assman@v-expressa.com.br - Sant´Ana do Livramento - RS / CREMERS 22228]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="3" width="555" height="1"/>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibos" language="groovy" pageWidth="637" pageHeight="864" columnWidth="637" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="45bd5008-d52b-4447-b2cb-df575d72871b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="Msj" class="java.lang.String"/>
+	<parameter name="Recibo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     tbmensualidades.`ID` AS tbmensualidades_ID,
+     tbmensualidades.`ID_SOCIO` AS tbmensualidades_ID_SOCIO,
+     tbmensualidades.`VALOR` AS tbmensualidades_VALOR,
+     tbmensualidades.`FECHA_VENCIMIENTO` AS tbmensualidades_FECHA_VENCIMIENTO,
+     tbsocio.`DIRECCION` AS tbsocio_DIRECCION,
+     tbsocio.`NOMBRE` AS tbsocio_NOMBRE,
+     tbsocio.`IDCATEGORIA` AS tbsocio_IDCATEGORIA,
+     tbcategoria.`DEFINICION` AS tbcategoria_DEFINICION,
+     tbmensualidades.`LANZAMIENTO` AS tbmensualidades_LANZAMIENTO,
+     tbcobrador.`NOMBRE` AS tbcobrador_NOMBRE
+FROM
+     `tbsocio` tbsocio INNER JOIN `tbmensualidades` tbmensualidades ON tbsocio.`ID` = tbmensualidades.`ID_SOCIO`
+     INNER JOIN `tbcategoria` tbcategoria ON tbsocio.`IDCATEGORIA` = tbcategoria.`ID`
+     INNER JOIN `tbcobrador` tbcobrador ON tbsocio.`IDCOBRADOR` = tbcobrador.`ID`
+     AND tbcobrador.`ID` = tbmensualidades.`ID_COBRADOR`
+WHERE
+     tbmensualidades.`ID` = $P{Recibo}]]>
+	</queryString>
+	<field name="tbmensualidades_ID" class="java.lang.Long"/>
+	<field name="tbmensualidades_ID_SOCIO" class="java.lang.Integer"/>
+	<field name="tbmensualidades_VALOR" class="java.lang.Double"/>
+	<field name="tbmensualidades_FECHA_VENCIMIENTO" class="java.sql.Date"/>
+	<field name="tbsocio_DIRECCION" class="java.lang.String"/>
+	<field name="tbsocio_NOMBRE" class="java.lang.String"/>
+	<field name="tbsocio_IDCATEGORIA" class="java.lang.Integer"/>
+	<field name="tbcategoria_DEFINICION" class="java.lang.String"/>
+	<field name="tbmensualidades_LANZAMIENTO" class="java.lang.Integer"/>
+	<field name="tbcobrador_NOMBRE" class="java.lang.String"/>
+	<group name="tbmensualidades_ID">
+		<groupExpression><![CDATA[$F{tbmensualidades_ID}]]></groupExpression>
+		<groupHeader>
+			<band height="215">
+				<textField pattern="###0.00">
+					<reportElement uuid="54459814-c3fc-4d52-9eaa-9202d2d16178" x="351" y="95" width="64" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbmensualidades_VALOR}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="95684d99-a740-42c3-8ab3-8d4d639440a4" x="26" y="77" width="175" height="16"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_DIRECCION}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="fa1ae87d-e7f7-458c-a625-5adfea52c9aa" x="31" y="111" width="67" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbcategoria_DEFINICION}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="4864129e-2169-44f3-abd7-3a56f69c6711" x="25" y="60" width="175" height="16"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a0a9d0eb-834a-4ee6-b10e-8820dfff3b62" x="256" y="59" width="48" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbmensualidades_ID_SOCIO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="8b5645fe-8f5e-4345-b345-76ea803d0362" x="259" y="130" width="322" height="30"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{Msj}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="31883101-0d6e-4d25-b42c-d3b8483ceb7e" x="256" y="95" width="80" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbcategoria_DEFINICION}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="7c5184d2-2257-43fc-b8f4-b7c5b6a0e91b" x="80" y="25" width="58" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbmensualidades_ID_SOCIO}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="544a27c8-3ed4-4135-85b5-18579eec8004" x="503" y="95" width="65" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbmensualidades_FECHA_VENCIMIENTO}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="71cda366-dba4-4c8b-a0da-c565eb0183bd" x="122" y="142" width="80" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbmensualidades_FECHA_VENCIMIENTO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a91c0376-c25a-43bb-8c2d-db73b3c31fa9" x="36" y="142" width="60" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbmensualidades_ID}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0.00">
+					<reportElement uuid="2d76d83c-3c2c-4ac2-adbd-fad6ab77683b" x="120" y="111" width="84" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbmensualidades_VALOR}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="80ea4abb-48c8-44e6-966e-23d8eda64af6" x="377" y="59" width="207" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="7cf6dd7e-5014-41b1-a104-83312b7822a3" x="430" y="95" width="59" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbmensualidades_ID}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a0a9d0eb-834a-4ee6-b10e-8820dfff3b62" x="311" y="59" width="48" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbcobrador_NOMBRE}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

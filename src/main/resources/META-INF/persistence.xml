@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="ClubSarandiPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>com.club.BEANS.Caja</class>
+    <class>com.club.BEANS.Categoria</class>
+    <class>com.club.BEANS.Cobrador</class>
+    <class>com.club.BEANS.Dependiente</class>
+    <class>com.club.BEANS.FichaMedica</class>
+    <class>com.club.BEANS.FichaMedicaDependientes</class>
+    <class>com.club.BEANS.Mensualidades</class>
+    <class>com.club.BEANS.Rubro</class>
+    <class>com.club.BEANS.Sectores</class>
+    <class>com.club.BEANS.Socio</class>
+    <class>com.club.BEANS.Usuario</class>
+    <class>com.club.BEANS.CcCobrador</class>
+    <class>com.club.BEANS.MensualidadesAnuladas</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/club_sarandi"/>
+      <property name="javax.persistence.jdbc.password" value="dieguito"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.ejb.HibernatePersistence"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.show_sql" value="true"/>
+    </properties>
+  </persistence-unit>
+ 
+</persistence>

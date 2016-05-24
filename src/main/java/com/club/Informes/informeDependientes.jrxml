@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString>
+		<![CDATA[SELECT
+     tbdependiente.`ID` AS tbdependiente_ID,
+     tbdependiente.`NOMBRE` AS tbdependiente_NOMBRE,
+     tbdependiente.`CI` AS tbdependiente_CI,
+     tbdependiente.`FECHANACIMIENTO` AS tbdependiente_FECHANACIMIENTO,
+     tbdependiente.`SITUACION` AS tbdependiente_SITUACION,
+     tbsocio.`ID` AS tbsocio_ID,
+     tbsocio.`NOMBRE` AS tbsocio_NOMBRE,
+     tbsocio.`DIRECCION` AS tbsocio_DIRECCION,
+     tbsocio.`FECHANACIMIENTO` AS tbsocio_FECHANACIMIENTO,
+     tbsocio.`SEXO` AS tbsocio_SEXO,
+     tbsocio.`ESTADOCIVIL` AS tbsocio_ESTADOCIVIL,
+     tbsocio.`PROFESION` AS tbsocio_PROFESION,
+     tbsocio.`NACIONALIDAD` AS tbsocio_NACIONALIDAD,
+     tbsocio.`CIUDAD` AS tbsocio_CIUDAD,
+     tbsocio.`CI` AS tbsocio_CI,
+     tbsocio.`FECHAINGRESO` AS tbsocio_FECHAINGRESO,
+     tbsocio.`BARRIO` AS tbsocio_BARRIO,
+     tbsocio.`TELEFONO` AS tbsocio_TELEFONO,
+     tbsocio.`EMAIL` AS tbsocio_EMAIL,
+     tbsocio.`FOTO` AS tbsocio_FOTO,
+     tbdependiente.`SEXO` AS tbdependiente_SEXO,
+     tbdependiente.`FOTO` AS tbdependiente_FOTO
+FROM
+     `tbsocio` tbsocio INNER JOIN `tbdependiente` tbdependiente ON tbsocio.`ID` = tbdependiente.`ID_SOCIO`]]>
+	</queryString>
+	<field name="tbdependiente_ID" class="java.lang.Integer"/>
+	<field name="tbdependiente_NOMBRE" class="java.lang.String"/>
+	<field name="tbdependiente_CI" class="java.lang.String"/>
+	<field name="tbdependiente_FECHANACIMIENTO" class="java.sql.Date"/>
+	<field name="tbdependiente_SITUACION" class="java.lang.String"/>
+	<field name="tbsocio_ID" class="java.lang.Integer"/>
+	<field name="tbsocio_NOMBRE" class="java.lang.String"/>
+	<field name="tbsocio_DIRECCION" class="java.lang.String"/>
+	<field name="tbsocio_FECHANACIMIENTO" class="java.sql.Date"/>
+	<field name="tbsocio_SEXO" class="java.lang.String"/>
+	<field name="tbsocio_ESTADOCIVIL" class="java.lang.String"/>
+	<field name="tbsocio_PROFESION" class="java.lang.String"/>
+	<field name="tbsocio_NACIONALIDAD" class="java.lang.String"/>
+	<field name="tbsocio_CIUDAD" class="java.lang.String"/>
+	<field name="tbsocio_CI" class="java.lang.String"/>
+	<field name="tbsocio_FECHAINGRESO" class="java.sql.Date"/>
+	<field name="tbsocio_BARRIO" class="java.lang.String"/>
+	<field name="tbsocio_TELEFONO" class="java.lang.String"/>
+	<field name="tbsocio_EMAIL" class="java.lang.String"/>
+	<field name="tbsocio_FOTO" class="java.lang.Object"/>
+	<field name="tbdependiente_SEXO" class="java.lang.String"/>
+	<field name="tbdependiente_FOTO" class="java.lang.Object"/>
+	<group name="tbsocio_ID">
+		<groupExpression><![CDATA[$F{tbsocio_ID}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<textField>
+					<reportElement style="SubTitle" x="47" y="13" width="506" height="24" forecolor="#333333"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{tbsocio_ID}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement mode="Opaque" x="0" y="13" width="36" height="24" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+				</rectangle>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="tbsocio_NOMBRE">
+		<groupExpression><![CDATA[$F{tbsocio_NOMBRE}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<textField>
+					<reportElement style="SubTitle" x="0" y="4" width="460" height="20"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="127" y="6" width="316" height="33" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Informe de Dependientes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="112" y="39" width="285" height="22" forecolor="#000000"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Clasificados por Titulares]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="92" height="15"/>
+				<textElement/>
+				<text><![CDATA[Código Dependiente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="112" y="19" width="92" height="15"/>
+				<textElement/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="224" y="19" width="92" height="15"/>
+				<textElement/>
+				<text><![CDATA[C.I.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="336" y="19" width="107" height="15"/>
+				<textElement/>
+				<text><![CDATA[Fecha Nacimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="464" y="19" width="92" height="15"/>
+				<textElement/>
+				<text><![CDATA[Situación]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="92" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{tbdependiente_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="112" y="0" width="92" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tbdependiente_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="224" y="0" width="92" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tbdependiente_CI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="336" y="0" width="107" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{tbdependiente_FECHANACIMIENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="464" y="0" width="92" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tbdependiente_SITUACION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

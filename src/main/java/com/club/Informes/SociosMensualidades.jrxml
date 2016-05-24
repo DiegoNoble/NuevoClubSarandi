@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InformeSocios" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString>
+		<![CDATA[SELECT
+     *,
+     tbmensualidades.`ID_SOCIO` AS tbmensualidades_ID_SOCIO,
+     tbmensualidades.`VALOR` AS tbmensualidades_VALOR,
+     tbmensualidades.`FECHA_VENCIMIENTO` AS tbmensualidades_FECHA_VENCIMIENTO,
+     tbmensualidades.`ID_COBRADOR` AS tbmensualidades_ID_COBRADOR,
+     tbsocio.`NOMBRE` AS tbsocio_NOMBRE,
+     tbmensualidades.`ID` AS tbmensualidades_ID
+FROM
+     `tbsocio` tbsocio INNER JOIN `tbmensualidades` tbmensualidades ON tbsocio.`ID` = tbmensualidades.`ID_SOCIO` where tbmensualidades.fecha_vencimiento='2013-04-15' and tbmensualidades.id_cobrador='1']]>
+	</queryString>
+	<field name="ID" class="java.lang.Integer"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="DIRECCION" class="java.lang.String"/>
+	<field name="FECHANACIMIENTO" class="java.sql.Date"/>
+	<field name="SEXO" class="java.lang.String"/>
+	<field name="ESTADOCIVIL" class="java.lang.String"/>
+	<field name="PROFESION" class="java.lang.String"/>
+	<field name="NACIONALIDAD" class="java.lang.String"/>
+	<field name="CIUDAD" class="java.lang.String"/>
+	<field name="CI" class="java.lang.String"/>
+	<field name="FECHAINGRESO" class="java.sql.Date"/>
+	<field name="SITUACION" class="java.lang.String"/>
+	<field name="IDCOBRADOR" class="java.lang.Integer"/>
+	<field name="BARRIO" class="java.lang.String"/>
+	<field name="TELEFONO" class="java.lang.String"/>
+	<field name="EMAIL" class="java.lang.String"/>
+	<field name="IDCATEGORIA" class="java.lang.Integer"/>
+	<field name="FOTO" class="java.lang.Object"/>
+	<field name="HISTORIA" class="java.lang.String"/>
+	<field name="ID_SOCIO" class="java.lang.Integer"/>
+	<field name="VALOR" class="java.lang.Double"/>
+	<field name="FECHA_VENCIMIENTO" class="java.sql.Date"/>
+	<field name="FECHA_PAGO" class="java.sql.Date"/>
+	<field name="ID_COBRADOR" class="java.lang.Integer"/>
+	<field name="PAGO" class="java.lang.String"/>
+	<field name="LANZAMIENTO" class="java.lang.Integer"/>
+	<field name="tbmensualidades_ID_SOCIO" class="java.lang.Integer"/>
+	<field name="tbmensualidades_VALOR" class="java.lang.Double"/>
+	<field name="tbmensualidades_FECHA_VENCIMIENTO" class="java.sql.Date"/>
+	<field name="tbmensualidades_ID_COBRADOR" class="java.lang.Integer"/>
+	<field name="tbsocio_NOMBRE" class="java.lang.String"/>
+	<field name="tbmensualidades_ID" class="java.lang.Long"/>
+	<variable name="valorTotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tbmensualidades_VALOR}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="170" y="5" width="263" height="33" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Informe de Recibos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="112" y="38" width="200" height="22" forecolor="#000000"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Socios Mostrador]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="46" height="15"/>
+				<textElement/>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="58" y="20" width="92" height="15"/>
+				<textElement/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="281" y="20" width="82" height="15"/>
+				<textElement/>
+				<text><![CDATA[Fecha Venc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="408" y="19" width="42" height="15"/>
+				<textElement/>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="489" y="18" width="64" height="15"/>
+				<textElement/>
+				<text><![CDATA[Cobrador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="181" y="19" width="75" height="15"/>
+				<textElement/>
+				<text><![CDATA[Nro. Recibo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="15"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{tbmensualidades_ID_SOCIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="0" width="112" height="15"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="197" y="0" width="59" height="15"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{tbmensualidades_ID}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="281" y="0" width="100" height="15"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{tbmensualidades_FECHA_VENCIMIENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="408" y="0" width="42" height="15"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{tbmensualidades_VALOR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="492" y="0" width="61" height="15"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{tbmensualidades_ID_COBRADOR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="37">
+			<textField>
+				<reportElement x="263" y="16" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="16" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{valorTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="16" width="106" height="20"/>
+				<textElement/>
+				<text><![CDATA[Cantidad de Recibos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="16" width="64" height="20"/>
+				<textElement/>
+				<text><![CDATA[Total en $U:]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

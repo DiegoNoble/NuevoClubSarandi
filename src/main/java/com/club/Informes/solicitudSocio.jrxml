@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3d43fd6f-7636-4aaf-affb-f91a52375b1d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="idSocio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     tbdependiente.`ID` AS tbdependiente_ID,
+     tbdependiente.`NOMBRE` AS tbdependiente_NOMBRE,
+     tbdependiente.`CI` AS tbdependiente_CI,
+     tbdependiente.`FECHANACIMIENTO` AS tbdependiente_FECHANACIMIENTO,
+     tbdependiente.`SITUACION` AS tbdependiente_SITUACION,
+     tbsocio.`ID` AS tbsocio_ID,
+     tbsocio.`NOMBRE` AS tbsocio_NOMBRE,
+     tbsocio.`DIRECCION` AS tbsocio_DIRECCION,
+     tbsocio.`FECHANACIMIENTO` AS tbsocio_FECHANACIMIENTO,
+     tbsocio.`SEXO` AS tbsocio_SEXO,
+     tbsocio.`ESTADOCIVIL` AS tbsocio_ESTADOCIVIL,
+     tbsocio.`PROFESION` AS tbsocio_PROFESION,
+     tbsocio.`NACIONALIDAD` AS tbsocio_NACIONALIDAD,
+     tbsocio.`CIUDAD` AS tbsocio_CIUDAD,
+     tbsocio.`CI` AS tbsocio_CI,
+     tbsocio.`FECHAINGRESO` AS tbsocio_FECHAINGRESO,
+     tbsocio.`BARRIO` AS tbsocio_BARRIO,
+     tbsocio.`TELEFONO` AS tbsocio_TELEFONO,
+     tbsocio.`EMAIL` AS tbsocio_EMAIL,
+     tbsocio.`FOTO` AS tbsocio_FOTO,
+     tbdependiente.`SEXO` AS tbdependiente_SEXO,
+     tbdependiente.`FOTO` AS tbdependiente_FOTO,
+     tbdependiente.`PARENTESCO` AS tbdependiente_PARENTESCO,
+     tbcategoria.`DEFINICION` AS tbcategoria_DEFINICION,
+     tbcobrador.`NOMBRE` AS tbcobrador_NOMBRE
+FROM
+     `tbsocio` tbsocio INNER JOIN `tbdependiente` tbdependiente ON tbsocio.`ID` = tbdependiente.`ID_SOCIO`
+     INNER JOIN `tbcategoria` tbcategoria ON tbsocio.`IDCATEGORIA` = tbcategoria.`ID`
+     INNER JOIN `tbcobrador` tbcobrador ON tbsocio.`IDCOBRADOR` = tbcobrador.`ID`
+WHERE
+     tbsocio.`ID` = $P{idSocio}]]>
+	</queryString>
+	<field name="tbdependiente_ID" class="java.lang.Integer"/>
+	<field name="tbdependiente_NOMBRE" class="java.lang.String"/>
+	<field name="tbdependiente_CI" class="java.lang.String"/>
+	<field name="tbdependiente_FECHANACIMIENTO" class="java.sql.Date"/>
+	<field name="tbdependiente_SITUACION" class="java.lang.String"/>
+	<field name="tbsocio_ID" class="java.lang.Integer"/>
+	<field name="tbsocio_NOMBRE" class="java.lang.String"/>
+	<field name="tbsocio_DIRECCION" class="java.lang.String"/>
+	<field name="tbsocio_FECHANACIMIENTO" class="java.sql.Date"/>
+	<field name="tbsocio_SEXO" class="java.lang.String"/>
+	<field name="tbsocio_ESTADOCIVIL" class="java.lang.String"/>
+	<field name="tbsocio_PROFESION" class="java.lang.String"/>
+	<field name="tbsocio_NACIONALIDAD" class="java.lang.String"/>
+	<field name="tbsocio_CIUDAD" class="java.lang.String"/>
+	<field name="tbsocio_CI" class="java.lang.String"/>
+	<field name="tbsocio_FECHAINGRESO" class="java.sql.Date"/>
+	<field name="tbsocio_BARRIO" class="java.lang.String"/>
+	<field name="tbsocio_TELEFONO" class="java.lang.String"/>
+	<field name="tbsocio_EMAIL" class="java.lang.String"/>
+	<field name="tbsocio_FOTO" class="java.lang.String"/>
+	<field name="tbdependiente_SEXO" class="java.lang.String"/>
+	<field name="tbdependiente_FOTO" class="java.lang.String"/>
+	<field name="tbdependiente_PARENTESCO" class="java.lang.String"/>
+	<field name="tbcategoria_DEFINICION" class="java.lang.String"/>
+	<field name="tbcobrador_NOMBRE" class="java.lang.String"/>
+	<group name="tbsocio_ID">
+		<groupExpression><![CDATA[$F{tbsocio_ID}]]></groupExpression>
+		<groupHeader>
+			<band height="93">
+				<textField>
+					<reportElement style="SubTitle" x="47" y="13" width="506" height="24" forecolor="#333333" uuid="70ca0be8-ce9c-4686-80a3-9c26a0121f04"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_ID}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement mode="Opaque" x="3" y="13" width="36" height="24" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="66c068f0-8d05-4a3a-9134-d2a24605d3a5"/>
+				</rectangle>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="1" y="71" width="100" height="20" uuid="b0a7a41d-f8e1-453a-9590-7123ef8f2d3a"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_FECHAINGRESO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="2" y="56" width="92" height="15" uuid="8db343ba-0afe-4868-aac9-37040a9827f1"/>
+					<text><![CDATA[Ingreso]]></text>
+				</staticText>
+				<image scaleImage="RetainShape" isUsingCache="true" onErrorType="Blank">
+					<reportElement x="441" y="0" width="72" height="93" uuid="2af21c96-2563-48c3-8a8f-7ee7ba05fcb4"/>
+					<imageExpression><![CDATA[$F{tbsocio_FOTO}]]></imageExpression>
+				</image>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="80"/>
+		</groupFooter>
+	</group>
+	<group name="tbsocio_NOMBRE">
+		<groupExpression><![CDATA[$F{tbsocio_NOMBRE}]]></groupExpression>
+		<groupHeader>
+			<band height="197">
+				<textField>
+					<reportElement style="SubTitle" x="0" y="24" width="132" height="20" forecolor="#000000" uuid="0530b341-45e0-4def-970e-62a8c6d3d071"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="0" y="179" width="47" height="15" uuid="498e4a49-1a18-4d2e-9cb7-63c85c0f5bee"/>
+					<text><![CDATA[Código Dependiente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="61" y="179" width="92" height="15" uuid="f1c48aa4-5ea9-4f05-bc5d-a23e878e8029"/>
+					<text><![CDATA[Nombre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="170" y="179" width="92" height="15" uuid="acf979c4-5cd6-4de0-a8d9-bed8691b70ff"/>
+					<text><![CDATA[C.I.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="267" y="179" width="107" height="15" uuid="4a8f656f-2b6e-46b4-8aad-2b9addcffcdf"/>
+					<text><![CDATA[Fecha Nacimiento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="132" y="9" width="92" height="15" uuid="dcc435bf-c9f3-4a70-b3bd-9f67f25c51a3"/>
+					<text><![CDATA[C.I.]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="132" y="24" width="100" height="20" uuid="819dd62c-8973-4895-ba05-241a89c81553"/>
+					<textElement>
+						<font fontName="Arial" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_CI}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="0" y="9" width="92" height="15" uuid="05bdabf5-8b70-4c1e-888e-b8c81b3269cc"/>
+					<text><![CDATA[Nombre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="232" y="9" width="107" height="15" uuid="41808f45-aee4-44e0-a16b-6c55741ed2c1"/>
+					<text><![CDATA[Fecha Nacimiento]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="239" y="24" width="100" height="20" uuid="2d8583ed-7e5d-487c-a6f0-5509de10425f"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_FECHANACIMIENTO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="351" y="25" width="100" height="20" uuid="a02ea760-4e75-4417-a8ce-76365df8a9e6"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_NACIONALIDAD}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="351" y="9" width="107" height="15" uuid="e86257f9-fff2-4325-8024-ebaaebcf0889"/>
+					<text><![CDATA[Nacionalidad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="471" y="9" width="80" height="15" uuid="4391ab03-bcc2-48d3-bc73-f408aebd06bc"/>
+					<text><![CDATA[Estado Civil]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="471" y="24" width="82" height="20" uuid="4280d37e-a816-45fd-a9f5-9977f29f73c1"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_ESTADOCIVIL}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="2" y="60" width="100" height="20" uuid="069b9792-fdac-4e24-a391-14654fcb0061"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_PROFESION}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="3" y="45" width="92" height="15" uuid="71f5f363-7cb6-42da-9b1b-c932a6381e91"/>
+					<text><![CDATA[Profesión]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="124" y="60" width="100" height="20" uuid="4863d378-7d3b-4ab2-83a5-f26240b22f55"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_DIRECCION}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="123" y="45" width="92" height="15" uuid="69f1c5b3-9370-43ce-854f-f5b1204f193b"/>
+					<text><![CDATA[Dirección]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="232" y="61" width="100" height="20" uuid="60c7dd8b-ec08-408d-843a-3567f33ca30d"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbsocio_TELEFONO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="233" y="46" width="92" height="15" uuid="d0616334-2165-41b5-9363-9c2152c24914"/>
+					<text><![CDATA[Teléfono]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Title" x="2" y="136" width="316" height="33" forecolor="#000000" uuid="13e1c407-120a-4d5d-b723-989cfa21537a"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Dependientes:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="376" y="179" width="67" height="15" uuid="9edb8aa3-c2a1-4de7-9d9b-6ca261608f3b"/>
+					<text><![CDATA[Sexo]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="3" y="98" width="100" height="20" uuid="c30944b3-809c-4e79-bcd8-da0cb367649e"/>
+					<textElement>
+						<font fontName="Arial"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbcategoria_DEFINICION}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="3" y="81" width="92" height="15" uuid="c16bfc4f-44a5-4f61-8ee5-f2e6ecbccdcb"/>
+					<text><![CDATA[Categoria]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="458" y="179" width="93" height="15" uuid="ecf3fda0-470d-4cad-965c-7216d97ea248"/>
+					<text><![CDATA[Parentesco]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="127" y="6" width="316" height="33" forecolor="#000000" uuid="b3a88c35-f61e-4a89-85cc-a23f26da507e"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Solicitud de afiliación]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="f0d37904-f2eb-467c-b3f3-39524b29a6e0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Title" x="3" y="2" width="316" height="33" forecolor="#000000" uuid="d2558937-02de-449f-879f-8bca74b72e1d"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Socio:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="114" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="17" width="555" height="1" uuid="4b3f48a9-97b8-47fd-b9b4-891b5d3641a0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="47" height="15" forecolor="#000000" uuid="6b5045a5-b6a5-4d0f-9862-cba0c4ac03db"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="47" y="0" width="120" height="15" forecolor="#000000" uuid="f94210e2-8b58-4331-8ec2-befe31f33d64"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="170" y="0" width="92" height="15" forecolor="#000000" uuid="d64f365c-d7ea-44dc-88c5-4d16ad40b49c"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_CI}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement style="Detail" x="292" y="0" width="78" height="15" forecolor="#000000" uuid="534990a3-cbd2-4e2b-ab6c-3ca145c8a1b7"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_FECHANACIMIENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="378" y="0" width="73" height="15" uuid="4f5f45fe-14a5-4be8-a9f6-7ca823566111"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_SEXO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="458" y="0" width="93" height="15" uuid="8dd93267-aa10-49df-897b-cffe94c4e877"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbdependiente_PARENTESCO}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="RetainShape" isUsingCache="true" onErrorType="Blank">
+				<reportElement x="8" y="21" width="70" height="93" uuid="b0774c7e-020e-4244-829d-2446780ee111"/>
+				<imageExpression><![CDATA[$F{tbdependiente_FOTO}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="6257d978-30bc-4c58-ab17-467067d4a078"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="862ac76d-5859-4ab0-8219-661d781d3eac"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="8618028c-bde6-4249-9b01-cc9acba6c865"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
