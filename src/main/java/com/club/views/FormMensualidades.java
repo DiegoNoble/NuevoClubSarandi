@@ -155,7 +155,7 @@ public class FormMensualidades extends javax.swing.JInternalFrame {
             parametros.put("Msj", txtAreaMsj.getText());
             parametros.put("emision", emision);
             btnRecibos.setReportParameters(parametros);
-            btnRecibos.setReportURL("/com/club/control/mensualidades/recibos.jasper");
+            btnRecibos.setReportURL("/Informes/recibos.jasper");
             
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -228,7 +228,7 @@ public class FormMensualidades extends javax.swing.JInternalFrame {
                     parametros.put("Msj", txtAreaMsj.getText());
                     parametros.put("emision", emision);
                     btnReciboIndividual.setReportParameters(parametros);
-                    btnReciboIndividual.setReportURL("/com/club/control/mensualidades/recibos.jasper");
+                    btnReciboIndividual.setReportURL("/Reportes/recibos.jasper");
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Ya existe una emisión con la misma fecha vencimiento indicada", "Error", JOptionPane.ERROR_MESSAGE);

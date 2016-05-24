@@ -1275,7 +1275,6 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
 
     private void btnFichaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFichaActionPerformed
 
-        
         try {
             parametros.clear();
             //parametros.put("fotoSocio", txtFoto.getText());
@@ -1302,17 +1301,30 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
 
     private void btnCarneSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarneSocioActionPerformed
 
+        /*try {
+            InputStream resource = getClass().getClassLoader().getResourceAsStream("Reportes/newReport.jasper");
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, new JREmptyDataSource());
+            JasperViewer reporte = new JasperViewer(jasperPrint, false);
+            reporte.setVisible(true);
+
+            reporte.toFront();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al imprimir recibo " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }*/
         try {
-            parametros.clear();
-            parametros.put("fotoCarne", txtFoto.getText());
-            parametros.put("logoClub", "./imagenes/Escudo 2.jpg");
-            parametros.put("idSocio", socioSeleccionado.getId());
-            btnCarneSocio.setReportParameters(parametros);
-            btnCarneSocio.setReportURL("/com/club/Informes/carneSocio.jasper");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al generar reporte " + e);
-            e.printStackTrace();
-        }
+         parametros.clear();
+         parametros.put("fotoCarne", txtFoto.getText());
+         parametros.put("logoClub", "/Imagenes/Escudo 2.jpg");
+         parametros.put("idSocio", socioSeleccionado.getId());
+         btnCarneSocio.setReportParameters(parametros);
+         btnCarneSocio.setReportURL("/Reportes/carneSocio.jasper");
+         } catch (Exception e) {
+         JOptionPane.showMessageDialog(null, "Error al generar reporte " + e);
+         e.printStackTrace();
+         }
     }//GEN-LAST:event_btnCarneSocioActionPerformed
 
     private void btnHuellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuellaActionPerformed

@@ -9,7 +9,7 @@
  * Created on 29/11/2011, 22:59:33
  */
 
-package com.club.imagenes;
+package Imagenes;
 
 /**
  *

@@ -437,7 +437,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Escudo Sarandi imagen.jpg"/>
+              <Image iconType="3" name="/Imagenes/Escudo.jpg"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[1024, 750]"/>
@@ -559,7 +559,7 @@
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/reloj.png"/>
+                  <Image iconType="3" name="/Imagenes/reloj.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Reloj personal"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -577,7 +577,7 @@
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/registro1.png"/>
+                  <Image iconType="3" name="/Imagenes/registro1.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Socios TITULARES"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -595,7 +595,7 @@
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/registro1.png"/>
+                  <Image iconType="3" name="/Imagenes/registro1.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Socios DEPENDIENTES"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -613,7 +613,7 @@
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/socios.png"/>
+                  <Image iconType="3" name="/Imagenes/socios.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Consultar ingresos"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>

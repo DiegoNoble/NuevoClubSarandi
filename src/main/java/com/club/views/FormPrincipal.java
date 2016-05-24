@@ -9,7 +9,7 @@ import com.club.control.cobrador.cobradorFrame;
 import com.club.control.socios.informeSocios;
 import com.club.control.usuarios.registroUsuarios;
 import com.club.control.utilidades.data;
-import com.club.imagenes.ayuda;
+import Imagenes.ayuda;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -217,7 +217,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         jDesktopPane1.setPreferredSize(new java.awt.Dimension(800, 600));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Escudo Sarandi imagen.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Escudo.jpg"))); // NOI18N
         jLabel1.setPreferredSize(new java.awt.Dimension(1024, 750));
         jDesktopPane1.add(jLabel1);
         jLabel1.setBounds(280, 0, 840, 660);
@@ -257,7 +257,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
 
         btnMarcajes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnMarcajes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reloj.png"))); // NOI18N
+        btnMarcajes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reloj.png"))); // NOI18N
         btnMarcajes.setText("Reloj personal");
         btnMarcajes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMarcajes.setIconTextGap(-3);
@@ -270,7 +270,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
 
         btnTitulares.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnTitulares.setIcon(new javax.swing.ImageIcon(getClass().getResource("/registro1.png"))); // NOI18N
+        btnTitulares.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/registro1.png"))); // NOI18N
         btnTitulares.setText("Socios TITULARES");
         btnTitulares.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnTitulares.setIconTextGap(-3);
@@ -283,7 +283,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
 
         btnRegistroDependientes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnRegistroDependientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/registro1.png"))); // NOI18N
+        btnRegistroDependientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/registro1.png"))); // NOI18N
         btnRegistroDependientes.setText("Socios DEPENDIENTES");
         btnRegistroDependientes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRegistroDependientes.setIconTextGap(-3);
@@ -296,7 +296,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
 
         btnRegistroDependientes1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnRegistroDependientes1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/socios.png"))); // NOI18N
+        btnRegistroDependientes1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/socios.png"))); // NOI18N
         btnRegistroDependientes1.setText("Consultar ingresos");
         btnRegistroDependientes1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRegistroDependientes1.setIconTextGap(-3);

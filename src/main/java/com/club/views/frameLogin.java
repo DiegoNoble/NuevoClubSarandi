@@ -9,8 +9,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class frameLogin extends javax.swing.JFrame {
 
@@ -20,7 +21,6 @@ public class frameLogin extends javax.swing.JFrame {
         initComponents();
         //setSize(400, 200);
         setLocationRelativeTo(null);
-
 
     }
 
@@ -49,13 +49,13 @@ public class frameLogin extends javax.swing.JFrame {
 
         System.setOut(
                 new PrintStream(
-                new FileOutputStream("logs/System.out/" + agora + ".txt", true)));
+                        new FileOutputStream("logs/System.out/" + agora + ".txt", true)));
 
         System.setErr(
                 new PrintStream(
-                new FileOutputStream("logs/System.err/" + agora + ".txt", true)));
+                        new FileOutputStream("logs/System.err/" + agora + ".txt", true)));
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -172,7 +172,7 @@ public class frameLogin extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(btnOk, gridBagConstraints);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/portero.jpg"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/portero.jpg"))); // NOI18N
         jButton1.setText("Ingreso de Portero");
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setIconTextGap(-3);
@@ -205,21 +205,20 @@ public class frameLogin extends javax.swing.JFrame {
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
 
-            usuarioDAO = new UsuarioDAO();
-            boolean login = usuarioDAO.isUsernameAndPasswordExists(txtNombre.getText(), String.valueOf(txtPass.getPassword()));
-            if ( login == false) {
-                JOptionPane.showMessageDialog(null, "Usuario o contraseña invalida!");
-            } else {
-                
-                Usuario usuario = usuarioDAO.buscaPerfilUsuario(txtNombre.getText(), String.valueOf(txtPass.getPassword()));
+        usuarioDAO = new UsuarioDAO();
+        boolean login = usuarioDAO.isUsernameAndPasswordExists(txtNombre.getText(), String.valueOf(txtPass.getPassword()));
+        if (login == false) {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña invalida!");
+        } else {
 
-                FormPrincipal mp = new FormPrincipal(usuario);
-                mp.setVisible(true);
-                this.dispose();
-                
-                this.dispose();
-            }
-       
+            Usuario usuario = usuarioDAO.buscaPerfilUsuario(txtNombre.getText(), String.valueOf(txtPass.getPassword()));
+
+            FormPrincipal mp = new FormPrincipal(usuario);
+            mp.setVisible(true);
+            this.dispose();
+
+            this.dispose();
+        }
 
 
     }//GEN-LAST:event_btnOkActionPerformed
@@ -255,36 +254,36 @@ public class frameLogin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        
         txtNombre.setText("Portero");
         txtPass.setText("Portero");
         btnOkActionPerformed(null);
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-   public static void main(String args[]) {
+    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
 
                 try {
                     //setLogs();
-                    Properties props = new Properties();
-                    props.put("logoString", "my company");
-                    props.put("licenseKey", "INSERT YOUR LICENSE KEY HERE");
+                    //Properties props = new Properties();
+                    //props.put("logoString", "my company");
+                    //props.put("licenseKey", "INSERT YOUR LICENSE KEY HERE");
+                    frameLogin login = new frameLogin();
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                    SwingUtilities.updateComponentTreeUI(login);
+                    login.setVisible(true);
 
-                    //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-
-                    new frameLogin().setVisible(true);
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error al iniciar"+ex,"Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al iniciar" + ex, "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
             }
         });
-   }
-    
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOk;
     private javax.swing.JButton jButton1;
