@@ -75,10 +75,10 @@
             <type>jar</type>
         </dependency>
         <dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-entitymanager</artifactId>
-    <version>4.2.6.Final</version>
-</dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.2.6.Final</version>
+        </dependency>
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
@@ -139,15 +139,33 @@
             <artifactId>JasperReportViewer</artifactId>
             <version>SNAPSHOT</version>
         </dependency>
-<dependency>
-    <groupId>xpp3</groupId>
-    <artifactId>xpp3</artifactId>
-    <version>1.1.4c</version>
-</dependency>
-<dependency>
-    <groupId>javax.servlet</groupId>
-    <artifactId>servlet-api</artifactId>
-    <version>2.5</version>
-</dependency>
+        <dependency>
+            <groupId>xpp3</groupId>
+            <artifactId>xpp3</artifactId>
+            <version>1.1.4c</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.barcode4j</groupId>
+            <artifactId>barcode4j</artifactId>
+            <version>2.0</version>
+        </dependency>
+        
+        <dependency>
+        <groupId>batik</groupId>
+        <artifactId>batik-transcoder</artifactId>
+        <version>1.6-1</version>
+        <scope>compile</scope>
+        <exclusions>
+            <exclusion>
+                <artifactId>fop</artifactId>
+                <groupId>fop</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
     </dependencies>
 </project>

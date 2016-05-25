@@ -12,6 +12,7 @@ import com.club.DAOs.CobradorDAO;
 import com.club.DAOs.DepDAO;
 import com.club.DAOs.MensualidadesDAO;
 import com.club.DAOs.SocioDAO;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import java.util.Date;
@@ -19,6 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class FormMensualidades extends javax.swing.JInternalFrame {
 
@@ -32,6 +38,7 @@ public class FormMensualidades extends javax.swing.JInternalFrame {
     private CcCobrador debito;
     private List<Socio> listSocios;
     String fecha;
+    private HashMap parametros;
     SimpleDateFormat formato;
 
     public FormMensualidades() {
@@ -42,8 +49,6 @@ public class FormMensualidades extends javax.swing.JInternalFrame {
         formato = new SimpleDateFormat("15/MM/yyyy");
         dp.setDateFormat(formato);
     }
-
-   
 
     private void rellentaComboBox() {
 
@@ -155,8 +160,8 @@ public class FormMensualidades extends javax.swing.JInternalFrame {
             parametros.put("Msj", txtAreaMsj.getText());
             parametros.put("emision", emision);
             btnRecibos.setReportParameters(parametros);
-            btnRecibos.setReportURL("/Informes/recibos.jasper");
-            
+            btnRecibos.setReportURL("/Reportes/recibos.jasper");
+
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al generar mensualidades " + ex, "Error", JOptionPane.ERROR_MESSAGE);
@@ -165,7 +170,18 @@ public class FormMensualidades extends javax.swing.JInternalFrame {
 
     private void EmisionIndividual(String idSocio) {
 
-        mensualidadesDAO = new MensualidadesDAO();
+        /*
+         InputStream resource = getClass().getClassLoader().getResourceAsStream("Reportes/recibos.jasper");
+         parametros = new HashMap();
+         parametros.put("Msj", "preuba");
+         parametros.put("emision", 6194);
+         JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, new JREmptyDataSource());
+         JasperViewer reporte = new JasperViewer(jasperPrint, false);
+         reporte.setVisible(true);
+
+         reporte.toFront();
+
+         */ mensualidadesDAO = new MensualidadesDAO();
         int emision = mensualidadesDAO.NroLanzamiento();
 
         try {
@@ -223,8 +239,7 @@ public class FormMensualidades extends javax.swing.JInternalFrame {
 
                     JOptionPane.showMessageDialog(null, "Mensualidades registradas");
 
-                    HashMap parametros = new HashMap();
-                    parametros.clear();
+                    parametros = new HashMap();
                     parametros.put("Msj", txtAreaMsj.getText());
                     parametros.put("emision", emision);
                     btnReciboIndividual.setReportParameters(parametros);

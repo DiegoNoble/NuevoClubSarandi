@@ -11,6 +11,7 @@ import com.club.DAOs.MensualidadesAnuladasDAO;
 import com.club.DAOs.MensualidadesDAO;
 import com.club.DAOs.SocioDAO;
 import com.club.Renderers.TableRendererColorSituacion;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +25,10 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
@@ -92,7 +97,6 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
         ((DefaultTableCellRenderer) tblSocio.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         tblModelSocio = (DefaultTableModel) tblSocio.getModel();
-        
 
         listModelSocios = tblSocio.getSelectionModel();
         listModelSocios.addListSelectionListener(new ListSelectionListener() {
@@ -151,20 +155,21 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
         try {
 
-            HashMap parametros = new HashMap();
-            parametros.clear();
-            parametros.put("Msj", Msj);
-            parametros.put("Recibo", emision);
-            btnCarneSocio.setReportParameters(parametros);
-            btnCarneSocio.setReportURL("/com/club/control/mensualidades/recibosIndividual.jasper");
+        HashMap parametros = new HashMap();
+        parametros.clear();
+        parametros.put("Msj", Msj);
+        parametros.put("Recibo", emision);
+        btnCarneSocio.setReportParameters(parametros);
+        btnCarneSocio.setReportURL("/Reportes/recibos.jasper");
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al generar reporte", "Error", JOptionPane.ERROR_MESSAGE);
-        }
     }
+    catch (Exception ex ) {
+            ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al generar reporte", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
 
-    private void AnulaRecibo() {
+private void AnulaRecibo() {
 
         int confirmación = JOptionPane.showConfirmDialog(null, "Confirma la anulación de la Mensualidad Seleccionada?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
@@ -195,12 +200,23 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
                 ccCobradorDAO.Salvar(credito);
 
                 mensualidadesDAO = new MensualidadesDAO();
-                mensualidadesDAO.EliminarPorId(Mensualidades.class, mensualidadSeleccionada.getId());
+                mensualidadesDAO
 
-                JOptionPane.showMessageDialog(null, "Mensualidad anulada correctamente");
-                muestraMensualidades();
-            } catch (Exception ex) {
-                Logger.getLogger(FormConsultaMensualidades.class.getName()).log(Level.SEVERE, null, ex);
+.EliminarPorId(Mensualidades.class  
+
+    , mensualidadSeleccionada.getId());
+
+    JOptionPane.showMessageDialog (
+
+    null, "Mensualidad anulada correctamente");
+    muestraMensualidades();
+}
+
+
+catch (Exception ex) {
+                Logger.getLogger(FormConsultaMensualidades.class  
+
+.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

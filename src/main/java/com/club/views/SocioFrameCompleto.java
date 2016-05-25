@@ -1285,11 +1285,11 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
             List dp = socioDAO.BuscaSocioTitular(socioSeleccionado);
             if (dp.size() == 0) {
 
-                btnFicha.setReportURL("/com/club/Informes/solicitudSocioSinDep.jasper");
+                btnFicha.setReportURL("/Reportes/solicitudSocioSinDep.jasper");
 
             } else {
 
-                btnFicha.setReportURL("/com/club/Informes/solicitudSocio.jasper");
+                btnFicha.setReportURL("/Reportes/solicitudSocio.jasper");
 
             }
 
@@ -1301,30 +1301,32 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
 
     private void btnCarneSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarneSocioActionPerformed
 
-        /*try {
-            InputStream resource = getClass().getClassLoader().getResourceAsStream("Reportes/newReport.jasper");
-
-            JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, new JREmptyDataSource());
-            JasperViewer reporte = new JasperViewer(jasperPrint, false);
-            reporte.setVisible(true);
-
-            reporte.toFront();
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al imprimir recibo " + ex, "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        }*/
-        try {
+        /* try {
+         InputStream resource = getClass().getClassLoader().getResourceAsStream("Reportes/recibos.jasper");
          parametros.clear();
-         parametros.put("fotoCarne", txtFoto.getText());
-         parametros.put("logoClub", "/Imagenes/Escudo 2.jpg");
-         parametros.put("idSocio", socioSeleccionado.getId());
-         btnCarneSocio.setReportParameters(parametros);
-         btnCarneSocio.setReportURL("/Reportes/carneSocio.jasper");
-         } catch (Exception e) {
-         JOptionPane.showMessageDialog(null, "Error al generar reporte " + e);
-         e.printStackTrace();
+         parametros.put("Msj", "preuba");
+         parametros.put("emision", 6194);
+         JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, new JREmptyDataSource());
+         JasperViewer reporte = new JasperViewer(jasperPrint, false);
+         reporte.setVisible(true);
+
+         reporte.toFront();
+
+         } catch (Exception ex) {
+         JOptionPane.showMessageDialog(null, "Error al imprimir recibo " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+         ex.printStackTrace();
          }
+         */ try {
+            parametros.clear();
+            parametros.put("fotoCarne", txtFoto.getText());
+            parametros.put("logoClub", "Imagenes/Escudo.jpg");
+            parametros.put("idSocio", socioSeleccionado.getId());
+            btnCarneSocio.setReportParameters(parametros);
+            btnCarneSocio.setReportURL("/Reportes/carneSocio.jasper");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al generar reporte " + e);
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnCarneSocioActionPerformed
 
     private void btnHuellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuellaActionPerformed
