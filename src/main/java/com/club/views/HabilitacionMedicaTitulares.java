@@ -441,7 +441,7 @@ public final class HabilitacionMedicaTitulares extends javax.swing.JInternalFram
                     parametros.put("logoClub", "./imagenes/Escudo 2.jpg");
                     parametros.put("idSocio", socioSeleccionado.getId());
                     ImprimirReporte.setReportParameters(parametros);
-                    ImprimirReporte.setReportURL("/com/club/Informes/fichaMedica.jasper");
+                    ImprimirReporte.setReportURL("/Reportes/fichaMedica.jasper");
                 }
             }
 

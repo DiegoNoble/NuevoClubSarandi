@@ -1,48 +1,99 @@
-package com.club.control.usuarios;
+package com.club.views;
 
-import com.club.control.acceso.conexion;
-import com.club.control.utilidades.data;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.club.BEANS.Usuario;
+import com.club.DAOs.UsuarioDAO;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 public class registroUsuarios extends javax.swing.JInternalFrame {
 
-    conexion conexionUsuario;
     MaskFormatter formatoftxtFechaIngreso;
-    data muestraData; //referencia a la classe data de este projecto el cual lee las fechas del computador
+    List<Usuario> listUsuarios;
+    UsuarioDAO usuarioDAO;
+    DefaultTableModel tblModel;
+    ListSelectionModel listModel;
+    Usuario usuarioSeleccionado;
 
     public registroUsuarios() {
         initComponents();
+        DefineModeloTbl();
+        buscaTodosLosRegistros();
+        muestraContenidoTbl();
+        deshabilitaCampos();
+        btnEditar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+    }
 
-        conexionUsuario = new conexion();
-        conexionUsuario.conecta();
-        conexionUsuario.ejecutaSQL("select * from tbusuarios");
-        muestraContenidoTabla();
+    private void buscaTodosLosRegistros() {
+        listUsuarios = new ArrayList();
+        usuarioDAO = new UsuarioDAO();
+        listUsuarios.addAll(usuarioDAO.BuscaTodos(Usuario.class));
+    }
+
+    private void DefineModeloTbl() {
+
+        ((DefaultTableCellRenderer) tblUsuarios.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        tblModel = (DefaultTableModel) tblUsuarios.getModel();
+
+        listModel = tblUsuarios.getSelectionModel();
+        listModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+
+                    if (tblUsuarios.getSelectedRow() != -1) {
+
+                        usuarioSeleccionado = listUsuarios.get(tblUsuarios.getSelectedRow());
+                        btnEditar.setEnabled(true);
+                        btnEliminar.setEnabled(true);
+                    } else {
+
+                        btnEditar.setEnabled(false);
+                        btnEliminar.setEnabled(false);
+                    }
+                    muestraDetalles();
+                }
+            }
+        });
 
     }
 
-    private void muestraContenidoTabla() {
+    private void muestraContenidoTbl() {
 
-        conexionUsuario.ejecutaSQL("select * from tbusuarios");
-        DefaultTableModel modelo = (DefaultTableModel) tblUsuarios.getModel();
-        modelo.setNumRows(0);
         try {
-            while (conexionUsuario.resultSet.next()) {
-                //Coloca chaves no while!
-                Object[] linha = new Object[4];
-                linha[0] = conexionUsuario.resultSet.getString("id");
-                linha[1] = conexionUsuario.resultSet.getString("nombre");
-                linha[2] = conexionUsuario.resultSet.getString("pass");
-                linha[3] = conexionUsuario.resultSet.getString("perfil");
-                modelo.addRow(linha);
 
+            tblModel.setNumRows(0);
+
+            for (Usuario usuario : listUsuarios) {
+                tblModel.addRow(new Object[]{
+                    usuario.getId(),
+                    usuario.getNombre(),
+                    usuario.getPerfil()});
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(registroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No fue posible cargar los registros" + e);
+            e.printStackTrace();
+        }
+    }
+
+    private void muestraDetalles() {
+        limpiaCampos();
+
+        if (tblUsuarios.getSelectedRow() != -1) {
+
+            jlbCodigo.setText(usuarioSeleccionado.getId().toString());
+            txtNombre.setText(usuarioSeleccionado.getNombre().toString());
+            ptxtPass.setText(usuarioSeleccionado.getPass().toString());
+            cbPerfil.setSelectedItem(usuarioSeleccionado.getPerfil().toString());
+
         }
 
     }
@@ -54,7 +105,7 @@ public class registroUsuarios extends javax.swing.JInternalFrame {
         tblUsuarios.setVisible(false);
     }
 
-    private void desabilitaCampos() {
+    private void deshabilitaCampos() {
         txtNombre.setEditable(false);
         ptxtPass.setEditable(false);
         tblUsuarios.setEnabled(true);
@@ -65,7 +116,7 @@ public class registroUsuarios extends javax.swing.JInternalFrame {
         btnSalvar.setEnabled(false);
         btnCancelar.setEnabled(false);
         btnNuevo.setEnabled(true);
-        btnAlterar.setEnabled(true);
+        btnEditar.setEnabled(true);
         btnEliminar.setEnabled(true);
     }
 
@@ -74,14 +125,13 @@ public class registroUsuarios extends javax.swing.JInternalFrame {
         btnSalvar.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnNuevo.setEnabled(false);
-        btnAlterar.setEnabled(false);
+        btnEditar.setEnabled(false);
         btnEliminar.setEnabled(false);
     }
 
-    private void limpaCampos() {
+    private void limpiaCampos() {
         txtNombre.setText("");
         ptxtPass.setText("");
-
 
     }
 
@@ -106,10 +156,10 @@ public class registroUsuarios extends javax.swing.JInternalFrame {
         jlbCodigo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
-        btnAlterar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -144,11 +194,11 @@ public class registroUsuarios extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Código", "Usuario", "Pass", "Perfil"
+                "Id", "Nombre", "Perfil"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -249,7 +299,7 @@ public class registroUsuarios extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 1.0;
         getContentPane().add(jPanel3, gridBagConstraints);
 
-        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
 
         btnNuevo.setText("Nuevo"); // NOI18N
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -257,15 +307,39 @@ public class registroUsuarios extends javax.swing.JInternalFrame {
                 btnNuevoActionPerformed(evt);
             }
         });
-        jPanel4.add(btnNuevo);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(btnNuevo, gridBagConstraints);
 
-        btnAlterar.setText("Alterar"); // NOI18N
-        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setText("Editar"); // NOI18N
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlterarActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
-        jPanel4.add(btnAlterar);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(btnEditar, gridBagConstraints);
+
+        btnSalvar.setText("Salvar"); // NOI18N
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(btnSalvar, gridBagConstraints);
+
+        btnCancelar.setText("Cancelar"); // NOI18N
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(btnCancelar, gridBagConstraints);
 
         btnEliminar.setText("Eliminar"); // NOI18N
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -273,25 +347,9 @@ public class registroUsuarios extends javax.swing.JInternalFrame {
                 btnEliminarActionPerformed(evt);
             }
         });
-        jPanel4.add(btnEliminar);
-
-        btnSalvar.setText("Salvar"); // NOI18N
-        btnSalvar.setEnabled(false);
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnSalvar);
-
-        btnCancelar.setText("Cancelar"); // NOI18N
-        btnCancelar.setEnabled(false);
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnCancelar);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(btnEliminar, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -303,121 +361,75 @@ public class registroUsuarios extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-
-
+        usuarioSeleccionado = new Usuario();
+        limpiaCampos();
         habilitaCampos();
-        limpaCampos();
-        habilitaBotones();
-        txtNombre.requestFocus();
 
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-        if (jlbCodigo.getText().equals("")) {
+        try {
+            //usuarioDAO = new UsuarioDAO();
+            if (usuarioSeleccionado.getId() != null) {
 
-            try {
-                String pass = new String(ptxtPass.getPassword()).trim();
-
-                String sqlInsert = "insert into tbusuarios (nombre, pass, perfil) values ('"
-                        + txtNombre.getText() + "','"
-                        + pass + "','"
-                        + cbPerfil.getSelectedItem() + "')";
-                conexionUsuario.statement.executeUpdate(sqlInsert);
-
-                JOptionPane.showMessageDialog(null, "Usuario registrado correctamente!");
-
-            } catch (SQLException error) {
-                JOptionPane.showMessageDialog(null, "No fue posible ejecutar el SQL deseado " + error);
+                usuarioSeleccionado.setNombre(txtNombre.getText());
+                usuarioSeleccionado.setPass(ptxtPass.getText());
+                usuarioSeleccionado.setPerfil(cbPerfil.getSelectedItem().toString());
+                usuarioDAO.Actualizar(usuarioSeleccionado);
+                JOptionPane.showMessageDialog(null, "Rubro actuaizado correctamente");
+            } else {
+                usuarioSeleccionado.setNombre(txtNombre.getText());
+                usuarioSeleccionado.setPass(ptxtPass.getText());
+                usuarioSeleccionado.setPerfil(cbPerfil.getSelectedItem().toString());
+                usuarioDAO.Salvar(usuarioSeleccionado);
+                JOptionPane.showMessageDialog(null, "Rubro guardado correctamente");
             }
-
-        } else {
-
-            try {
-                String pass = new String(ptxtPass.getPassword()).trim();
-
-                String sqlUpdate = "update tbusuarios set nombre = '" + txtNombre.getText() + "',"
-                        + "pass = '" + pass + "', perfil = '" + cbPerfil.getSelectedItem() + "' where id ='" + jlbCodigo.getText() + "'";
-
-                conexionUsuario.statement.executeUpdate(sqlUpdate);
-
-                JOptionPane.showMessageDialog(null, "Usuario alterado correctamente!");
-
-
-            } catch (SQLException error) {
-                JOptionPane.showMessageDialog(null, "No fue posible ejecutar el SQL deseado " + error);
-            }
-
+            deshabilitaCampos();
+            buscaTodosLosRegistros();
+            muestraContenidoTbl();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al guardar datos" + ex);
+            ex.printStackTrace();
         }
 
-
-        muestraContenidoTabla();
-        desabilitaCampos();
-        desabilitaBotones();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
-        desabilitaBotones();
-        desabilitaCampos();
+        limpiaCampos();
+        deshabilitaCampos();
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
 
-        if (tblUsuarios.getSelectedRow() != -1) {
-            habilitaBotones();
-            habilitaCampos();
+        habilitaCampos();
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un usuario en la tabla", "Atención", JOptionPane.INFORMATION_MESSAGE);
-        }
-
-
-    }//GEN-LAST:event_btnAlterarActionPerformed
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
         try {
-            if (tblUsuarios.getSelectedRow() != -1) {
-                int respuesta = JOptionPane.showConfirmDialog(this, "Esta seguro que desea excluir al Usuario?", "Confirmación", JOptionPane.YES_NO_OPTION);
-                if (respuesta == JOptionPane.YES_OPTION) {
 
-                    String sql = "delete from tbusuarios where id = " + jlbCodigo.getText();
-                    int excluir = conexionUsuario.statement.executeUpdate(sql);
-                    if (excluir == 1) {
-                        JOptionPane.showMessageDialog(this, "Exclución bien sucedida!");
-                        conexionUsuario.ejecutaSQL("Select * from tbusuario");
-                        conexionUsuario.resultSet.first();
-                    }
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Seleccione un usuario en la tabla", "Atención", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "No fue posible ejecutar el SQL deseado" + error);
+            usuarioDAO.EliminarPorId(Usuario.class, usuarioSeleccionado.getId());
+            JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente");
+            deshabilitaCampos();
+            buscaTodosLosRegistros();
+            muestraContenidoTbl();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "No se puede eliminar el usuario, posee transacciones vinculadas" + ex);
+            ex.printStackTrace();
         }
-        muestraContenidoTabla();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void tblUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsuariosMouseClicked
 
-        limpaCampos();
 
-        try {
-
-            int filaSeleccionada = tblUsuarios.getSelectedRow();
-
-            jlbCodigo.setText(tblUsuarios.getValueAt(filaSeleccionada, 0).toString());
-            txtNombre.setText(tblUsuarios.getValueAt(filaSeleccionada, 1).toString());
-            ptxtPass.setText(tblUsuarios.getValueAt(filaSeleccionada, 2).toString());
-            cbPerfil.setSelectedItem(tblUsuarios.getValueAt(filaSeleccionada, 3).toString());
-        } catch (Exception error) {
-        }
     }//GEN-LAST:event_tblUsuariosMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSalvar;

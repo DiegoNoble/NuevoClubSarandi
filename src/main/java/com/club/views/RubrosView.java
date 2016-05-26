@@ -252,7 +252,6 @@ public final class RubrosView extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblRubros);
         if (tblRubros.getColumnModel().getColumnCount() > 0) {
             tblRubros.getColumnModel().getColumn(1).setCellRenderer(new MyDefaultCellRenderer());
-            tblRubros.getColumnModel().getColumn(2).setCellRenderer(null);
             tblRubros.getColumnModel().getColumn(3).setCellRenderer(new MyDefaultCellRenderer());
         }
 
@@ -364,9 +363,7 @@ public final class RubrosView extends javax.swing.JInternalFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel6.add(btnGuardar, gridBagConstraints);
+        jPanel6.add(btnGuardar, new java.awt.GridBagConstraints());
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -384,9 +381,7 @@ public final class RubrosView extends javax.swing.JInternalFrame {
                 btnEliminarActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel6.add(btnEliminar, gridBagConstraints);
+        jPanel6.add(btnEliminar, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

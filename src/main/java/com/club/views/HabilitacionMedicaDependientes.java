@@ -448,7 +448,7 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
                     parametros.put("logoClub", "./imagenes/Escudo 2.jpg");
                     parametros.put("idDependiente", dependienteSelecionado.getId());
                     fichaMedica.setReportParameters(parametros);
-                    fichaMedica.setReportURL("/com/club/Informes/fichaMedicadeDependientes.jasper");
+                    fichaMedica.setReportURL("/Reportes/fichaMedicadeDependientes.jasper");
                 }
             }
         } catch (Exception ex) {

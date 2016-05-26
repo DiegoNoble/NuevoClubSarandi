@@ -1,13 +1,10 @@
 package com.club.views;
 
-import com.club.BEANS.informeDependientes;
 import com.club.BEANS.Usuario;
 import com.club.control.caja.cajaFrame;
 import com.club.control.caja.consultaCajaFrame;
 import com.club.control.categoria.CategoriaFrame;
 import com.club.control.cobrador.cobradorFrame;
-import com.club.control.socios.informeSocios;
-import com.club.control.usuarios.registroUsuarios;
 import com.club.control.utilidades.data;
 import Imagenes.ayuda;
 import java.beans.PropertyVetoException;
@@ -43,7 +40,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         if (jlbPerfil.getText().equals("Usuario")) {
 
             mnuRegistros.setEnabled(false);
-            mnuInformes.setEnabled(false);
             mnuHabilitacionMedica.setEnabled(false);
             mnuMensualidades.setEnabled(false);
             mnuItemUsuarios.setEnabled(false);
@@ -53,7 +49,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         if (jlbPerfil.getText().equals("Operador")) {
 
             mnuItemUsuarios.setEnabled(false);
-            mnuInformes.setEnabled(false);
 
         }
 
@@ -66,7 +61,6 @@ public class FormPrincipal extends javax.swing.JFrame {
 
             mnuItemUsuarios.setVisible(false);
             mnuRegistros.setVisible(false);
-            mnuInformes.setVisible(false);
             mnuHabilitacionMedica.setVisible(false);
             mnuMensualidades.setVisible(false);
             mnuArqueo.setVisible(false);
@@ -97,7 +91,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         if (jlbPerfil.getText().equals("Usuario")) {
 
             mnuRegistros.setEnabled(false);
-            mnuInformes.setEnabled(false);
             mnuHabilitacionMedica.setEnabled(false);
             mnuMensualidades.setEnabled(false);
             mnuItemUsuarios.setEnabled(false);
@@ -107,7 +100,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         if (jlbPerfil.getText().equals("Operador")) {
 
             mnuItemUsuarios.setEnabled(false);
-            mnuInformes.setEnabled(false);
 
         }
 
@@ -191,9 +183,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         mniItemMovimientosCaja = new javax.swing.JMenuItem();
         mnuItemConsultaSocio1 = new javax.swing.JMenuItem();
         mnuItemConsultaSocio3 = new javax.swing.JMenuItem();
-        mnuInformes = new javax.swing.JMenu();
-        mnuItemInformeSocios = new javax.swing.JMenuItem();
-        mnuItemInformeDependientes = new javax.swing.JMenuItem();
         mnuMensualidades = new javax.swing.JMenu();
         mnuItemRecibos = new javax.swing.JMenuItem();
         mnuItemPagos = new javax.swing.JMenuItem();
@@ -497,28 +486,6 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuConsultas);
 
-        mnuInformes.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        mnuInformes.setText("Informes");
-        mnuInformes.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-
-        mnuItemInformeSocios.setText("Informe de Socios");
-        mnuItemInformeSocios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemInformeSociosActionPerformed(evt);
-            }
-        });
-        mnuInformes.add(mnuItemInformeSocios);
-
-        mnuItemInformeDependientes.setText("Informe de dependientes");
-        mnuItemInformeDependientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemInformeDependientesActionPerformed(evt);
-            }
-        });
-        mnuInformes.add(mnuItemInformeDependientes);
-
-        jMenuBar1.add(mnuInformes);
-
         mnuMensualidades.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuMensualidades.setText("Mensualidades");
         mnuMensualidades.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
@@ -727,16 +694,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         lblHora.setText("La hora actual es: " + muestraData.hora);
 
     }//GEN-LAST:event_timer1OnTime
-
-    private void mnuItemInformeSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemInformeSociosActionPerformed
-
-        new informeSocios();
-    }//GEN-LAST:event_mnuItemInformeSociosActionPerformed
-
-    private void mnuItemInformeDependientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemInformeDependientesActionPerformed
-
-        new informeDependientes();
-    }//GEN-LAST:event_mnuItemInformeDependientesActionPerformed
 
     private void mnuitemConsultaDependientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuitemConsultaDependientesActionPerformed
 
@@ -1037,7 +994,6 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu mnuConsultas;
     private javax.swing.JMenu mnuControlPresencia;
     private javax.swing.JMenu mnuHabilitacionMedica;
-    private javax.swing.JMenu mnuInformes;
     private javax.swing.JMenuItem mnuItemArqueo;
     private javax.swing.JMenuItem mnuItemArqueo1;
     private javax.swing.JMenuItem mnuItemArqueo2;
@@ -1051,8 +1007,6 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemDependientes;
     private javax.swing.JMenuItem mnuItemHabilitacionDependientes;
     private javax.swing.JMenuItem mnuItemHabilitacionTitulares;
-    private javax.swing.JMenuItem mnuItemInformeDependientes;
-    private javax.swing.JMenuItem mnuItemInformeSocios;
     private javax.swing.JMenuItem mnuItemMarcajes;
     private javax.swing.JMenuItem mnuItemPagos;
     private javax.swing.JMenuItem mnuItemRecibos;

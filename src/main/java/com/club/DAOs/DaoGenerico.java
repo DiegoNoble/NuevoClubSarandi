@@ -4,7 +4,6 @@
  */
 package com.club.DAOs;
 
-import com.club.BEANS.Socio;
 import com.club.control.utilidades.JPAUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
