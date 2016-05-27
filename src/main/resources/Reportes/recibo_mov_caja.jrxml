@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" uuid="73a62481-9ec4-4c59-95c4-545d08c01aac">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="concepto" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.Object"/>
+	<parameter name="rubro" class="java.lang.String"/>
+	<parameter name="valor" class="java.lang.Double"/>
+	<parameter name="sector" class="java.lang.String"/>
+	<parameter name="fecha" class="java.util.Date"/>
+	<parameter name="id" class="java.lang.Integer"/>
+	<parameter name="logoBN" class="java.lang.Object"/>
+	<parameter name="tipoMovimiento" class="java.lang.String"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="413" splitType="Stretch">
+			<rectangle>
+				<reportElement x="295" y="0" width="272" height="97" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="70c24335-f76f-4916-befe-17fe673369a4"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="295" y="97" width="272" height="316" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="ba0dc9bb-da12-4e96-b4ea-bd2852045501"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="311" y="-311" width="272" height="96" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="ff3ee639-f293-4337-b725-744c1d0f7f11"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="1" y="0" width="272" height="97" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="44b09804-343f-49b4-8385-4a9e552bf387"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="495" y="60" width="64" height="30" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="7cb25386-bf20-463a-8854-5b202f5baaeb"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="97" width="273" height="316" backcolor="#00CC99" uuid="9bb7ae86-f801-4032-99ba-c0aa5e77340a"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="203" y="61" width="64" height="27" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="d92856d6-cfc4-47f8-b312-9dfba126199b"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="10" y="196" width="233" height="43" isPrintWhenDetailOverflows="true" uuid="9345ec79-a531-4de8-b38f-23ef6dfcc95d"/>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{concepto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="217" y="34" width="38" height="15" uuid="3e6d8f37-14fc-421e-a1ef-4970edb9838c"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="209" y="284" width="50" height="13" uuid="93d9978e-7525-480c-a36a-bc4251b51d56"/>
+				<textElement>
+					<font fontName="Tahoma" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="12" y="158" width="191" height="14" isPrintWhenDetailOverflows="true" uuid="4f585a3d-c2b2-4d85-908c-da35f67480f3"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rubro}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Opaque" x="204" y="73" width="62" height="15" uuid="54017820-ba48-40d6-ac4c-d4068579c94e"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="299" y="198" width="255" height="43" isPrintWhenDetailOverflows="true" uuid="30942f9e-ecb1-4769-ad28-f4c296971e95"/>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{concepto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="300" y="157" width="196" height="14" isPrintWhenDetailOverflows="true" uuid="594e6373-826c-4103-ba69-dd196a63a343"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rubro}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Opaque" x="496" y="75" width="63" height="15" uuid="3b6b6bb3-8484-4984-8b6d-bcec114539a8"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="512" y="34" width="41" height="15" uuid="18de4810-67c0-45b0-8642-d4d26b900b1f"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="500" y="284" width="50" height="13" uuid="ac9fec02-88ae-4128-8e12-afa2a46a921d"/>
+				<textElement>
+					<font fontName="Tahoma" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="10" y="118" width="90" height="14" isPrintWhenDetailOverflows="true" uuid="5512453d-1744-4ad5-b371-5a92ae2aab97"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sector}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="302" y="118" width="92" height="14" isPrintWhenDetailOverflows="true" uuid="ec005dd4-7df3-4ea2-841d-dd5416f50949"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sector}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame">
+				<reportElement x="75" y="0" width="125" height="96" uuid="fc096637-78ce-4742-b8ed-6f588aaaa5ec"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement x="370" y="3" width="122" height="93" uuid="038208a6-67e2-40a3-8e87-d0ba9ee856f5"/>
+				<imageExpression><![CDATA[$P{logoBN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="6" y="65" width="151" height="31" forecolor="#4F81BD" backcolor="#FFFFFF" uuid="6d14fc2d-bc7a-436c-8cee-dbec96825799"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri" size="8" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Dr. G. Anollés 533 - Tel 4622 3478
+www.sarandiuniversitario.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="64" width="154" height="32" forecolor="#000000" backcolor="#FFFFFF" uuid="f7edbbc4-c123-48fc-ac6f-ad8a6792116a"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri" size="8" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Dr. G. Anollés 533 - Tel 4622 3478
+www.sarandiuniversitario.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="104" width="90" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="0d81da7e-381c-4d1c-b3f9-82cae0392d6f"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Sector]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="12" y="144" width="191" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="03ec680f-60c4-462f-94a6-89b90c874eed"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Rubro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="183" width="233" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="c5896f56-f2ef-4292-9bb1-aa6e3bfaf986"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Concepto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="209" y="271" width="50" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="86512386-bdd4-42df-bc33-32a90e5542c3"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="203" y="60" width="63" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="6c6abcbb-7f44-4d61-8b9c-246a8ade6292"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="203" y="17" width="58" height="18" uuid="d49b15b0-4df7-4a26-981e-905ef760935e"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri" size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="499" y="16" width="58" height="18" uuid="b58c011e-d7a5-46fd-a311-6ab2c30cf58a"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri" size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="299" y="104" width="94" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="3d703779-81cc-4b78-a13c-0b87253faa96"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Sector]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="300" y="144" width="196" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="18a1f9ab-d804-49a7-8cbb-46ec31d9e2be"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Rubro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="299" y="183" width="253" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="42a5df3e-fa85-4fc4-9ef2-82977eb73b78"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Concepto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="502" y="271" width="50" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="00c40cbd-0b3f-40b8-a02e-cce07d1a64c7"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="495" y="61" width="64" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="b13a6304-988b-4e80-9252-3296f4a6cd42"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="196" y="375" width="53" height="17" uuid="2485df17-5d08-4cab-a6f7-a3236af1875a"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Original]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="484" y="375" width="53" height="17" uuid="da5f5bd4-52eb-4d9b-9a5e-12e2294c3d0f"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Copia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="499" y="35" width="13" height="13" uuid="3a5afc94-4821-4d2a-bb1f-c0f46534c746"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="35" width="13" height="13" uuid="92d1c45b-3bce-4428-ae00-7eb77284b793"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="304" width="58" height="18" uuid="753911f5-46d6-4b67-a98d-2e0dbc15c02d"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri" size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="304" width="58" height="18" uuid="3f71fada-e8e7-485a-a2f3-7b54661371ee"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri" size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="29" y="325" width="83" height="50" uuid="63bc2cfc-36c0-43c0-a955-d32f4ba1b7e9"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$P{id}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<componentElement>
+				<reportElement x="322" y="325" width="83" height="50" uuid="640aa10e-7ae9-47df-9208-60aed61b0922"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$P{id}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<staticText>
+				<reportElement mode="Opaque" x="141" y="271" width="50" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="e37a4fd8-86e5-466b-9070-4dc7fe4b10ea"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="432" y="284" width="50" height="13" uuid="c5c66577-94be-43ef-a238-e94b070da505"/>
+				<textElement>
+					<font fontName="Tahoma" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tipoMovimiento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="434" y="271" width="50" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="ba1d657e-c8c8-4383-9bdc-c61aec97bb2b"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="141" y="284" width="50" height="13" uuid="d65ba2d8-de3d-4868-91ae-ac777666dd93"/>
+				<textElement>
+					<font fontName="Tahoma" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tipoMovimiento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="354" y="284" width="50" height="13" uuid="6c4000ce-117f-49eb-93b2-e297dbb9fa0b"/>
+				<textElement>
+					<font fontName="Tahoma" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="62" y="271" width="50" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="efa5ea6d-9440-4abe-85d6-103f0cb48202"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[usuario]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="62" y="284" width="50" height="13" uuid="4dee3999-e092-4e34-9416-a8612202a741"/>
+				<textElement>
+					<font fontName="Tahoma" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="355" y="271" width="50" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="1bb90cf5-4b54-48f0-a520-a097ca300523"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Usuario]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

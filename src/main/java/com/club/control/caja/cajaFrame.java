@@ -10,6 +10,7 @@ import com.club.DAOs.RubroDAO;
 import com.club.DAOs.SectorDAO;
 import com.club.control.acceso.conexion;
 import com.club.control.sectores.sectoresFrame;
+import com.club.control.utilidades.ImprimiRecibo;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,8 +30,9 @@ public class cajaFrame extends javax.swing.JInternalFrame {
     List<Caja> listMovimientosCaja;
     Caja movimiento;
     String dataSeleccionada;
+    String nombreUsuario;
 
-    public cajaFrame() {
+    public cajaFrame(String nombreUsuario) {
         initComponents();
 
         btnCancelar.setVisible(false);
@@ -38,6 +40,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         dataPiker.setFormats("dd/MM/yyyy");
         dataPiker.setDate(new Date());
         AutoCompleteDecorator.decorate(cbRubro);
+        this.nombreUsuario = nombreUsuario;
 
         actualizaComboBox();
         muestraContenidoTabla();
@@ -480,12 +483,14 @@ public class cajaFrame extends javax.swing.JInternalFrame {
                 movimiento.setFechaMovimiento(new Date());
                 movimiento.setSectores((Sectores) cbSectores.getSelectedItem());
                 movimiento.setEntrada(Double.valueOf(txtValor.getText()));
+                movimiento.setUsuario(nombreUsuario);
                 movimiento.setSalida(0.0);
 
                 cajaDAO = new CajaDAO();
                 cajaDAO.Salvar(movimiento);
 
                 JOptionPane.showMessageDialog(null, "Movimiento registrado correctamente!");
+                new ImprimiRecibo().imprimieRecibo(movimiento);
 
             } catch (Exception error) {
                 JOptionPane.showMessageDialog(null, "Error al salvar en BD " + error, "Error", JOptionPane.ERROR_MESSAGE);
@@ -500,11 +505,13 @@ public class cajaFrame extends javax.swing.JInternalFrame {
                 movimiento.setFechaMovimiento(new Date());
                 movimiento.setSectores((Sectores) cbSectores.getSelectedItem());
                 movimiento.setEntrada(0.0);
+                movimiento.setUsuario(nombreUsuario);
                 movimiento.setSalida(Double.valueOf(txtValor.getText()));
 
                 cajaDAO = new CajaDAO();
                 cajaDAO.Salvar(movimiento);
                 JOptionPane.showMessageDialog(null, "Movimiento registrado correctamente!");
+                new ImprimiRecibo().imprimieRecibo(movimiento);
 
             } catch (Exception error) {
                 JOptionPane.showMessageDialog(null, "No fue posible ejecutar el SQL deseado " + error);

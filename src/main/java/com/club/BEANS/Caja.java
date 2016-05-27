@@ -26,6 +26,7 @@ import javax.persistence.TemporalType;
 @Table(name = "tbcaja")
 
 public class Caja implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,10 +48,11 @@ public class Caja implements Serializable {
     @JoinColumn(name = "RUBRO", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Rubro rubro;
+    private String usuario;
 
     public Caja() {
     }
-        
+
     public Caja(Integer id) {
         this.id = id;
     }
@@ -121,6 +123,13 @@ public class Caja implements Serializable {
         this.rubro = rubro;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
     @Override
     public int hashCode() {
@@ -144,6 +153,4 @@ public class Caja implements Serializable {
         return true;
     }
 
-    
-    
 }

@@ -757,7 +757,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void mnuItemCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCajaActionPerformed
 
-        cajaFrame caja = new cajaFrame();
+        cajaFrame caja = new cajaFrame(usuario.getNombre());
         jDesktopPane1.add(caja);
         caja.setVisible(true);
         centralizaVentanas(caja);
@@ -797,7 +797,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void btnCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCajaActionPerformed
 
-        cajaFrame caja = new cajaFrame();
+        cajaFrame caja = new cajaFrame(usuario.getNombre());
         jDesktopPane1.add(caja);
         caja.setVisible(true);
         centralizaVentanas(caja);
