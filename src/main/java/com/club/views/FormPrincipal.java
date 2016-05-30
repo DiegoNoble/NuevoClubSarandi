@@ -1,10 +1,6 @@
 package com.club.views;
 
 import com.club.BEANS.Usuario;
-import com.club.control.caja.cajaFrame;
-import com.club.control.caja.consultaCajaFrame;
-import com.club.control.categoria.CategoriaFrame;
-import com.club.control.cobrador.cobradorFrame;
 import com.club.control.utilidades.data;
 import Imagenes.ayuda;
 import java.beans.PropertyVetoException;
@@ -176,6 +172,8 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemCategoria = new javax.swing.JMenuItem();
         mnuItemCaja = new javax.swing.JMenuItem();
         mnuItemCategoria1 = new javax.swing.JMenuItem();
+        mnuItemCategoria3 = new javax.swing.JMenuItem();
+        mnuItemCategoria2 = new javax.swing.JMenuItem();
         mnuConsultas = new javax.swing.JMenu();
         mnuItemConsultaSocio2 = new javax.swing.JMenuItem();
         mnuitemConsultaDependientes = new javax.swing.JMenuItem();
@@ -429,6 +427,22 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
         mnuRegistros.add(mnuItemCategoria1);
+
+        mnuItemCategoria3.setText("Unificar Rubros"); // NOI18N
+        mnuItemCategoria3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemCategoria3ActionPerformed(evt);
+            }
+        });
+        mnuRegistros.add(mnuItemCategoria3);
+
+        mnuItemCategoria2.setText("Sectores"); // NOI18N
+        mnuItemCategoria2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemCategoria2ActionPerformed(evt);
+            }
+        });
+        mnuRegistros.add(mnuItemCategoria2);
 
         jMenuBar1.add(mnuRegistros);
 
@@ -967,6 +981,21 @@ public class FormPrincipal extends javax.swing.JFrame {
         centralizaVentanas(rubros);
     }//GEN-LAST:event_mnuItemCategoria1ActionPerformed
 
+    private void mnuItemCategoria2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCategoria2ActionPerformed
+       sectoresFrame sectores = new sectoresFrame();
+        jDesktopPane1.add(sectores);
+        sectores.setVisible(true);
+        centralizaVentanas(sectores);
+        
+    }//GEN-LAST:event_mnuItemCategoria2ActionPerformed
+
+    private void mnuItemCategoria3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCategoria3ActionPerformed
+        UnificarRubrosView unificarRubros = new UnificarRubrosView();
+        jDesktopPane1.add(unificarRubros);
+        unificarRubros.setVisible(true);
+        centralizaVentanas(unificarRubros);
+    }//GEN-LAST:event_mnuItemCategoria3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCaja;
@@ -1000,6 +1029,8 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemCaja;
     private javax.swing.JMenuItem mnuItemCategoria;
     private javax.swing.JMenuItem mnuItemCategoria1;
+    private javax.swing.JMenuItem mnuItemCategoria2;
+    private javax.swing.JMenuItem mnuItemCategoria3;
     private javax.swing.JMenuItem mnuItemCobrador;
     private javax.swing.JMenuItem mnuItemConsultaSocio1;
     private javax.swing.JMenuItem mnuItemConsultaSocio2;
