@@ -34,12 +34,13 @@ public class cajaFrame extends javax.swing.JInternalFrame {
 
         dataPiker.setFormats("dd/MM/yyyy");
         dataPiker.setDate(new Date());
+        actualizaComboBox();
         AutoCompleteDecorator.decorate(cbRubro);
         AutoCompleteDecorator.decorate(cbSectores);
         AutoCompleteDecorator.decorate(cbTIpo);
         this.nombreUsuario = nombreUsuario;
 
-        actualizaComboBox();
+        
         muestraContenidoTabla();
 
     }
@@ -62,6 +63,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar comboboxes: " + ex);
+            ex.printStackTrace();
         }
     }
 

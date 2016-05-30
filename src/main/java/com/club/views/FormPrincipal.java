@@ -2,7 +2,6 @@ package com.club.views;
 
 import com.club.BEANS.Usuario;
 import com.club.control.utilidades.data;
-import Imagenes.ayuda;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -651,11 +650,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void mnuItemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemSobreActionPerformed
 
-        ayuda msj = new ayuda();
-        jDesktopPane1.add(msj);
-        msj.setVisible(true);
-        centralizaVentanas(msj);
-
+      
     }//GEN-LAST:event_mnuItemSobreActionPerformed
 
     private void mnuItemSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemSociosActionPerformed

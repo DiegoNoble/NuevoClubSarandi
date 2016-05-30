@@ -1,27 +1,31 @@
 package com.club.views;
 
 import com.Renderers.MyDefaultCellRenderer;
+import com.club.BEANS.Caja;
 import com.club.BEANS.Rubro;
+import com.club.DAOs.CajaDAO;
 import com.club.DAOs.RubroDAO;
+import com.club.modelos.RubroTableModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
 public final class UnificarRubrosView extends javax.swing.JInternalFrame {
 
     private RubroDAO rubrosDAO;
+    private CajaDAO cajaDAO;
     private List<Rubro> listRubros;
     private List<Rubro> listRubroPrincipal;
     private List<Rubro> listRubrosSecundarios;
-    private DefaultTableModel tblModel;
+    private RubroTableModel tblModel;
     private ListSelectionModel listModelRubros;
     private DefaultListModel modelPrincial;
     private DefaultListModel modelSecundarios;
@@ -33,25 +37,32 @@ public final class UnificarRubrosView extends javax.swing.JInternalFrame {
 
     public UnificarRubrosView() {
         initComponents();
-        listRubroPrincipal = new ArrayList<Rubro>();
-        listRubrosSecundarios = new ArrayList<Rubro>();
+        listRubroPrincipal = new ArrayList<>();
+        listRubrosSecundarios = new ArrayList<>();
+        listRubros = new ArrayList<>();
         modelPrincial = new DefaultListModel<>();
         modelSecundarios = new DefaultListModel<>();
         DefineModeloTbl();
         buscaTodosLosRegistros();
-        muestraContenidoTbl();
     }
 
     private void buscaTodosLosRegistros() {
         rubrosDAO = new RubroDAO();
-        listRubros = rubrosDAO.BuscaTodos(Rubro.class);
+        listRubros.clear();
+        listRubros.addAll(rubrosDAO.BuscaTodos(Rubro.class));
+        tblModel.fireTableDataChanged();
+        modelPrincial.clear();
+        modelSecundarios.clear();
+        listRubroPrincipal.clear();
+        listRubrosSecundarios.clear();
 
     }
 
     private void DefineModeloTbl() {
 
         ((DefaultTableCellRenderer) tblRubros.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        tblModel = (DefaultTableModel) tblRubros.getModel();
+        tblModel = new RubroTableModel(listRubros);
+        tblRubros.setModel(tblModel);
 
         jListPrincipal.setModel(modelPrincial);
         listModelRubroPrincipal = jListPrincipal.getSelectionModel();
@@ -85,8 +96,7 @@ public final class UnificarRubrosView extends javax.swing.JInternalFrame {
                     if (jListSecundarios.getSelectedValue() != null) {
 
                         rubroSecundarioSelecionado = (Rubro) modelSecundarios.getElementAt(jListSecundarios.getSelectedIndex());
-                        tblModel.removeRow(tblRubros.getSelectedRow());
-                        tblModel.fireTableDataChanged();
+                        tblModel.eliminar(tblRubros.getSelectedRow());
                     } else {
 
                     }
@@ -117,23 +127,29 @@ public final class UnificarRubrosView extends javax.swing.JInternalFrame {
 
     }
 
-    private void muestraContenidoTbl() {
+    void unificarRubros() {
 
         try {
+            Rubro rubroPrincial = listRubroPrincipal.get(0);
 
-            tblModel.setNumRows(0);
+            for (Rubro rubroSecundario : listRubrosSecundarios) {
+                cajaDAO = new CajaDAO();
+                List<Caja> movimientos = cajaDAO.BuscaMovimientosPorRubro(rubroSecundario);
+                for (Caja movimiento : movimientos) {
+                    cajaDAO = new CajaDAO();
+                    movimiento.setRubro(rubroPrincial);
+                    cajaDAO.Actualizar(movimiento);
 
-            for (Rubro rubro : listRubros) {
-                tblModel.addRow(new Object[]{
-                    rubro.getId(),
-                    rubro.getNombreRubro(),
-                    rubro.getValorFijo(),
-                    rubro.getValor()});
+                }
+                rubrosDAO = new RubroDAO();
+                rubrosDAO.EliminarPorId(Rubro.class, rubroSecundario.getId());
             }
+            JOptionPane.showMessageDialog(null, "Actualización realizada correctamente");
+            buscaTodosLosRegistros();
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No fue posible cargar los registros" + e);
-            e.printStackTrace();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar registros", "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
         }
     }
 
@@ -322,7 +338,7 @@ public final class UnificarRubrosView extends javax.swing.JInternalFrame {
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnGuardar.setText("Guardar cambios");
+        btnGuardar.setText("Unificar Rubros");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -348,29 +364,37 @@ public final class UnificarRubrosView extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
+        unificarRubros();
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnQuitarSecundarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarSecundarioActionPerformed
 
         modelSecundarios.removeElement(rubroSecundarioSelecionado);
+        listRubrosSecundarios.remove(rubroSecundarioSelecionado);
 
     }//GEN-LAST:event_btnQuitarSecundarioActionPerformed
 
     private void btnQuitarPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarPrincipalActionPerformed
 
         modelPrincial.removeElement(rubroPrincialSelecionado);
+        listRubroPrincipal.remove(rubroPrincialSelecionado);
+
     }//GEN-LAST:event_btnQuitarPrincipalActionPerformed
 
     private void btnSeleccionarPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPrincipalActionPerformed
 
         modelPrincial.addElement(rubroSelecionado);
+        listRubroPrincipal.add(rubroSelecionado);
+        tblModel.eliminar(tblRubros.getSelectedRow());
 
     }//GEN-LAST:event_btnSeleccionarPrincipalActionPerformed
 
     private void btnSeleccionarSecundarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarSecundarioActionPerformed
 
         modelSecundarios.addElement(rubroSelecionado);
+        listRubrosSecundarios.add(rubroSelecionado);
+        tblModel.eliminar(tblRubros.getSelectedRow());
 
     }//GEN-LAST:event_btnSeleccionarSecundarioActionPerformed
 
