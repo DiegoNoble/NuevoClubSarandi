@@ -183,6 +183,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuMensualidades = new javax.swing.JMenu();
         mnuItemRecibos = new javax.swing.JMenuItem();
         mnuItemPagos = new javax.swing.JMenuItem();
+        mnuItemRecibos1 = new javax.swing.JMenuItem();
         mnuArqueo = new javax.swing.JMenu();
         mnuItemArqueo = new javax.swing.JMenuItem();
         mnuHabilitacionMedica = new javax.swing.JMenu();
@@ -519,6 +520,14 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         mnuMensualidades.add(mnuItemPagos);
 
+        mnuItemRecibos1.setText("Arqueo cobradores ");
+        mnuItemRecibos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemRecibos1ActionPerformed(evt);
+            }
+        });
+        mnuMensualidades.add(mnuItemRecibos1);
+
         jMenuBar1.add(mnuMensualidades);
 
         mnuArqueo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -650,7 +659,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void mnuItemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemSobreActionPerformed
 
-      
+
     }//GEN-LAST:event_mnuItemSobreActionPerformed
 
     private void mnuItemSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemSociosActionPerformed
@@ -977,11 +986,11 @@ public class FormPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemCategoria1ActionPerformed
 
     private void mnuItemCategoria2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCategoria2ActionPerformed
-       sectoresFrame sectores = new sectoresFrame();
+        sectoresFrame sectores = new sectoresFrame();
         jDesktopPane1.add(sectores);
         sectores.setVisible(true);
         centralizaVentanas(sectores);
-        
+
     }//GEN-LAST:event_mnuItemCategoria2ActionPerformed
 
     private void mnuItemCategoria3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCategoria3ActionPerformed
@@ -990,6 +999,14 @@ public class FormPrincipal extends javax.swing.JFrame {
         unificarRubros.setVisible(true);
         centralizaVentanas(unificarRubros);
     }//GEN-LAST:event_mnuItemCategoria3ActionPerformed
+
+    private void mnuItemRecibos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemRecibos1ActionPerformed
+
+        ArqueoCobradoresView arqueoCobradores = new ArqueoCobradoresView();
+        jDesktopPane1.add(arqueoCobradores);
+        arqueoCobradores.setVisible(true);
+        centralizaVentanas(arqueoCobradores);
+    }//GEN-LAST:event_mnuItemRecibos1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1036,6 +1053,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemMarcajes;
     private javax.swing.JMenuItem mnuItemPagos;
     private javax.swing.JMenuItem mnuItemRecibos;
+    private javax.swing.JMenuItem mnuItemRecibos1;
     private javax.swing.JMenuItem mnuItemSalir;
     private javax.swing.JMenuItem mnuItemSobre;
     private javax.swing.JMenuItem mnuItemSocios;

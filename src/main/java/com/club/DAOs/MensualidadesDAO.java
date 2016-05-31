@@ -4,6 +4,7 @@
  */
 package com.club.DAOs;
 
+import com.club.BEANS.Cobrador;
 import com.club.BEANS.Mensualidades;
 import com.club.BEANS.Socio;
 import java.util.Date;
@@ -15,7 +16,6 @@ import javax.persistence.Query;
  * @author Diego
  */
 public class MensualidadesDAO extends DaoGenerico {
-
 
     public MensualidadesDAO() {
 
@@ -30,24 +30,37 @@ public class MensualidadesDAO extends DaoGenerico {
         return ultimoLanzamiento;
 
     }
-    public List BuscaMensualidadesPorSocio(Socio socio){
-        
+
+    public List BuscaMensualidadesPorSocio(Socio socio) {
+
         List<Mensualidades> toReturn = null;
-        
+
         Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.socio =:socio order by m.fechaVencimiento desc");
         qr.setParameter("socio", socio);
         toReturn = qr.getResultList();
-        
+
         return toReturn;
-        
+
+    }
+
+    public List<Date> BuscaVencimientos() {
+
+        List<Date> toReturn = null;
+
+        Query qr = em.createQuery("select distinct(m.fechaVencimiento) FROM  Mensualidades m order by m.fechaVencimiento desc");
+        toReturn = qr.getResultList();
+
+        return toReturn;
+
     }
 
     /**
      *
-     * @param socio Return TRUE si no existe la emisión anterior, FALSE si existe
+     * @param socio Return TRUE si no existe la emisión anterior, FALSE si
+     * existe
      * @return
      */
-    public Boolean VerificaSiYaFueEmitida(Socio socio, Date fechaVencimiento)throws Exception{
+    public Boolean VerificaSiYaFueEmitida(Socio socio, Date fechaVencimiento) throws Exception {
 
         Boolean verifica = null;
 
@@ -60,7 +73,7 @@ public class MensualidadesDAO extends DaoGenerico {
         } else {
             verifica = false;
         }
-       em.getTransaction().commit();
+        em.getTransaction().commit();
         em.close();
         return verifica;
     }
@@ -71,7 +84,7 @@ public class MensualidadesDAO extends DaoGenerico {
      * mas o = a 3 vencimientos
      * @return
      */
-    public Boolean VerificaCantidadVencimientos(Socio socio) throws Exception{
+    public Boolean VerificaCantidadVencimientos(Socio socio) throws Exception {
 
         Boolean verifica = null;
 
@@ -89,4 +102,31 @@ public class MensualidadesDAO extends DaoGenerico {
         return verifica;
 
     }
+
+    public List BuscaPorCobradorSituacionVencimiento(Cobrador cobrador, String situcion, Date vencimiento) {
+
+        List<Mensualidades> toReturn = null;
+
+        Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.cobrador =:cobrador and m.pago =:situcion and m.fechaVencimiento =:vencimiento");
+        qr.setParameter("cobrador", cobrador);
+        qr.setParameter("situcion", situcion);
+        qr.setParameter("vencimiento", vencimiento);
+        toReturn = qr.getResultList();
+
+        return toReturn;
+
+    }
+     public List BuscaPorCobradorSituacionVencimiento(Cobrador cobrador, Date vencimiento) {
+
+        List<Mensualidades> toReturn = null;
+
+        Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.cobrador =:cobrador  and m.fechaVencimiento =:vencimiento");
+        qr.setParameter("cobrador", cobrador);
+        qr.setParameter("vencimiento", vencimiento);
+        toReturn = qr.getResultList();
+
+        return toReturn;
+
+    }
+
 }
