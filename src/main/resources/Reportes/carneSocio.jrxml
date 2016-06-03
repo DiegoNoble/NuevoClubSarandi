@@ -38,26 +38,19 @@ FROM
 				</textElement>
 				<text><![CDATA[SECRETARIO]]></text>
 			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="19" y="113" width="38" height="10" uuid="94d59883-ef28-44a2-bec5-942b293acc50"/>
-				<textElement>
-					<font fontName="Arial" size="7"/>
-				</textElement>
-				<text><![CDATA[Nr. Socio:]]></text>
-			</staticText>
 			<image scaleImage="FillFrame">
 				<reportElement x="19" y="24" width="66" height="88" uuid="1f14bb9d-8107-440e-a9bb-f5544e17efe7"/>
 				<imageExpression><![CDATA[$P{fotoCarne}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement mode="Opaque" x="19" y="137" width="38" height="10" uuid="60250b0d-c111-41cb-94fa-9eef5b60ef2e"/>
+				<reportElement mode="Opaque" x="19" y="146" width="38" height="10" uuid="60250b0d-c111-41cb-94fa-9eef5b60ef2e"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<text><![CDATA[Titular:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="182" y="136" width="17" height="10" uuid="4c6f4697-6f87-45ee-ba1b-c43904609ecf"/>
+				<reportElement mode="Opaque" x="182" y="145" width="17" height="10" uuid="4c6f4697-6f87-45ee-ba1b-c43904609ecf"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
@@ -71,21 +64,14 @@ FROM
 				<text><![CDATA[PRESIDENTE]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="19" y="122" width="45" height="14" uuid="57c2a70a-fbd0-441b-9cec-ef660aff8be0"/>
-				<textElement>
-					<font fontName="Arial" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tbsocio_ID}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="19" y="146" width="163" height="14" uuid="0d8efb7a-e2fd-4207-9a06-c2bb980c9121"/>
+				<reportElement x="19" y="155" width="163" height="14" uuid="0d8efb7a-e2fd-4207-9a06-c2bb980c9121"/>
 				<textElement>
 					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="183" y="146" width="87" height="14" uuid="c83a6735-9114-4a44-8f84-c1e7f8fb7a06"/>
+				<reportElement x="183" y="155" width="87" height="14" uuid="c83a6735-9114-4a44-8f84-c1e7f8fb7a06"/>
 				<textElement>
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
@@ -120,20 +106,6 @@ Sarandí Universitario]]></text>
 					<font fontName="Times New Roman" size="20" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[La familia está en Sarandí]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="293" y="125" width="45" height="14" uuid="bdfebcb6-f57a-4717-a101-9e3cbc1a8fad"/>
-				<textElement>
-					<font fontName="Arial" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tbsocio_ID}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement mode="Opaque" x="293" y="115" width="38" height="10" uuid="03e8af13-4eda-4f23-8253-7af1d9bda265"/>
-				<textElement>
-					<font fontName="Arial" size="7"/>
-				</textElement>
-				<text><![CDATA[Nr. Socio:]]></text>
 			</staticText>
 			<image scaleImage="FillFrame">
 				<reportElement x="168" y="25" width="116" height="85" uuid="5e521ef1-dce2-4434-9da7-c7ab6b6ce0f0"/>
@@ -173,6 +145,18 @@ Tel: 4622 3478
 dssu@adinet.com.uy
 www.sarandiuniversitario.com]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement x="21" y="115" width="73" height="30" uuid="7fadbdb0-072a-47f8-ba6e-49f53a507f8c"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{tbsocio_ID}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<componentElement>
+				<reportElement x="293" y="116" width="73" height="30" uuid="688edae3-38d2-49a3-82ac-706700bee10f"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{tbsocio_ID}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
 		</band>
 	</detail>
 </jasperReport>

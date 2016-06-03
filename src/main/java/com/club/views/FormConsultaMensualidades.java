@@ -151,16 +151,16 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
         }
     }
 
-    private void ReimprimeRecibo(String Msj, Integer emision) {
+    private void ReimprimeRecibo(String Msj, Integer recibo) {
 
         try {
 
         HashMap parametros = new HashMap();
         parametros.clear();
         parametros.put("Msj", Msj);
-        parametros.put("Recibo", emision);
+        parametros.put("recibo", recibo);
         btnCarneSocio.setReportParameters(parametros);
-        btnCarneSocio.setReportURL("/Reportes/recibos.jasper");
+        btnCarneSocio.setReportURL("/Reportes/recibosIndividual.jasper");
 
     }
     catch (Exception ex ) {

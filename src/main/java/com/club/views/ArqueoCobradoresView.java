@@ -65,7 +65,7 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         tblMensualidades.setModel(tblModelMensualidades);
         tblMensualidades.getColumn("Vencimiento").setCellRenderer(new MeDateCellRenderer());
         tblMensualidades.getColumn("Fecha Pago").setCellRenderer(new MeDateCellRenderer());
-        int[] anchos = {1,10, 100, 20, 20, 30};
+        int[] anchos = {1, 100, 40, 20, 20, 20};
 
         for (int i = 0; i < tblMensualidades.getColumnCount(); i++) {
 
@@ -87,10 +87,28 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
                     cbSituacion.getSelectedItem().toString(), dpVencimiento.getDate()));
         }
         tblModelMensualidades.fireTableDataChanged();
+        Integer cantTotal = 0;
+        Integer cantPagos = 0;
+        Integer cantPendientes = 0;
         Double total = 0.0;
+        Double pagos = 0.0;
+        Double pendientes = 0.0;
         for (Mensualidades mensualidad : listMensualidades) {
+            cantTotal = cantTotal + 1;
             total = total + mensualidad.getValor();
+            if (mensualidad.getPago().equals("Pago")) {
+                cantPagos = cantPagos + 1;
+                pagos = pagos + mensualidad.getValor();
+            } else {
+                cantPendientes = cantPendientes + 1;
+                pendientes = pendientes + mensualidad.getValor();
+            }
         }
+        ftxtCant.setValue(cantTotal);
+        ftxtCantPagos.setValue(cantPagos);
+        ftxtCantPendientes.setValue(cantPendientes);
+        ftxtValorPagos.setValue(pagos);
+        ftxtValorPendientes.setValue(pendientes);
         ftxtValor.setValue(total);
     }
 
@@ -117,6 +135,13 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         ftxtValor = new javax.swing.JFormattedTextField();
         jasperRunnerButton1 = new org.jasper.viewer.components.JasperRunnerButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        ftxtValorPagos = new javax.swing.JFormattedTextField();
+        ftxtValorPendientes = new javax.swing.JFormattedTextField();
+        ftxtCantPendientes = new javax.swing.JFormattedTextField();
+        ftxtCantPagos = new javax.swing.JFormattedTextField();
+        ftxtCant = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -242,7 +267,7 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel2.setText("Importe Total ");
+        jLabel2.setText("Pagos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -253,17 +278,90 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         ftxtValor.setEnabled(false);
         ftxtValor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.ipadx = 80;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(ftxtValor, gridBagConstraints);
 
+        jasperRunnerButton1.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jasperRunnerButton1.setForeground(new java.awt.Color(204, 0, 51));
         jasperRunnerButton1.setText("Imprimir listado");
         jasperRunnerButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jasperRunnerButton1ActionPerformed(evt);
             }
         });
-        jPanel5.add(jasperRunnerButton1, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        jPanel5.add(jasperRunnerButton1, gridBagConstraints);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel6.setText("Importe Total ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(jLabel6, gridBagConstraints);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel7.setText("Pendientes");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(jLabel7, gridBagConstraints);
+
+        ftxtValorPagos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("$ #,##0.00"))));
+        ftxtValorPagos.setEnabled(false);
+        ftxtValorPagos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 80;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(ftxtValorPagos, gridBagConstraints);
+
+        ftxtValorPendientes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("$ #,##0.00"))));
+        ftxtValorPendientes.setEnabled(false);
+        ftxtValorPendientes.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 80;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(ftxtValorPendientes, gridBagConstraints);
+
+        ftxtCantPendientes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        ftxtCantPendientes.setEnabled(false);
+        ftxtCantPendientes.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(ftxtCantPendientes, gridBagConstraints);
+
+        ftxtCantPagos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        ftxtCantPagos.setEnabled(false);
+        ftxtCantPagos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(ftxtCantPagos, gridBagConstraints);
+
+        ftxtCant.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        ftxtCant.setEnabled(false);
+        ftxtCant.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(ftxtCant, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -299,12 +397,19 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cbCobrador;
     private javax.swing.JComboBox cbSituacion;
     private org.jdesktop.swingx.JXDatePicker dpVencimiento;
+    private javax.swing.JFormattedTextField ftxtCant;
+    private javax.swing.JFormattedTextField ftxtCantPagos;
+    private javax.swing.JFormattedTextField ftxtCantPendientes;
     private javax.swing.JFormattedTextField ftxtValor;
+    private javax.swing.JFormattedTextField ftxtValorPagos;
+    private javax.swing.JFormattedTextField ftxtValorPendientes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;

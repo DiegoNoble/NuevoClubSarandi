@@ -92,7 +92,7 @@
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/com/club/imagenes/login.png"/>
+          <Image iconType="3" name="/Imagenes/login.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="ENTRADA"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -112,7 +112,7 @@
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/com/club/imagenes/logout.png"/>
+          <Image iconType="3" name="/Imagenes/logout.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="SALIDA"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">

@@ -38,6 +38,8 @@ public class Caja implements Serializable {
     @Column(name = "FECHA_MOVIMIENTO")
     @Temporal(TemporalType.DATE)
     private Date fechaMovimiento;
+    private Integer cantidad;
+    private Double unitario;
     @Column(name = "ENTRADA")
     private Double entrada;
     @Column(name = "SALIDA")
@@ -129,6 +131,22 @@ public class Caja implements Serializable {
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Double getUnitario() {
+        return unitario;
+    }
+
+    public void setUnitario(Double unitario) {
+        this.unitario = unitario;
     }
 
     @Override

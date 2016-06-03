@@ -56,7 +56,7 @@ public class Dependiente implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     private Socio socio;
     @Lob
-    @Column(name = "huella", nullable = false, columnDefinition = "blob")
+    @Column(name = "huella", nullable = true, columnDefinition = "blob")
     private byte[] huella;
     private Integer tamano;
     private Integer calidad;

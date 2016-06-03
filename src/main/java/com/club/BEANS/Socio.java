@@ -74,7 +74,7 @@ public class Socio implements Serializable {
     @ManyToOne(optional=false)
     private Categoria Categoria;
     @Lob
-    @Column(name="huella", nullable=false, columnDefinition="blob")
+    @Column(name="huella", nullable=true, columnDefinition="blob")
     private byte[] huella;
     private Integer tamano;
     private Integer calidad;
@@ -290,7 +290,7 @@ public class Socio implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return id+", "+nombre;
     }
 
    

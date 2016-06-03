@@ -1109,6 +1109,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
 
                 } catch (Exception error) {
                     JOptionPane.showMessageDialog(null, "No fue posible salvar el socio" + error);
+                    error.printStackTrace();
                 }
 
             } else {  //procedimento realizado cuando se desea alterar un registro
@@ -1166,6 +1167,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
 
                     } catch (Exception error) {
                         JOptionPane.showMessageDialog(null, "No fue posible ejecutar el SQL deseado " + error);
+                        error.printStackTrace();
                     }
                 }
             }

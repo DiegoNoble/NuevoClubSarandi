@@ -520,7 +520,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         mnuMensualidades.add(mnuItemPagos);
 
-        mnuItemRecibos1.setText("Arqueo cobradores ");
+        mnuItemRecibos1.setText("Listados");
         mnuItemRecibos1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuItemRecibos1ActionPerformed(evt);

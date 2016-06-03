@@ -8,7 +8,7 @@
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
 	<parameter name="Msj" class="java.lang.String"/>
-	<parameter name="emision" class="java.lang.Integer">
+	<parameter name="recibo" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -29,7 +29,7 @@ FROM
      INNER JOIN `tbcobrador` tbcobrador ON tbsocio.`IDCOBRADOR` = tbcobrador.`ID`
      AND tbcobrador.`ID` = tbmensualidades.`ID_COBRADOR`
 WHERE
-     tbmensualidades.`LANZAMIENTO` = $P{emision}]]>
+     tbmensualidades.ID = $P{recibo}]]>
 	</queryString>
 	<field name="tbmensualidades_ID" class="java.lang.Long"/>
 	<field name="tbmensualidades_ID_SOCIO" class="java.lang.Integer"/>
@@ -46,7 +46,7 @@ WHERE
 		<groupHeader>
 			<band height="215">
 				<textField pattern="###0.00">
-					<reportElement x="338" y="101" width="64" height="20" uuid="54459814-c3fc-4d52-9eaa-9202d2d16178"/>
+					<reportElement x="354" y="101" width="64" height="20" uuid="54459814-c3fc-4d52-9eaa-9202d2d16178"/>
 					<textElement>
 						<font fontName="SansSerif"/>
 					</textElement>
@@ -74,21 +74,21 @@ WHERE
 					<textFieldExpression><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="255" y="65" width="47" height="20" uuid="a0a9d0eb-834a-4ee6-b10e-8820dfff3b62"/>
+					<reportElement x="270" y="65" width="47" height="20" uuid="a0a9d0eb-834a-4ee6-b10e-8820dfff3b62"/>
 					<textElement>
 						<font fontName="SansSerif"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{tbmensualidades_ID_SOCIO}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="258" y="135" width="322" height="30" uuid="8b5645fe-8f5e-4345-b345-76ea803d0362"/>
+					<reportElement x="262" y="136" width="322" height="30" uuid="8b5645fe-8f5e-4345-b345-76ea803d0362"/>
 					<textElement>
 						<font fontName="SansSerif"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{Msj}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="255" y="101" width="80" height="20" uuid="31883101-0d6e-4d25-b42c-d3b8483ceb7e"/>
+					<reportElement x="259" y="101" width="80" height="20" uuid="31883101-0d6e-4d25-b42c-d3b8483ceb7e"/>
 					<textElement>
 						<font fontName="SansSerif"/>
 					</textElement>
@@ -102,7 +102,7 @@ WHERE
 					<textFieldExpression><![CDATA[$F{tbmensualidades_ID_SOCIO}]]></textFieldExpression>
 				</textField>
 				<textField pattern="dd/MM/yyyy">
-					<reportElement x="502" y="101" width="65" height="20" uuid="544a27c8-3ed4-4135-85b5-18579eec8004"/>
+					<reportElement x="506" y="101" width="65" height="20" uuid="544a27c8-3ed4-4135-85b5-18579eec8004"/>
 					<textElement>
 						<font fontName="SansSerif"/>
 					</textElement>
@@ -123,28 +123,28 @@ WHERE
 					<textFieldExpression><![CDATA[$F{tbmensualidades_VALOR}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="376" y="65" width="207" height="20" uuid="80ea4abb-48c8-44e6-966e-23d8eda64af6"/>
+					<reportElement x="391" y="65" width="207" height="20" uuid="80ea4abb-48c8-44e6-966e-23d8eda64af6"/>
 					<textElement>
 						<font fontName="SansSerif"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="302" y="65" width="48" height="20" uuid="a0a9d0eb-834a-4ee6-b10e-8820dfff3b62"/>
+					<reportElement x="325" y="65" width="48" height="20" uuid="a0a9d0eb-834a-4ee6-b10e-8820dfff3b62"/>
 					<textElement>
 						<font fontName="SansSerif"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{tbcobrador_NOMBRE}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="45" y="148" width="67" height="20" uuid="e4b2ab23-4c7e-47f6-ae02-4629a5b4565c"/>
+					<reportElement x="45" y="148" width="67" height="20" uuid="f770f2da-b720-4d51-b834-47dfe65dfb7f"/>
 					<textElement>
 						<font fontName="SansSerif"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{tbmensualidades_ID}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="402" y="101" width="67" height="20" uuid="ef003cdb-be0d-4428-8305-96b3ea0f2a18"/>
+					<reportElement x="418" y="101" width="67" height="20" uuid="66509b43-af8b-4c9f-8cc0-f6329952009f"/>
 					<textElement>
 						<font fontName="SansSerif"/>
 					</textElement>

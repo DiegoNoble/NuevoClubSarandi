@@ -215,7 +215,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuItemRecibos1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Arqueo cobradores "/>
+                <Property name="text" type="java.lang.String" value="Listados"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemRecibos1ActionPerformed"/>

@@ -60,7 +60,7 @@ public class MarcarjeFuncionarioxHuella extends javax.swing.JInternalFrame {
         );
 
         btnEntrada.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/club/imagenes/login.png"))); // NOI18N
+        btnEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/login.png"))); // NOI18N
         btnEntrada.setText("ENTRADA");
         btnEntrada.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEntrada.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -73,7 +73,7 @@ public class MarcarjeFuncionarioxHuella extends javax.swing.JInternalFrame {
         });
 
         btnSalida.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/club/imagenes/logout.png"))); // NOI18N
+        btnSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logout.png"))); // NOI18N
         btnSalida.setText("SALIDA");
         btnSalida.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSalida.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

@@ -974,7 +974,7 @@ public class DependienteFrameCompleto extends javax.swing.JInternalFrame {
     private void btnCarneDependienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarneDependienteActionPerformed
 
         String camino = txtFoto.getText();
-        String caminoLogo = "./imagenes/Escudo 2.jpg";
+        String caminoLogo = "Imagenes/Escudo.jpg";
         try {
 
             parametros = new HashMap();
@@ -983,7 +983,7 @@ public class DependienteFrameCompleto extends javax.swing.JInternalFrame {
             parametros.put("fotoDependiente", camino);
             parametros.put("logoClub", caminoLogo);
             btnCarneDependiente.setReportParameters(parametros);
-            btnCarneDependiente.setReportURL("/com/club/Informes/carneDependiente.jasper");
+            btnCarneDependiente.setReportURL("/Reportes/carneDependiente.jasper");
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al abrir el informe: " + ex);

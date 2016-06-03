@@ -10,17 +10,25 @@ import com.club.DAOs.MarcasDAO;
 import com.club.huellas.BioMini;
 import javax.swing.ImageIcon;
 import java.awt.Image;
+import java.io.InputStream;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalFrame {
 
@@ -70,6 +78,10 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
                     if (tblFuncionario.getSelectedRow() != -1) {
 
                         funcionarioSeleccionado = listFuncionarios.get(tblFuncionario.getSelectedRow());
+                        jasperRunnerButton1.setEnabled(true);
+
+                    } else {
+                        jasperRunnerButton1.setEnabled(false);
                     }
                     muestraDetalles();
                 }
@@ -171,6 +183,7 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jlblFoto = new javax.swing.JLabel();
+        jasperRunnerButton1 = new org.jasper.viewer.components.JasperRunnerButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblFuncionario = new javax.swing.JTable();
@@ -229,16 +242,12 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
             }
         });
 
-        dpFin.setDate(new Date());
-        dpFin.setFormats("dd/MM/yyyy");
         dpFin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dpFinActionPerformed(evt);
             }
         });
 
-        dpInicio.setDate(new Date());
-        dpInicio.setFormats("dd/MM/yyyy");
         dpInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dpInicioActionPerformed(evt);
@@ -251,6 +260,15 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
 
         jlblFoto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jlblFoto.setPreferredSize(new java.awt.Dimension(3, 4));
+
+        jasperRunnerButton1.setEnabled(false);
+        jasperRunnerButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jasperRunnerButton1.setText("Imrimir informe");
+        jasperRunnerButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jasperRunnerButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -281,44 +299,55 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
                         .addGap(18, 18, 18)
                         .addComponent(rbCI))
                     .addComponent(dpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(btnBuscar)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnBuscar))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jasperRunnerButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(10, 10, 10)
                 .addComponent(jlblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addComponent(jLabel2))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(rbCodigo)
-                .addGap(49, 49, 49)
-                .addComponent(dpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(rbNombre)
-                .addGap(53, 53, 53)
-                .addComponent(jLabel4))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(rbCI)
-                .addGap(49, 49, 49)
-                .addComponent(dpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(btnBuscar))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jlblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(rbCodigo)
+                        .addGap(49, 49, 49)
+                        .addComponent(dpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(rbNombre)
+                        .addGap(53, 53, 53)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(rbCI)
+                        .addGap(46, 46, 46)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jasperRunnerButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(btnBuscar))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jlblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -466,6 +495,29 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
         muestraDetalles();
     }//GEN-LAST:event_dpFinActionPerformed
 
+    private void jasperRunnerButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jasperRunnerButton1ActionPerformed
+
+        try {
+            HashMap parametros = new HashMap();
+            parametros.put("fechaDesde", dpInicio.getDate());
+            parametros.put("fechaHasta", dpFin.getDate());
+            parametros.put("funcionario", funcionarioSeleccionado.getId());
+            
+            /*InputStream resource = getClass().getClassLoader().getResourceAsStream("Reportes/MarcasFuncionarios.jasper");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, new JREmptyDataSource());
+            JasperViewer reporte = new JasperViewer(jasperPrint, false);
+            reporte.setVisible(true);
+            
+            reporte.toFront();*/
+            
+             jasperRunnerButton1.setReportParameters(parametros);
+             jasperRunnerButton1.setReportURL("/Reportes/MarcasFuncionarios.jasper");
+        } catch (Exception ex) {
+            Logger.getLogger(ConsultaMarcasFuncionariosView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jasperRunnerButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -481,6 +533,7 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private org.jasper.viewer.components.JasperRunnerButton jasperRunnerButton1;
     private javax.swing.JLabel jlblFoto;
     private javax.swing.JRadioButton rbCI;
     private javax.swing.JRadioButton rbCodigo;

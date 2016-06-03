@@ -28,14 +28,14 @@ FROM
 	<detail>
 		<band height="200" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="f6adc536-b53e-4fd9-b9be-834b1e80a459" mode="Opaque" x="152" y="95" width="32" height="10"/>
+				<reportElement mode="Opaque" x="152" y="95" width="32" height="10" uuid="f6adc536-b53e-4fd9-b9be-834b1e80a459"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<text><![CDATA[Ingreso:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="6bb73798-7c50-4c2c-844c-5fec31f76780" x="99" y="43" width="132" height="51" forecolor="#009933"/>
+				<reportElement x="99" y="43" width="132" height="51" forecolor="#009933" uuid="6bb73798-7c50-4c2c-844c-5fec31f76780"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Arial" size="9"/>
 				</textElement>
@@ -45,129 +45,101 @@ dssu@adinet.com.uy
 www.sarandiuniversitario.com]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement uuid="8ca39f4b-c6df-4817-aea9-ea22bfc59318" x="280" y="10" width="265" height="181" backcolor="#FFFFFF"/>
+				<reportElement x="280" y="10" width="265" height="181" backcolor="#FFFFFF" uuid="8ca39f4b-c6df-4817-aea9-ea22bfc59318"/>
 			</rectangle>
 			<staticText>
-				<reportElement uuid="beb7a7ff-c934-4322-a80b-259a683267ff" x="42" y="180" width="54" height="12"/>
+				<reportElement x="42" y="180" width="54" height="12" uuid="beb7a7ff-c934-4322-a80b-259a683267ff"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<text><![CDATA[SECRETARIO]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement uuid="13db0cd9-2cbc-4a71-a3a9-a9d9dd3ef5d2" x="15" y="10" width="265" height="181" backcolor="#FFFFFF"/>
+				<reportElement x="15" y="10" width="265" height="181" backcolor="#FFFFFF" uuid="13db0cd9-2cbc-4a71-a3a9-a9d9dd3ef5d2"/>
 			</rectangle>
 			<textField>
-				<reportElement uuid="81a6cf2a-e883-45f4-acea-47b0f9fd24b8" x="192" y="133" width="77" height="11"/>
+				<reportElement x="192" y="133" width="77" height="11" uuid="81a6cf2a-e883-45f4-acea-47b0f9fd24b8"/>
 				<textElement>
 					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tbdependiente_CI}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="b561a184-a831-4672-8ab9-042bce460559" mode="Opaque" x="192" y="124" width="17" height="10"/>
+				<reportElement mode="Opaque" x="192" y="124" width="17" height="10" uuid="b561a184-a831-4672-8ab9-042bce460559"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<text><![CDATA[CI:]]></text>
 			</staticText>
-			<textField>
-				<reportElement uuid="f683d66f-1b4c-4612-85fe-a40764855bd5" x="21" y="109" width="45" height="13"/>
-				<textElement>
-					<font fontName="Arial" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tbdependiente_ID}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement uuid="23b8c32c-8bf3-47ec-a3db-9fbb4d9e66c9" x="180" y="177" width="54" height="12"/>
+				<reportElement x="180" y="177" width="54" height="12" uuid="23b8c32c-8bf3-47ec-a3db-9fbb4d9e66c9"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<text><![CDATA[PRESIDENTE]]></text>
 			</staticText>
-			<staticText>
-				<reportElement uuid="55c86f4c-af14-473a-8cc6-0d3245beef5e" mode="Opaque" x="21" y="100" width="38" height="10"/>
-				<textElement>
-					<font fontName="Arial" size="7"/>
-				</textElement>
-				<text><![CDATA[Nr. Socio:]]></text>
-			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement uuid="1c495438-2337-482c-bd4e-afde16b43f19" x="192" y="111" width="77" height="11"/>
+				<reportElement x="192" y="111" width="77" height="11" uuid="1c495438-2337-482c-bd4e-afde16b43f19"/>
 				<textElement>
 					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tbdependiente_FECHANACIMIENTO}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="6f537c68-47c3-4a12-9c2a-12df9e590377" mode="Opaque" x="21" y="145" width="38" height="10"/>
+				<reportElement mode="Opaque" x="21" y="145" width="38" height="10" uuid="6f537c68-47c3-4a12-9c2a-12df9e590377"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<text><![CDATA[Titular:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="fe1d3cd5-2a3e-4ce4-8a1e-25c7c7bc88fb" x="19" y="154" width="175" height="11"/>
+				<reportElement x="19" y="154" width="175" height="11" uuid="fe1d3cd5-2a3e-4ce4-8a1e-25c7c7bc88fb"/>
 				<textElement>
 					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="8714c92f-e8e0-41d0-b813-b5a88c282d5a" mode="Opaque" x="21" y="124" width="45" height="10"/>
+				<reportElement mode="Opaque" x="21" y="124" width="45" height="10" uuid="8714c92f-e8e0-41d0-b813-b5a88c282d5a"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<text><![CDATA[Dependiente]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="2e96006f-25de-4b19-b498-7088732ae51f" x="19" y="133" width="173" height="11"/>
+				<reportElement x="19" y="133" width="173" height="11" uuid="2e96006f-25de-4b19-b498-7088732ae51f"/>
 				<textElement>
 					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tbdependiente_NOMBRE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="ce5bc4f7-e549-4216-b2af-9947573c73fe" x="42" y="178" width="54" height="12"/>
+				<reportElement x="42" y="178" width="54" height="12" uuid="ce5bc4f7-e549-4216-b2af-9947573c73fe"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<text><![CDATA[SECRETARIO]]></text>
 			</staticText>
 			<image scaleImage="FillFrame">
-				<reportElement uuid="3727238f-f00b-4e68-b6dd-98bfef142503" x="170" y="15" width="116" height="85"/>
+				<reportElement x="170" y="15" width="116" height="85" uuid="3727238f-f00b-4e68-b6dd-98bfef142503"/>
 				<imageExpression><![CDATA[$P{logoClub}]]></imageExpression>
 			</image>
 			<line>
-				<reportElement uuid="8f50bd50-056e-4d4c-8080-6df84cbd89f5" x="280" y="9" width="1" height="182"/>
+				<reportElement x="280" y="9" width="1" height="182" uuid="8f50bd50-056e-4d4c-8080-6df84cbd89f5"/>
 			</line>
 			<staticText>
-				<reportElement uuid="b2dd0549-dc88-444c-b900-4cbaf75500cb" mode="Opaque" x="192" y="100" width="44" height="10"/>
+				<reportElement mode="Opaque" x="192" y="100" width="44" height="10" uuid="b2dd0549-dc88-444c-b900-4cbaf75500cb"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<text><![CDATA[Nacimiento:]]></text>
 			</staticText>
 			<image scaleImage="FillFrame">
-				<reportElement uuid="e2bd1e03-4d36-4bb7-86e5-0b7e9040a3bc" x="310" y="42" width="218" height="138"/>
+				<reportElement x="310" y="42" width="218" height="138" uuid="e2bd1e03-4d36-4bb7-86e5-0b7e9040a3bc"/>
 				<imageExpression><![CDATA[$P{logoClub}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement uuid="7970d78d-17ea-4b80-96ca-d601f60c1275" mode="Opaque" x="295" y="105" width="38" height="10"/>
-				<textElement>
-					<font fontName="Arial" size="7"/>
-				</textElement>
-				<text><![CDATA[Nr. Socio:]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="405c4832-ea25-48c4-b82c-31cfb4c821e6" x="295" y="115" width="45" height="20"/>
-				<textElement>
-					<font fontName="Arial" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tbdependiente_ID}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="75997a16-c2d1-488f-893e-f0c506218070" x="333" y="8" width="190" height="52" forecolor="#009933"/>
+				<reportElement x="333" y="8" width="190" height="52" forecolor="#009933" uuid="75997a16-c2d1-488f-893e-f0c506218070"/>
 				<textElement>
 					<font fontName="Times New Roman" size="20" isBold="true" isItalic="false" isStrikeThrough="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -176,25 +148,25 @@ www.sarandiuniversitario.com]]></text>
 Sarandí Universitario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="aaffc2cc-4f9f-474b-9ef9-42ab4ebd2522" x="305" y="159" width="230" height="32" forecolor="#009933"/>
+				<reportElement x="305" y="159" width="230" height="32" forecolor="#009933" uuid="aaffc2cc-4f9f-474b-9ef9-42ab4ebd2522"/>
 				<textElement>
 					<font fontName="Times New Roman" size="20" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[La familia está en Sarandí]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="7e7d078b-61bd-4d5f-9b0e-162de1d8e102" mode="Opaque" x="284" y="139" width="91" height="19"/>
+				<reportElement mode="Opaque" x="284" y="139" width="91" height="19" uuid="7e7d078b-61bd-4d5f-9b0e-162de1d8e102"/>
 				<textElement>
 					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Socio dependiente]]></text>
 			</staticText>
 			<image scaleImage="FillFrame">
-				<reportElement uuid="26ee6f48-e6a8-4e71-afa5-b2e4b4848ea0" x="19" y="13" width="66" height="88"/>
+				<reportElement x="19" y="13" width="66" height="88" uuid="26ee6f48-e6a8-4e71-afa5-b2e4b4848ea0"/>
 				<imageExpression><![CDATA[$P{fotoDependiente}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement uuid="4eec6cce-58d3-4af1-95e7-b71994d18489" x="88" y="43" width="132" height="51" forecolor="#009933"/>
+				<reportElement x="88" y="43" width="132" height="51" forecolor="#009933" uuid="4eec6cce-58d3-4af1-95e7-b71994d18489"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Arial" size="9"/>
 				</textElement>
@@ -203,6 +175,18 @@ Tel: 4622 3478
 dssu@adinet.com.uy
 www.sarandiuniversitario.com]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement x="21" y="101" width="68" height="23" uuid="a464d8da-40e8-415a-9d93-a573e6364252"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{tbdependiente_ID}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<componentElement>
+				<reportElement x="286" y="101" width="68" height="23" uuid="89fd520a-7036-44c2-b1ec-9ffdc093ea88"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{tbdependiente_ID}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
 		</band>
 	</detail>
 </jasperReport>

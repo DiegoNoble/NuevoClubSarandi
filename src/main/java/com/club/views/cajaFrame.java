@@ -13,7 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -28,6 +31,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
     Caja movimiento;
     String dataSeleccionada;
     String nombreUsuario;
+    ListSelectionModel listModel;
 
     public cajaFrame(String nombreUsuario) {
         initComponents();
@@ -40,7 +44,6 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         AutoCompleteDecorator.decorate(cbTIpo);
         this.nombreUsuario = nombreUsuario;
 
-        
         muestraContenidoTabla();
 
     }
@@ -78,6 +81,20 @@ public class cajaFrame extends javax.swing.JInternalFrame {
             ((DefaultTableCellRenderer) tblCaja.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
             tblModelMensualidades = (DefaultTableModel) tblCaja.getModel();
             tblModelMensualidades.setNumRows(0);
+            listModel = tblCaja.getSelectionModel();
+            listModel.addListSelectionListener(new ListSelectionListener() {
+                public void valueChanged(ListSelectionEvent e) {
+                    if (!e.getValueIsAdjusting()) {
+
+                        if (tblCaja.getSelectedRow() != -1) {
+                            btnReimprime.setEnabled(true);
+                        } else {
+                            btnReimprime.setEnabled(false);
+                        }
+
+                    }
+                }
+            });
 
             cajaDAO = new CajaDAO();
             listMovimientosCaja = cajaDAO.BuscaMovimientosPorFecha(dataPiker.getDate());
@@ -129,6 +146,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
+        btnReimprime = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
@@ -172,7 +190,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         jLabel2.setText("Rubro");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -185,7 +203,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -196,7 +214,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         jLabel3.setText("Tipo");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -206,17 +224,17 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         cbTIpo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Entrada", "Salida" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.ipadx = 40;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(cbTIpo, gridBagConstraints);
 
-        jLabel5.setText("Valor en $U:");
+        jLabel5.setText("Importe total");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -230,7 +248,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.ipadx = 60;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -239,7 +257,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         jLabel6.setText("Sector");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -247,7 +265,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -312,6 +330,18 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(btnRegistrar, gridBagConstraints);
+
+        btnReimprime.setText("Reimprimir recibo");
+        btnReimprime.setEnabled(false);
+        btnReimprime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReimprimeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(btnReimprime, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -514,7 +544,6 @@ public class cajaFrame extends javax.swing.JInternalFrame {
     private void cbRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRubroActionPerformed
         Rubro rubroSeleccionado = (Rubro) cbRubro.getSelectedItem();
         if (rubroSeleccionado.getValorFijo() == true) {
-            txtValor.setText(rubroSeleccionado.getValor().toString());
             txtValor.setEditable(false);
 
         } else {
@@ -523,8 +552,16 @@ public class cajaFrame extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_cbRubroActionPerformed
 
+    private void btnReimprimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReimprimeActionPerformed
+
+        Caja movSeleccionado = (Caja) cajaDAO.BuscaPorID(Caja.class, (Integer) tblModelMensualidades.getValueAt(tblCaja.getSelectedRow(), 0));
+        new ImprimiRecibo().imprimieRecibo(movSeleccionado);
+
+    }//GEN-LAST:event_btnReimprimeActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnReimprime;
     private javax.swing.JComboBox cbRubro;
     private javax.swing.JComboBox cbSectores;
     private javax.swing.JComboBox cbTIpo;

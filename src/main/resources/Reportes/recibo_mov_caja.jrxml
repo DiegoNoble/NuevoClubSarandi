@@ -19,13 +19,25 @@
 	<title>
 		<band height="413" splitType="Stretch">
 			<rectangle>
-				<reportElement x="295" y="0" width="272" height="97" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="70c24335-f76f-4916-befe-17fe673369a4"/>
+				<reportElement x="295" y="97" width="272" height="316" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="ba0dc9bb-da12-4e96-b4ea-bd2852045501"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement x="295" y="97" width="272" height="316" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="ba0dc9bb-da12-4e96-b4ea-bd2852045501"/>
+				<reportElement x="388" y="258" width="164" height="43" uuid="dae7b9f7-c84d-4e95-99a6-1eb80f15be9c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="97" width="273" height="316" backcolor="#FFFFFF" uuid="9bb7ae86-f801-4032-99ba-c0aa5e77340a"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="85" y="258" width="158" height="43" uuid="8e42c766-5a66-40cf-b7eb-a00d4f3bfa06"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="295" y="0" width="272" height="97" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="70c24335-f76f-4916-befe-17fe673369a4"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
 				</graphicElement>
@@ -49,12 +61,6 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement x="0" y="97" width="273" height="316" backcolor="#00CC99" uuid="9bb7ae86-f801-4032-99ba-c0aa5e77340a"/>
-				<graphicElement>
-					<pen lineWidth="1.0" lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle>
 				<reportElement x="203" y="61" width="64" height="27" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="d92856d6-cfc4-47f8-b312-9dfba126199b"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
@@ -73,13 +79,6 @@
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{id}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement mode="Opaque" x="209" y="284" width="50" height="13" uuid="93d9978e-7525-480c-a36a-bc4251b51d56"/>
-				<textElement>
-					<font fontName="Tahoma" size="7" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{valor}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="12" y="158" width="191" height="14" isPrintWhenDetailOverflows="true" uuid="4f585a3d-c2b2-4d85-908c-da35f67480f3"/>
@@ -123,13 +122,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{id}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement mode="Opaque" x="500" y="284" width="50" height="13" uuid="ac9fec02-88ae-4128-8e12-afa2a46a921d"/>
-				<textElement>
-					<font fontName="Tahoma" size="7" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{valor}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="10" y="118" width="90" height="14" isPrintWhenDetailOverflows="true" uuid="5512453d-1744-4ad5-b371-5a92ae2aab97"/>
 				<textElement>
@@ -146,14 +138,14 @@
 			</textField>
 			<image scaleImage="FillFrame">
 				<reportElement x="75" y="0" width="125" height="96" uuid="fc096637-78ce-4742-b8ed-6f588aaaa5ec"/>
-				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+				<imageExpression><![CDATA[$P{logoBN}]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame">
 				<reportElement x="370" y="3" width="122" height="93" uuid="038208a6-67e2-40a3-8e87-d0ba9ee856f5"/>
 				<imageExpression><![CDATA[$P{logoBN}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="6" y="65" width="151" height="31" forecolor="#4F81BD" backcolor="#FFFFFF" uuid="6d14fc2d-bc7a-436c-8cee-dbec96825799"/>
+				<reportElement x="6" y="65" width="151" height="31" forecolor="#000000" backcolor="#FFFFFF" uuid="6d14fc2d-bc7a-436c-8cee-dbec96825799"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Calibri" size="8" isBold="false" isItalic="false"/>
 				</textElement>
@@ -169,35 +161,28 @@ www.sarandiuniversitario.com]]></text>
 www.sarandiuniversitario.com]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="10" y="104" width="90" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="0d81da7e-381c-4d1c-b3f9-82cae0392d6f"/>
+				<reportElement mode="Opaque" x="10" y="104" width="90" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="0d81da7e-381c-4d1c-b3f9-82cae0392d6f"/>
 				<textElement>
 					<font fontName="Calibri"/>
 				</textElement>
 				<text><![CDATA[Sector]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="12" y="144" width="191" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="03ec680f-60c4-462f-94a6-89b90c874eed"/>
+				<reportElement mode="Opaque" x="12" y="144" width="191" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="03ec680f-60c4-462f-94a6-89b90c874eed"/>
 				<textElement>
 					<font fontName="Calibri"/>
 				</textElement>
 				<text><![CDATA[Rubro]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="10" y="183" width="233" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="c5896f56-f2ef-4292-9bb1-aa6e3bfaf986"/>
+				<reportElement mode="Opaque" x="10" y="183" width="233" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="c5896f56-f2ef-4292-9bb1-aa6e3bfaf986"/>
 				<textElement>
 					<font fontName="Calibri"/>
 				</textElement>
 				<text><![CDATA[Concepto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="209" y="271" width="50" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="86512386-bdd4-42df-bc33-32a90e5542c3"/>
-				<textElement>
-					<font fontName="Calibri"/>
-				</textElement>
-				<text><![CDATA[Valor]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="203" y="60" width="63" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="6c6abcbb-7f44-4d61-8b9c-246a8ade6292"/>
+				<reportElement mode="Opaque" x="203" y="60" width="63" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="6c6abcbb-7f44-4d61-8b9c-246a8ade6292"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri"/>
 				</textElement>
@@ -237,13 +222,6 @@ www.sarandiuniversitario.com]]></text>
 					<font fontName="Calibri"/>
 				</textElement>
 				<text><![CDATA[Concepto]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="502" y="271" width="50" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="00c40cbd-0b3f-40b8-a02e-cce07d1a64c7"/>
-				<textElement>
-					<font fontName="Calibri"/>
-				</textElement>
-				<text><![CDATA[Valor]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="495" y="61" width="64" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="b13a6304-988b-4e80-9252-3296f4a6cd42"/>
@@ -307,61 +285,89 @@ www.sarandiuniversitario.com]]></text>
 				</jr:Code128>
 			</componentElement>
 			<staticText>
-				<reportElement mode="Opaque" x="141" y="271" width="50" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="e37a4fd8-86e5-466b-9070-4dc7fe4b10ea"/>
+				<reportElement mode="Opaque" x="107" y="271" width="50" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="e37a4fd8-86e5-466b-9070-4dc7fe4b10ea"/>
 				<textElement>
 					<font fontName="Calibri"/>
 				</textElement>
 				<text><![CDATA[Tipo]]></text>
 			</staticText>
 			<textField pattern="#,##0.00">
-				<reportElement mode="Opaque" x="432" y="284" width="50" height="13" uuid="c5c66577-94be-43ef-a238-e94b070da505"/>
+				<reportElement mode="Opaque" x="403" y="284" width="50" height="13" uuid="c5c66577-94be-43ef-a238-e94b070da505"/>
 				<textElement>
 					<font fontName="Tahoma" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{tipoMovimiento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="434" y="271" width="50" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="ba1d657e-c8c8-4383-9bdc-c61aec97bb2b"/>
+				<reportElement mode="Opaque" x="405" y="271" width="50" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="ba1d657e-c8c8-4383-9bdc-c61aec97bb2b"/>
 				<textElement>
 					<font fontName="Calibri"/>
 				</textElement>
 				<text><![CDATA[Tipo]]></text>
 			</staticText>
 			<textField pattern="#,##0.00">
-				<reportElement mode="Opaque" x="141" y="284" width="50" height="13" uuid="d65ba2d8-de3d-4868-91ae-ac777666dd93"/>
+				<reportElement mode="Opaque" x="107" y="284" width="50" height="13" uuid="d65ba2d8-de3d-4868-91ae-ac777666dd93"/>
 				<textElement>
 					<font fontName="Tahoma" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{tipoMovimiento}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement mode="Opaque" x="354" y="284" width="50" height="13" uuid="6c4000ce-117f-49eb-93b2-e297dbb9fa0b"/>
+				<reportElement mode="Opaque" x="298" y="284" width="50" height="13" uuid="6c4000ce-117f-49eb-93b2-e297dbb9fa0b"/>
 				<textElement>
 					<font fontName="Tahoma" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="62" y="271" width="50" height="13" forecolor="#FFFFFF" backcolor="#009966" uuid="efa5ea6d-9440-4abe-85d6-103f0cb48202"/>
+				<reportElement mode="Opaque" x="6" y="271" width="50" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="efa5ea6d-9440-4abe-85d6-103f0cb48202"/>
 				<textElement>
 					<font fontName="Calibri"/>
 				</textElement>
 				<text><![CDATA[usuario]]></text>
 			</staticText>
 			<textField pattern="#,##0.00">
-				<reportElement mode="Opaque" x="62" y="284" width="50" height="13" uuid="4dee3999-e092-4e34-9416-a8612202a741"/>
+				<reportElement mode="Opaque" x="6" y="284" width="50" height="13" uuid="4dee3999-e092-4e34-9416-a8612202a741"/>
 				<textElement>
 					<font fontName="Tahoma" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="355" y="271" width="50" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="1bb90cf5-4b54-48f0-a520-a097ca300523"/>
+				<reportElement mode="Opaque" x="299" y="271" width="50" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="1bb90cf5-4b54-48f0-a520-a097ca300523"/>
 				<textElement>
 					<font fontName="Calibri"/>
 				</textElement>
 				<text><![CDATA[Usuario]]></text>
 			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="171" y="271" width="46" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="367333ea-fde6-4414-b2bc-79ed26411377"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="171" y="284" width="50" height="13" uuid="700580c3-aa87-4f48-96e2-c22983d7170b"/>
+				<textElement>
+					<font fontName="Tahoma" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="470" y="271" width="46" height="13" forecolor="#000000" backcolor="#D9D9D9" uuid="df480260-ced8-49ea-bfab-8e8fb622292e"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="466" y="284" width="50" height="13" uuid="21c7dd07-fb2a-4a4d-bdd2-efdb794dd62a"/>
+				<textElement>
+					<font fontName="Tahoma" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valor}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 </jasperReport>

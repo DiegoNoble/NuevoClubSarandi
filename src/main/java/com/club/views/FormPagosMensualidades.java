@@ -63,32 +63,28 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
                         cajaDAO = new CajaDAO();
                         cajaDAO.Salvar(pago);
 
-
-
                         JOptionPane.showMessageDialog(null, "Pago registrado");
 
                     }
-                    if (rbEfectivoBanco.isSelected()) {
+                    /*                  if (rbEfectivoBanco.isSelected()) {
 
-                        reciboAPagar.setFechaPago(new Date());
-                        reciboAPagar.setPago("Pago");
+                     reciboAPagar.setFechaPago(new Date());
+                     reciboAPagar.setPago("Pago");
 
-                        mensualidadesDAO = new MensualidadesDAO();
-                        mensualidadesDAO.Actualizar(reciboAPagar);
+                     mensualidadesDAO = new MensualidadesDAO();
+                     mensualidadesDAO.Actualizar(reciboAPagar);
 
-                        registraCreditoCuentaCobrador(reciboAPagar);
+                     registraCreditoCuentaCobrador(reciboAPagar);
 
-                        JOptionPane.showMessageDialog(null, "Pago registrado");
+                     JOptionPane.showMessageDialog(null, "Pago registrado");
 
-                    }
-
+                     }
+                     */
                 }
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al ejecutar el SQL deseado : " + ex + "");
         }
-
-
 
     }
 
@@ -120,7 +116,6 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         rbEfectivoCaja = new javax.swing.JRadioButton();
-        rbEfectivoBanco = new javax.swing.JRadioButton();
         btnConfirmaPago = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -148,28 +143,21 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
         buttonGroup1.add(rbEfectivoCaja);
         rbEfectivoCaja.setText("Efectivo en caja");
 
-        buttonGroup1.add(rbEfectivoBanco);
-        rbEfectivoBanco.setText("No registrar movimiento en caja");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbEfectivoCaja)
-                    .addComponent(rbEfectivoBanco))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addComponent(rbEfectivoCaja)
+                .addContainerGap(117, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(rbEfectivoCaja)
-                .addGap(11, 11, 11)
-                .addComponent(rbEfectivoBanco)
-                .addContainerGap())
+                .addGap(41, 41, 41))
         );
 
         jTabbedPane1.addTab("Forma de cobro", jPanel3);
@@ -187,29 +175,28 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(49, 49, 49)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(32, 32, 32)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnConfirmaPago)
-                            .addComponent(txtIdRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)))
-                .addGap(36, 36, 36))
+                            .addComponent(txtIdRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtIdRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnConfirmaPago)
-                .addGap(42, 42, 42))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 204));
@@ -273,7 +260,7 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
     private void txtIdReciboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdReciboActionPerformed
 
         registraPago();
-        
+
     }//GEN-LAST:event_txtIdReciboActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -285,7 +272,6 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JRadioButton rbEfectivoBanco;
     private javax.swing.JRadioButton rbEfectivoCaja;
     private javax.swing.JTextField txtIdRecibo;
     // End of variables declaration//GEN-END:variables
