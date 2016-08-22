@@ -116,7 +116,8 @@ public class MensualidadesDAO extends DaoGenerico {
         return toReturn;
 
     }
-     public List BuscaPorCobradorSituacionVencimiento(Cobrador cobrador, Date vencimiento) {
+
+    public List BuscaPorCobradorSituacionVencimiento(Cobrador cobrador, Date vencimiento) {
 
         List<Mensualidades> toReturn = null;
 
@@ -124,6 +125,18 @@ public class MensualidadesDAO extends DaoGenerico {
         qr.setParameter("cobrador", cobrador);
         qr.setParameter("vencimiento", vencimiento);
         toReturn = qr.getResultList();
+
+        return toReturn;
+
+    }
+
+    public Mensualidades BuscaPorNroTalon(String nroTalon) {
+
+        Mensualidades toReturn = null;
+
+        Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.nroTalonCobrosYa =:nroTalon");
+        qr.setParameter("nroTalon", nroTalon);
+        toReturn = (Mensualidades) qr.getSingleResult();
 
         return toReturn;
 

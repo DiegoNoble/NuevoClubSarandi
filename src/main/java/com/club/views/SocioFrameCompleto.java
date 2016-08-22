@@ -58,6 +58,27 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
 
     }
 
+     public SocioFrameCompleto(Boolean consulta) {
+        initComponents();
+
+        btnSeleccionaTitular.setVisible(false);
+        btnEliminar.setVisible(false);
+        btnSalvar.setVisible(false);
+        btnCancelar.setVisible(false);
+        btnNuevo.setVisible(false);
+        btnEditar.setVisible(false);
+        btnEliminar.setVisible(false);
+        btnFoto.setVisible(false);
+        
+        
+        parametros = new HashMap();
+        DefineModeloTbl();
+        buscaTodosLosRegistros();
+        cargaComboBox();
+        muestraContenidoTbl();
+
+    }
+     
     public SocioFrameCompleto(DependienteFrameCompleto dependienteFrame) {
         initComponents();
 
@@ -163,6 +184,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
                 txtCiudad.setText(socioSeleccionado.getCiudad());
                 txtBarrio.setText(socioSeleccionado.getBarrio());
                 txtTelefono.setText(socioSeleccionado.getTelefono());
+                txtCelular.setText(socioSeleccionado.getCelular());
                 txtEmail.setText(socioSeleccionado.getEmail());
                 txtDireccion.setText(socioSeleccionado.getDireccion());
                 txtEstadoCivil.setText(socioSeleccionado.getEstadocivil());
@@ -230,6 +252,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         txtNacionalidad.setEditable(true);
         txtProfesion.setEditable(true);
         txtTelefono.setEditable(true);
+        txtCelular.setEditable(true);
         cbCobrador.setEnabled(true);
         cbSexo.setEnabled(true);
         cbSexo.setEditable(true);
@@ -259,6 +282,8 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         txtNacionalidad.setEditable(false);
         txtProfesion.setEditable(false);
         txtTelefono.setEditable(false);
+        txtCelular.setEditable(false);
+        txtCelular.setEnabled(false);
         cbCobrador.setEnabled(false);
         cbCobrador.setEditable(false);
         cbSexo.setEnabled(false);
@@ -308,6 +333,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         txtCiudad.setText("");
         txtBarrio.setText("");
         txtTelefono.setText("");
+        txtCelular.setText("");
         txtEmail.setText("");
         txtDireccion.setText("");
         txtEstadoCivil.setText("");
@@ -385,6 +411,8 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         txtEstadoCivil = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtProfesion = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        txtCelular = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -759,7 +787,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         jLabel12.setText("Nacionalidad"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(jLabel12, gridBagConstraints);
@@ -767,8 +795,9 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         txtNacionalidad.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtNacionalidad, gridBagConstraints);
 
@@ -791,16 +820,16 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Barrio"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(jLabel8, gridBagConstraints);
 
         txtBarrio.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -808,64 +837,66 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
 
         jLabel17.setText("Telefono"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(jLabel17, gridBagConstraints);
 
         txtTelefono.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtTelefono, gridBagConstraints);
 
         jLabel18.setText("Email"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(jLabel18, gridBagConstraints);
 
         txtEmail.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtEmail, gridBagConstraints);
 
         jLabel5.setText("Dirección"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(jLabel5, gridBagConstraints);
 
         txtDireccion.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtDireccion, gridBagConstraints);
 
         jLabel10.setText("Estado Civil"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(jLabel10, gridBagConstraints);
 
         txtEstadoCivil.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -873,20 +904,37 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
 
         jLabel11.setText("Profesión"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(jLabel11, gridBagConstraints);
 
         txtProfesion.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtProfesion, gridBagConstraints);
+
+        jLabel20.setText("Celular"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(jLabel20, gridBagConstraints);
+
+        txtCelular.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(txtCelular, gridBagConstraints);
 
         jTabbedPane1.addTab("Contacto", jPanel5);
 
@@ -1086,6 +1134,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
                     socio.setCobrador((Cobrador) cbCobrador.getSelectedItem());
                     socio.setBarrio(txtBarrio.getText());
                     socio.setTelefono(txtTelefono.getText());
+                    socio.setCelular(txtCelular.getText());
                     socio.setEmail(txtEmail.getText());
                     socio.setHistoria(txtAreaHistorico.getText());
                     socio.setCategoria((Categoria) cbCategoria.getSelectedItem());
@@ -1149,6 +1198,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
                         socioSeleccionado.setCobrador((Cobrador) cbCobrador.getSelectedItem());
                         socioSeleccionado.setBarrio(txtBarrio.getText());
                         socioSeleccionado.setTelefono(txtTelefono.getText());
+                        socioSeleccionado.setCelular(txtCelular.getText());
                         socioSeleccionado.setEmail(txtEmail.getText());
                         socioSeleccionado.setHistoria(txtAreaHistorico.getText());
                         socioSeleccionado.setCategoria((Categoria) cbCategoria.getSelectedItem());
@@ -1385,6 +1435,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
@@ -1414,6 +1465,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblSocio;
     private java.awt.TextArea txtAreaHistorico;
     private javax.swing.JTextField txtBarrio;
+    private javax.swing.JTextField txtCelular;
     private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;

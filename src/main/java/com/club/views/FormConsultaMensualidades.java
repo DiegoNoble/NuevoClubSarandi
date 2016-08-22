@@ -1,17 +1,19 @@
 package com.club.views;
 
+import Utilidades.EnvioTalonCobrosYa;
 import com.Renderers.MyDateCellRenderer;
 import com.Renderers.MyDefaultCellRenderer;
 import com.club.BEANS.CcCobrador;
 import com.club.BEANS.Mensualidades;
 import com.club.BEANS.MensualidadesAnuladas;
+import com.club.BEANS.Parametros;
 import com.club.BEANS.Socio;
 import com.club.DAOs.CcCobradorDAO;
 import com.club.DAOs.MensualidadesAnuladasDAO;
 import com.club.DAOs.MensualidadesDAO;
+import com.club.DAOs.ParametrosDAO;
 import com.club.DAOs.SocioDAO;
 import com.club.Renderers.TableRendererColorSituacion;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,14 +27,11 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
 
 public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
     MensualidadesDAO mensualidadesDAO;
+    ParametrosDAO parametrosDAO;
     SocioDAO socioDAO;
     MensualidadesAnuladasDAO mensualidadesAnuladasDAO;
     CcCobradorDAO ccCobradorDAO;
@@ -114,7 +113,7 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
         ((DefaultTableCellRenderer) tblMensualidades.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         tblModelMensualidades = (DefaultTableModel) tblMensualidades.getModel();
-        tblMensualidades.getColumn("Estado").setCellRenderer(new TableRendererColorSituacion(4));
+        tblMensualidades.getColumn("Estado").setCellRenderer(new TableRendererColorSituacion(5));
         listModelMensualidades = tblMensualidades.getSelectionModel();
         listModelMensualidades.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
@@ -141,6 +140,7 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
         for (Mensualidades mensualidades : listMensualidades) {
             tblModelMensualidades.addRow(new Object[]{
                 mensualidades.getId(),
+                mensualidades.getNroTalonCobrosYa(),
                 mensualidades.getFechaVencimiento(),
                 mensualidades.getFechaPago(),
                 mensualidades.getCobrador().getNombre(),
@@ -155,21 +155,20 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
         try {
 
-        HashMap parametros = new HashMap();
-        parametros.clear();
-        parametros.put("Msj", Msj);
-        parametros.put("recibo", recibo);
-        btnCarneSocio.setReportParameters(parametros);
-        btnCarneSocio.setReportURL("/Reportes/recibosIndividual.jasper");
+            HashMap parametros = new HashMap();
+            parametros.clear();
+            parametros.put("Msj", Msj);
+            parametros.put("recibo", recibo);
+            btnCarneSocio.setReportParameters(parametros);
+            btnCarneSocio.setReportURL("/Reportes/recibosIndividual.jasper");
 
-    }
-    catch (Exception ex ) {
+        } catch (Exception ex) {
             ex.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error al generar reporte", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al generar reporte", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
-}
 
-private void AnulaRecibo() {
+    private void AnulaRecibo() {
 
         int confirmación = JOptionPane.showConfirmDialog(null, "Confirma la anulación de la Mensualidad Seleccionada?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
@@ -201,22 +200,14 @@ private void AnulaRecibo() {
 
                 mensualidadesDAO = new MensualidadesDAO();
                 mensualidadesDAO
+                        .EliminarPorId(Mensualidades.class, mensualidadSeleccionada.getId());
 
-.EliminarPorId(Mensualidades.class  
-
-    , mensualidadSeleccionada.getId());
-
-    JOptionPane.showMessageDialog (
-
-    null, "Mensualidad anulada correctamente");
-    muestraMensualidades();
-}
-
-
-catch (Exception ex) {
-                Logger.getLogger(FormConsultaMensualidades.class  
-
-.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(
+                        null, "Mensualidad anulada correctamente");
+                muestraMensualidades();
+            } catch (Exception ex) {
+                Logger.getLogger(FormConsultaMensualidades.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -243,6 +234,7 @@ catch (Exception ex) {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMensualidades = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         btnAnularRecibo = new javax.swing.JButton();
         btnCarneSocio = new org.jasper.viewer.components.JasperRunnerButton();
 
@@ -389,14 +381,14 @@ catch (Exception ex) {
 
             },
             new String [] {
-                "Nro. Recibo", "Fecha de Vencimiento", "Fecha de Pago", "Cobrador", "Estado", "Valor"
+                "Nro. Recibo", "Talón online", "Fecha de Vencimiento", "Fecha de Pago", "Cobrador", "Estado", "Valor"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -416,16 +408,16 @@ catch (Exception ex) {
         if (tblMensualidades.getColumnModel().getColumnCount() > 0) {
             tblMensualidades.getColumnModel().getColumn(0).setPreferredWidth(5);
             tblMensualidades.getColumnModel().getColumn(0).setCellRenderer(new MyDefaultCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(1).setPreferredWidth(40);
-            tblMensualidades.getColumnModel().getColumn(1).setCellRenderer(new MyDateCellRenderer());
             tblMensualidades.getColumnModel().getColumn(2).setPreferredWidth(40);
             tblMensualidades.getColumnModel().getColumn(2).setCellRenderer(new MyDateCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(3).setPreferredWidth(50);
-            tblMensualidades.getColumnModel().getColumn(3).setCellRenderer(new MyDefaultCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tblMensualidades.getColumnModel().getColumn(3).setPreferredWidth(40);
+            tblMensualidades.getColumnModel().getColumn(3).setCellRenderer(new MyDateCellRenderer());
+            tblMensualidades.getColumnModel().getColumn(4).setPreferredWidth(50);
             tblMensualidades.getColumnModel().getColumn(4).setCellRenderer(new MyDefaultCellRenderer());
             tblMensualidades.getColumnModel().getColumn(5).setPreferredWidth(30);
             tblMensualidades.getColumnModel().getColumn(5).setCellRenderer(new MyDefaultCellRenderer());
+            tblMensualidades.getColumnModel().getColumn(6).setPreferredWidth(30);
+            tblMensualidades.getColumnModel().getColumn(6).setCellRenderer(new MyDefaultCellRenderer());
         }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -448,6 +440,14 @@ catch (Exception ex) {
         getContentPane().add(jTabbedPane1, gridBagConstraints);
 
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton1);
 
         btnAnularRecibo.setText("Anular Recibo");
         btnAnularRecibo.setEnabled(false);
@@ -503,11 +503,45 @@ catch (Exception ex) {
 
     }//GEN-LAST:event_btnCarneSocioActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        try {
+            parametrosDAO = new ParametrosDAO();
+            Parametros parametros = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
+            EnvioTalonCobrosYa cobrosYa = new EnvioTalonCobrosYa();
+            cobrosYa.enviarTalonMiWeb(parametros, socioSeleccionado, mensualidadSeleccionada);
+
+            if (mensualidadSeleccionada.getEnviaTalonCobrosYa() != null) {
+
+                mensualidadSeleccionada.setEnviaTalonCobrosYa(true);
+                mensualidadSeleccionada.setFechaHoraTransaccionCobrosYa(new Date());
+                mensualidadSeleccionada.setSituacionTalonCobrosYa(cobrosYa.getSituacionTransaccion());
+                mensualidadSeleccionada.setNroTalonCobrosYa(cobrosYa.getNroTalonCobrosYa());
+                mensualidadSeleccionada.setUrlPDF(cobrosYa.getUrl_pdf());
+                mensualidadSeleccionada.setIdSecreto(cobrosYa.getIdSecretoCobrosYa());
+
+                mensualidadesDAO = new MensualidadesDAO();
+                mensualidadesDAO.Actualizar(mensualidadSeleccionada);
+                JOptionPane.showMessageDialog(this, "Talón: " + mensualidadSeleccionada.getNroTalonCobrosYa() + " creado correctamente!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "El rebibo ya habia sido enviado, nro. talón: " + mensualidadSeleccionada.getNroTalonCobrosYa(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(FormConsultaMensualidades.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnularRecibo;
     private javax.swing.JButton btnBuscar;
     private org.jasper.viewer.components.JasperRunnerButton btnCarneSocio;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

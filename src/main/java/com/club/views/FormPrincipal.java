@@ -850,7 +850,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void btnSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSocioActionPerformed
 
-        SocioConsulta socio = new SocioConsulta();
+        SocioFrameCompleto socio = new SocioFrameCompleto(true);
         jDesktopPane1.add(socio);
         socio.setVisible(true);
         try {
@@ -878,7 +878,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemConsultaSocio1ActionPerformed
 
     private void mnuItemConsultaSocio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemConsultaSocio2ActionPerformed
-        SocioConsulta socio = new SocioConsulta();
+        SocioFrameCompleto socio = new SocioFrameCompleto(true);
         jDesktopPane1.add(socio);
         socio.setVisible(true);
         try {

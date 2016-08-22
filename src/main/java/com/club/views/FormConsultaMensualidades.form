@@ -261,8 +261,9 @@
                 <Component class="javax.swing.JTable" name="tblMensualidades">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="6" rowCount="0">
+                      <Table columnCount="7" rowCount="0">
                         <Column editable="false" title="Nro. Recibo" type="java.lang.Integer"/>
+                        <Column editable="false" title="Tal&#xf3;n online" type="java.lang.Object"/>
                         <Column editable="false" title="Fecha de Vencimiento" type="java.lang.Object"/>
                         <Column editable="false" title="Fecha de Pago" type="java.lang.Object"/>
                         <Column editable="false" title="Cobrador" type="java.lang.Object"/>
@@ -278,6 +279,11 @@
                           <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                             <Connection code="new MyDefaultCellRenderer()" type="code"/>
                           </Renderer>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
                           <Title/>
@@ -341,6 +347,14 @@
         <Property name="alignment" type="int" value="2"/>
       </Layout>
       <SubComponents>
+        <Component class="javax.swing.JButton" name="jButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jButton1"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
+        </Component>
         <Component class="javax.swing.JButton" name="btnAnularRecibo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Anular Recibo"/>

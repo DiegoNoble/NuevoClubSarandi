@@ -51,6 +51,16 @@ public class Mensualidades implements Serializable {
     @JoinColumn(name = "ID_COBRADOR", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Cobrador cobrador;
+    private Boolean enviaTalonCobrosYa = false;
+    private String situacionTalonCobrosYa;
+    @Column(name = "nro_talon")
+    private String nroTalonCobrosYa;
+    @Column(name = "id_secreto")
+    private String idSecreto;
+    @Column(name = "url_pdf")
+    private String urlPDF;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date fechaHoraTransaccionCobrosYa;
 
     public Mensualidades() {
     }
@@ -134,6 +144,56 @@ public class Mensualidades implements Serializable {
     public void setCobrador(Cobrador cobrador) {
         this.cobrador = cobrador;
     }
+
+    public Boolean getEnviaTalonCobrosYa() {
+        return enviaTalonCobrosYa;
+    }
+
+    public void setEnviaTalonCobrosYa(Boolean enviaTalonCobrosYa) {
+        this.enviaTalonCobrosYa = enviaTalonCobrosYa;
+    }
+
+    public String getSituacionTalonCobrosYa() {
+        return situacionTalonCobrosYa;
+    }
+
+    public void setSituacionTalonCobrosYa(String situacionTalonCobrosYa) {
+        this.situacionTalonCobrosYa = situacionTalonCobrosYa;
+    }
+
+    public String getNroTalonCobrosYa() {
+        return nroTalonCobrosYa;
+    }
+
+    public void setNroTalonCobrosYa(String nroTalonCobrosYa) {
+        this.nroTalonCobrosYa = nroTalonCobrosYa;
+    }
+
+    public String getIdSecreto() {
+        return idSecreto;
+    }
+
+    public void setIdSecreto(String idSecreto) {
+        this.idSecreto = idSecreto;
+    }
+
+    public String getUrlPDF() {
+        return urlPDF;
+    }
+
+    public void setUrlPDF(String urlPDF) {
+        this.urlPDF = urlPDF;
+    }
+
+    public Date getFechaHoraTransaccionCobrosYa() {
+        return fechaHoraTransaccionCobrosYa;
+    }
+
+    public void setFechaHoraTransaccionCobrosYa(Date fechaHoraTransaccionCobrosYa) {
+        this.fechaHoraTransaccionCobrosYa = fechaHoraTransaccionCobrosYa;
+    }
+    
+    
 
     @Override
     public int hashCode() {

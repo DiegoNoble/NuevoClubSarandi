@@ -1,0 +1,344 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Utilidades;
+
+import com.club.BEANS.Mensualidades;
+import com.club.BEANS.Parametros;
+import com.club.BEANS.Socio;
+import java.util.List;
+
+import org.jdom.Document;
+import org.jdom.Element;
+
+import org.apache.commons.httpclient.*;
+import org.apache.commons.httpclient.methods.PostMethod;
+
+import java.io.StringReader;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import org.jdom.input.SAXBuilder;
+
+public class EnvioTalonCobrosYa {
+
+    String nroTalonCobrosYa = null;
+    String idSecretoCobrosYa = null;
+    String url_pdf = null;
+    String situacionTransaccion = null;
+
+    /*   public void enviarTalonCobrosYa(Parametros parametros, Socio socio, Mensualidades mensualidad) {
+
+     //Se inicia el objeto HTTP
+     HttpClient client = new HttpClient();
+     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+
+     client.setStrictMode(true);
+     //Se fija el tiempo m ́aximo de espera de la respuesta del servidor
+     client.setTimeout(60000);
+     //Se fija el tiempo m ́aximo de espera para conectar con el servidor
+     client.setConnectionTimeout(5000);
+     PostMethod post = null;
+     //Se fija la URL sobre la que enviar la petici ́on POST
+     //Como ejemplo la petici ́on se env ́ıa a www.altiria.net/sustituirPOSTsms
+     //Se debe reemplazar la cadena ’/sustituirPOSTsms’ por la parte correspondiente
+     //de la URL suministrada por Altiria al dar de alta el servicio
+     //post = new PostMethod("http://api-sandbox.cobrosya.com/v4/crear");
+     post = new PostMethod(parametros.getUrlPostCobrosYa());
+     //Se fija la codificaci ́on de caracteres en la cabecera de la petici ́on
+
+     post.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+
+     //Se crea la lista de parámetros a enviar en la petición POST
+     NameValuePair[] parametersList = new NameValuePair[12];
+
+     //token String32 Token de la API asignado a su cuenta
+     parametersList[0] = new NameValuePair("token", parametros.getTokenCobrosYa());
+     //id_transaccion String50 Identificador único de la transaccion en su sistema
+     parametersList[1] = new NameValuePair("id_transaccion", mensualidad.getId().toString());
+     //nombre String50 Nombre de la persona que va a efectuar el pago
+     parametersList[2] = new NameValuePair("nombre", socio.getNombre());
+     //apellido String50 Apellido de la persona que va a efectuar el pago
+     parametersList[3] = new NameValuePair("apellido", "");
+     //email String50 Email de la persona que va a efectuar el pago
+     parametersList[4] = new NameValuePair("email", socio.getEmail());
+     //celular String7 Celular de la persona que va a efectuar el pago. OPCIONAL
+     parametersList[5] = new NameValuePair("celular", socio.getCelular());
+     //concepto String200 Descripcion para el talón PDF. OPCIONAL
+     parametersList[6] = new NameValuePair("concepto", "Cuota social Sarandí Universitario " + mensualidad.getId());
+     //moneda Numerico3 858=pesos, 840=dólares
+     parametersList[7] = new NameValuePair("moneda", "858");
+     //monto Numerico10.2 Mondo de la transacción
+     parametersList[8] = new NameValuePair("monto", mensualidad.getValor().toString());
+     //fecha_vencimineto Fecha YYYY-MM-DD Vencimiento del pago en redes de Cobranza. OPCIONAL
+     parametersList[9] = new NameValuePair("fecha_vencimiento", formatoFecha.format(mensualidad.getFechaVencimiento()));
+     //url_respuesta String200 URL para redirigir al usuario al finalizar la transacción
+     parametersList[10] = new NameValuePair("url_respuesta", "http://www.sarandiuniversitario.com/");
+     //consumo_final Numerico1 1=consumidor final, 0=venta con rut. Para ley de inclusión
+     parametersList[11] = new NameValuePair("consumo_final", "1");
+     //factura String20 Numero de factura de la transacción para ley de inclusión
+     //monto_gravado Numerico10.2 Monto gravado con IVa para la leu de inclusión financiera
+     //parametersList[13] = new NameValuePair("monto_gravado", "50");
+
+     //Se rellena el cuerpo de la peticion POST con los parametros
+     post.setRequestBody(parametersList);
+     int httpstatus = 0;
+     String response = null;
+
+     try {
+     //Se envıa la peticion
+     httpstatus = client.executeMethod(post);
+     //Se consigue la respuesta
+     response = post.getResponseBodyAsString();
+
+     //DocumentBuilder dombuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+     SAXBuilder saxBuilder = new SAXBuilder();
+     Document document = saxBuilder.build(new StringReader(response));
+     Element rootNode = document.getRootElement();
+
+     List<Element> hijoRaiz = rootNode.getChildren();
+     String error = null;
+
+     for (Element hijo : hijoRaiz) {
+     if (hijo.getName().equals("error")) {
+     error = hijo.getValue();
+     }
+     if (hijo.getName().equals("nro_talon")) {
+     nroTalonCobrosYa = hijo.getValue();
+     }
+     if (hijo.getName().equals("id_secreto")) {
+     idSecretoCobrosYa = hijo.getValue();
+     }
+     if (hijo.getName().equals("url_pdf")) {
+     url_pdf = hijo.getValue();
+     }
+
+     }
+
+     switch (error) {
+     case "0":
+     situacionTransaccion = "Transacción iniciada correctamente";
+     break;
+     case "1":
+     situacionTransaccion = "Falta campos";
+     break;
+     case "2":
+     situacionTransaccion = "El token no es correcto";
+     break;
+     case "3":
+     situacionTransaccion = "Error al crear talón";
+     break;
+     case "4":
+     situacionTransaccion = "La fecha de vencimiento es incorrecta";
+     break;
+     case "5":
+     situacionTransaccion = "El celular tiene un formato incorrecto (expresión regular para validar: /^09[0-9]{7}$/ )";
+     break;
+     case "6":
+     situacionTransaccion = "El mail tiene un formato incorrecto";
+     break;
+     case "7":
+     situacionTransaccion = "La moneda no es valida";
+     break;
+     case "8":
+     situacionTransaccion = "El monto tiene un formato incorrecto";
+     break;
+     case "9":
+     situacionTransaccion = "La transacción ya fue cobrada";
+     break;
+     default:
+     throw new AssertionError();
+
+     }
+
+     } catch (Exception e) {
+     System.out.println(e);
+
+     } finally {
+     //En cualquier caso se cierra la conexi ́on
+     post.releaseConnection();
+     }
+     //Habra que prever posibles errores en la respuesta del servidor
+     if (httpstatus != 200) {
+     JOptionPane.showMessageDialog(null, "Error al enviar talón: " + response, "Error", JOptionPane.ERROR_MESSAGE);
+     System.out.println(response);
+
+     }
+
+     }*/
+    public void enviarTalonMiWeb(Parametros parametros, Socio socio, Mensualidades mensualidad) throws Exception {
+
+        //Se inicia el objeto HTTP
+        HttpClient client = new HttpClient();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+
+        client.setStrictMode(true);
+//Se fija el tiempo m ́aximo de espera de la respuesta del servidor
+        client.setTimeout(60000);
+//Se fija el tiempo m ́aximo de espera para conectar con el servidor
+        client.setConnectionTimeout(5000);
+        PostMethod post = null;
+//Se fija la URL sobre la que enviar la petici ́on POST
+//Como ejemplo la petici ́on se env ́ıa a www.altiria.net/sustituirPOSTsms
+//Se debe reemplazar la cadena ’/sustituirPOSTsms’ por la parte correspondiente
+//de la URL suministrada por Altiria al dar de alta el servicio
+        //post = new PostMethod("http://api-sandbox.cobrosya.com/v4/crear");
+        post = new PostMethod("http://192.185.112.100/~saltohoteluy/nuevo.php");
+//Se fija la codificaci ́on de caracteres en la cabecera de la petici ́on
+
+        post.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+
+//Se crea la lista de parámetros a enviar en la petición POST
+        NameValuePair[] parametersList = new NameValuePair[12];
+
+//token String32 Token de la API asignado a su cuenta
+        parametersList[0] = new NameValuePair("token", parametros.getTokenCobrosYa());
+//id_transaccion String50 Identificador único de la transaccion en su sistema
+        parametersList[1] = new NameValuePair("id_transaccion", mensualidad.getId().toString());
+//nombre String50 Nombre de la persona que va a efectuar el pago
+        parametersList[2] = new NameValuePair("nombre", socio.getNombre());
+//apellido String50 Apellido de la persona que va a efectuar el pago
+        parametersList[3] = new NameValuePair("apellido", "");
+//email String50 Email de la persona que va a efectuar el pago
+        parametersList[4] = new NameValuePair("email", socio.getEmail());
+//celular String7 Celular de la persona que va a efectuar el pago. OPCIONAL
+        parametersList[5] = new NameValuePair("celular", socio.getCelular());
+//concepto String200 Descripcion para el talón PDF. OPCIONAL
+        parametersList[6] = new NameValuePair("concepto", "Cuota social Sarandí Universitario " + mensualidad.getId());
+//moneda Numerico3 858=pesos, 840=dólares
+        parametersList[7] = new NameValuePair("moneda", "858");
+//monto Numerico10.2 Mondo de la transacción
+        parametersList[8] = new NameValuePair("monto", mensualidad.getValor().toString());
+//fecha_vencimineto Fecha YYYY-MM-DD Vencimiento del pago en redes de Cobranza. OPCIONAL
+        parametersList[9] = new NameValuePair("fecha_vencimiento", formatoFecha.format(mensualidad.getFechaVencimiento()));
+//url_respuesta String200 URL para redirigir al usuario al finalizar la transacción
+        parametersList[10] = new NameValuePair("url_respuesta", "http://www.sarandiuniversitario.com/");
+//consumo_final Numerico1 1=consumidor final, 0=venta con rut. Para ley de inclusión
+        parametersList[11] = new NameValuePair("consumo_final", "1");
+//factura String20 Numero de factura de la transacción para ley de inclusión
+//monto_gravado Numerico10.2 Monto gravado con IVa para la leu de inclusión financiera
+        //parametersList[12] = new NameValuePair("medioPago", "6");
+
+//Se rellena el cuerpo de la peticion POST con los parametros
+        post.setRequestBody(parametersList);
+        int httpstatus = 0;
+        String response = null;
+
+        try {
+//Se envıa la peticion
+            httpstatus = client.executeMethod(post);
+//Se consigue la respuesta
+            response = post.getResponseBodyAsString();
+
+            //DocumentBuilder dombuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            SAXBuilder saxBuilder = new SAXBuilder();
+            Document document = saxBuilder.build(new StringReader(response));
+            Element rootNode = document.getRootElement();
+
+            List<Element> hijoRaiz = rootNode.getChildren();
+            String error = null;
+
+            for (Element hijo : hijoRaiz) {
+                if (hijo.getName().equals("error")) {
+                    error = hijo.getValue();
+                }
+                if (hijo.getName().equals("nro_talon")) {
+                    nroTalonCobrosYa = hijo.getValue();
+                }
+                if (hijo.getName().equals("id_secreto")) {
+                    idSecretoCobrosYa = hijo.getValue();
+                }
+                if (hijo.getName().equals("url_pdf")) {
+                    url_pdf = hijo.getValue();
+                }
+
+            }
+
+            switch (error) {
+                case "0":
+                    situacionTransaccion = "Transacción iniciada correctamente";
+                    break;
+                case "1":
+                    situacionTransaccion = "Falta campos";
+                    break;
+                case "2":
+                    situacionTransaccion = "El token no es correcto";
+                    break;
+                case "3":
+                    situacionTransaccion = "Error al crear talón";
+                    break;
+                case "4":
+                    situacionTransaccion = "La fecha de vencimiento es incorrecta";
+                    break;
+                case "5":
+                    situacionTransaccion = "El celular tiene un formato incorrecto (expresión regular para validar: /^09[0-9]{7}$/ )";
+                    break;
+                case "6":
+                    situacionTransaccion = "El mail tiene un formato incorrecto";
+                    break;
+                case "7":
+                    situacionTransaccion = "La moneda no es valida";
+                    break;
+                case "8":
+                    situacionTransaccion = "El monto tiene un formato incorrecto";
+                    break;
+                case "9":
+                    situacionTransaccion = "La transacción ya fue cobrada";
+                    break;
+                default:
+                    throw new AssertionError();
+
+            }
+
+        } catch (Exception e) {
+            System.out.println(response);
+            //JOptionPane.showMessageDialog(null, "Error " + response, "Error", JOptionPane.ERROR_MESSAGE);
+            throw new Exception(response);
+        } finally {
+//En cualquier caso se cierra la conexi ́on
+            post.releaseConnection();
+        }
+//Habra que prever posibles errores en la respuesta del servidor
+        if (httpstatus != 200) {
+            JOptionPane.showMessageDialog(null, "Error al enviar talón: " + response, "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(response);
+
+        }
+
+    }
+
+    public String getNroTalonCobrosYa() {
+        return nroTalonCobrosYa;
+    }
+
+    public void setNroTalonCobrosYa(String nroTalonCobrosYa) {
+        this.nroTalonCobrosYa = nroTalonCobrosYa;
+    }
+
+    public String getIdSecretoCobrosYa() {
+        return idSecretoCobrosYa;
+    }
+
+    public void setIdSecretoCobrosYa(String idSecretoCobrosYa) {
+        this.idSecretoCobrosYa = idSecretoCobrosYa;
+    }
+
+    public String getUrl_pdf() {
+        return url_pdf;
+    }
+
+    public void setUrl_pdf(String url_pdf) {
+        this.url_pdf = url_pdf;
+    }
+
+    public String getSituacionTransaccion() {
+        return situacionTransaccion;
+    }
+
+    public void setSituacionTransaccion(String situacionTransaccion) {
+        this.situacionTransaccion = situacionTransaccion;
+    }
+
+}
+

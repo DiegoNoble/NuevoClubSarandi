@@ -61,6 +61,8 @@ public class Socio implements Serializable {
     private String barrio;
     @Column(name = "TELEFONO")
     private String telefono;
+    @Column(name = "CELULAR")
+    private String celular;
     @Column(name = "EMAIL")
     private String email;
     @Column(name = "FOTO")
@@ -74,7 +76,7 @@ public class Socio implements Serializable {
     @ManyToOne(optional=false)
     private Categoria Categoria;
     @Lob
-    @Column(name="huella", nullable=true, columnDefinition="blob")
+    @Column(name="huella", columnDefinition="blob")
     private byte[] huella;
     private Integer tamano;
     private Integer calidad;
@@ -287,6 +289,16 @@ public class Socio implements Serializable {
     public void setCategoria(com.club.BEANS.Categoria Categoria) {
         this.Categoria = Categoria;
     }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+    
+    
 
     @Override
     public String toString() {

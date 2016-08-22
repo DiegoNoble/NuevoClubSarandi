@@ -112,11 +112,11 @@ public class cajaFrame extends javax.swing.JInternalFrame {
 
             cajaDAO = new CajaDAO();
             Double saldoAnterior = cajaDAO.buscaSaldoAnterior(dataPiker.getDate());
-            txtSaldoAnterior.setText(String.valueOf(saldoAnterior));
+            txtSaldoAnterior.setValue(saldoAnterior);
 
             cajaDAO = new CajaDAO();
             Double saldoDelDia = cajaDAO.buscaSaldoDelDia(dataPiker.getDate());
-            txtSaldoDia.setText(String.valueOf(saldoDelDia));
+            txtSaldoDelDia.setValue(saldoDelDia);
 
         } catch (Exception error) {
 
@@ -151,9 +151,9 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        txtSaldoDia = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        txtSaldoAnterior = new javax.swing.JTextField();
+        txtSaldoAnterior = new javax.swing.JFormattedTextField();
+        txtSaldoDelDia = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCaja = new javax.swing.JTable();
@@ -365,17 +365,6 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(jLabel7, gridBagConstraints);
 
-        txtSaldoDia.setEditable(false);
-        txtSaldoDia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 60;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(txtSaldoDia, gridBagConstraints);
-
         jLabel14.setText("Del Día $ :"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -385,16 +374,23 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(jLabel14, gridBagConstraints);
 
-        txtSaldoAnterior.setEditable(false);
+        txtSaldoAnterior.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("$ #,##0.00"))));
+        txtSaldoAnterior.setEnabled(false);
         txtSaldoAnterior.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 60;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.ipadx = 130;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtSaldoAnterior, gridBagConstraints);
+
+        txtSaldoDelDia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("$ #,##0.00"))));
+        txtSaldoDelDia.setEnabled(false);
+        txtSaldoDelDia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 130;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(txtSaldoDelDia, gridBagConstraints);
 
         jTabbedPane1.addTab("Saldos $", jPanel5);
 
@@ -585,8 +581,8 @@ public class cajaFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tblCaja;
     private javax.swing.JFormattedTextField txtConcepto;
-    private javax.swing.JTextField txtSaldoAnterior;
-    private javax.swing.JTextField txtSaldoDia;
+    private javax.swing.JFormattedTextField txtSaldoAnterior;
+    private javax.swing.JFormattedTextField txtSaldoDelDia;
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 }
