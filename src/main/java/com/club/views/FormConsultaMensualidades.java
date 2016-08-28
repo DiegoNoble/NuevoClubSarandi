@@ -1,5 +1,6 @@
 package com.club.views;
 
+import Utilidades.EnviarEmail;
 import Utilidades.EnvioTalonCobrosYa;
 import com.Renderers.MyDateCellRenderer;
 import com.Renderers.MyDefaultCellRenderer;
@@ -235,6 +236,7 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
         tblMensualidades = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         btnAnularRecibo = new javax.swing.JButton();
         btnCarneSocio = new org.jasper.viewer.components.JasperRunnerButton();
 
@@ -449,6 +451,14 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
         });
         jPanel5.add(jButton1);
 
+        jButton2.setText("Re-enviar email");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton2);
+
         btnAnularRecibo.setText("Anular Recibo");
         btnAnularRecibo.setEnabled(false);
         btnAnularRecibo.addActionListener(new java.awt.event.ActionListener() {
@@ -523,6 +533,8 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
                 mensualidadesDAO = new MensualidadesDAO();
                 mensualidadesDAO.Actualizar(mensualidadSeleccionada);
                 JOptionPane.showMessageDialog(this, "Talón: " + mensualidadSeleccionada.getNroTalonCobrosYa() + " creado correctamente!");
+                EnviarEmail enviarEmail = new EnviarEmail(cobrosYa.getUrl_pdf(), socioSeleccionado.getEmail());
+                enviarEmail.enviaMail();
 
             } else {
                 JOptionPane.showMessageDialog(this, "El rebibo ya habia sido enviado, nro. talón: " + mensualidadSeleccionada.getNroTalonCobrosYa(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -536,12 +548,18 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        EnviarEmail enviarEmail = new EnviarEmail(mensualidadSeleccionada.getUrlPDF(), socioSeleccionado.getEmail());
+        enviarEmail.enviaMail();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnularRecibo;
     private javax.swing.JButton btnBuscar;
     private org.jasper.viewer.components.JasperRunnerButton btnCarneSocio;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

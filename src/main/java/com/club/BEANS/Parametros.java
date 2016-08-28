@@ -43,6 +43,8 @@ public class Parametros implements Serializable {
     private String urlPostCobrosYa;
     @Column(name = "token_cobrosya")
     private String tokenCobrosYa;
+    private String casilla_email;
+    private String psw_email;
     
     
 
@@ -95,6 +97,22 @@ public class Parametros implements Serializable {
 
     public void setTokenCobrosYa(String tokenCobrosYa) {
         this.tokenCobrosYa = tokenCobrosYa;
+    }
+
+    public String getCasilla_email() {
+        return casilla_email;
+    }
+
+    public void setCasilla_email(String casilla_email) {
+        this.casilla_email = casilla_email;
+    }
+
+    public String getPsw_email() {
+        return psw_email;
+    }
+
+    public void setPsw_email(String psw_email) {
+        this.psw_email = psw_email;
     }
 
    
