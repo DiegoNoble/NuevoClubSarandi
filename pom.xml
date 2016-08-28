@@ -156,17 +156,17 @@
         </dependency>
         
         <dependency>
-        <groupId>batik</groupId>
-        <artifactId>batik-transcoder</artifactId>
-        <version>1.6-1</version>
-        <scope>compile</scope>
-        <exclusions>
-            <exclusion>
-                <artifactId>fop</artifactId>
-                <groupId>fop</groupId>
-            </exclusion>
-        </exclusions>
-    </dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-transcoder</artifactId>
+            <version>1.6-1</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>fop</artifactId>
+                    <groupId>fop</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
@@ -187,5 +187,16 @@
             <artifactId>jdom</artifactId>
             <version>1.1</version>
         </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.5.5</version>
+        </dependency>
+        
     </dependencies>
 </project>
