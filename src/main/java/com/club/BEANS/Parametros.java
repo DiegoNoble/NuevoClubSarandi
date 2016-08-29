@@ -45,6 +45,8 @@ public class Parametros implements Serializable {
     private String tokenCobrosYa;
     private String casilla_email;
     private String psw_email;
+    private String usuario_SMS;
+    private String psw_SMS;
     
     
 
@@ -113,6 +115,22 @@ public class Parametros implements Serializable {
 
     public void setPsw_email(String psw_email) {
         this.psw_email = psw_email;
+    }
+
+    public String getUsuario_SMS() {
+        return usuario_SMS;
+    }
+
+    public void setUsuario_SMS(String usuario_SMS) {
+        this.usuario_SMS = usuario_SMS;
+    }
+
+    public String getPsw_SMS() {
+        return psw_SMS;
+    }
+
+    public void setPsw_SMS(String psw_SMS) {
+        this.psw_SMS = psw_SMS;
     }
 
    

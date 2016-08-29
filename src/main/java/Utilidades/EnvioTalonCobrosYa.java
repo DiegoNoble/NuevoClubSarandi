@@ -105,10 +105,11 @@ public class EnvioTalonCobrosYa {
         post.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
 
 //Se crea la lista de parámetros a enviar en la petición POST
-        NameValuePair[] parametersList = new NameValuePair[12];
+        NameValuePair[] parametersList = new NameValuePair[13];
 
 //token String32 Token de la API asignado a su cuenta
-        parametersList[0] = new NameValuePair("token", parametros.getTokenCobrosYa());
+        //parametersList[0] = new NameValuePair("token", parametros.getTokenCobrosYa());
+        parametersList[0] = new NameValuePair("token", "b1358960412c70625eb7cd664dcb7318");
 //id_transaccion String50 Identificador único de la transaccion en su sistema
         parametersList[1] = new NameValuePair("id_transaccion", mensualidad.getId().toString());
 //nombre String50 Nombre de la persona que va a efectuar el pago
@@ -131,10 +132,14 @@ public class EnvioTalonCobrosYa {
         parametersList[10] = new NameValuePair("url_respuesta", "http://www.sarandiuniversitario.com/");
 //consumo_final Numerico1 1=consumidor final, 0=venta con rut. Para ley de inclusión
         parametersList[11] = new NameValuePair("consumo_final", "1");
+
 //factura String20 Numero de factura de la transacción para ley de inclusión
 //monto_gravado Numerico10.2 Monto gravado con IVa para la leu de inclusión financiera
         //parametersList[12] = new NameValuePair("medioPago", "6");
-
+        //URL para produccion
+        //parametersList[12] = new NameValuePair("API_URL_CREAR", "https://api.cobrosya.com/v4/crear");
+        //URL para pruebas
+        parametersList[12] = new NameValuePair("API_URL_CREAR", "http://api-sandbox.cobrosya.com/v4/crear");
 //Se rellena el cuerpo de la peticion POST con los parametros
         post.setRequestBody(parametersList);
         int httpstatus = 0;
