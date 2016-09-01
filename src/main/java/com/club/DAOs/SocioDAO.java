@@ -36,13 +36,13 @@ public class SocioDAO extends DaoGenerico {
     }
 
     public Socio BuscaPorCIIgual(String CI) {
-        Socio toReturn ;
+        Socio toReturn;
         Query qr = em.createQuery("from Socio socio where socio.ci = ?1");
         qr.setParameter(1, CI);
         List<Socio> listToReturn = qr.getResultList();
         if (!listToReturn.isEmpty()) {
             toReturn = listToReturn.get(0);
-        }else{
+        } else {
             toReturn = null;
         }
 
@@ -124,5 +124,15 @@ public class SocioDAO extends DaoGenerico {
         em.close();
         return toReturn;
 
+    }
+
+    public List BuscaPorCategoriaSituacionConCelular(Categoria categoria, String situacion) {
+        Query qr = em.createQuery("from Socio s where s.Categoria = ?1 and s.situacion = ?2 and s.celular <> ''");
+        qr.setParameter(1, categoria);
+        qr.setParameter(2,situacion);
+        List<Socio> toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return toReturn;
     }
 }

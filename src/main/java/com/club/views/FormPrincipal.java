@@ -2,6 +2,9 @@ package com.club.views;
 
 import com.club.BEANS.Usuario;
 import com.club.control.utilidades.data;
+import com.club.smsmasivos.ConsultaCampanaSMSController;
+import com.club.smsmasivos.SMSMasivosController;
+import com.club.smsmasivos.SMSMasivosView;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -193,6 +196,9 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemArqueo1 = new javax.swing.JMenuItem();
         mnuItemMarcajes = new javax.swing.JMenuItem();
         mnuItemArqueo2 = new javax.swing.JMenuItem();
+        mnuArqueo1 = new javax.swing.JMenu();
+        mnuItemArqueo3 = new javax.swing.JMenuItem();
+        mnuItemArqueo4 = new javax.swing.JMenuItem();
         mnuAyuda = new javax.swing.JMenu();
         mnuItemSobre = new javax.swing.JMenuItem();
 
@@ -595,6 +601,28 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuControlPresencia.add(mnuItemArqueo2);
 
         jMenuBar1.add(mnuControlPresencia);
+
+        mnuArqueo1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        mnuArqueo1.setText("Campañas comunicación SMS");
+        mnuArqueo1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+
+        mnuItemArqueo3.setText("Nueva campaña");
+        mnuItemArqueo3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemArqueo3ActionPerformed(evt);
+            }
+        });
+        mnuArqueo1.add(mnuItemArqueo3);
+
+        mnuItemArqueo4.setText("Consulta campañas");
+        mnuItemArqueo4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemArqueo4ActionPerformed(evt);
+            }
+        });
+        mnuArqueo1.add(mnuItemArqueo4);
+
+        jMenuBar1.add(mnuArqueo1);
 
         mnuAyuda.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuAyuda.setText("Ayuda"); // NOI18N
@@ -1008,6 +1036,18 @@ public class FormPrincipal extends javax.swing.JFrame {
         centralizaVentanas(arqueoCobradores);
     }//GEN-LAST:event_mnuItemRecibos1ActionPerformed
 
+    private void mnuItemArqueo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo3ActionPerformed
+        SMSMasivosView smsView = new SMSMasivosView();
+        SMSMasivosController controller = new SMSMasivosController(smsView, jDesktopPane1);
+        controller.go();
+    }//GEN-LAST:event_mnuItemArqueo3ActionPerformed
+
+    private void mnuItemArqueo4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo4ActionPerformed
+        ConsultaCampanasSMSView consulta = new ConsultaCampanasSMSView();
+        ConsultaCampanaSMSController controller = new ConsultaCampanaSMSController(consulta, jDesktopPane1);
+        controller.go();
+    }//GEN-LAST:event_mnuItemArqueo4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCaja;
@@ -1031,6 +1071,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel lblHora;
     private javax.swing.JMenuItem mniItemMovimientosCaja;
     private javax.swing.JMenu mnuArqueo;
+    private javax.swing.JMenu mnuArqueo1;
     private javax.swing.JMenu mnuAyuda;
     private javax.swing.JMenu mnuConsultas;
     private javax.swing.JMenu mnuControlPresencia;
@@ -1038,6 +1079,8 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemArqueo;
     private javax.swing.JMenuItem mnuItemArqueo1;
     private javax.swing.JMenuItem mnuItemArqueo2;
+    private javax.swing.JMenuItem mnuItemArqueo3;
+    private javax.swing.JMenuItem mnuItemArqueo4;
     private javax.swing.JMenuItem mnuItemCaja;
     private javax.swing.JMenuItem mnuItemCategoria;
     private javax.swing.JMenuItem mnuItemCategoria1;
