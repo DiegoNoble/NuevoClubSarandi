@@ -38,23 +38,23 @@ public class EnvioTalonCobrosYa {
         client.setConnectionTimeout(5000);
         PostMethod post = null;
 
-        post = new PostMethod("http://192.185.112.100/~saltohoteluy/webservice2.php");
+        post = new PostMethod("http://192.185.112.100/~saltohoteluy/webserviceprueba.php");
 
         post.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
 
-        NameValuePair[] parametersList = new NameValuePair[10];
+        NameValuePair[] parametersList = new NameValuePair[1];
 
-        parametersList[0] = new NameValuePair("id_secreto", "3uRAWi1UY6jlJJYY0LHEI0uMc3UcS95j");
-        parametersList[1] = new NameValuePair("id_medio_pago", "6");
-        parametersList[2] = new NameValuePair("medio_pago", "Banred");
-        parametersList[3] = new NameValuePair("moneda", "858");
-        parametersList[4] = new NameValuePair("monto", "50");
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd H:M:S");
-        parametersList[5] = new NameValuePair("fecha_hora_pago", formatoFecha.format(new Date()));
-        parametersList[6] = new NameValuePair("cuotas_codigo", "1");
-        parametersList[7] = new NameValuePair("cuotas_texto", "pruieba");
-        parametersList[8] = new NameValuePair("autorizacion", "1");
-        parametersList[9] = new NameValuePair("accion", "cobro");
+        /*parametersList[0] = new NameValuePair("id_secreto", "3uRAWi1UY6jlJJYY0LHEI0uMc3UcS95j");
+         parametersList[1] = new NameValuePair("id_medio_pago", "6");
+         parametersList[2] = new NameValuePair("medio_pago", "Banred");
+         parametersList[3] = new NameValuePair("moneda", "858");
+         parametersList[4] = new NameValuePair("monto", "50");
+         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd H:M:S");
+         parametersList[5] = new NameValuePair("fecha_hora_pago", formatoFecha.format(new Date()));
+         parametersList[6] = new NameValuePair("cuotas_codigo", "1");
+         parametersList[7] = new NameValuePair("cuotas_texto", "pruieba");
+         parametersList[8] = new NameValuePair("autorizacion", "1");*/
+        parametersList[0] = new NameValuePair("accion", "consulta");
 
         post.setRequestBody(parametersList);
         int httpstatus = 0;
@@ -65,6 +65,29 @@ public class EnvioTalonCobrosYa {
             response = post.getResponseBodyAsString();
 
             System.out.println(response);
+
+            SAXBuilder saxBuilder = new SAXBuilder();
+            Document document = saxBuilder.build(new StringReader(response));
+            Element rootNode = document.getRootElement();
+
+            List<Element> hijoRaiz = rootNode.getChildren();
+
+            /*for (Element hijo : hijoRaiz) {
+                if (hijo.getName().equals("transaccion")) {
+                    String transaccion = hijo.getValue();
+                    System.out.println(transaccion);
+                }
+                /*if (hijo.getName().equals("nro_talon")) {
+                 nroTalonCobrosYa = hijo.getValue();
+                 }
+                 if (hijo.getName().equals("id_secreto")) {
+                 idSecretoCobrosYa = hijo.getValue();
+                 }
+                 if (hijo.getName().equals("url_pdf")) {
+                 url_pdf = hijo.getValue();
+                 }*/
+
+            //}
 
         } catch (Exception e) {
             System.out.println(e);
