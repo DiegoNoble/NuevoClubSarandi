@@ -1,5 +1,6 @@
 package com.club.views;
 
+import Utilidades.ControlarEntradaTexto;
 import Utilidades.Utilidades;
 import com.Renderers.MyDateCellRenderer;
 import com.Renderers.MyDefaultCellRenderer;
@@ -55,10 +56,11 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         buscaTodosLosRegistros();
         cargaComboBox();
         muestraContenidoTbl();
-
+        Character chs[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        txtCelular.setDocument(new ControlarEntradaTexto(9, chs));
     }
 
-     public SocioFrameCompleto(Boolean consulta) {
+    public SocioFrameCompleto(Boolean consulta) {
         initComponents();
 
         btnSeleccionaTitular.setVisible(false);
@@ -69,8 +71,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         btnEditar.setVisible(false);
         btnEliminar.setVisible(false);
         btnFoto.setVisible(false);
-        
-        
+
         parametros = new HashMap();
         DefineModeloTbl();
         buscaTodosLosRegistros();
@@ -78,7 +79,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         muestraContenidoTbl();
 
     }
-     
+
     public SocioFrameCompleto(DependienteFrameCompleto dependienteFrame) {
         initComponents();
 
@@ -253,6 +254,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         txtProfesion.setEditable(true);
         txtTelefono.setEditable(true);
         txtCelular.setEditable(true);
+        txtCelular.setEnabled(true);
         cbCobrador.setEnabled(true);
         cbSexo.setEnabled(true);
         cbSexo.setEditable(true);
@@ -928,6 +930,11 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         jPanel5.add(jLabel20, gridBagConstraints);
 
         txtCelular.setEditable(false);
+        txtCelular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCelularActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1403,6 +1410,11 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_btnHuellaActionPerformed
+
+    private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
+
+
+    }//GEN-LAST:event_txtCelularActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

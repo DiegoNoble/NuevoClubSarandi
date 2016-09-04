@@ -18,10 +18,11 @@ public class ConsultaCampanasSMSView extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl = new javax.swing.JTable();
+        tblCampañas = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSMS = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        btnActualizarRespuestas = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -41,7 +42,7 @@ public class ConsultaCampanasSMSView extends javax.swing.JInternalFrame {
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        tbl.setModel(new javax.swing.table.DefaultTableModel(
+        tblCampañas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -52,8 +53,8 @@ public class ConsultaCampanasSMSView extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(tbl);
+        tblCampañas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(tblCampañas);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -80,7 +81,7 @@ public class ConsultaCampanasSMSView extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -91,8 +92,16 @@ public class ConsultaCampanasSMSView extends javax.swing.JInternalFrame {
         jLabel2.setText("SMS enviados en la campaña seleccionada");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         jPanel3.add(jLabel2, gridBagConstraints);
+
+        btnActualizarRespuestas.setText("Actualizar respuestas de SMS");
+        btnActualizarRespuestas.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(btnActualizarRespuestas, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -126,6 +135,7 @@ public class ConsultaCampanasSMSView extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnActualizarRespuestas;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
@@ -134,7 +144,7 @@ public class ConsultaCampanasSMSView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     public javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JScrollPane jScrollPane2;
-    public javax.swing.JTable tbl;
+    public javax.swing.JTable tblCampañas;
     public javax.swing.JTable tblSMS;
     // End of variables declaration//GEN-END:variables
 

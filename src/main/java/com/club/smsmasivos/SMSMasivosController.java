@@ -5,6 +5,7 @@
  */
 package com.club.smsmasivos;
 
+import com.club.views.SMSMasivosView;
 import Utilidades.AjustaColumnas;
 import Utilidades.ControlarEntradaTexto;
 import Utilidades.ThreadEnviaSMS;
@@ -164,7 +165,7 @@ public class SMSMasivosController implements ActionListener {
 
         } else {
 
-            ThreadEnviaSMS envia = new ThreadEnviaSMS(view.txtNombreCampaña.getText(), view.txtMensaje.getText(), view.txtLog, view, listSociosSMS);
+            ThreadEnviaSMS envia = new ThreadEnviaSMS(view.txtNombreCampaña.getText(), view.txtMensaje.getText(), view.txtLog, view, listSociosSMS, view.chPrueba.isSelected());
             envia.execute();
         }
     }
@@ -182,17 +183,21 @@ public class SMSMasivosController implements ActionListener {
         switch (comando) {
 
             case "btnAgregar":
+                if (listSociosSMS.size() <= 500) {
+                    int[] indexSocios = view.tblSocios.getSelectedRows();
+                    for (int c : indexSocios) {
+                        Socio Socio = listSocios.get(c);
 
-                int[] indexSocios = view.tblSocios.getSelectedRows();
-                for (int c : indexSocios) {
-                    Socio Socio = listSocios.get(c);
+                        listSociosSMS.add(Socio);
 
-                    listSociosSMS.add(Socio);
+                    }
+                    listSocios.removeAll(listSociosSMS);
+                    tableModel.fireTableDataChanged();
+                    tableModelSociosSMS.fireTableDataChanged();
+                    view.txtCantidadSeleccionada.setText(String.valueOf(listSociosSMS.size()));
+                } else {
+                    JOptionPane.showMessageDialog(null, "El máximo de SMS por campaña son 500", "Atención", JOptionPane.INFORMATION_MESSAGE);
                 }
-                listSocios.removeAll(listSociosSMS);
-                tableModel.fireTableDataChanged();
-                tableModelSociosSMS.fireTableDataChanged();
-
                 break;
 
             case "btnQuitar":
@@ -205,6 +210,7 @@ public class SMSMasivosController implements ActionListener {
                 listSociosSMS.removeAll(listSocios);
                 tableModel.fireTableDataChanged();
                 tableModelSociosSMS.fireTableDataChanged();
+                view.txtCantidadSeleccionada.setText(String.valueOf(listSociosSMS.size()));
 
                 break;
 

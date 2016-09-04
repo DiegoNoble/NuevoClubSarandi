@@ -8,7 +8,7 @@ package com.club.smsmasivos;
 import com.club.BEANS.Parametros;
 import com.club.DAOs.ParametrosDAO;
 import org.apache.commons.httpclient.*;
-import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
 
 public class ConsultaRespuestasSMS {
 
@@ -16,28 +16,21 @@ public class ConsultaRespuestasSMS {
 
     public void ConsultaRespuestas() {
 
-        //Se inicia el objeto HTTP
         HttpClient client = new HttpClient();
 
         client.setStrictMode(true);
-//Se fija el tiempo m ́aximo de espera de la respuesta del servidor
         client.setTimeout(60000);
-//Se fija el tiempo m ́aximo de espera para conectar con el servidor
         client.setConnectionTimeout(5000);
-        PostMethod post = null;
-//Se fija la URL sobre la que enviar la petici ́on POST
-//Como ejemplo la petici ́on se env ́ıa a www.altiria.net/sustituirPOSTsms
-//Se debe reemplazar la cadena ’/sustituirPOSTsms’ por la parte correspondiente
-//de la URL suministrada por Altiria al dar de alta el servicio
-        post = new PostMethod("http://servicio.smsmasivos.com.ar/obtener_sms_entrada.asp?api=1");
-//Se fija la codificaci ́on de caracteres en la cabecera de la petici ́on
+        GetMethod get = null;
 
-        post.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+        get = new GetMethod("http://servicio.smsmasivos.com.ar/obtener_sms_entrada.asp?");
+        get.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+        GetMethod method = new GetMethod("example.com/page");
+        method.setQueryString(new NameValuePair[]{
+            new NameValuePair("key", "value")
+        });
+        NameValuePair[] parametersList = new NameValuePair[3];
 
-//Se crea la lista de par ́ametros a enviar en la petici ́on POST
-        NameValuePair[] parametersList = new NameValuePair[4];
-//XX, YY y ZZ se corresponden con los valores de identificaci ́on del
-//usuario en el sistema.
         parametrosDAO = new ParametrosDAO();
         Parametros parametros = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
         String usuario = parametros.getUsuario_SMS();
@@ -45,22 +38,19 @@ public class ConsultaRespuestasSMS {
 
         parametersList[0] = new NameValuePair("USUARIO", usuario);
         parametersList[1] = new NameValuePair("CLAVE", clave);
-        //Origen
-
-        //parametersList[3] = new NameValuePair("CLAVE", clave);
-        //parametersList[4] = new NameValuePair("USUARIO", usuario);
         parametersList[2] = new NameValuePair("TRAERIDINTERNO", "1");
-        parametersList[3] = new NameValuePair("ORIGEN", "91390000");
-//Se rellena el cuerpo de la peticion POST con los parametros
-        post.setRequestBody(parametersList);
+        /*parametersList[3] = new NameValuePair("ORIGEN", "91390000");
+         parametersList[4] = new NameValuePair("SOLONOLEIDOS", "1");
+         parametersList[5] = new NameValuePair("MARCARCOMOLEIDOS", "0");*/
+        get.setQueryString(parametersList);
         int httpstatus = 0;
         String response = null;
 
         try {
 //Se envıa la peticion
-            httpstatus = client.executeMethod(post);
+            httpstatus = client.executeMethod(get);
 //Se consigue la respuesta
-            response = post.getResponseBodyAsString();
+            response = get.getResponseBodyAsString();
 
         } catch (Exception e) {
             System.out.println(e);
@@ -69,7 +59,7 @@ public class ConsultaRespuestasSMS {
 
         } finally {
 //En cualquier caso se cierra la conexi ́on
-            post.releaseConnection();
+            get.releaseConnection();
         }
 //Habr ́a que prever posibles errores en la respuesta del servidor
         if (httpstatus != 200) {
@@ -79,6 +69,17 @@ public class ConsultaRespuestasSMS {
         } else {
 //Se procesa la respuesta capturada en la cadena ‘‘response’’
             System.out.println(response);
+
+            String[] columnDetail = new String[11];
+            columnDetail = response.split(System.lineSeparator());
+            for (String detalle : columnDetail) {
+                String[] camposIndividuales = new String[110];
+                camposIndividuales = detalle.split("\t");
+                for (String individuale : camposIndividuales) {
+                    System.out.println(individuale);
+                    
+                }
+            }
         }
 
     }

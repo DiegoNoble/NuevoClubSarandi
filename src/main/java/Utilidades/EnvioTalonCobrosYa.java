@@ -132,7 +132,7 @@ public class EnvioTalonCobrosYa {
 
 //token String32 Token de la API asignado a su cuenta
         //parametersList[0] = new NameValuePair("token", parametros.getTokenCobrosYa());
-        parametersList[0] = new NameValuePair("token", "b1358960412c70625eb7cd664dcb7318");
+        parametersList[0] = new NameValuePair("token", "a1ecdd664e419ee9e77e19e409242029");
 //id_transaccion String50 Identificador único de la transaccion en su sistema
         parametersList[1] = new NameValuePair("id_transaccion", mensualidad.getId().toString());
 //nombre String50 Nombre de la persona que va a efectuar el pago

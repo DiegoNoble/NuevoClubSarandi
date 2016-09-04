@@ -37,8 +37,8 @@ public class Campanasms implements Serializable {
     @Column(name = "fechacreacion")
     @Temporal(TemporalType.DATE)
     private Date fechacreacion;
-    @Column(name = "mensaje")
     private String nombre;
+    private String mensaje;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "campanasms", fetch = FetchType.EAGER)
     private List<Sms> smsList;
@@ -76,6 +76,14 @@ public class Campanasms implements Serializable {
 
     public void setSmsList(List<Sms> smsList) {
         this.smsList = smsList;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
     }
 
 }

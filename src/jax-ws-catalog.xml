@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://servicio.smsmasivos.com.ar/ws/SMSMasivosAPI.asmx?WSDL" uri="wsdl/servicio.smsmasivos.com.ar/ws/SMSMasivosAPI.asmx.wsdl"/>
+</catalog>

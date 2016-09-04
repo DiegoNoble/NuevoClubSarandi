@@ -1,4 +1,4 @@
-package com.club.smsmasivos;
+package com.club.views;
 
 public class SMSMasivosView extends javax.swing.JInternalFrame {
 
@@ -17,13 +17,15 @@ public class SMSMasivosView extends javax.swing.JInternalFrame {
 
         jPanel5 = new javax.swing.JPanel();
         btnEnviar = new javax.swing.JButton();
-        txtMensaje = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtLog = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         txtNombreCampaña = new javax.swing.JTextField();
+        chPrueba = new javax.swing.JCheckBox();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txtMensaje = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -35,6 +37,7 @@ public class SMSMasivosView extends javax.swing.JInternalFrame {
         btnAgregar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        txtCantidadSeleccionada = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
@@ -52,9 +55,8 @@ public class SMSMasivosView extends javax.swing.JInternalFrame {
 
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        btnEnviar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnEnviar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnEnviar.setText("ENVIAR");
-        btnEnviar.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -62,36 +64,28 @@ public class SMSMasivosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(btnEnviar, gridBagConstraints);
 
-        txtMensaje.setText("Mensaje");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 600;
-        gridBagConstraints.ipady = 30;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(txtMensaje, gridBagConstraints);
-
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
         jLabel4.setText("Log de envíos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         jPanel6.add(jLabel4, gridBagConstraints);
 
         txtLog.setColumns(20);
+        txtLog.setFont(new java.awt.Font("Monospaced", 0, 10)); // NOI18N
         txtLog.setRows(5);
+        txtLog.setEnabled(false);
         jScrollPane3.setViewportView(txtLog);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 250;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel6.add(jScrollPane3, gridBagConstraints);
@@ -117,6 +111,27 @@ public class SMSMasivosView extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtNombreCampaña, gridBagConstraints);
+
+        chPrueba.setSelected(true);
+        chPrueba.setText("Simular envío");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        jPanel5.add(chPrueba, gridBagConstraints);
+
+        txtMensaje.setColumns(20);
+        txtMensaje.setRows(5);
+        jScrollPane4.setViewportView(txtMensaje);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipady = 50;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel5.add(jScrollPane4, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -173,6 +188,7 @@ public class SMSMasivosView extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -213,6 +229,14 @@ public class SMSMasivosView extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel3.add(jLabel5, gridBagConstraints);
+
+        txtCantidadSeleccionada.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtCantidadSeleccionada.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.ipadx = 100;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(txtCantidadSeleccionada, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -302,6 +326,7 @@ public class SMSMasivosView extends javax.swing.JInternalFrame {
     public javax.swing.JButton btnQuitar;
     public javax.swing.JComboBox cbCategoria;
     public javax.swing.JComboBox cbSituacion;
+    public javax.swing.JCheckBox chPrueba;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -319,10 +344,12 @@ public class SMSMasivosView extends javax.swing.JInternalFrame {
     public javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     public javax.swing.JTable tblSocios;
     public javax.swing.JTable tblSociosSMS;
+    public javax.swing.JTextField txtCantidadSeleccionada;
     public javax.swing.JTextArea txtLog;
-    public javax.swing.JTextField txtMensaje;
+    public javax.swing.JTextArea txtMensaje;
     public javax.swing.JTextField txtNombreCampaña;
     // End of variables declaration//GEN-END:variables
 

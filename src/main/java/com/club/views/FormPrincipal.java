@@ -4,7 +4,6 @@ import com.club.BEANS.Usuario;
 import com.club.control.utilidades.data;
 import com.club.smsmasivos.ConsultaCampanaSMSController;
 import com.club.smsmasivos.SMSMasivosController;
-import com.club.smsmasivos.SMSMasivosView;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileOutputStream;

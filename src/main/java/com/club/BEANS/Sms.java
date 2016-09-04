@@ -40,6 +40,9 @@ public class Sms implements Serializable {
     private String mensaje;
     @Column(name = "respuesta")
     private String respuesta;
+    @Column(name = "fecha_respuesta")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha_respuesta;
     @Column(name = "status")
     private String status;
     @JoinColumn(name = "campanasms_id", referencedColumnName = "id")
@@ -106,6 +109,14 @@ public class Sms implements Serializable {
 
     public void setRespuesta(String respuesta) {
         this.respuesta = respuesta;
+    }
+
+    public Date getFecha_respuesta() {
+        return fecha_respuesta;
+    }
+
+    public void setFecha_respuesta(Date fecha_respuesta) {
+        this.fecha_respuesta = fecha_respuesta;
     }
 
 }

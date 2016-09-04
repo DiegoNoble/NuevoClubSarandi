@@ -18,7 +18,7 @@ import javax.swing.table.AbstractTableModel;
 public class CampanaTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Fecha creación", "Fecha", "Mensaje"};
+    private final String[] colunas = new String[]{"Fecha creación", "Nombre campaña", "Mensaje"};
     //lista para a manipulacao do objeto
     private List<Campanasms> listCamapanas;
 
@@ -50,9 +50,9 @@ public class CampanaTableModel extends AbstractTableModel {
             case 0:
                 return c.getFechacreacion();
             case 1:
-                return c.getFechacreacion();
-            case 2:
                 return c.getNombre();
+            case 2:
+                return c.getMensaje();
 
             default:
                 return null;
@@ -72,7 +72,7 @@ public class CampanaTableModel extends AbstractTableModel {
             case 0:
                 return Date.class;
             case 1:
-                return Date.class;
+                return String.class;
             case 2:
                 return String.class;
 
