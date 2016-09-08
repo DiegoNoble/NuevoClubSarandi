@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class SmsTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Socio", "Cel", "SMS", "Respuesta socio"};
+    private final String[] colunas = new String[]{"", "Sms", "Socio", "SMS", "Respuesta socio"};
     //lista para a manipulacao do objeto
     private List<Sms> listSms;
 
@@ -44,12 +44,14 @@ public class SmsTableModel extends AbstractTableModel {
         Sms c = listSms.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return c.getSocio().getId() + " " + c.getSocio().getNombre();
+                return rowIndex+1;
             case 1:
-                return c.getSocio().getCelular();
+                return c.getId();
             case 2:
-                return c.getStatus();
+                return c.getSocio().getId() + " " + c.getSocio().getNombre() + " " + c.getSocio().getCelular();
             case 3:
+                return c.getStatus();
+            case 4:
                 return c.getRespuesta();
             default:
                 return null;
@@ -67,12 +69,14 @@ public class SmsTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return String.class;
+                return Integer.class;
             case 1:
-                return String.class;
+                return Integer.class;
             case 2:
                 return String.class;
             case 3:
+                return String.class;
+            case 4:
                 return String.class;
             default:
                 return null;

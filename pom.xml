@@ -60,6 +60,7 @@
                 </executions>  
             </plugin>
             <plugin>
+                
                 <groupId>org.jvnet.jax-ws-commons</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
                 <version>2.3</version>
@@ -69,6 +70,9 @@
                             <goal>wsimport</goal>
                         </goals>
                         <configuration>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
                             <wsdlFiles>
                                 <wsdlFile>servicio.smsmasivos.com.ar/ws/SMSMasivosAPI.asmx.wsdl</wsdlFile>
                             </wsdlFiles>
@@ -94,6 +98,8 @@
                     <extension>true</extension>
                     <catalog>${basedir}/src/jax-ws-catalog.xml</catalog>
                 </configuration>
+                
+                    
             </plugin>
         </plugins>  
   
@@ -251,5 +257,6 @@
             <artifactId>MisBotones</artifactId>
             <version>SNAPSHOT</version>
         </dependency>
+        
     </dependencies>
 </project>

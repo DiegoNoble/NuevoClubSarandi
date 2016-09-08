@@ -2,7 +2,6 @@ package com.club.views;
 
 import com.club.BEANS.Usuario;
 import com.club.control.utilidades.data;
-import com.club.smsmasivos.ConsultaCampanaSMSController;
 import com.club.smsmasivos.SMSMasivosController;
 import java.beans.PropertyVetoException;
 import java.io.File;
@@ -14,6 +13,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
+import smsmasivos.ConsultaCampanaSMSController;
 
 public class FormPrincipal extends javax.swing.JFrame {
 

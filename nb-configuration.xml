@@ -14,6 +14,6 @@ That way multiple projects can share the same settings (useful for formatting ru
 Any value defined here will override the pom.xml file value but is only applicable to the current project.
 -->
         <org-netbeans-modules-maven-jaxws._5f_C_5f_SMSMasivosAPI_2e_asmx_5f_1>http://servicio.smsmasivos.com.ar/ws/SMSMasivosAPI.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_SMSMasivosAPI_2e_asmx_5f_1>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_SMSMasivosAPI_2e_asmx>http://servicio.smsmasivos.com.ar/ws/SMSMasivosAPI.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_SMSMasivosAPI_2e_asmx>
+        <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
     </properties>
 </project-shared-configuration>
