@@ -32,6 +32,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemUsuariosActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuItemUsuarios1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Parametros"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemUsuarios1ActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuItemSalir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir" noResource="true"/>
@@ -339,10 +347,18 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Consulta campa&#xf1;as"/>
+                <Property name="text" type="java.lang.String" value="Recibe respuestas SMS"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo4ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo5">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Consulta campa&#xf1;as"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo5ActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

@@ -20,6 +20,7 @@
     <class>com.club.BEANS.Parametros</class>
     <class>com.club.BEANS.Campanasms</class>
     <class>com.club.BEANS.Sms</class>
+    <class>com.club.BEANS.RespuestaSMS</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/club_sarandi"/>
       <property name="javax.persistence.jdbc.password" value="dieguito"/>

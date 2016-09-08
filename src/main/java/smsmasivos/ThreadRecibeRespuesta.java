@@ -6,12 +6,15 @@
 package smsmasivos;
 
 import com.club.BEANS.Campanasms;
+import com.club.BEANS.Parametros;
+import com.club.BEANS.RespuestaSMS;
 import com.club.BEANS.Sms;
+import com.club.DAOs.RespuestaSmsDAO;
 import com.club.DAOs.SmsDAO;
-import com.club.sms.webservice.ArrayOfClsRespuesta;
-import com.club.sms.webservice.ClsRespuesta;
-import com.club.sms.webservice.SMSMasivosAPI;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JInternalFrame;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
@@ -25,51 +28,70 @@ public class ThreadRecibeRespuesta extends SwingWorker<Void, Void> {
     private final JTextArea txtStatus;
     private JInternalFrame view;
     private Campanasms campanasms;
+    private Parametros parametros;
+    Boolean soloNoLeidos;
+    Boolean marcarComoLeidos;
     SmsDAO smsDAO;
-    int respuestas = 0;
+    RespuestaSmsDAO respuestaSmsDAO;
+    int respuestas = 1;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 
-    public ThreadRecibeRespuesta(JTextArea txtStatus, JInternalFrame view, Campanasms campanasms) {
+    public ThreadRecibeRespuesta(JTextArea txtStatus, JInternalFrame view, Campanasms campanasms, Parametros parametros, Boolean soloNoLeidos, Boolean marcarComoLeidos) {
         this.txtStatus = txtStatus;
         this.campanasms = campanasms;
+        this.parametros = parametros;
+        this.soloNoLeidos = soloNoLeidos;
+        this.marcarComoLeidos = marcarComoLeidos;
         this.view = view;
-    }
-
-    public int actualizaRespuestas(String origen, int nroRespuesta) throws Exception {
-        SMSMasivosAPI ws = new SMSMasivosAPI();
-        ArrayOfClsRespuesta recibirSMS = ws.getSMSMasivosAPISoap().recibirSMS("DIEGONOBLE", "DIEGONOBLE512", origen, Boolean.TRUE, Boolean.FALSE);
-        List<ClsRespuesta> clsRespuesta = recibirSMS.getClsRespuesta();
-
-        for (ClsRespuesta respuesta : clsRespuesta) {
-
-            smsDAO = new SmsDAO();
-            Sms sms = smsDAO.BuscarPorId(Integer.valueOf(respuesta.getIdinterno()));
-            sms.setRespuesta(respuesta.getTexto());
-            sms.setFecha_respuesta(respuesta.getFecha().toGregorianCalendar().getTime());
-            smsDAO = new SmsDAO();
-            smsDAO.Actualizar(sms);
-
-            this.txtStatus.append("\n");
-            this.txtStatus.append("Respuesta nro: " + nroRespuesta);
-            
-            this.txtStatus.append("\n");
-            this.txtStatus.append("Socio " + sms.getSocio() + " " + sms.getSocio().getCelular() + " " + sms.getRespuesta());
-            this.txtStatus.setCaretPosition(this.txtStatus.getDocument().getLength());
-        }
-        return clsRespuesta.size();
     }
 
     @Override
     protected Void doInBackground() throws Exception {
 
-        
         this.txtStatus.append("Procesando respuestas, aguarde un momento...\n");
-        smsDAO = new SmsDAO();
-        List<Sms> listSmsCampañaSeleccionada = smsDAO.BuscarPorCampaña(campanasms);
 
-        for (Sms sms : listSmsCampañaSeleccionada) {
-            respuestas += actualizaRespuestas(sms.getSocio().getCelular(), respuestas);
-            this.txtStatus.append("\n");
+        SMSMasivosAPI ws = new SMSMasivosAPI();
+        ArrayOfClsRespuesta verificaTotos = ws.getSMSMasivosAPISoap().recibirSMS(parametros.getUsuario_SMS(), parametros.getPsw_SMS(), "", soloNoLeidos, Boolean.FALSE);
+        List<ClsRespuesta> todos = verificaTotos.getClsRespuesta();
+
+        Map<Long, String> numeros = new HashMap<>();
+        for (ClsRespuesta res : todos) {
+            numeros.put(res.getNumero(), res.getIdinterno());
+        }
+        for (Map.Entry<Long, String> valores : numeros.entrySet()) {
+
+            ArrayOfClsRespuesta recibirSMS = ws.getSMSMasivosAPISoap().recibirSMS(parametros.getUsuario_SMS(), parametros.getPsw_SMS(), String.valueOf(valores.getKey()), soloNoLeidos, marcarComoLeidos);
+            List<ClsRespuesta> clsRespuesta = recibirSMS.getClsRespuesta();
+
+            smsDAO = new SmsDAO();
+            Sms sms = smsDAO.BuscarPorId(Integer.parseInt(valores.getValue()));
+
+            smsDAO = new SmsDAO();
+            sms.setRespondido(true);
+            smsDAO.Actualizar(sms);
+            
+            this.txtStatus.append("\n-------------------------------\n");
             this.txtStatus.append("SMS id: " + sms.getId());
+            this.txtStatus.append("\n");
+            this.txtStatus.append("Socio " + sms.getSocio() + " " + sms.getSocio().getCelular());
+
+            for (ClsRespuesta respuesta : clsRespuesta) {
+                respuestas++;
+
+                RespuestaSMS respuestaSMS = new RespuestaSMS();
+                respuestaSMS.setId(respuesta.getIdsms());
+                respuestaSMS.setSms(sms);
+                respuestaSMS.setFecha_respuesta(respuesta.getFecha().toGregorianCalendar().getTime());
+                respuestaSMS.setRespuesta(respuesta.getTexto());
+                respuestaSmsDAO = new RespuestaSmsDAO();
+                respuestaSmsDAO.SalvarOActualizar(respuestaSMS);
+
+//                this.txtStatus.append("Respuesta nro: " + respuestas);
+                this.txtStatus.append("\n");
+                this.txtStatus.append("Fecha: " + dateFormat.format(respuestaSMS.getFecha_respuesta()) + " Responde: " + respuestaSMS.getRespuesta());
+                //              this.txtStatus.append("\n");
+                this.txtStatus.setCaretPosition(this.txtStatus.getDocument().getLength());
+            }
 
         }
 

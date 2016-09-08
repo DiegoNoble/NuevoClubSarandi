@@ -15,5 +15,6 @@ Any value defined here will override the pom.xml file value but is only applicab
 -->
         <org-netbeans-modules-maven-jaxws._5f_C_5f_SMSMasivosAPI_2e_asmx_5f_1>http://servicio.smsmasivos.com.ar/ws/SMSMasivosAPI.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_SMSMasivosAPI_2e_asmx_5f_1>
         <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
+        <org-netbeans-modules-whitelist.whitelist-oracle>false</org-netbeans-modules-whitelist.whitelist-oracle>
     </properties>
 </project-shared-configuration>

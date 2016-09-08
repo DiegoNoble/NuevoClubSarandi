@@ -7,6 +7,7 @@ package com.club.BEANS;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,21 +38,15 @@ public class Sms implements Serializable {
     @Column(name = "fechahoraemision")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechahoraemision;
-    @Column(name = "mensaje")
-    private String mensaje;
-    @Column(name = "respuesta")
-    private String respuesta;
-    @Column(name = "fecha_respuesta")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha_respuesta;
     @Column(name = "status")
     private String status;
     @JoinColumn(name = "campanasms_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Campanasms campanasms;
     @JoinColumn(name = "socio_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Socio socio;
+    private Boolean respondido;
 
     public Sms() {
     }
@@ -96,28 +91,34 @@ public class Sms implements Serializable {
         this.status = status;
     }
 
-    public String getMensaje() {
-        return mensaje;
+    public Boolean getRespondido() {
+        return respondido;
     }
 
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
+    public void setRespondido(Boolean respondido) {
+        this.respondido = respondido;
     }
 
-    public String getRespuesta() {
-        return respuesta;
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        return hash;
     }
 
-    public void setRespuesta(String respuesta) {
-        this.respuesta = respuesta;
-    }
-
-    public Date getFecha_respuesta() {
-        return fecha_respuesta;
-    }
-
-    public void setFecha_respuesta(Date fecha_respuesta) {
-        this.fecha_respuesta = fecha_respuesta;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Sms other = (Sms) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 
 }

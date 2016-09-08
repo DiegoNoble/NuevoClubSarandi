@@ -25,7 +25,7 @@
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
-        <plugins>  
+ <plugins>  
             <plugin>  
                 <groupId>org.apache.maven.plugins</groupId>  
                 <artifactId>maven-jar-plugin</artifactId>  
@@ -35,10 +35,10 @@
                         <manifest>  
                             <addClasspath>true</addClasspath>  
                             <classpathPrefix>lib/</classpathPrefix>  
-                            <mainClass>com.club.views.frameLogin</mainClass>  
+                            <mainClass>com.club.main.Main</mainClass>  
                         </manifest>  
                         <manifestEntries>
-                            <SplashScreen-Image>splash1.jpg</SplashScreen-Image>
+                            <SplashScreen-Image>splash1.png</SplashScreen-Image>
                         </manifestEntries>
                     </archive>  
                 </configuration>  
@@ -58,12 +58,12 @@
                         </configuration>  
                     </execution>  
                 </executions>  
-            </plugin>
+            </plugin> 
             <plugin>
                 
                 <groupId>org.jvnet.jax-ws-commons</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -101,7 +101,7 @@
                 
                     
             </plugin>
-        </plugins>  
+        </plugins>   
   
     </build>
     <repositories>

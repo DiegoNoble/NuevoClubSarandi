@@ -3,12 +3,6 @@ package com.club.views;
 import com.club.BEANS.Usuario;
 import com.club.DAOs.UsuarioDAO;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -33,28 +27,7 @@ public class frameLogin extends javax.swing.JFrame {
 
     }
 
-    private static void setLogs() throws IOException {
-        Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy hh'h'mm'm'ss");
-        String agora = format.format(date);
-
-        File out = new File("logs/System.out");
-        File err = new File("logs/System.err");
-        if (!out.exists()) {
-            out.mkdirs();
-        }
-        if (!err.exists()) {
-            err.mkdirs();
-        }
-
-        System.setOut(
-                new PrintStream(
-                        new FileOutputStream("logs/System.out/" + agora + ".txt", true)));
-
-        System.setErr(
-                new PrintStream(
-                        new FileOutputStream("logs/System.err/" + agora + ".txt", true)));
-    }
+   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -112,6 +85,7 @@ public class frameLogin extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(jLabel4, gridBagConstraints);
 
+        txtNombre.setText("diego");
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtNombreKeyPressed(evt);
@@ -125,6 +99,7 @@ public class frameLogin extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(txtNombre, gridBagConstraints);
 
+        txtPass.setText("27152");
         txtPass.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtPassMouseClicked(evt);
@@ -258,30 +233,7 @@ public class frameLogin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-
-                try {
-                    //setLogs();
-                    //Properties props = new Properties();
-                    //props.put("logoString", "my company");
-                    //props.put("licenseKey", "INSERT YOUR LICENSE KEY HERE");
-                    frameLogin login = new frameLogin();
-                    //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-                   UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-                    SwingUtilities.updateComponentTreeUI(login);
-                    login.setVisible(true);
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error al iniciar" + ex, "Error", JOptionPane.ERROR_MESSAGE);
-                }
-
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOk;

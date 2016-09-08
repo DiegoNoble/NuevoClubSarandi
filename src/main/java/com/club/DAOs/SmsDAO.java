@@ -26,7 +26,7 @@ public class SmsDAO extends DaoGenerico {
     }
 
     public List<Sms> BuscarPorCampaña(Campanasms campanasms) {
-        Query qr = em.createQuery("from Sms s join fetch s.socio where s.campanasms = ?1 order by s.respuesta desc");
+        Query qr = em.createQuery("from Sms s join fetch s.socio where s.campanasms = ?1 order by s.respondido desc");
         qr.setParameter(1, campanasms);
         List<Sms> toReturn = qr.getResultList();
         em.getTransaction().commit();
@@ -34,4 +34,13 @@ public class SmsDAO extends DaoGenerico {
         return toReturn;
     }
 
+    public Sms BuscarCelYCampaña(String nro, Campanasms campanasms) {
+        Query qr = em.createQuery("from Sms s join fetch s.socio where s.socio.celular = ?1 and s.campanasms = ?2");
+        qr.setParameter(1, nro);
+        qr.setParameter(2, campanasms);
+        Sms toReturn = (Sms) qr.getSingleResult();
+        em.getTransaction().commit();
+        em.close();
+        return toReturn;
+    }
 }

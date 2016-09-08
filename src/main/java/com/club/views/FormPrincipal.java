@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
-import smsmasivos.ConsultaCampanaSMSController;
+import smsmasivos.RecibeRespuestasSMSController;
 
 public class FormPrincipal extends javax.swing.JFrame {
 
@@ -165,6 +165,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuSistema = new javax.swing.JMenu();
         mnuItemUsuarios = new javax.swing.JMenuItem();
+        mnuItemUsuarios1 = new javax.swing.JMenuItem();
         mnuItemSalir = new javax.swing.JMenuItem();
         mnuRegistros = new javax.swing.JMenu();
         mnuItemSocios = new javax.swing.JMenuItem();
@@ -198,6 +199,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuArqueo1 = new javax.swing.JMenu();
         mnuItemArqueo3 = new javax.swing.JMenuItem();
         mnuItemArqueo4 = new javax.swing.JMenuItem();
+        mnuItemArqueo5 = new javax.swing.JMenuItem();
         mnuAyuda = new javax.swing.JMenu();
         mnuItemSobre = new javax.swing.JMenuItem();
 
@@ -370,6 +372,14 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
         mnuSistema.add(mnuItemUsuarios);
+
+        mnuItemUsuarios1.setText("Parametros");
+        mnuItemUsuarios1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemUsuarios1ActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(mnuItemUsuarios1);
 
         mnuItemSalir.setText("Salir"); // NOI18N
         mnuItemSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -613,13 +623,21 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         mnuArqueo1.add(mnuItemArqueo3);
 
-        mnuItemArqueo4.setText("Consulta campañas");
+        mnuItemArqueo4.setText("Recibe respuestas SMS");
         mnuItemArqueo4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuItemArqueo4ActionPerformed(evt);
             }
         });
         mnuArqueo1.add(mnuItemArqueo4);
+
+        mnuItemArqueo5.setText("Consulta campañas");
+        mnuItemArqueo5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemArqueo5ActionPerformed(evt);
+            }
+        });
+        mnuArqueo1.add(mnuItemArqueo5);
 
         jMenuBar1.add(mnuArqueo1);
 
@@ -1042,10 +1060,25 @@ public class FormPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemArqueo3ActionPerformed
 
     private void mnuItemArqueo4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo4ActionPerformed
-        ConsultaCampanasSMSView consulta = new ConsultaCampanasSMSView();
-        ConsultaCampanaSMSController controller = new ConsultaCampanaSMSController(consulta, jDesktopPane1);
+        RecibeRespuestasSMSView consulta = new RecibeRespuestasSMSView();
+        RecibeRespuestasSMSController controller = new RecibeRespuestasSMSController(consulta, jDesktopPane1);
         controller.go();
     }//GEN-LAST:event_mnuItemArqueo4ActionPerformed
+
+    private void mnuItemUsuarios1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemUsuarios1ActionPerformed
+
+        ParametrosView parametrosView = new ParametrosView();
+        jDesktopPane1.add(parametrosView);
+        parametrosView.setVisible(true);
+        parametrosView.toFront();
+    }//GEN-LAST:event_mnuItemUsuarios1ActionPerformed
+
+    private void mnuItemArqueo5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo5ActionPerformed
+        ConsultaRespuestasCamapanSMSView camapanSMSView = new ConsultaRespuestasCamapanSMSView();
+        jDesktopPane1.add(camapanSMSView);
+        camapanSMSView.setVisible(true);
+        camapanSMSView.toFront();
+    }//GEN-LAST:event_mnuItemArqueo5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1080,6 +1113,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemArqueo2;
     private javax.swing.JMenuItem mnuItemArqueo3;
     private javax.swing.JMenuItem mnuItemArqueo4;
+    private javax.swing.JMenuItem mnuItemArqueo5;
     private javax.swing.JMenuItem mnuItemCaja;
     private javax.swing.JMenuItem mnuItemCategoria;
     private javax.swing.JMenuItem mnuItemCategoria1;
@@ -1100,6 +1134,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemSobre;
     private javax.swing.JMenuItem mnuItemSocios;
     private javax.swing.JMenuItem mnuItemUsuarios;
+    private javax.swing.JMenuItem mnuItemUsuarios1;
     private javax.swing.JMenu mnuMensualidades;
     private javax.swing.JMenu mnuRegistros;
     private javax.swing.JMenu mnuSistema;

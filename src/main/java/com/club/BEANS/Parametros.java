@@ -33,12 +33,6 @@ public class Parametros implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "url_base_datos_remota")
-    private String urlBaseDatosRemota;
-    @Column(name = "usuario_base_remota")
-    private String usuarioBD;
-    @Column(name = "psw_base_remota")
-    private String pswBD;
     @Column(name = "url_post_cobrosya")
     private String urlPostCobrosYa;
     @Column(name = "token_cobrosya")
@@ -47,8 +41,6 @@ public class Parametros implements Serializable {
     private String psw_email;
     private String usuario_SMS;
     private String psw_SMS;
-    
-    
 
     public Parametros() {
     }
@@ -59,30 +51,6 @@ public class Parametros implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getUrlBaseDatosRemota() {
-        return urlBaseDatosRemota;
-    }
-
-    public void setUrlBaseDatosRemota(String urlBaseDatosRemota) {
-        this.urlBaseDatosRemota = urlBaseDatosRemota;
-    }
-
-    public String getUsuarioBD() {
-        return usuarioBD;
-    }
-
-    public void setUsuarioBD(String usuarioBD) {
-        this.usuarioBD = usuarioBD;
-    }
-
-    public String getPswBD() {
-        return pswBD;
-    }
-
-    public void setPswBD(String pswBD) {
-        this.pswBD = pswBD;
     }
 
     public String getUrlPostCobrosYa() {
