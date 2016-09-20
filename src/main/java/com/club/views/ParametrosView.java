@@ -1,7 +1,10 @@
 package com.club.views;
 
+import com.club.BEANS.Cobrador;
 import com.club.BEANS.Parametros;
+import com.club.DAOs.CobradorDAO;
 import com.club.DAOs.ParametrosDAO;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,13 +22,23 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     }
 
     private void inicio() {
+        comboCobradores();
         txtEmail.setText(parametros.getCasilla_email());
         txtPswEmail.setText(parametros.getPsw_email());
         txtPswSms.setText(parametros.getPsw_SMS());
         txtTokenCobrosYa.setText(parametros.getTokenCobrosYa());
         txtUrlPost.setText(parametros.getUrlPostCobrosYa());
         txtUsuarioSMS.setText(parametros.getUsuario_SMS());
+        cbCobrosYa.setSelectedItem(parametros.getCobradorCobrosYa());
+    }
 
+    void comboCobradores() {
+        cbCobrosYa.removeAllItems();
+        CobradorDAO cobradorDAO = new CobradorDAO();
+        List<Cobrador> cobradores = cobradorDAO.BuscaTodos(Cobrador.class);
+        for (Cobrador cobrador : cobradores) {
+            cbCobrosYa.addItem(cobrador);
+        }
     }
 
     private void habilitaCampos() {
@@ -36,9 +49,11 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtTokenCobrosYa.setEnabled(true);
         txtUrlPost.setEnabled(true);
         txtUsuarioSMS.setEnabled(true);
+        cbCobrosYa.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnGuardar.setEnabled(true);
         btnEditar.setEnabled(false);
+        
 
     }
 
@@ -49,6 +64,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtTokenCobrosYa.setEnabled(false);
         txtUrlPost.setEnabled(false);
         txtUsuarioSMS.setEnabled(false);
+        cbCobrosYa.setEnabled(false);
         btnCancelar.setEnabled(false);
         btnGuardar.setEnabled(false);
         btnEditar.setEnabled(true);
@@ -75,6 +91,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         txtPswEmail = new javax.swing.JTextField();
         txtPswSms = new javax.swing.JTextField();
+        cbCobrosYa = new javax.swing.JComboBox();
+        jLabel12 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -111,7 +129,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtTokenCobrosYa.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -141,7 +159,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtUrlPost.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -150,14 +168,14 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         jLabel7.setText("Token CobrosYa");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel7, gridBagConstraints);
 
         jLabel9.setText("URL Post CobrosYA");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel9, gridBagConstraints);
 
@@ -199,6 +217,21 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtPswSms, gridBagConstraints);
+
+        cbCobrosYa.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbCobrosYa, gridBagConstraints);
+
+        jLabel12.setText("Cobrador CobrosYa");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel12, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -269,6 +302,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
             parametros.setTokenCobrosYa(txtTokenCobrosYa.getText());
             parametros.setUrlPostCobrosYa(txtUrlPost.getText());
             parametros.setUsuario_SMS(txtUsuarioSMS.getText());
+            parametros.setCobradorCobrosYa((Cobrador) cbCobrosYa.getSelectedItem());
             parametrosDAO = new ParametrosDAO();
             parametrosDAO.Actualizar(parametros);
         } catch (Exception ex) {
@@ -286,9 +320,11 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox cbCobrosYa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;

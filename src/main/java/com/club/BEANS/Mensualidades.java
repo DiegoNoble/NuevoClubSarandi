@@ -26,6 +26,7 @@ import javax.persistence.TemporalType;
 @Table(name = "tbmensualidades")
 
 public class Mensualidades implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +52,7 @@ public class Mensualidades implements Serializable {
     @JoinColumn(name = "ID_COBRADOR", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Cobrador cobrador;
-    private Boolean enviaTalonCobrosYa = false;
+    private Boolean enviado = false;
     private String situacionTalonCobrosYa;
     @Column(name = "nro_talon")
     private String nroTalonCobrosYa;
@@ -88,7 +89,6 @@ public class Mensualidades implements Serializable {
         this.id = id;
     }
 
-    
     public Double getValor() {
         return valor;
     }
@@ -145,12 +145,12 @@ public class Mensualidades implements Serializable {
         this.cobrador = cobrador;
     }
 
-    public Boolean getEnviaTalonCobrosYa() {
-        return enviaTalonCobrosYa;
+    public Boolean getEnviado() {
+        return enviado;
     }
 
-    public void setEnviaTalonCobrosYa(Boolean enviaTalonCobrosYa) {
-        this.enviaTalonCobrosYa = enviaTalonCobrosYa;
+    public void setEnviado(Boolean enviado) {
+        this.enviado = enviado;
     }
 
     public String getSituacionTalonCobrosYa() {
@@ -192,8 +192,6 @@ public class Mensualidades implements Serializable {
     public void setFechaHoraTransaccionCobrosYa(Date fechaHoraTransaccionCobrosYa) {
         this.fechaHoraTransaccionCobrosYa = fechaHoraTransaccionCobrosYa;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -217,6 +215,4 @@ public class Mensualidades implements Serializable {
         return true;
     }
 
-    
-  
 }

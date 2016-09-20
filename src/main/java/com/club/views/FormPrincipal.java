@@ -187,6 +187,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemRecibos = new javax.swing.JMenuItem();
         mnuItemPagos = new javax.swing.JMenuItem();
         mnuItemRecibos1 = new javax.swing.JMenuItem();
+        mnuItemRecibos2 = new javax.swing.JMenuItem();
         mnuArqueo = new javax.swing.JMenu();
         mnuItemArqueo = new javax.swing.JMenuItem();
         mnuHabilitacionMedica = new javax.swing.JMenu();
@@ -542,6 +543,14 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
         mnuMensualidades.add(mnuItemRecibos1);
+
+        mnuItemRecibos2.setText("Cobros Ya");
+        mnuItemRecibos2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemRecibos2ActionPerformed(evt);
+            }
+        });
+        mnuMensualidades.add(mnuItemRecibos2);
 
         jMenuBar1.add(mnuMensualidades);
 
@@ -1080,6 +1089,13 @@ public class FormPrincipal extends javax.swing.JFrame {
         camapanSMSView.toFront();
     }//GEN-LAST:event_mnuItemArqueo5ActionPerformed
 
+    private void mnuItemRecibos2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemRecibos2ActionPerformed
+        GeneraTalonCobrosYa cobrosYa = new GeneraTalonCobrosYa();
+        jDesktopPane1.add(cobrosYa);
+        cobrosYa.setVisible(true);
+        cobrosYa.toFront();
+    }//GEN-LAST:event_mnuItemRecibos2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCaja;
@@ -1130,6 +1146,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemPagos;
     private javax.swing.JMenuItem mnuItemRecibos;
     private javax.swing.JMenuItem mnuItemRecibos1;
+    private javax.swing.JMenuItem mnuItemRecibos2;
     private javax.swing.JMenuItem mnuItemSalir;
     private javax.swing.JMenuItem mnuItemSobre;
     private javax.swing.JMenuItem mnuItemSocios;

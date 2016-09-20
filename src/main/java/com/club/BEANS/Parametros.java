@@ -16,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -41,6 +43,9 @@ public class Parametros implements Serializable {
     private String psw_email;
     private String usuario_SMS;
     private String psw_SMS;
+    @JoinColumn(name = "idcobrador", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Cobrador cobradorCobrosYa;
 
     public Parametros() {
     }
@@ -101,6 +106,12 @@ public class Parametros implements Serializable {
         this.psw_SMS = psw_SMS;
     }
 
-   
+    public Cobrador getCobradorCobrosYa() {
+        return cobradorCobrosYa;
+    }
+
+    public void setCobradorCobrosYa(Cobrador cobradorCobrosYa) {
+        this.cobradorCobrosYa = cobradorCobrosYa;
+    }
 
 }

@@ -142,4 +142,17 @@ public class MensualidadesDAO extends DaoGenerico {
 
     }
 
+    public List<Mensualidades> BuscaPorCobradorSituacion(Cobrador cobrador, String situcion) {
+
+        List<Mensualidades> toReturn = null;
+
+        Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.socio.Cobrador =:cobrador and m.pago =:situcion");
+        qr.setParameter("cobrador", cobrador);
+        qr.setParameter("situcion", situcion);
+        toReturn = qr.getResultList();
+
+        return toReturn;
+
+    }
+
 }

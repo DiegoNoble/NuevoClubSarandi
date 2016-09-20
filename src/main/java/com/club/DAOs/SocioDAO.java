@@ -62,6 +62,30 @@ public class SocioDAO extends DaoGenerico {
 
     }
 
+    public Socio BuscaPorCodigoYCobrador(String codigo, Cobrador cobrador) {
+
+        Query qr = em.createQuery("from Socio s where s.id = ?1 and s.Cobrador = ?2");
+        qr.setParameter(1, Integer.parseInt(codigo));
+        qr.setParameter(2, cobrador);
+        Socio toReturn = (Socio) qr.getSingleResult();
+        em.getTransaction().commit();
+        em.close();
+        return toReturn;
+
+    }
+    
+    public List<Socio> BuscaPorNombreYCobrador(String name, Cobrador cobrador) {
+
+        Query qr = em.createQuery("from Socio s where s.nombre like ?1 and s.Cobrador = ?2");
+        qr.setParameter(1, "%" + name + "%");
+        qr.setParameter(2, cobrador);
+        List<Socio> toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return toReturn;
+
+    }
+
     public boolean VerificaCI(String CI) {
         boolean exists = false;
         Query qr = em.createQuery("from Socio socio where socio.ci = ?1");
@@ -129,7 +153,7 @@ public class SocioDAO extends DaoGenerico {
     public List BuscaPorCategoriaSituacionConCelular(Categoria categoria, String situacion) {
         Query qr = em.createQuery("from Socio s where s.Categoria = ?1 and s.situacion = ?2 and s.celular <> ''");
         qr.setParameter(1, categoria);
-        qr.setParameter(2,situacion);
+        qr.setParameter(2, situacion);
         List<Socio> toReturn = qr.getResultList();
         em.getTransaction().commit();
         em.close();

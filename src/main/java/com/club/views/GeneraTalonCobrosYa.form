@@ -88,6 +88,7 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
                 </Property>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Nombre"/>
               </Properties>
             </Component>
@@ -116,66 +117,34 @@
             <Component class="javax.swing.JTable" name="tblSocio">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="0">
-                    <Column editable="false" title="C&#xf3;digo" type="java.lang.Integer"/>
-                    <Column editable="false" title="Nombre" type="java.lang.String"/>
-                    <Column editable="false" title="C.I." type="java.lang.Object"/>
-                    <Column editable="false" title="Fecha Ingreso" type="java.lang.String"/>
-                    <Column editable="false" title="Fecha Nacimiento" type="java.lang.String"/>
-                    <Column editable="false" title="Categoria" type="java.lang.Object"/>
-                    <Column editable="false" title="Situaci&#xf3;n" type="java.lang.String"/>
+                  <Table columnCount="4" rowCount="3">
+                    <Column editable="true" title="Title 1" type="java.lang.Object"/>
+                    <Column editable="true" title="Title 2" type="java.lang.Object"/>
+                    <Column editable="true" title="Title 3" type="java.lang.Object"/>
+                    <Column editable="true" title="Title 4" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="10" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
-                      <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                        <Connection code="new MyDefaultCellRenderer()" type="code"/>
-                      </Renderer>
+                      <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
-                      <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                        <Connection code="new MyDefaultCellRenderer()" type="code"/>
-                      </Renderer>
+                      <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
-                      <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                        <Connection code="new MyDefaultCellRenderer()" type="code"/>
-                      </Renderer>
+                      <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
-                      <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                        <Connection code="new MyDateCellRenderer()" type="code"/>
-                      </Renderer>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                        <Connection code="new MyDateCellRenderer()" type="code"/>
-                      </Renderer>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                        <Connection code="new MyDefaultCellRenderer()" type="code"/>
-                      </Renderer>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="30" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                        <Connection code="new MyDefaultCellRenderer()" type="code"/>
-                      </Renderer>
+                      <Renderer/>
                     </Column>
                   </TableColumnModel>
                 </Property>
@@ -261,64 +230,34 @@
                 <Component class="javax.swing.JTable" name="tblMensualidades">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="7" rowCount="0">
-                        <Column editable="false" title="Nro. Recibo" type="java.lang.Integer"/>
-                        <Column editable="false" title="Tal&#xf3;n online" type="java.lang.Object"/>
-                        <Column editable="false" title="Fecha de Vencimiento" type="java.lang.Object"/>
-                        <Column editable="false" title="Fecha de Pago" type="java.lang.Object"/>
-                        <Column editable="false" title="Cobrador" type="java.lang.Object"/>
-                        <Column editable="false" title="Estado" type="java.lang.Object"/>
-                        <Column editable="false" title="Valor" type="java.lang.Object"/>
+                      <Table columnCount="4" rowCount="3">
+                        <Column editable="true" title="Title 1" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 2" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 3" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 4" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="5" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new MyDefaultCellRenderer()" type="code"/>
-                          </Renderer>
-                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title value="Tal&#xf3;n online"/>
+                          <Title/>
                           <Editor/>
                           <Renderer/>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new MyDateCellRenderer()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new MyDateCellRenderer()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new MyDefaultCellRenderer()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="30" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new MyDefaultCellRenderer()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="30" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new MyDefaultCellRenderer()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
                       </TableColumnModel>
                     </Property>
@@ -347,21 +286,30 @@
         <Property name="alignment" type="int" value="2"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="btnAnularRecibo">
+        <Component class="javax.swing.JButton" name="btnEnviarTalonCobrosYa">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Anular Recibo"/>
+            <Property name="text" type="java.lang.String" value="Enviar tal&#xf3;n Cobros Ya"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnularReciboActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarTalonCobrosYaActionPerformed"/>
           </Events>
         </Component>
-        <Component class="org.jasper.viewer.components.JasperRunnerButton" name="btnCarneSocio">
+        <Component class="javax.swing.JButton" name="btnReenviarEmail">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Re-Impreci&#xf3;n de Recibo"/>
+            <Property name="text" type="java.lang.String" value="Re-enviar email"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCarneSocioActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReenviarEmailActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnEnviarTalonesPendientes">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Enviar talones pendientes"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarTalonesPendientesActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

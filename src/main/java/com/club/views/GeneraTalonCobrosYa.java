@@ -1,12 +1,12 @@
 package com.club.views;
 
+import Utilidades.AjustaColumnas;
 import Utilidades.EnviarEmail;
 import Utilidades.EnvioTalonCobrosYa;
-import com.Renderers.MyDateCellRenderer;
-import com.Renderers.MyDefaultCellRenderer;
+import Utilidades.ThreadMensualidadesCobrosYa;
 import com.club.BEANS.CcCobrador;
+import com.club.BEANS.Cobrador;
 import com.club.BEANS.Mensualidades;
-import com.club.BEANS.MensualidadesAnuladas;
 import com.club.BEANS.Parametros;
 import com.club.BEANS.Socio;
 import com.club.DAOs.CcCobradorDAO;
@@ -14,11 +14,12 @@ import com.club.DAOs.MensualidadesAnuladasDAO;
 import com.club.DAOs.MensualidadesDAO;
 import com.club.DAOs.ParametrosDAO;
 import com.club.DAOs.SocioDAO;
-import com.club.Renderers.TableRendererColorSituacion;
+import com.club.Renderers.MeDateCellRenderer;
+import com.club.Renderers.TableRendererColor;
+import com.club.modelos.MensualidadesTableModel;
+import com.club.modelos.SocioCobrosYaTableModel;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +30,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
+public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
     MensualidadesDAO mensualidadesDAO;
     ParametrosDAO parametrosDAO;
@@ -38,65 +39,59 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
     CcCobradorDAO ccCobradorDAO;
     Socio socioSeleccionado;
     CcCobrador credito;
-    DefaultTableModel tblModelSocio;
-    DefaultTableModel tblModelMensualidades;
+    SocioCobrosYaTableModel tblModelSocio;
+    MensualidadesTableModel tblModelMensualidades;
     ListSelectionModel listModelSocios;
     ListSelectionModel listModelMensualidades;
     Mensualidades mensualidadSeleccionada;
     List<Socio> listSocios;
     List<Mensualidades> listMensualidades;
+    private static Cobrador cobradorCobrosYa;
+    private static Parametros parametros;
 
-    public FormConsultaMensualidades() {
+    public GeneraTalonCobrosYa() {
 
         initComponents();
         defineModelo();
+        Parametros();
         muestraContenidoTabla();
 
+    }
+
+    private void Parametros() {
+        ParametrosDAO cAO = new ParametrosDAO();
+        parametros = (Parametros) cAO.BuscaPorID(Parametros.class, 1);
+        cobradorCobrosYa = parametros.getCobradorCobrosYa();
     }
 
     private void muestraContenidoTabla() {
 
         if (rbCodSocio.isSelected()) {
             socioDAO = new SocioDAO();
-            socioSeleccionado = socioDAO.BuscaPorCodigo(txtFiltro.getText());
-            listSocios = new ArrayList<Socio>();
-            listSocios.add(socioSeleccionado);
+            listSocios.clear();
+            listSocios.add(socioDAO.BuscaPorCodigoYCobrador(txtFiltro.getText(), cobradorCobrosYa));
+            tblModelSocio.fireTableDataChanged();
 
         } else if (rbNombre.isSelected()) {
 
             socioDAO = new SocioDAO();
-            listSocios = new ArrayList<Socio>();
-            listSocios = socioDAO.BuscaPorNombre(txtFiltro.getText());
-
-        } else {
-            socioDAO = new SocioDAO();
-            listSocios = new ArrayList<Socio>();
-            listSocios = socioDAO.BuscaTodos(Socio.class);
-
+            listSocios.clear();
+            listSocios.addAll(socioDAO.BuscaPorNombreYCobrador(txtFiltro.getText(), cobradorCobrosYa));
+            tblModelSocio.fireTableDataChanged();
         }
 
-        tblModelSocio.setNumRows(0);
-        listMensualidades = new ArrayList<Mensualidades>();
-        tblModelMensualidades.setNumRows(0);
-
-        for (Socio socio : listSocios) {
-            tblModelSocio.addRow(new Object[]{
-                socio.getId(),
-                socio.getNombre(),
-                socio.getCi(),
-                socio.getFechaingreso(),
-                socio.getFechanacimiento(),
-                socio.getCategoria().getDefinicion(),
-                socio.getSituacion()
-            });
-
-        }
     }
 
     private void defineModelo() {
 
         ((DefaultTableCellRenderer) tblSocio.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        tblModelSocio = (DefaultTableModel) tblSocio.getModel();
+        listSocios = new ArrayList<>();
+        tblModelSocio = new SocioCobrosYaTableModel(listSocios);
+        tblSocio.setModel(tblModelSocio);
+        int[] anchosS = {5, 120, 50, 70, 20, 20};
+        new AjustaColumnas().ajustar(tblSocio, anchosS);
+
+        listMensualidades = new ArrayList<Mensualidades>();
 
         listModelSocios = tblSocio.getSelectionModel();
         listModelSocios.addListSelectionListener(new ListSelectionListener() {
@@ -110,11 +105,21 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
                     muestraMensualidades();
                 }
             }
-        });
+        }
+        );
 
         ((DefaultTableCellRenderer) tblMensualidades.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        tblModelMensualidades = (DefaultTableModel) tblMensualidades.getModel();
-        tblMensualidades.getColumn("Estado").setCellRenderer(new TableRendererColorSituacion(5));
+        listMensualidades = new ArrayList<>();
+        tblModelMensualidades = new MensualidadesTableModel(listMensualidades);
+        tblMensualidades.setModel(tblModelMensualidades);
+
+        int[] anchos = {5, 10, 10, 120, 20, 20, 20};
+        new AjustaColumnas().ajustar(tblMensualidades, anchos);
+
+        tblMensualidades.getColumn("Fecha Pago").setCellRenderer(new TableRendererColor(5));
+        tblMensualidades.getColumn("Vencimiento").setCellRenderer(new MeDateCellRenderer());
+        //tblMensualidades.getColumn("Fecha Pago").setCellRenderer(new MeDateCellRenderer());
+
         listModelMensualidades = tblMensualidades.getSelectionModel();
         listModelMensualidades.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
@@ -123,7 +128,10 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
                     if (tblMensualidades.getSelectedRow() != -1) {
 
                         mensualidadSeleccionada = listMensualidades.get(tblMensualidades.getSelectedRow());
-                        btnAnularRecibo.setEnabled(true);
+                        btnReenviarEmail.setEnabled(true);
+                        if (mensualidadSeleccionada.getEnviado() == false) {
+                            btnEnviarTalonCobrosYa.setEnabled(true);
+                        }
                     }
 
                 }
@@ -135,82 +143,10 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
     private void muestraMensualidades() {
 
         mensualidadesDAO = new MensualidadesDAO();
-        listMensualidades = mensualidadesDAO.BuscaMensualidadesPorSocio(socioSeleccionado);
+        listMensualidades.clear();
+        listMensualidades.addAll(mensualidadesDAO.BuscaMensualidadesPorSocio(socioSeleccionado));
+        tblModelMensualidades.fireTableDataChanged();
 
-        tblModelMensualidades.setNumRows(0);
-        for (Mensualidades mensualidades : listMensualidades) {
-            tblModelMensualidades.addRow(new Object[]{
-                mensualidades.getId(),
-                mensualidades.getNroTalonCobrosYa(),
-                mensualidades.getFechaVencimiento(),
-                mensualidades.getFechaPago(),
-                mensualidades.getCobrador().getNombre(),
-                mensualidades.getPago(),
-                mensualidades.getValor()
-            });
-
-        }
-    }
-
-    private void ReimprimeRecibo(String Msj, Integer recibo) {
-
-        try {
-
-            HashMap parametros = new HashMap();
-            parametros.clear();
-            parametros.put("Msj", Msj);
-            parametros.put("recibo", recibo);
-            btnCarneSocio.setReportParameters(parametros);
-            btnCarneSocio.setReportURL("/Reportes/recibosIndividual.jasper");
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al generar reporte", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void AnulaRecibo() {
-
-        int confirmación = JOptionPane.showConfirmDialog(null, "Confirma la anulación de la Mensualidad Seleccionada?", "Confirmación", JOptionPane.YES_NO_OPTION);
-
-        if (confirmación == JOptionPane.YES_OPTION) {
-            try {
-                String motivo = JOptionPane.showInputDialog(null, "Motivo?");
-
-                mensualidadesAnuladasDAO = new MensualidadesAnuladasDAO();
-                MensualidadesAnuladas mensualidadesAnlada = new MensualidadesAnuladas();
-                mensualidadesAnlada.setCobrador(mensualidadSeleccionada.getCobrador());
-                mensualidadesAnlada.setFechaPago(mensualidadSeleccionada.getFechaPago());
-                mensualidadesAnlada.setFechaVencimiento(mensualidadSeleccionada.getFechaVencimiento());
-                mensualidadesAnlada.setLanzamiento(mensualidadSeleccionada.getLanzamiento());
-                mensualidadesAnlada.setPago(mensualidadSeleccionada.getPago());
-                mensualidadesAnlada.setSocio(mensualidadSeleccionada.getSocio());
-                mensualidadesAnlada.setValor(mensualidadSeleccionada.getValor());
-                mensualidadesAnlada.setFechaAnulacion(new Date());
-                mensualidadesAnlada.setMotivo(motivo);
-                mensualidadesAnuladasDAO.Salvar(mensualidadesAnlada);
-
-                credito = new CcCobrador();
-                credito.setCobrador(mensualidadSeleccionada.getCobrador());
-                credito.setFechaMovimiento(new Date());
-                credito.setDescripcion("Anulación Recibo Nro: " + mensualidadSeleccionada.getId());
-                credito.setDebito(0.0);
-                credito.setCredito(mensualidadSeleccionada.getValor());
-                ccCobradorDAO = new CcCobradorDAO();
-                ccCobradorDAO.Salvar(credito);
-
-                mensualidadesDAO = new MensualidadesDAO();
-                mensualidadesDAO
-                        .EliminarPorId(Mensualidades.class, mensualidadSeleccionada.getId());
-
-                JOptionPane.showMessageDialog(
-                        null, "Mensualidad anulada correctamente");
-                muestraMensualidades();
-            } catch (Exception ex) {
-                Logger.getLogger(FormConsultaMensualidades.class
-                        .getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -235,8 +171,9 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMensualidades = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        btnAnularRecibo = new javax.swing.JButton();
-        btnCarneSocio = new org.jasper.viewer.components.JasperRunnerButton();
+        btnEnviarTalonCobrosYa = new javax.swing.JButton();
+        btnReenviarEmail = new javax.swing.JButton();
+        btnEnviarTalonesPendientes = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -282,6 +219,7 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
         jPanel2.add(btnBuscar, gridBagConstraints);
 
         buttonGroup1.add(rbNombre);
+        rbNombre.setSelected(true);
         rbNombre.setText("Nombre");
         jPanel4.add(rbNombre);
 
@@ -297,45 +235,16 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
         tblSocio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Nombre", "C.I.", "Fecha Ingreso", "Fecha Nacimiento", "Categoria", "Situación"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         tblSocio.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblSocio);
-        if (tblSocio.getColumnModel().getColumnCount() > 0) {
-            tblSocio.getColumnModel().getColumn(0).setPreferredWidth(10);
-            tblSocio.getColumnModel().getColumn(0).setCellRenderer(new MyDefaultCellRenderer());
-            tblSocio.getColumnModel().getColumn(1).setPreferredWidth(100);
-            tblSocio.getColumnModel().getColumn(1).setCellRenderer(new MyDefaultCellRenderer());
-            tblSocio.getColumnModel().getColumn(2).setPreferredWidth(40);
-            tblSocio.getColumnModel().getColumn(2).setCellRenderer(new MyDefaultCellRenderer());
-            tblSocio.getColumnModel().getColumn(3).setPreferredWidth(40);
-            tblSocio.getColumnModel().getColumn(3).setCellRenderer(new MyDateCellRenderer());
-            tblSocio.getColumnModel().getColumn(4).setPreferredWidth(40);
-            tblSocio.getColumnModel().getColumn(4).setCellRenderer(new MyDateCellRenderer());
-            tblSocio.getColumnModel().getColumn(5).setPreferredWidth(40);
-            tblSocio.getColumnModel().getColumn(5).setCellRenderer(new MyDefaultCellRenderer());
-            tblSocio.getColumnModel().getColumn(6).setPreferredWidth(30);
-            tblSocio.getColumnModel().getColumn(6).setCellRenderer(new MyDefaultCellRenderer());
-        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -378,48 +287,20 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
         tblMensualidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nro. Recibo", "Talón online", "Fecha de Vencimiento", "Fecha de Pago", "Cobrador", "Estado", "Valor"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         tblMensualidades.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblMensualidadesMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblMensualidades);
-        if (tblMensualidades.getColumnModel().getColumnCount() > 0) {
-            tblMensualidades.getColumnModel().getColumn(0).setPreferredWidth(5);
-            tblMensualidades.getColumnModel().getColumn(0).setCellRenderer(new MyDefaultCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(1).setHeaderValue("Talón online");
-            tblMensualidades.getColumnModel().getColumn(2).setPreferredWidth(40);
-            tblMensualidades.getColumnModel().getColumn(2).setCellRenderer(new MyDateCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(3).setPreferredWidth(40);
-            tblMensualidades.getColumnModel().getColumn(3).setCellRenderer(new MyDateCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(4).setPreferredWidth(50);
-            tblMensualidades.getColumnModel().getColumn(4).setCellRenderer(new MyDefaultCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(5).setPreferredWidth(30);
-            tblMensualidades.getColumnModel().getColumn(5).setCellRenderer(new MyDefaultCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(6).setPreferredWidth(30);
-            tblMensualidades.getColumnModel().getColumn(6).setCellRenderer(new MyDefaultCellRenderer());
-        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -442,22 +323,31 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        btnAnularRecibo.setText("Anular Recibo");
-        btnAnularRecibo.setEnabled(false);
-        btnAnularRecibo.addActionListener(new java.awt.event.ActionListener() {
+        btnEnviarTalonCobrosYa.setText("Enviar talón Cobros Ya");
+        btnEnviarTalonCobrosYa.setEnabled(false);
+        btnEnviarTalonCobrosYa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnularReciboActionPerformed(evt);
+                btnEnviarTalonCobrosYaActionPerformed(evt);
             }
         });
-        jPanel5.add(btnAnularRecibo);
+        jPanel5.add(btnEnviarTalonCobrosYa);
 
-        btnCarneSocio.setText("Re-Impreción de Recibo");
-        btnCarneSocio.addActionListener(new java.awt.event.ActionListener() {
+        btnReenviarEmail.setText("Re-enviar email");
+        btnReenviarEmail.setEnabled(false);
+        btnReenviarEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCarneSocioActionPerformed(evt);
+                btnReenviarEmailActionPerformed(evt);
             }
         });
-        jPanel5.add(btnCarneSocio);
+        jPanel5.add(btnReenviarEmail);
+
+        btnEnviarTalonesPendientes.setText("Enviar talones pendientes");
+        btnEnviarTalonesPendientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarTalonesPendientesActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnEnviarTalonesPendientes);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -483,23 +373,65 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_txtFiltroActionPerformed
 
-    private void btnAnularReciboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularReciboActionPerformed
+    private void btnEnviarTalonCobrosYaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonCobrosYaActionPerformed
 
-        AnulaRecibo();
+        try {
+            EnvioTalonCobrosYa cobrosYa = new EnvioTalonCobrosYa();
 
-    }//GEN-LAST:event_btnAnularReciboActionPerformed
+            cobrosYa.enviarTalonMiWeb(parametros, socioSeleccionado, mensualidadSeleccionada);
 
-    private void btnCarneSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarneSocioActionPerformed
+            if (mensualidadSeleccionada.getEnviado() == false) {
 
-        String Msj = JOptionPane.showInputDialog(null, "Digite el mensaje a imprimir en el recibo");
-        ReimprimeRecibo(Msj, mensualidadSeleccionada.getId());
+                mensualidadSeleccionada.setEnviado(true);
+                mensualidadSeleccionada.setFechaHoraTransaccionCobrosYa(new Date());
+                mensualidadSeleccionada.setSituacionTalonCobrosYa(cobrosYa.getSituacionTransaccion());
+                mensualidadSeleccionada.setNroTalonCobrosYa(cobrosYa.getNroTalonCobrosYa());
+                mensualidadSeleccionada.setUrlPDF(cobrosYa.getUrl_pdf());
+                mensualidadSeleccionada.setIdSecreto(cobrosYa.getIdSecretoCobrosYa());
 
-    }//GEN-LAST:event_btnCarneSocioActionPerformed
+                mensualidadesDAO = new MensualidadesDAO();
+                mensualidadesDAO.Actualizar(mensualidadSeleccionada);
+                JOptionPane.showMessageDialog(this, "Talón: " + mensualidadSeleccionada.getNroTalonCobrosYa() + " creado correctamente!");
+                EnviarEmail enviarEmail = new EnviarEmail(cobrosYa.getUrl_pdf(), socioSeleccionado.getEmail());
+                enviarEmail.enviaMail();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "El rebibo ya habia sido enviado, nro. talón: " + mensualidadSeleccionada.getNroTalonCobrosYa(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(GeneraTalonCobrosYa.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+
+            JOptionPane.showMessageDialog(this,
+                    "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnEnviarTalonCobrosYaActionPerformed
+
+    private void btnReenviarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReenviarEmailActionPerformed
+        EnviarEmail enviarEmail = new EnviarEmail(mensualidadSeleccionada.getUrlPDF(), socioSeleccionado.getEmail());
+        enviarEmail.enviaMail();
+    }//GEN-LAST:event_btnReenviarEmailActionPerformed
+
+    private void btnEnviarTalonesPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonesPendientesActionPerformed
+
+        mensualidadesDAO = new MensualidadesDAO();
+        List<Mensualidades> talonesPendientes = mensualidadesDAO.BuscaPorCobradorSituacion(cobradorCobrosYa, "Pendiente de Pago");
+        LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, talonesPendientes);
+        log.setLocationRelativeTo(null);
+        log.setVisible(true);
+        log.toFront();
+
+
+    }//GEN-LAST:event_btnEnviarTalonesPendientesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnularRecibo;
     private javax.swing.JButton btnBuscar;
-    private org.jasper.viewer.components.JasperRunnerButton btnCarneSocio;
+    private javax.swing.JButton btnEnviarTalonCobrosYa;
+    private javax.swing.JButton btnEnviarTalonesPendientes;
+    private javax.swing.JButton btnReenviarEmail;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

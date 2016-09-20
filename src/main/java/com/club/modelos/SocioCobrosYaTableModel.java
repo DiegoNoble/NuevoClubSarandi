@@ -5,7 +5,9 @@
  */
 package com.club.modelos;
 
-import com.club.BEANS.Mensualidades;
+import com.club.BEANS.Categoria;
+import com.club.BEANS.Socio;
+import com.club.BEANS.Socio;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,25 +17,25 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Diego Noble
  */
-public class MensualidadesTableModel extends AbstractTableModel {
+public class SocioCobrosYaTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Recibo", "Talón CobrosYa", "Enviado", "Situación", "Vencimiento", "Fecha Pago", "Valor"};
+    private final String[] colunas = new String[]{"Cod.", "Nombre", "Cel", "Email", "Categoria", "Situación"};
     //lista para a manipulacao do objeto
-    private List<Mensualidades> listMensualidades;
+    private List<Socio> listSocio;
 
-    public MensualidadesTableModel() {
-        listMensualidades = new LinkedList<Mensualidades>();
+    public SocioCobrosYaTableModel() {
+        listSocio = new LinkedList<Socio>();
     }
 
-    public MensualidadesTableModel(List<Mensualidades> listMensualidades) {
-        this.listMensualidades = listMensualidades;
+    public SocioCobrosYaTableModel(List<Socio> listSocio) {
+        this.listSocio = listSocio;
     }
 
     //numero de linhas
     @Override
     public int getRowCount() {
-        return listMensualidades.size();
+        return listSocio.size();
     }
 
     //numero de colunas
@@ -45,22 +47,20 @@ public class MensualidadesTableModel extends AbstractTableModel {
     //define o que cada coluna conterÃ¯Â¿Â½ do objeto
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Mensualidades c = listMensualidades.get(rowIndex);
+        Socio c = listSocio.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return c.getId();
             case 1:
-                return c.getNroTalonCobrosYa();
+                return c.getNombre();
             case 2:
-                return c.getEnviado();
+                return c.getCelular();
             case 3:
-                return c.getSituacionTalonCobrosYa();
+                return c.getEmail();
             case 4:
-                return c.getFechaVencimiento();
+                return c.getCategoria();
             case 5:
-                return c.getFechaPago();
-            case 6:
-                return c.getValor();
+                return c.getSituacion();
             default:
                 return null;
         }
@@ -81,15 +81,13 @@ public class MensualidadesTableModel extends AbstractTableModel {
             case 1:
                 return String.class;
             case 2:
-                return Boolean.class;
+                return String.class;
             case 3:
                 return String.class;
             case 4:
-                return Date.class;
+                return Categoria.class;
             case 5:
-                return Date.class;
-            case 6:
-                return Double.class;
+                return String.class;
             default:
                 return null;
         }
@@ -102,30 +100,30 @@ public class MensualidadesTableModel extends AbstractTableModel {
 
     }
 
-    public void agregar(Mensualidades propiedad) {
-        listMensualidades.add(propiedad);
+    public void agregar(Socio propiedad) {
+        listSocio.add(propiedad);
 
-        this.fireTableRowsInserted(listMensualidades.size() - 1, listMensualidades.size() - 1);
+        this.fireTableRowsInserted(listSocio.size() - 1, listSocio.size() - 1);
     }
 
-    public void agregar(List<Mensualidades> mensualidades) {
-        listMensualidades.addAll(mensualidades);
+    public void agregarTodos(List<Socio> socios) {
+        listSocio.addAll(socios);
 
         this.fireTableDataChanged();
     }
 
     public void eliminar(int row) {
-        listMensualidades.remove(row);
+        listSocio.remove(row);
         this.fireTableRowsDeleted(row, row);
     }
 
-    public void atualizar(int row, Mensualidades propiedad) {
-        listMensualidades.set(row, propiedad);
+    public void atualizar(int row, Socio propiedad) {
+        listSocio.set(row, propiedad);
         this.fireTableRowsUpdated(row, row);
     }
 
-    public Mensualidades getCliente(int row) {
-        return listMensualidades.get(row);
+    public Socio getCliente(int row) {
+        return listSocio.get(row);
     }
 
 }
