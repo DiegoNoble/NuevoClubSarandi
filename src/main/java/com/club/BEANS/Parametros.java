@@ -46,6 +46,8 @@ public class Parametros implements Serializable {
     @JoinColumn(name = "idcobrador", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Cobrador cobradorCobrosYa;
+    @Column(name = "api_url_crear")
+    private String apiUrlCrear;
 
     public Parametros() {
     }
@@ -113,5 +115,15 @@ public class Parametros implements Serializable {
     public void setCobradorCobrosYa(Cobrador cobradorCobrosYa) {
         this.cobradorCobrosYa = cobradorCobrosYa;
     }
+
+    public String getApiUrlCrear() {
+        return apiUrlCrear;
+    }
+
+    public void setApiUrlCrear(String apiUrlCrear) {
+        this.apiUrlCrear = apiUrlCrear;
+    }
+
+
 
 }

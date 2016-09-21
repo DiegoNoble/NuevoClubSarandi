@@ -3,7 +3,6 @@ package com.club.views;
 import Utilidades.AjustaColumnas;
 import Utilidades.EnviarEmail;
 import Utilidades.EnvioTalonCobrosYa;
-import Utilidades.ThreadMensualidadesCobrosYa;
 import com.club.BEANS.CcCobrador;
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.Mensualidades;
@@ -278,6 +277,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -376,9 +376,8 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     private void btnEnviarTalonCobrosYaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonCobrosYaActionPerformed
 
         try {
-            EnvioTalonCobrosYa cobrosYa = new EnvioTalonCobrosYa();
-
-            cobrosYa.enviarTalonMiWeb(parametros, socioSeleccionado, mensualidadSeleccionada);
+            EnvioTalonCobrosYa cobrosYa = new EnvioTalonCobrosYa(parametros);
+            cobrosYa.enviarTalonMiWeb(socioSeleccionado, mensualidadSeleccionada);
 
             if (mensualidadSeleccionada.getEnviado() == false) {
 
@@ -393,8 +392,12 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
                 mensualidadesDAO.Actualizar(mensualidadSeleccionada);
                 JOptionPane.showMessageDialog(this, "Talón: " + mensualidadSeleccionada.getNroTalonCobrosYa() + " creado correctamente!");
                 EnviarEmail enviarEmail = new EnviarEmail(cobrosYa.getUrl_pdf(), socioSeleccionado.getEmail());
-                enviarEmail.enviaMail();
+                Boolean enviaMail = enviarEmail.enviaMail();
+                if (enviaMail == true) {
 
+                } else {
+
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "El rebibo ya habia sido enviado, nro. talón: " + mensualidadSeleccionada.getNroTalonCobrosYa(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -417,9 +420,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
     private void btnEnviarTalonesPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonesPendientesActionPerformed
 
-        mensualidadesDAO = new MensualidadesDAO();
-        List<Mensualidades> talonesPendientes = mensualidadesDAO.BuscaPorCobradorSituacion(cobradorCobrosYa, "Pendiente de Pago");
-        LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, talonesPendientes);
+        LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, cobradorCobrosYa, parametros);
         log.setLocationRelativeTo(null);
         log.setVisible(true);
         log.toFront();

@@ -18,7 +18,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -122,8 +121,8 @@ public class EnviarEmail {
                 + "</table>";
     }
 
-    public void enviaMail() {
-
+    public Boolean enviaMail() {
+        Boolean retorno;
         try {
             parametrosDAO = new ParametrosDAO();
             parametros = new Parametros();
@@ -178,15 +177,16 @@ public class EnviarEmail {
                 mensaje.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
                 Transport.send(mensaje);
 
-                JOptionPane.showMessageDialog(null, "Notificación por mail enviada correctamente!");
+                retorno = true;
 
             } catch (MessagingException e) {
-                throw new RuntimeException(e);
+                retorno = false;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+            retorno = false;
         }
+        return retorno;
     }
 
 }
