@@ -16,8 +16,9 @@ import com.club.DAOs.SocioDAO;
 import com.club.Renderers.MeDateCellRenderer;
 import com.club.Renderers.TableRendererColor;
 import com.club.modelos.MensualidadesTableModel;
-import com.club.modelos.SocioCobrosYaTableModel;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -38,12 +39,9 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     CcCobradorDAO ccCobradorDAO;
     Socio socioSeleccionado;
     CcCobrador credito;
-    SocioCobrosYaTableModel tblModelSocio;
     MensualidadesTableModel tblModelMensualidades;
-    ListSelectionModel listModelSocios;
     ListSelectionModel listModelMensualidades;
     Mensualidades mensualidadSeleccionada;
-    List<Socio> listSocios;
     List<Mensualidades> listMensualidades;
     private static Cobrador cobradorCobrosYa;
     private static Parametros parametros;
@@ -53,6 +51,9 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         initComponents();
         defineModelo();
         Parametros();
+        Calendar venc = Calendar.getInstance();
+        venc.set(Calendar.DAY_OF_MONTH, 15);
+        dpVencimiento.setDate(venc.getTime());
         muestraContenidoTabla();
 
     }
@@ -64,58 +65,32 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     }
 
     private void muestraContenidoTabla() {
-
-        if (rbCodSocio.isSelected()) {
-            socioDAO = new SocioDAO();
-            listSocios.clear();
-            listSocios.add(socioDAO.BuscaPorCodigoYCobrador(txtFiltro.getText(), cobradorCobrosYa));
-            tblModelSocio.fireTableDataChanged();
-
-        } else if (rbNombre.isSelected()) {
-
-            socioDAO = new SocioDAO();
-            listSocios.clear();
-            listSocios.addAll(socioDAO.BuscaPorNombreYCobrador(txtFiltro.getText(), cobradorCobrosYa));
-            tblModelSocio.fireTableDataChanged();
+        Collection<String> situacionRecibo = new ArrayList<String>();
+        if (rbPagos.isSelected()) {
+            situacionRecibo.add("Pago");
+        } else if (rbPendientes.isSelected()) {
+            situacionRecibo.add("Pendiente de Pago");
+        } else if (rbTodos.isSelected()) {
+            situacionRecibo.add("Pendiente de Pago");
+            situacionRecibo.add("Pago");
         }
-
+        mensualidadesDAO = new MensualidadesDAO();
+        listMensualidades.clear();
+        listMensualidades.addAll(mensualidadesDAO.BuscaPorCobradorSituacionVencimiento(cobradorCobrosYa, dpVencimiento.getDate(), situacionRecibo));
+        tblModelMensualidades.fireTableDataChanged();
     }
 
     private void defineModelo() {
-
-        ((DefaultTableCellRenderer) tblSocio.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        listSocios = new ArrayList<>();
-        tblModelSocio = new SocioCobrosYaTableModel(listSocios);
-        tblSocio.setModel(tblModelSocio);
-        int[] anchosS = {5, 120, 50, 70, 20, 20};
-        new AjustaColumnas().ajustar(tblSocio, anchosS);
-
-        listMensualidades = new ArrayList<Mensualidades>();
-
-        listModelSocios = tblSocio.getSelectionModel();
-        listModelSocios.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-
-                    if (tblSocio.getSelectedRow() != -1) {
-
-                        socioSeleccionado = listSocios.get(tblSocio.getSelectedRow());
-                    }
-                    muestraMensualidades();
-                }
-            }
-        }
-        );
 
         ((DefaultTableCellRenderer) tblMensualidades.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         listMensualidades = new ArrayList<>();
         tblModelMensualidades = new MensualidadesTableModel(listMensualidades);
         tblMensualidades.setModel(tblModelMensualidades);
 
-        int[] anchos = {5, 10, 10, 120, 20, 20, 20};
+        int[] anchos = {2, 150, 5, 15, 10, 120, 20, 20, 20};
         new AjustaColumnas().ajustar(tblMensualidades, anchos);
 
-        tblMensualidades.getColumn("Fecha Pago").setCellRenderer(new TableRendererColor(5));
+        tblMensualidades.getColumn("Pago").setCellRenderer(new TableRendererColor(5));
         tblMensualidades.getColumn("Vencimiento").setCellRenderer(new MeDateCellRenderer());
         //tblMensualidades.getColumn("Fecha Pago").setCellRenderer(new MeDateCellRenderer());
 
@@ -139,15 +114,6 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
     }
 
-    private void muestraMensualidades() {
-
-        mensualidadesDAO = new MensualidadesDAO();
-        listMensualidades.clear();
-        listMensualidades.addAll(mensualidadesDAO.BuscaMensualidadesPorSocio(socioSeleccionado));
-        tblModelMensualidades.fireTableDataChanged();
-
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -156,16 +122,14 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        txtFiltro = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        rbNombre = new javax.swing.JRadioButton();
-        rbCodSocio = new javax.swing.JRadioButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblSocio = new javax.swing.JTable();
+        rbPendientes = new javax.swing.JRadioButton();
+        rbPagos = new javax.swing.JRadioButton();
+        rbTodos = new javax.swing.JRadioButton();
+        dpVencimiento = new org.jdesktop.swingx.JXDatePicker();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMensualidades = new javax.swing.JTable();
@@ -191,19 +155,6 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel3, gridBagConstraints);
 
-        txtFiltro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(txtFiltro, gridBagConstraints);
-
         btnBuscar.setText("Buscar"); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,49 +162,34 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(btnBuscar, gridBagConstraints);
 
-        buttonGroup1.add(rbNombre);
-        rbNombre.setSelected(true);
-        rbNombre.setText("Nombre");
-        jPanel4.add(rbNombre);
+        buttonGroup1.add(rbPendientes);
+        rbPendientes.setSelected(true);
+        rbPendientes.setText("Solo pendientes");
+        jPanel4.add(rbPendientes);
 
-        buttonGroup1.add(rbCodSocio);
-        rbCodSocio.setText("Código de Socio");
-        jPanel4.add(rbCodSocio);
+        buttonGroup1.add(rbPagos);
+        rbPagos.setText("Solo pagos");
+        jPanel4.add(rbPagos);
+
+        buttonGroup1.add(rbTodos);
+        rbTodos.setText("Todos");
+        jPanel4.add(rbTodos);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel2.add(jPanel4, gridBagConstraints);
-
-        tblSocio.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblSocio.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(tblSocio);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(jScrollPane1, gridBagConstraints);
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        jPanel2.add(dpVencimiento, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -261,7 +197,6 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         getContentPane().add(jPanel2, gridBagConstraints);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
@@ -277,7 +212,6 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -311,15 +245,13 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 1.0;
         jPanel6.add(jScrollPane2, gridBagConstraints);
 
-        jTabbedPane1.addTab("Mensualidades", jPanel6);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        getContentPane().add(jTabbedPane1, gridBagConstraints);
+        getContentPane().add(jPanel6, gridBagConstraints);
 
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
@@ -366,12 +298,6 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     private void tblMensualidadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMensualidadesMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tblMensualidadesMouseClicked
-
-    private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
-
-        muestraContenidoTabla();
-
-    }//GEN-LAST:event_txtFiltroActionPerformed
 
     private void btnEnviarTalonCobrosYaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonCobrosYaActionPerformed
 
@@ -420,7 +346,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
     private void btnEnviarTalonesPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonesPendientesActionPerformed
 
-        LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, cobradorCobrosYa, parametros);
+        LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, cobradorCobrosYa, parametros, listMensualidades);
         log.setLocationRelativeTo(null);
         log.setVisible(true);
         log.toFront();
@@ -434,6 +360,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEnviarTalonesPendientes;
     private javax.swing.JButton btnReenviarEmail;
     private javax.swing.ButtonGroup buttonGroup1;
+    private org.jdesktop.swingx.JXDatePicker dpVencimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
@@ -441,13 +368,10 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JRadioButton rbCodSocio;
-    private javax.swing.JRadioButton rbNombre;
+    private javax.swing.JRadioButton rbPagos;
+    private javax.swing.JRadioButton rbPendientes;
+    private javax.swing.JRadioButton rbTodos;
     private javax.swing.JTable tblMensualidades;
-    private javax.swing.JTable tblSocio;
-    private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 }

@@ -80,7 +80,7 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         listMensualidades.clear();
 
         if (cbSituacion.getSelectedItem().toString().equals("Todos")) {
-            listMensualidades.addAll(mensualidadesDAO.BuscaPorCobradorSituacionVencimiento((Cobrador) cbCobrador.getSelectedItem(), dpVencimiento.getDate()));
+            listMensualidades.addAll(mensualidadesDAO.BuscaPorCobradorVencimiento((Cobrador) cbCobrador.getSelectedItem(), dpVencimiento.getDate()));
         } else {
 
             listMensualidades.addAll(mensualidadesDAO.BuscaPorCobradorSituacionVencimiento((Cobrador) cbCobrador.getSelectedItem(),

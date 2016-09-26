@@ -7,6 +7,7 @@ package com.club.DAOs;
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.Mensualidades;
 import com.club.BEANS.Socio;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
@@ -117,13 +118,28 @@ public class MensualidadesDAO extends DaoGenerico {
 
     }
 
-    public List BuscaPorCobradorSituacionVencimiento(Cobrador cobrador, Date vencimiento) {
+    public List BuscaPorCobradorVencimiento(Cobrador cobrador, Date vencimiento) {
 
         List<Mensualidades> toReturn = null;
 
         Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.cobrador =:cobrador  and m.fechaVencimiento =:vencimiento");
         qr.setParameter("cobrador", cobrador);
         qr.setParameter("vencimiento", vencimiento);
+        toReturn = qr.getResultList();
+
+        return toReturn;
+
+    }
+
+    public List BuscaPorCobradorSituacionVencimiento(Cobrador cobrador, Date vencimiento, Collection situacion) {
+
+        List<Mensualidades> toReturn = null;
+
+        Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.cobrador =:cobrador  and m.fechaVencimiento =:vencimiento "
+                + "and m.pago in :situacion");
+        qr.setParameter("cobrador", cobrador);
+        qr.setParameter("vencimiento", vencimiento);
+        qr.setParameter("situacion", situacion);
         toReturn = qr.getResultList();
 
         return toReturn;

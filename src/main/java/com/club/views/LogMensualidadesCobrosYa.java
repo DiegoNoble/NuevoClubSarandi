@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -31,13 +30,14 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     Parametros parametros;
     MensualidadesDAO mensualidadesDAO;
-    List<Mensualidades> talonesPendientes;
 
-    public LogMensualidadesCobrosYa(java.awt.Frame parent, boolean modal, Cobrador cobradorCobrosYa, Parametros parametros) {
+    public LogMensualidadesCobrosYa(java.awt.Frame parent, boolean modal, Cobrador cobradorCobrosYa, Parametros parametros, List<Mensualidades> listMensualidades) {
         super(parent, modal);
         this.cobradorCobrosYa = cobradorCobrosYa;
         this.parametros = parametros;
+        this.listMensualidades = listMensualidades;
         initComponents();
+
         setSize(900, 500);
 
         DefaultCaret caret = (DefaultCaret) txtLog.getCaret();
@@ -55,13 +55,27 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
 
     void prueba() {
 
-        this.txtLog.append("Buscando mensualidades pendientes de Cobros Ya, aguarde un momento...\n");
+        this.txtLog.append("Analizando mensualidades....\n");
 
-        mensualidadesDAO = new MensualidadesDAO();
-        talonesPendientes = mensualidadesDAO.BuscaPorCobradorSituacion(cobradorCobrosYa, "Pendiente de Pago");
-
-        for (Mensualidades m : talonesPendientes) {
-            enviarTalon(m.getSocio(), m);
+        //mensualidadesDAO = new MensualidadesDAO();
+        //talonesPendientes = mensualidadesDAO.BuscaPorCobradorSituacion(cobradorCobrosYa, "Pendiente de Pago");
+        for (Mensualidades m : listMensualidades) {
+            if (m.getEnviado() == true) {
+                this.txtLog.append("\nSocio " + m.getSocio());
+                this.txtLog.append("\nRecibo " + m.getId() + "ya enviado, nro Talón CobrosYa " + m.getNroTalonCobrosYa());
+                this.txtLog.append("\n--------------------------");
+            } else if (m.getFechaVencimiento().after(new Date())) {
+                this.txtLog.append("\nSocio " + m.getSocio());
+                this.txtLog.append("\nRecibo " + m.getId() + "Fecha de vencimiento invalida, debe ser mayor que hoy");
+                this.txtLog.append("\n--------------------------");
+            }
+            if (m.getPago().equals("Pago")) {
+                this.txtLog.append("\nSocio " + m.getSocio());
+                this.txtLog.append("\nRecibo " + m.getId() + "nro Talón CobrosYa " + m.getNroTalonCobrosYa() + "Pago " + formato.format(m.getFechaHoraTransaccionCobrosYa()));
+                this.txtLog.append("\n--------------------------");
+            } else {
+                enviarTalon(m.getSocio(), m);
+            }
         }
 
         this.txtLog.append("\n");
@@ -107,7 +121,7 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
             } else {
                 this.txtLog.append("\n Error al iniciar transacción " + retorno);
             }
-
+            this.txtLog.append("\n--------------------------");
         } catch (Exception ex) {
             Logger.getLogger(GeneraTalonCobrosYa.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();

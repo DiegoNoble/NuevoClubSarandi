@@ -6,6 +6,7 @@
 package com.club.modelos;
 
 import com.club.BEANS.Mensualidades;
+import com.club.BEANS.Socio;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +19,7 @@ import javax.swing.table.AbstractTableModel;
 public class MensualidadesTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Recibo", "Talón CobrosYa", "Enviado", "Situación", "Vencimiento", "Fecha Pago", "Valor"};
+    private final String[] colunas = new String[]{" ", "Socio", "Recibo", "Talón CobrosYa", "Enviado", "Situación", "Vencimiento", "Pago", "Valor"};
     //lista para a manipulacao do objeto
     private List<Mensualidades> listMensualidades;
 
@@ -48,18 +49,22 @@ public class MensualidadesTableModel extends AbstractTableModel {
         Mensualidades c = listMensualidades.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return c.getId();
+                return rowIndex + 1;
             case 1:
-                return c.getNroTalonCobrosYa();
+                return c.getSocio();
             case 2:
-                return c.getEnviado();
+                return c.getId();
             case 3:
-                return c.getSituacionTalonCobrosYa();
+                return c.getNroTalonCobrosYa();
             case 4:
-                return c.getFechaVencimiento();
+                return c.getEnviado();
             case 5:
-                return c.getFechaPago();
+                return c.getSituacionTalonCobrosYa();
             case 6:
+                return c.getFechaVencimiento();
+            case 7:
+                return c.getFechaPago();
+            case 8:
                 return c.getValor();
             default:
                 return null;
@@ -79,16 +84,20 @@ public class MensualidadesTableModel extends AbstractTableModel {
             case 0:
                 return Integer.class;
             case 1:
-                return String.class;
+                return Socio.class;
             case 2:
-                return Boolean.class;
+                return Integer.class;
             case 3:
                 return String.class;
             case 4:
-                return Date.class;
+                return Boolean.class;
             case 5:
-                return Date.class;
+                return String.class;
             case 6:
+                return Date.class;
+            case 7:
+                return Date.class;
+            case 8:
                 return Double.class;
             default:
                 return null;
