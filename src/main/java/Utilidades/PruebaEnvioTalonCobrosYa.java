@@ -18,22 +18,23 @@ import org.apache.commons.httpclient.methods.PostMethod;
 
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.jdom.input.SAXBuilder;
 
-public class EnvioTalonCobrosYa {
+public class PruebaEnvioTalonCobrosYa {
 
     String nroTalonCobrosYa = null;
     String idSecretoCobrosYa = null;
     String url_pdf = null;
     String situacionTransaccion = null;
     String error;
-    Parametros parametros;
 
-    public EnvioTalonCobrosYa(Parametros parametros) {
-        this.parametros = parametros;
+    public PruebaEnvioTalonCobrosYa() {
     }
 
-    public String enviarTalonMiWeb(Socio socio, String email, Mensualidades mensualidad) throws Exception {
+    public String enviarTalonMiWeb() throws Exception {
         String retorno = null;
         HttpClient client = new HttpClient();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
@@ -44,37 +45,37 @@ public class EnvioTalonCobrosYa {
         PostMethod post = null;
 
         //post = new PostMethod("http://192.185.112.100/~saltohoteluy/nuevo.php");
-        post = new PostMethod(parametros.getUrlPostCobrosYa());
+        post = new PostMethod("http://192.185.112.100/~saltohoteluy/nuevo.php");
 
         post.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
 
-        NameValuePair[] parametersList = new NameValuePair[13];
+        NameValuePair[] parametersList = new NameValuePair[12];
 
 //token String32 Token de la API asignado a su cuenta
         //parametersList[0] = new NameValuePair("token", parametros.getTokenCobrosYa());
-        parametersList[0] = new NameValuePair("token", parametros.getTokenCobrosYa());
+        parametersList[0] = new NameValuePair("token", "b1358960412c70625eb7cd664dcb7318");
 //id_transaccion String50 Identificador único de la transaccion en su sistema
-        parametersList[1] = new NameValuePair("id_transaccion", mensualidad.getId().toString());
+        parametersList[1] = new NameValuePair("id_transaccion", "1");
 //nombre String50 Nombre de la persona que va a efectuar el pago
-        parametersList[2] = new NameValuePair("nombre", socio.getNombre());
+        parametersList[2] = new NameValuePair("nombre", "Prueba");
 //apellido String50 Apellido de la persona que va a efectuar el pago
         parametersList[3] = new NameValuePair("apellido", "");
 //email String50 Email de la persona que va a efectuar el pago
-        parametersList[4] = new NameValuePair("email", email);
+        //parametersList[4] = new NameValuePair("email", socio.getEmail());
 //celular String7 Celular de la persona que va a efectuar el pago. OPCIONAL
-        parametersList[5] = new NameValuePair("celular", socio.getCelular());
+        parametersList[4] = new NameValuePair("celular", "091390000");
 //concepto String200 Descripcion para el talón PDF. OPCIONAL
-        parametersList[6] = new NameValuePair("concepto", "Cuota social Sarandí Universitario " + mensualidad.getId());
+        parametersList[5] = new NameValuePair("concepto", "Prueba sin mail");
 //moneda Numerico3 858=pesos, 840=dólares
-        parametersList[7] = new NameValuePair("moneda", "858");
+        parametersList[6] = new NameValuePair("moneda", "858");
 //monto Numerico10.2 Mondo de la transacción
-        parametersList[8] = new NameValuePair("monto", mensualidad.getValor().toString());
+        parametersList[7] = new NameValuePair("monto", "100");
 //fecha_vencimineto Fecha YYYY-MM-DD Vencimiento del pago en redes de Cobranza. OPCIONAL
-        parametersList[9] = new NameValuePair("fecha_vencimiento", formatoFecha.format(mensualidad.getFechaVencimiento()));
+        parametersList[8] = new NameValuePair("fecha_vencimiento", "2016-09-27");
 //url_respuesta String200 URL para redirigir al usuario al finalizar la transacción
-        parametersList[10] = new NameValuePair("url_respuesta", "http://www.sarandiuniversitario.com/");
+        parametersList[9] = new NameValuePair("url_respuesta", "http://www.sarandiuniversitario.com/");
 //consumo_final Numerico1 1=consumidor final, 0=venta con rut. Para ley de inclusión
-        parametersList[11] = new NameValuePair("consumo_final", "1");
+        parametersList[10] = new NameValuePair("consumo_final", "1");
 
 //factura String20 Numero de factura de la transacción para ley de inclusión
 //monto_gravado Numerico10.2 Monto gravado con IVa para la leu de inclusión financiera
@@ -83,7 +84,7 @@ public class EnvioTalonCobrosYa {
         //parametersList[12] = new NameValuePair("API_URL_CREAR", "https://api.cobrosya.com/v4/crear");
         //URL para pruebas
         //parametersList[12] = new NameValuePair("API_URL_CREAR", "http://api-sandbox.cobrosya.com/v4/crear");
-        parametersList[12] = new NameValuePair("API_URL_CREAR", parametros.getApiUrlCrear());
+        parametersList[11] = new NameValuePair("API_URL_CREAR", "http://api-sandbox.cobrosya.com/v4/crear");
 //Se rellena el cuerpo de la peticion POST con los parametros
         post.setRequestBody(parametersList);
         int httpstatus = 0;
@@ -218,5 +219,16 @@ public class EnvioTalonCobrosYa {
 
         }
         return retorno;
+    }
+    
+    public static void main(String[] args) {
+        try {
+            PruebaEnvioTalonCobrosYa cobrosYa =new PruebaEnvioTalonCobrosYa();
+            
+            System.out.println(cobrosYa.enviarTalonMiWeb());
+        } catch (Exception ex) {
+            System.out.println(ex);
+            Logger.getLogger(PruebaEnvioTalonCobrosYa.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

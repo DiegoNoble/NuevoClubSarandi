@@ -3,6 +3,7 @@ package com.club.views;
 import Utilidades.AjustaColumnas;
 import Utilidades.EnviarEmail;
 import Utilidades.EnvioTalonCobrosYa;
+import Utilidades.ValidaEmail;
 import com.club.BEANS.CcCobrador;
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.Mensualidades;
@@ -87,7 +88,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         tblModelMensualidades = new MensualidadesTableModel(listMensualidades);
         tblMensualidades.setModel(tblModelMensualidades);
 
-        int[] anchos = {2, 150, 5, 15, 10, 120, 20, 20, 20};
+        int[] anchos = {1, 170, 5, 20, 10, 150, 20, 20, 5};
         new AjustaColumnas().ajustar(tblMensualidades, anchos);
 
         tblMensualidades.getColumn("Pago").setCellRenderer(new TableRendererColor(5));
@@ -301,46 +302,17 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
     private void btnEnviarTalonCobrosYaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonCobrosYaActionPerformed
 
-        try {
-            EnvioTalonCobrosYa cobrosYa = new EnvioTalonCobrosYa(parametros);
-            cobrosYa.enviarTalonMiWeb(socioSeleccionado, mensualidadSeleccionada);
-
-            if (mensualidadSeleccionada.getEnviado() == false) {
-
-                mensualidadSeleccionada.setEnviado(true);
-                mensualidadSeleccionada.setFechaHoraTransaccionCobrosYa(new Date());
-                mensualidadSeleccionada.setSituacionTalonCobrosYa(cobrosYa.getSituacionTransaccion());
-                mensualidadSeleccionada.setNroTalonCobrosYa(cobrosYa.getNroTalonCobrosYa());
-                mensualidadSeleccionada.setUrlPDF(cobrosYa.getUrl_pdf());
-                mensualidadSeleccionada.setIdSecreto(cobrosYa.getIdSecretoCobrosYa());
-
-                mensualidadesDAO = new MensualidadesDAO();
-                mensualidadesDAO.Actualizar(mensualidadSeleccionada);
-                JOptionPane.showMessageDialog(this, "Talón: " + mensualidadSeleccionada.getNroTalonCobrosYa() + " creado correctamente!");
-                EnviarEmail enviarEmail = new EnviarEmail(cobrosYa.getUrl_pdf(), socioSeleccionado.getEmail());
-                Boolean enviaMail = enviarEmail.enviaMail();
-                if (enviaMail == true) {
-
-                } else {
-
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "El rebibo ya habia sido enviado, nro. talón: " + mensualidadSeleccionada.getNroTalonCobrosYa(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (Exception ex) {
-            Logger.getLogger(GeneraTalonCobrosYa.class
-                    .getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-
-            JOptionPane.showMessageDialog(this,
-                    "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        List<Mensualidades> mensualidades = new ArrayList<>();
+        mensualidades.add(mensualidadSeleccionada);
+        LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, cobradorCobrosYa, parametros, mensualidades);
+        log.setLocationRelativeTo(null);
+        log.setVisible(true);
+        log.toFront();
 
     }//GEN-LAST:event_btnEnviarTalonCobrosYaActionPerformed
 
     private void btnReenviarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReenviarEmailActionPerformed
-        EnviarEmail enviarEmail = new EnviarEmail(mensualidadSeleccionada.getUrlPDF(), socioSeleccionado.getEmail());
+        EnviarEmail enviarEmail = new EnviarEmail(mensualidadSeleccionada.getUrlPDF(), mensualidadSeleccionada.getSocio().getEmail());
         enviarEmail.enviaMail();
     }//GEN-LAST:event_btnReenviarEmailActionPerformed
 

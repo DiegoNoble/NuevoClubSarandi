@@ -28,6 +28,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtPswSms.setText(parametros.getPsw_SMS());
         txtTokenCobrosYa.setText(parametros.getTokenCobrosYa());
         txtUrlPost.setText(parametros.getUrlPostCobrosYa());
+        txtEmailPadron.setText(parametros.getEmailPadron());
         txtUsuarioSMS.setText(parametros.getUsuario_SMS());
         cbCobrosYa.setSelectedItem(parametros.getCobradorCobrosYa());
         txtApiUrlCrear.setText(parametros.getApiUrlCrear());
@@ -51,6 +52,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtUrlPost.setEnabled(true);
         txtApiUrlCrear.setEnabled(true);
         txtUsuarioSMS.setEnabled(true);
+        txtEmailPadron.setEnabled(true);
         cbCobrosYa.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnGuardar.setEnabled(true);
@@ -67,6 +69,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtUrlPost.setEnabled(false);
         txtApiUrlCrear.setEnabled(false);
         txtUsuarioSMS.setEnabled(false);
+        txtEmailPadron.setEnabled(false);
         cbCobrosYa.setEnabled(false);
         btnCancelar.setEnabled(false);
         btnGuardar.setEnabled(false);
@@ -98,6 +101,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         txtApiUrlCrear = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        txtEmailPadron = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -134,13 +139,13 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtTokenCobrosYa.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtTokenCobrosYa, gridBagConstraints);
 
-        jLabel2.setText("Casilla email");
+        jLabel2.setText("Casilla email remitente");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel2, gridBagConstraints);
@@ -148,23 +153,23 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtUsuarioSMS.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtUsuarioSMS, gridBagConstraints);
 
-        jLabel5.setText("Usuario SMS");
+        jLabel5.setText("Usuario SMS Masivos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel5, gridBagConstraints);
 
         txtUrlPost.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -173,14 +178,14 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         jLabel7.setText("Token CobrosYa");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel7, gridBagConstraints);
 
-        jLabel9.setText("API URL CobrosYA");
+        jLabel9.setText("Si socio no tiene mail, envia a:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel9, gridBagConstraints);
 
@@ -193,17 +198,17 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtEmail, gridBagConstraints);
 
-        jLabel10.setText("Psw Email");
+        jLabel10.setText("Psw Email remitente");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel10, gridBagConstraints);
 
-        jLabel11.setText("Psw SMS");
+        jLabel11.setText("Psw SMS Masivos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel11, gridBagConstraints);
 
@@ -217,7 +222,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtPswSms.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -226,7 +231,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         cbCobrosYa.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(cbCobrosYa, gridBagConstraints);
@@ -234,25 +239,41 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         jLabel12.setText("Cobrador CobrosYa");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel12, gridBagConstraints);
 
         jLabel13.setText("URL Post CobrosYA");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel13, gridBagConstraints);
 
         txtApiUrlCrear.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtApiUrlCrear, gridBagConstraints);
+
+        jLabel14.setText("API URL CobrosYA");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel14, gridBagConstraints);
+
+        txtEmailPadron.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txtEmailPadron, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -324,6 +345,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
             parametros.setUrlPostCobrosYa(txtUrlPost.getText());
             parametros.setUsuario_SMS(txtUsuarioSMS.getText());
             parametros.setApiUrlCrear(txtApiUrlCrear.getText());
+            parametros.setEmailPadron(txtEmailPadron.getText());
             parametros.setCobradorCobrosYa((Cobrador) cbCobrosYa.getSelectedItem());
             parametrosDAO = new ParametrosDAO();
             parametrosDAO.Actualizar(parametros);
@@ -334,7 +356,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+        deshabilitaCampos();
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -348,6 +370,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -357,6 +380,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField txtApiUrlCrear;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtEmailPadron;
     private javax.swing.JTextField txtPswEmail;
     private javax.swing.JTextField txtPswSms;
     private javax.swing.JTextField txtTokenCobrosYa;

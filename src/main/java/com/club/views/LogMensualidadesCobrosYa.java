@@ -7,6 +7,8 @@ package com.club.views;
 
 import Utilidades.EnviarEmail;
 import Utilidades.EnvioTalonCobrosYa;
+import Utilidades.ValidaCelular;
+import Utilidades.ValidaEmail;
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.Mensualidades;
 import com.club.BEANS.Parametros;
@@ -62,17 +64,18 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
         for (Mensualidades m : listMensualidades) {
             if (m.getEnviado() == true) {
                 this.txtLog.append("\nSocio " + m.getSocio());
-                this.txtLog.append("\nRecibo " + m.getId() + "ya enviado, nro Talón CobrosYa " + m.getNroTalonCobrosYa());
+                this.txtLog.append("\nRecibo " + m.getId() + ", ya enviado, nro Talón CobrosYa " + m.getNroTalonCobrosYa());
                 this.txtLog.append("\n--------------------------");
-            } else if (m.getFechaVencimiento().after(new Date())) {
+            } else if (m.getFechaVencimiento().before(new Date())) {
                 this.txtLog.append("\nSocio " + m.getSocio());
-                this.txtLog.append("\nRecibo " + m.getId() + "Fecha de vencimiento invalida, debe ser mayor que hoy");
+                this.txtLog.append("\nRecibo " + m.getId() + ", Fecha de vencimiento inválida, debe ser mayor que hoy.");
                 this.txtLog.append("\n--------------------------");
-            }
-            if (m.getPago().equals("Pago")) {
+            } else if (m.getPago().equals("Pago")) {
                 this.txtLog.append("\nSocio " + m.getSocio());
-                this.txtLog.append("\nRecibo " + m.getId() + "nro Talón CobrosYa " + m.getNroTalonCobrosYa() + "Pago " + formato.format(m.getFechaHoraTransaccionCobrosYa()));
+                this.txtLog.append("\nRecibo " + m.getId() + ", Nro Talón CobrosYa " + m.getNroTalonCobrosYa() + "Pago " + formato.format(m.getFechaHoraTransaccionCobrosYa()));
                 this.txtLog.append("\n--------------------------");
+            }  else if (ValidaCelular.validateEmail(m.getSocio().getCelular()) == false) {
+                this.txtLog.append("\n Formato de celular inválido");
             } else {
                 enviarTalon(m.getSocio(), m);
             }
@@ -85,14 +88,20 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
 
     void enviarTalon(Socio socio, Mensualidades mensualidadSeleccionada) {
         try {
+            String email = socio.getEmail();
+            if (ValidaEmail.validateEmail(socio.getEmail()) == false) {
+                this.txtLog.append("\n Formato de email inválido, se utilizara la casilla Default: " + parametros.getEmailPadron());
+                email = parametros.getEmailPadron();
+            }
+
             this.txtLog.append("\n");
             this.txtLog.append("Socio: " + socio + ", Cuota social Nro.: " + mensualidadSeleccionada.getId() + ", Vencimiento " + formato.format(mensualidadSeleccionada.getFechaVencimiento()));
             this.txtLog.append("\n Generando talón CobrosYa...");
 
             EnvioTalonCobrosYa cobrosYa = new EnvioTalonCobrosYa(parametros);
-            String retorno = cobrosYa.enviarTalonMiWeb(socio, mensualidadSeleccionada);
+            String retorno = cobrosYa.enviarTalonMiWeb(socio, email, mensualidadSeleccionada);
             if (retorno.equals("Transacción iniciada correctamente")) {
-
+                this.txtLog.append("\n Transacción iniciada correctamente");
                 if (mensualidadSeleccionada.getEnviado() == false) {
 
                     mensualidadSeleccionada.setEnviado(true);
@@ -107,19 +116,20 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
                     this.txtLog.append("\n Talón: " + mensualidadSeleccionada.getNroTalonCobrosYa() + " creado correctamente!");
 
                     this.txtLog.append("\n Enviando talón via Email...");
-                    EnviarEmail enviarEmail = new EnviarEmail(cobrosYa.getUrl_pdf(), socio.getEmail());
+
+                    EnviarEmail enviarEmail = new EnviarEmail(cobrosYa.getUrl_pdf(), email);
                     Boolean enviaMail = enviarEmail.enviaMail();
                     if (enviaMail == true) {
-                        this.txtLog.append("\n Notificación por Email enviada correctamente a: " + socio.getEmail());
+                        this.txtLog.append("\n Notificación por Email enviada correctamente a: " + email);
                     } else {
-                        this.txtLog.append("\n Error al enviar Email a: " + socio.getEmail());
+                        this.txtLog.append("\n Error al enviar Email a: " + email);
                     }
 
                 } else {
                     this.txtLog.append("\n El rebibo ya habia sido enviado, nro. talón: " + mensualidadSeleccionada.getNroTalonCobrosYa());
                 }
             } else {
-                this.txtLog.append("\n Error al iniciar transacción " + retorno);
+                this.txtLog.append("\n Error al iniciar transacción: " + retorno);
             }
             this.txtLog.append("\n--------------------------");
         } catch (Exception ex) {

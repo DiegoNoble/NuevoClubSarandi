@@ -48,6 +48,7 @@ public class Parametros implements Serializable {
     private Cobrador cobradorCobrosYa;
     @Column(name = "api_url_crear")
     private String apiUrlCrear;
+    private String emailPadron;
 
     public Parametros() {
     }
@@ -124,6 +125,12 @@ public class Parametros implements Serializable {
         this.apiUrlCrear = apiUrlCrear;
     }
 
+    public String getEmailPadron() {
+        return emailPadron;
+    }
 
+    public void setEmailPadron(String emailPadron) {
+        this.emailPadron = emailPadron;
+    }
 
 }
