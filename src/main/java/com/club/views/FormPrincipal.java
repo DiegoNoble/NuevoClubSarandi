@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
-import smsmasivos.RecibeRespuestasSMSController;
+import com.club.smsmasivos.RecibeRespuestasSMSController;
 
 public class FormPrincipal extends javax.swing.JFrame {
 

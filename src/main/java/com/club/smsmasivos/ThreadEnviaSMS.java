@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package smsmasivos;
+package com.club.smsmasivos;
 
 import com.club.BEANS.Campanasms;
 import com.club.BEANS.Sms;

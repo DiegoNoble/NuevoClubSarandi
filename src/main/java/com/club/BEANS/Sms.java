@@ -47,7 +47,8 @@ public class Sms implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Socio socio;
     private Boolean respondido;
-
+    private String mensajeTalonCobrosYa;
+    
     public Sms() {
     }
 
@@ -97,6 +98,14 @@ public class Sms implements Serializable {
 
     public void setRespondido(Boolean respondido) {
         this.respondido = respondido;
+    }
+
+    public String getMensajeTalonCobrosYa() {
+        return mensajeTalonCobrosYa;
+    }
+
+    public void setMensajeTalonCobrosYa(String mensajeTalonCobrosYa) {
+        this.mensajeTalonCobrosYa = mensajeTalonCobrosYa;
     }
 
     @Override

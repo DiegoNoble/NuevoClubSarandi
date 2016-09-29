@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package smsmasivos;
+package com.club.smsmasivos;
 
 import com.club.BEANS.Campanasms;
 import com.club.BEANS.Parametros;
@@ -18,6 +18,9 @@ import java.util.Map;
 import javax.swing.JInternalFrame;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
+import smsmasivos.ArrayOfClsRespuesta;
+import smsmasivos.ClsRespuesta;
+import smsmasivos.SMSMasivosAPI;
 
 /**
  *

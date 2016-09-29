@@ -25,7 +25,7 @@
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
- <plugins>  
+        <plugins>  
             <plugin>  
                 <groupId>org.apache.maven.plugins</groupId>  
                 <artifactId>maven-jar-plugin</artifactId>  
@@ -256,6 +256,11 @@
             <groupId>unknown.binary</groupId>
             <artifactId>MisBotones</artifactId>
             <version>SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-urlshortener</artifactId>
+            <version>v1-rev45-1.22.0</version>
         </dependency>
         
     </dependencies>

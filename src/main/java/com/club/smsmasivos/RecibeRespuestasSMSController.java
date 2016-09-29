@@ -1,4 +1,4 @@
-package smsmasivos;
+package com.club.smsmasivos;
 
 import Utilidades.AjustaColumnas;
 import com.club.BEANS.Campanasms;

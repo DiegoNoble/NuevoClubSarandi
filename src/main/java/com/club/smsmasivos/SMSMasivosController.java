@@ -8,7 +8,6 @@ package com.club.smsmasivos;
 import com.club.views.SMSMasivosView;
 import Utilidades.AjustaColumnas;
 import Utilidades.ControlarEntradaTexto;
-import smsmasivos.ThreadEnviaSMS;
 import com.club.BEANS.Categoria;
 import com.club.BEANS.Socio;
 import com.club.DAOs.SocioDAO;

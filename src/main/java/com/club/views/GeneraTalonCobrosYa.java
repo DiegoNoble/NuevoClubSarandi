@@ -2,7 +2,6 @@ package com.club.views;
 
 import Utilidades.AjustaColumnas;
 import Utilidades.EnviarEmail;
-import Utilidades.EnvioTalonCobrosYa;
 import Utilidades.ValidaEmail;
 import com.club.BEANS.CcCobrador;
 import com.club.BEANS.Cobrador;
@@ -17,13 +16,13 @@ import com.club.DAOs.SocioDAO;
 import com.club.Renderers.MeDateCellRenderer;
 import com.club.Renderers.TableRendererColor;
 import com.club.modelos.MensualidadesTableModel;
+import com.club.smsmasivos.ThreadEnviaSMSTalonCobrosYa;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -46,6 +45,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     List<Mensualidades> listMensualidades;
     private static Cobrador cobradorCobrosYa;
     private static Parametros parametros;
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
     public GeneraTalonCobrosYa() {
 
@@ -103,16 +103,41 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
                     if (tblMensualidades.getSelectedRow() != -1) {
 
                         mensualidadSeleccionada = listMensualidades.get(tblMensualidades.getSelectedRow());
-                        btnReenviarEmail.setEnabled(true);
+
                         if (mensualidadSeleccionada.getEnviado() == false) {
-                            btnEnviarTalonCobrosYa.setEnabled(true);
+                            if (mensualidadSeleccionada.getFechaVencimiento().after(new Date())) {
+                                btnEnviarTalonCobrosYa.setEnabled(true);
+                            }
+                            btnReenviarEmail.setEnabled(false);
+                            btnEnviarTalonesSMSIndividual.setEnabled(false);
+                        } else {
+                            btnEnviarTalonCobrosYa.setEnabled(false);
+                            if (mensualidadSeleccionada.getFechaVencimiento().after(new Date())) {
+
+                                btnReenviarEmail.setEnabled(true);
+                                btnEnviarTalonesSMSIndividual.setEnabled(true);
+                            }
+
                         }
+                    } else {
+                        btnEnviarTalonCobrosYa.setEnabled(false);
+                        btnReenviarEmail.setEnabled(false);
+                        btnEnviarTalonesSMSIndividual.setEnabled(false);
                     }
 
                 }
             }
         });
 
+    }
+
+    void enviaEmail(Mensualidades mensualidad, String email) {
+        EnviarEmail enviarEmail = new EnviarEmail(mensualidad.getUrlPDF(), email);
+        if (enviarEmail.enviaMail() == true) {
+            JOptionPane.showMessageDialog(this, "Email enviado correctamente a: " + email);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error enviando email a: " + email);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -134,10 +159,15 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMensualidades = new javax.swing.JTable();
+        scrollpane = new javax.swing.JScrollPane();
+        txtLog = new javax.swing.JTextArea();
+        chPrueba = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         btnEnviarTalonCobrosYa = new javax.swing.JButton();
         btnReenviarEmail = new javax.swing.JButton();
         btnEnviarTalonesPendientes = new javax.swing.JButton();
+        btnEnviarTalonesSMSMasivo = new javax.swing.JButton();
+        btnEnviarTalonesSMSIndividual = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -246,6 +276,28 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 1.0;
         jPanel6.add(jScrollPane2, gridBagConstraints);
 
+        scrollpane.setBorder(javax.swing.BorderFactory.createTitledBorder("Log SMS"));
+
+        txtLog.setColumns(20);
+        txtLog.setRows(5);
+        scrollpane.setViewportView(txtLog);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipady = 100;
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
+        jPanel6.add(scrollpane, gridBagConstraints);
+
+        chPrueba.setSelected(true);
+        chPrueba.setText("Simular envío");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        jPanel6.add(chPrueba, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -254,7 +306,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 1.0;
         getContentPane().add(jPanel6, gridBagConstraints);
 
-        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        jPanel5.setLayout(new java.awt.GridBagLayout());
 
         btnEnviarTalonCobrosYa.setText("Enviar talón Cobros Ya");
         btnEnviarTalonCobrosYa.setEnabled(false);
@@ -263,7 +315,9 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
                 btnEnviarTalonCobrosYaActionPerformed(evt);
             }
         });
-        jPanel5.add(btnEnviarTalonCobrosYa);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
+        jPanel5.add(btnEnviarTalonCobrosYa, gridBagConstraints);
 
         btnReenviarEmail.setText("Re-enviar email");
         btnReenviarEmail.setEnabled(false);
@@ -272,15 +326,44 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
                 btnReenviarEmailActionPerformed(evt);
             }
         });
-        jPanel5.add(btnReenviarEmail);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
+        jPanel5.add(btnReenviarEmail, gridBagConstraints);
 
-        btnEnviarTalonesPendientes.setText("Enviar talones pendientes");
+        btnEnviarTalonesPendientes.setText("Generar talones CobrosYa y enviar email");
         btnEnviarTalonesPendientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarTalonesPendientesActionPerformed(evt);
             }
         });
-        jPanel5.add(btnEnviarTalonesPendientes);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(btnEnviarTalonesPendientes, gridBagConstraints);
+
+        btnEnviarTalonesSMSMasivo.setText("Enviar talones por SMS Masivamente");
+        btnEnviarTalonesSMSMasivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarTalonesSMSMasivoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(btnEnviarTalonesSMSMasivo, gridBagConstraints);
+
+        btnEnviarTalonesSMSIndividual.setText("Enviar talón por SMS");
+        btnEnviarTalonesSMSIndividual.setEnabled(false);
+        btnEnviarTalonesSMSIndividual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarTalonesSMSIndividualActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
+        jPanel5.add(btnEnviarTalonesSMSIndividual, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -312,8 +395,21 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEnviarTalonCobrosYaActionPerformed
 
     private void btnReenviarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReenviarEmailActionPerformed
-        EnviarEmail enviarEmail = new EnviarEmail(mensualidadSeleccionada.getUrlPDF(), mensualidadSeleccionada.getSocio().getEmail());
-        enviarEmail.enviaMail();
+        String email = mensualidadSeleccionada.getSocio().getEmail();
+        if (ValidaEmail.validateEmail(email) == false) {
+            int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Formato de email inválido, se utilizara la casilla Default: " + parametros.getEmailPadron(), "Esta seguro?", JOptionPane.YES_NO_OPTION);
+            email = parametros.getEmailPadron();
+            if (showConfirmDialog == JOptionPane.YES_OPTION) {
+                enviaEmail(mensualidadSeleccionada, email);
+            }
+        } else {
+            int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Confirma el envio del email a: " + email, "Esta seguro?", JOptionPane.YES_NO_OPTION);
+            if (showConfirmDialog == JOptionPane.YES_OPTION) {
+                enviaEmail(mensualidadSeleccionada, email);
+            }
+        }
+
+
     }//GEN-LAST:event_btnReenviarEmailActionPerformed
 
     private void btnEnviarTalonesPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonesPendientesActionPerformed
@@ -326,12 +422,61 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnEnviarTalonesPendientesActionPerformed
 
+    private void btnEnviarTalonesSMSMasivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonesSMSMasivoActionPerformed
+
+        List<Mensualidades> listSMS = new ArrayList();
+        for (Mensualidades m : listMensualidades) {
+            if (!m.getNroTalonCobrosYa().equals("")) {
+                listSMS.add(m);
+            }
+        }
+
+        int tamano = listSMS.size();
+
+        if (tamano == 0) {
+            JOptionPane.showMessageDialog(null, "No posee talones CobrosYa disponibles para enviar en la fecha vencimiento seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else if (tamano >= 500) {
+            JOptionPane.showMessageDialog(null, "La campaña tiene " + tamano + " Socios seleccionados, puede enviar como máximo 500 sms por camapaña", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+
+            ThreadEnviaSMSTalonCobrosYa envia = new ThreadEnviaSMSTalonCobrosYa("Talón CobrosYa", txtLog, this, listSMS, chPrueba.isSelected());
+            envia.execute();
+        }
+
+    }//GEN-LAST:event_btnEnviarTalonesSMSMasivoActionPerformed
+
+    private void btnEnviarTalonesSMSIndividualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonesSMSIndividualActionPerformed
+
+        List<Mensualidades> listSMS = new ArrayList();
+        listSMS.add(mensualidadSeleccionada);
+
+        int tamano = listSMS.size();
+
+        if (tamano == 0) {
+            JOptionPane.showMessageDialog(null, "No posee talones CobrosYa disponibles para enviar en la fecha vencimiento seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else if (tamano >= 500) {
+            JOptionPane.showMessageDialog(null, "La campaña tiene " + tamano + " Socios seleccionados, puede enviar como máximo 500 sms por camapaña", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+
+            ThreadEnviaSMSTalonCobrosYa envia = new ThreadEnviaSMSTalonCobrosYa("Talón CobrosYa", txtLog, this, listSMS, chPrueba.isSelected());
+            envia.execute();
+        }
+
+    }//GEN-LAST:event_btnEnviarTalonesSMSIndividualActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEnviarTalonCobrosYa;
     private javax.swing.JButton btnEnviarTalonesPendientes;
+    private javax.swing.JButton btnEnviarTalonesSMSIndividual;
+    private javax.swing.JButton btnEnviarTalonesSMSMasivo;
     private javax.swing.JButton btnReenviarEmail;
     private javax.swing.ButtonGroup buttonGroup1;
+    public javax.swing.JCheckBox chPrueba;
     private org.jdesktop.swingx.JXDatePicker dpVencimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -344,6 +489,8 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbPagos;
     private javax.swing.JRadioButton rbPendientes;
     private javax.swing.JRadioButton rbTodos;
+    private javax.swing.JScrollPane scrollpane;
     private javax.swing.JTable tblMensualidades;
+    private javax.swing.JTextArea txtLog;
     // End of variables declaration//GEN-END:variables
 }
