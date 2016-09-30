@@ -62,6 +62,8 @@ public class Mensualidades implements Serializable {
     private String urlPDF;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date fechaHoraTransaccionCobrosYa;
+    private Integer medioPagoId;
+    private String medioPago;
 
     public Mensualidades() {
     }
@@ -191,6 +193,22 @@ public class Mensualidades implements Serializable {
 
     public void setFechaHoraTransaccionCobrosYa(Date fechaHoraTransaccionCobrosYa) {
         this.fechaHoraTransaccionCobrosYa = fechaHoraTransaccionCobrosYa;
+    }
+
+    public Integer getMedioPagoId() {
+        return medioPagoId;
+    }
+
+    public void setMedioPagoId(Integer medioPagoId) {
+        this.medioPagoId = medioPagoId;
+    }
+
+    public String getMedioPago() {
+        return medioPago;
+    }
+
+    public void setMedioPago(String medioPago) {
+        this.medioPago = medioPago;
     }
 
     @Override

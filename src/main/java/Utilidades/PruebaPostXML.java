@@ -5,6 +5,7 @@
  */
 package Utilidades;
 
+import com.club.BEANS.Mensualidades;
 import java.util.List;
 
 import org.jdom.Document;
@@ -15,19 +16,20 @@ import org.apache.commons.httpclient.methods.PostMethod;
 
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdom.input.SAXBuilder;
 
 public class PruebaPostXML {
 
-    String error;
+    String response;
+    List<Mensualidades> mensualidadesPagas = new ArrayList<>();
 
     public PruebaPostXML() {
     }
 
     public String enviarTalonMiWeb() throws Exception {
-        String retorno = null;
         HttpClient client = new HttpClient();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -47,7 +49,6 @@ public class PruebaPostXML {
 
         post.setRequestBody(parametersList);
         int httpstatus = 0;
-        String response = null;
 
         try {
 //Se envıa la peticion
@@ -58,41 +59,62 @@ public class PruebaPostXML {
             //DocumentBuilder dombuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             SAXBuilder saxBuilder = new SAXBuilder();
             Document document = saxBuilder.build(new StringReader(response));
+
             Element rootNode = document.getRootElement();
 
+            //Tag <Talones>
             List<Element> hijoRaiz = rootNode.getChildren();
-            error = null;
 
-            /*for (Element hijo : hijoRaiz) {
-             if (hijo.getName().equals("error")) {
-             error = hijo.getValue();
+            //Recorre cada <Talon>
+            for (Element hijo : hijoRaiz) {
+                Mensualidades talonCobrosYaPago = new Mensualidades();
+                List<Element> talones = hijo.getContent();
+                //Reorre cada tag hijo de <Talon>
 
-             }
-             if (hijo.getName().equals("nro_talon")) {
-             nroTalonCobrosYa = hijo.getValue();
-             }
-             if (hijo.getName().equals("id_secreto")) {
-             idSecretoCobrosYa = hijo.getValue();
-             }
-             if (hijo.getName().equals("url_pdf")) {
-             url_pdf = hijo.getValue();
-             }
+                for (Element tags : talones) {
 
-             }*/
-            retorno = error;
+                    if (tags.getName().equals("transaccion")) {
+                        talonCobrosYaPago.setId(Integer.valueOf(tags.getValue()));
+                    }
+                    if (tags.getName().equals("medioPagoId")) {
+                        if (!tags.getValue().equals("")) {
+                            talonCobrosYaPago.setMedioPagoId(Integer.valueOf(tags.getValue()));
+                        }
+                    }
+                    if (tags.getName().equals("medioPago")) {
+                        talonCobrosYaPago.setMedioPago(tags.getValue());
+                    }
+                    if (tags.getName().equals("idSecreto")) {
+                        talonCobrosYaPago.setIdSecreto(tags.getValue());
+                    }
+                    if (tags.getName().equals("fechaHoraPago")) {
+                        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        if (!tags.getValue().equals("")) {
+                            talonCobrosYaPago.setFechaHoraTransaccionCobrosYa(formato.parse(tags.getValue()));
+                        }
+                    }
+                    if (tags.getName().equals("paga")) {
+                        talonCobrosYaPago.setPago(tags.getValue());
+                    }
+
+                }
+                mensualidadesPagas.add(talonCobrosYaPago);
+            }
+
         } catch (Exception e) {
-            retorno = error;
-            return retorno;
+            System.out.println(e);
+            e.printStackTrace();
         } finally {
 
             post.releaseConnection();
 
         }
-        if (httpstatus != 200) {
-            System.out.println(error);
+        if (httpstatus
+                != 200) {
+            System.out.println(response);
 
         }
-        return retorno;
+        return response;
 
     }
 
