@@ -3,7 +3,6 @@ package com.club.views;
 import com.club.BEANS.CcCobrador;
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.Mensualidades;
-import com.club.BEANS.MensualidadesAnuladas;
 import com.club.BEANS.Socio;
 import com.club.DAOs.CcCobradorDAO;
 import com.club.DAOs.CobradorDAO;
@@ -12,12 +11,10 @@ import com.club.DAOs.MensualidadesDAO;
 import com.club.Renderers.MeDateCellRenderer;
 import com.club.modelos.MensualidadesTableModel;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -46,6 +43,9 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         completaCombos();
         defineModelo();
         buscarRecibos();
+        Calendar venc = Calendar.getInstance();
+        venc.set(Calendar.DAY_OF_MONTH, 15);
+        dpVencimiento.setDate(venc.getTime());
 
     }
 
@@ -64,8 +64,8 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         tblModelMensualidades = new MensualidadesTableModel(listMensualidades);
         tblMensualidades.setModel(tblModelMensualidades);
         tblMensualidades.getColumn("Vencimiento").setCellRenderer(new MeDateCellRenderer());
-        tblMensualidades.getColumn("Fecha Pago").setCellRenderer(new MeDateCellRenderer());
-        int[] anchos = {1, 100, 40, 20, 20, 20};
+        tblMensualidades.getColumn("Pago").setCellRenderer(new MeDateCellRenderer());
+        int[] anchos = {1, 170, 5, 20, 10, 150, 20, 20, 5};
 
         for (int i = 0; i < tblMensualidades.getColumnCount(); i++) {
 

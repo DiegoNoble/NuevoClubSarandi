@@ -188,6 +188,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemPagos = new javax.swing.JMenuItem();
         mnuItemRecibos1 = new javax.swing.JMenuItem();
         mnuItemRecibos2 = new javax.swing.JMenuItem();
+        mnuItemRecibos3 = new javax.swing.JMenuItem();
         mnuArqueo = new javax.swing.JMenu();
         mnuItemArqueo = new javax.swing.JMenuItem();
         mnuHabilitacionMedica = new javax.swing.JMenu();
@@ -544,13 +545,21 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         mnuMensualidades.add(mnuItemRecibos1);
 
-        mnuItemRecibos2.setText("Cobros Ya");
+        mnuItemRecibos2.setText("Generar talones Cobros Ya");
         mnuItemRecibos2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuItemRecibos2ActionPerformed(evt);
             }
         });
         mnuMensualidades.add(mnuItemRecibos2);
+
+        mnuItemRecibos3.setText("Actualizar talones CobrosYa");
+        mnuItemRecibos3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemRecibos3ActionPerformed(evt);
+            }
+        });
+        mnuMensualidades.add(mnuItemRecibos3);
 
         jMenuBar1.add(mnuMensualidades);
 
@@ -1096,6 +1105,14 @@ public class FormPrincipal extends javax.swing.JFrame {
         cobrosYa.toFront();
     }//GEN-LAST:event_mnuItemRecibos2ActionPerformed
 
+    private void mnuItemRecibos3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemRecibos3ActionPerformed
+        ConsultaActualizaTalonCobrosYa actualizaTalonCobrosYa = new ConsultaActualizaTalonCobrosYa();
+        jDesktopPane1.add(actualizaTalonCobrosYa);
+        actualizaTalonCobrosYa.setVisible(true);
+        actualizaTalonCobrosYa.toFront();
+
+    }//GEN-LAST:event_mnuItemRecibos3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCaja;
@@ -1147,6 +1164,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemRecibos;
     private javax.swing.JMenuItem mnuItemRecibos1;
     private javax.swing.JMenuItem mnuItemRecibos2;
+    private javax.swing.JMenuItem mnuItemRecibos3;
     private javax.swing.JMenuItem mnuItemSalir;
     private javax.swing.JMenuItem mnuItemSobre;
     private javax.swing.JMenuItem mnuItemSocios;

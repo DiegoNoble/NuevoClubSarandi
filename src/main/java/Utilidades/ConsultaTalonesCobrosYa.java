@@ -17,21 +17,21 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
 import org.jdom.input.SAXBuilder;
 
-public class PruebaPostXML {
+public class ConsultaTalonesCobrosYa {
 
     String response;
     List<Mensualidades> mensualidadesPagas = new ArrayList<>();
 
-    public PruebaPostXML() {
+    public ConsultaTalonesCobrosYa() {
     }
 
-    public String enviarTalonMiWeb() throws Exception {
+    public List<Mensualidades> enviarTalonMiWeb(Date fecha) throws Exception {
         HttpClient client = new HttpClient();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatoBD = new SimpleDateFormat("yyyy-MM-dd");
 
         client.setStrictMode(true);
         client.setTimeout(60000);
@@ -43,9 +43,10 @@ public class PruebaPostXML {
 
         post.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
 
-        NameValuePair[] parametersList = new NameValuePair[1];
+        NameValuePair[] parametersList = new NameValuePair[2];
 
         parametersList[0] = new NameValuePair("accion", "consulta");
+        parametersList[1] = new NameValuePair("fecha", formatoBD.format(fecha));
 
         post.setRequestBody(parametersList);
         int httpstatus = 0;
@@ -87,8 +88,11 @@ public class PruebaPostXML {
                     if (tags.getName().equals("idSecreto")) {
                         talonCobrosYaPago.setIdSecreto(tags.getValue());
                     }
+                    if (tags.getName().equals("nroTalon")) {
+                        talonCobrosYaPago.setNroTalonCobrosYa(tags.getValue());
+                    }
                     if (tags.getName().equals("fechaHoraPago")) {
-                        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
                         if (!tags.getValue().equals("")) {
                             talonCobrosYaPago.setFechaHoraTransaccionCobrosYa(formato.parse(tags.getValue()));
                         }
@@ -114,18 +118,18 @@ public class PruebaPostXML {
             System.out.println(response);
 
         }
-        return response;
+        return mensualidadesPagas;
 
     }
 
-    public static void main(String[] args) {
-        try {
-            PruebaPostXML cobrosYa = new PruebaPostXML();
+    /*public static void main(String[] args) {
+     try {
+     ConsultaTalonesCobrosYa cobrosYa = new ConsultaTalonesCobrosYa();
 
-            System.out.println(cobrosYa.enviarTalonMiWeb());
-        } catch (Exception ex) {
-            System.out.println(ex);
-            Logger.getLogger(PruebaPostXML.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+     System.out.println(cobrosYa.enviarTalonMiWeb());
+     } catch (Exception ex) {
+     System.out.println(ex);
+     Logger.getLogger(ConsultaTalonesCobrosYa.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     }*/
 }

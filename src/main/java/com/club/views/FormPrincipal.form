@@ -231,10 +231,18 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuItemRecibos2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cobros Ya"/>
+                <Property name="text" type="java.lang.String" value="Generar talones Cobros Ya"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemRecibos2ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuItemRecibos3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Actualizar talones CobrosYa"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemRecibos3ActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
