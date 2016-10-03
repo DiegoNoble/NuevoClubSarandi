@@ -5,7 +5,6 @@
  */
 package com.club.main;
 
-import com.club.views.FormPrincipal;
 import com.club.views.frameLogin;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,8 +48,8 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            //frameLogin login = new frameLogin();
-            FormPrincipal login = new FormPrincipal();
+            frameLogin login = new frameLogin();
+            //FormPrincipal login = new FormPrincipal();
 
             //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
