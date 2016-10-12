@@ -16,6 +16,7 @@ import com.club.DAOs.SocioDAO;
 import com.club.Renderers.MeDateCellRenderer;
 import com.club.Renderers.TableRendererColor;
 import com.club.modelos.MensualidadesTableModel;
+import com.club.smsmasivos.ThreadEnviaRecordatorioSMSTalonCobrosYa;
 import com.club.smsmasivos.ThreadEnviaSMSTalonCobrosYa;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -168,6 +169,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         btnEnviarTalonesPendientes = new javax.swing.JButton();
         btnEnviarTalonesSMSMasivo = new javax.swing.JButton();
         btnEnviarTalonesSMSIndividual = new javax.swing.JButton();
+        btnEnviarRecordatorioSMSPendientes = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -365,6 +367,18 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
         jPanel5.add(btnEnviarTalonesSMSIndividual, gridBagConstraints);
 
+        btnEnviarRecordatorioSMSPendientes.setText("Enviar recordatorio pendientes SMS Masivamente");
+        btnEnviarRecordatorioSMSPendientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarRecordatorioSMSPendientesActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(btnEnviarRecordatorioSMSPendientes, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -468,8 +482,38 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnEnviarTalonesSMSIndividualActionPerformed
 
+    private void btnEnviarRecordatorioSMSPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarRecordatorioSMSPendientesActionPerformed
+
+        List<Mensualidades> listSMS = new ArrayList();
+        for (Mensualidades m : listMensualidades) {
+            if (!m.getNroTalonCobrosYa().equals("")) {
+                if (m.getPago().equals("Pendiente de Pago")) {
+                    listSMS.add(m);
+                }
+
+            }
+        }
+
+        int tamano = listSMS.size();
+
+        if (tamano == 0) {
+            JOptionPane.showMessageDialog(null, "No posee talones CobrosYa disponibles para enviar en la fecha vencimiento seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else if (tamano >= 500) {
+            JOptionPane.showMessageDialog(null, "La campaña tiene " + tamano + " Socios seleccionados, puede enviar como máximo 500 sms por camapaña", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+
+            ThreadEnviaRecordatorioSMSTalonCobrosYa envia = new ThreadEnviaRecordatorioSMSTalonCobrosYa("Talón CobrosYa", txtLog, this, listSMS, chPrueba.isSelected());
+            envia.execute();
+        }
+
+
+    }//GEN-LAST:event_btnEnviarRecordatorioSMSPendientesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEnviarRecordatorioSMSPendientes;
     private javax.swing.JButton btnEnviarTalonCobrosYa;
     private javax.swing.JButton btnEnviarTalonesPendientes;
     private javax.swing.JButton btnEnviarTalonesSMSIndividual;
