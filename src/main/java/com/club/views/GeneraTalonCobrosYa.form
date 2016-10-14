@@ -199,6 +199,9 @@
                     </Column>
                   </TableColumnModel>
                 </Property>
+                <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                  <JTableSelectionModel selectionMode="2"/>
+                </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
@@ -331,7 +334,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnEnviarRecordatorioSMSPendientes">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Enviar recordatorio pendientes SMS Masivamente"/>
+            <Property name="text" type="java.lang.String" value="Enviar recordatorio SMS Seleccionados"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarRecordatorioSMSPendientesActionPerformed"/>

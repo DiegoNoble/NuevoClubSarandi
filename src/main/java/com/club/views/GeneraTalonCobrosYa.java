@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import javafx.scene.AccessibleAttribute;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -51,12 +52,14 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     public GeneraTalonCobrosYa() {
 
         initComponents();
+        tblMensualidades.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         defineModelo();
         Parametros();
         Calendar venc = Calendar.getInstance();
         venc.set(Calendar.DAY_OF_MONTH, 15);
         dpVencimiento.setDate(venc.getTime());
         muestraContenidoTabla();
+        
 
     }
 
@@ -262,6 +265,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblMensualidades.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         tblMensualidades.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblMensualidadesMouseClicked(evt);
@@ -367,7 +371,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
         jPanel5.add(btnEnviarTalonesSMSIndividual, gridBagConstraints);
 
-        btnEnviarRecordatorioSMSPendientes.setText("Enviar recordatorio pendientes SMS Masivamente");
+        btnEnviarRecordatorioSMSPendientes.setText("Enviar recordatorio SMS Seleccionados");
         btnEnviarRecordatorioSMSPendientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarRecordatorioSMSPendientesActionPerformed(evt);
@@ -485,7 +489,11 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     private void btnEnviarRecordatorioSMSPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarRecordatorioSMSPendientesActionPerformed
 
         List<Mensualidades> listSMS = new ArrayList();
-        for (Mensualidades m : listMensualidades) {
+        List<Mensualidades> seleccionados = new ArrayList();
+        for (int i : tblMensualidades.getSelectedRows()) {
+            seleccionados.add(listMensualidades.get(i));
+        }
+        for (Mensualidades m : seleccionados) {
             if (!m.getNroTalonCobrosYa().equals("")) {
                 if (m.getPago().equals("Pendiente de Pago")) {
                     listSMS.add(m);

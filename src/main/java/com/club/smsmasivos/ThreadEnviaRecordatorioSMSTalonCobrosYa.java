@@ -66,7 +66,7 @@ public class ThreadEnviaRecordatorioSMSTalonCobrosYa extends SwingWorker<Void, V
                 Sms sms = new Sms();
                 sms.setSocio(m.getSocio());
                 sms.setCampanasms(nuevaCampana);
-                sms.setMensajeTalonCobrosYa("Recorda pagar $" + m.getValor() + " a Club Sarandi Universitario en Redpagos "
+                sms.setMensajeTalonCobrosYa("Le recordamos pagar $" + m.getValor() + " a DSSU en Redpagos "
                         + "Servicio CobrosYA Nro Talon " + m.getNroTalonCobrosYa() + " Vto " + formato.format(m.getFechaVencimiento()) + " " + uRL.achicar(m.getUrlPDF()));
                 listSmsEnviados.add(sms);
                 nuevaCampana.setSmsList(listSmsEnviados);
@@ -75,12 +75,12 @@ public class ThreadEnviaRecordatorioSMSTalonCobrosYa extends SwingWorker<Void, V
 
             daoCampanaSMS = new CampanaSmsDAO();
             daoCampanaSMS.Salvar(nuevaCampana);
-
+            int j = 0;
             for (Sms sms : listSmsEnviados) {
-
+                j++;
                 EnvioSMSIndividual enviaSMS = new EnvioSMSIndividual();
 
-                status = enviaSMS.enviarSMSIndividual(sms.getId().toString(), sms.getSocio().getCelular(), sms.getSocio().getNombre() + " " + sms.getMensajeTalonCobrosYa());
+                status = enviaSMS.enviarSMSIndividual(sms.getId().toString(), sms.getSocio().getCelular(), sms.getMensajeTalonCobrosYa());
 
                 sms.setStatus(status);
                 sms.setFechahoraemision(new Date());
@@ -88,11 +88,12 @@ public class ThreadEnviaRecordatorioSMSTalonCobrosYa extends SwingWorker<Void, V
                 smsDAO.Actualizar(sms);
 
                 this.txtStatus.append("\n");
-                this.txtStatus.append("Socio " + sms.getSocio() + " " + sms.getSocio().getCelular() + " " + status);
+                this.txtStatus.append(j + " - " + "Socio " + sms.getSocio() + " " + sms.getSocio().getCelular() + " " + status);
                 this.txtStatus.setCaretPosition(this.txtStatus.getDocument().getLength());
             }
 
             return null;
+
         } else if (prueba == Boolean.TRUE) {
 
             List<Sms> listSmsEnviados = new ArrayList<>();
@@ -102,12 +103,12 @@ public class ThreadEnviaRecordatorioSMSTalonCobrosYa extends SwingWorker<Void, V
                 AchicarURL uRL = new AchicarURL();
                 Sms sms = new Sms();
                 sms.setSocio(m.getSocio());
-                sms.setMensajeTalonCobrosYa("Recorda pagar $" + m.getValor() + " a Club Sarandi Universitario en Redpagos "
+                sms.setMensajeTalonCobrosYa("Le recordamos pagar $" + m.getValor() + " a DSSU en Redpagos "
                         + "Servicio CobrosYA Nro Talon " + m.getNroTalonCobrosYa() + " Vto " + formato.format(m.getFechaVencimiento()) + " " + uRL.achicar(m.getUrlPDF()));
                 listSmsEnviados.add(sms);
 
             }
-int j = 0;
+            int j = 0;
             for (Sms sms : listSmsEnviados) {
                 j++;
                 EnvioSMSIndividual enviaSMS = new EnvioSMSIndividual();
@@ -118,7 +119,7 @@ int j = 0;
                 sms.setFechahoraemision(new Date());
 
                 this.txtStatus.append("\n");
-                this.txtStatus.append(j+" - "+status);
+                this.txtStatus.append(j + " - " + status);
                 this.txtStatus.setCaretPosition(this.txtStatus.getDocument().getLength());
             }
 
