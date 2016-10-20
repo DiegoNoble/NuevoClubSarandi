@@ -69,12 +69,13 @@ public class EnvioTalonCobrosYa {
         parametersList[7] = new NameValuePair("moneda", "858");
 //monto Numerico10.2 Mondo de la transacción
         parametersList[8] = new NameValuePair("monto", mensualidad.getValor().toString());
+        parametersList[9] = new NameValuePair("monto_vencido", mensualidad.getValor().toString());
 //fecha_vencimineto Fecha YYYY-MM-DD Vencimiento del pago en redes de Cobranza. OPCIONAL
-        parametersList[9] = new NameValuePair("fecha_vencimiento", formatoFecha.format(mensualidad.getFechaVencimiento()));
+        parametersList[10] = new NameValuePair("fecha_vencimiento", formatoFecha.format(mensualidad.getFechaVencimiento()));
 //url_respuesta String200 URL para redirigir al usuario al finalizar la transacción
-        parametersList[10] = new NameValuePair("url_respuesta", "http://www.sarandiuniversitario.com/");
+        parametersList[11] = new NameValuePair("url_respuesta", "http://www.sarandiuniversitario.com/");
 //consumo_final Numerico1 1=consumidor final, 0=venta con rut. Para ley de inclusión
-        parametersList[11] = new NameValuePair("consumo_final", "1");
+        parametersList[12] = new NameValuePair("consumo_final", "1");
 
 //factura String20 Numero de factura de la transacción para ley de inclusión
 //monto_gravado Numerico10.2 Monto gravado con IVa para la leu de inclusión financiera

@@ -66,20 +66,7 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(null, "Pago registrado");
 
                     }
-                    /*                  if (rbEfectivoBanco.isSelected()) {
-
-                     reciboAPagar.setFechaPago(new Date());
-                     reciboAPagar.setPago("Pago");
-
-                     mensualidadesDAO = new MensualidadesDAO();
-                     mensualidadesDAO.Actualizar(reciboAPagar);
-
-                     registraCreditoCuentaCobrador(reciboAPagar);
-
-                     JOptionPane.showMessageDialog(null, "Pago registrado");
-
-                     }
-                     */
+                   
                 }
             }
         } catch (Exception ex) {

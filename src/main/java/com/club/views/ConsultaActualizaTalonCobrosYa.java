@@ -20,7 +20,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -120,6 +123,21 @@ public class ConsultaActualizaTalonCobrosYa extends javax.swing.JInternalFrame {
         }
     }
 
+    private void registraCreditoCuentaCobrador(Mensualidades pago) {
+        try {
+            credito = new CcCobrador();
+            credito.setCobrador(pago.getCobrador());
+            credito.setCredito(pago.getValor());
+            credito.setDebito(0.0);
+            credito.setDescripcion("Recibo Nro: " + pago.getId());
+            credito.setFechaMovimiento(new Date());
+
+            ccCobradorDAO = new CcCobradorDAO();
+            ccCobradorDAO.Salvar(credito);
+        } catch (Exception ex) {
+            Logger.getLogger(FormPagosMensualidades.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -322,17 +340,22 @@ public class ConsultaActualizaTalonCobrosYa extends javax.swing.JInternalFrame {
 
                         mensualidadesDAO = new MensualidadesDAO();
                         Mensualidades m = (Mensualidades) mensualidadesDAO.BuscaPorID(Mensualidades.class, talonPago.getId());
-                        txtLog.append("\nActualizando cuenta Socio " + m.getSocio());
+                        txtLog.append("\nActualizando cuenta Socio " + m.getSocio()+"...");
 
                         m.setFechaHoraTransaccionCobrosYa(talonPago.getFechaHoraTransaccionCobrosYa());
                         m.setFechaPago(talonPago.getFechaHoraTransaccionCobrosYa());
                         m.setMedioPago(talonPago.getMedioPago());
                         m.setMedioPagoId(talonPago.getMedioPagoId());
                         m.setPago("Pago");
-
+                        
                         mensualidadesDAO = new MensualidadesDAO();
                         mensualidadesDAO.Actualizar(m);
 
+                        txtLog.append("\nActualizando cuenta Cobrador " + m.getCobrador()+"...");
+                        registraCreditoCuentaCobrador(m);
+                        
+                        
+                        
                         txtLog.append("\nListo!");
                         txtLog.append("\n------------------------");
                         txtLog.setCaretPosition(txtLog.getDocument().getLength());
