@@ -89,7 +89,7 @@ public class ConsultaActualizaTalonCobrosYa extends javax.swing.JInternalFrame {
         tblModelMensualidades = new MensualidadesCobrosYaTableModel(listMensualidades);
         tblMensualidades.setModel(tblModelMensualidades);
 
-        int[] anchos = {1, 170, 5, 20, 10, 150, 20, 20,20, 5};
+        int[] anchos = {1, 170, 5, 20, 10, 150, 20, 20, 20, 5};
         new AjustaColumnas().ajustar(tblMensualidades, anchos);
 
         tblMensualidades.getColumn("Pago").setCellRenderer(new TableRendererColor(5));
@@ -125,19 +125,26 @@ public class ConsultaActualizaTalonCobrosYa extends javax.swing.JInternalFrame {
 
     private void registraCreditoCuentaCobrador(Mensualidades pago) {
         try {
-            credito = new CcCobrador();
-            credito.setCobrador(pago.getCobrador());
-            credito.setCredito(pago.getValor());
-            credito.setDebito(0.0);
-            credito.setDescripcion("Recibo Nro: " + pago.getId());
-            credito.setFechaMovimiento(new Date());
-
             ccCobradorDAO = new CcCobradorDAO();
-            ccCobradorDAO.Salvar(credito);
+            List<CcCobrador> BuscaCcCobradorPorMensualidad = ccCobradorDAO.BuscaCcCobradorPorMensualidad(pago);
+            if (BuscaCcCobradorPorMensualidad.isEmpty()) {
+
+                credito = new CcCobrador();
+                credito.setMensualidades(pago);
+                credito.setCobrador(pago.getCobrador());
+                credito.setCredito(pago.getValor());
+                credito.setDebito(0.0);
+                credito.setDescripcion("Recibo Nro: " + pago.getId());
+                credito.setFechaMovimiento(new Date());
+
+                ccCobradorDAO = new CcCobradorDAO();
+                ccCobradorDAO.Salvar(credito);
+            }
         } catch (Exception ex) {
             Logger.getLogger(FormPagosMensualidades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -340,22 +347,20 @@ public class ConsultaActualizaTalonCobrosYa extends javax.swing.JInternalFrame {
 
                         mensualidadesDAO = new MensualidadesDAO();
                         Mensualidades m = (Mensualidades) mensualidadesDAO.BuscaPorID(Mensualidades.class, talonPago.getId());
-                        txtLog.append("\nActualizando cuenta Socio " + m.getSocio()+"...");
+                        txtLog.append("\nActualizando cuenta Socio " + m.getSocio() + "...");
 
                         m.setFechaHoraTransaccionCobrosYa(talonPago.getFechaHoraTransaccionCobrosYa());
                         m.setFechaPago(talonPago.getFechaHoraTransaccionCobrosYa());
                         m.setMedioPago(talonPago.getMedioPago());
                         m.setMedioPagoId(talonPago.getMedioPagoId());
                         m.setPago("Pago");
-                        
+
                         mensualidadesDAO = new MensualidadesDAO();
                         mensualidadesDAO.Actualizar(m);
 
-                        txtLog.append("\nActualizando cuenta Cobrador " + m.getCobrador()+"...");
+                        txtLog.append("\nActualizando cuenta Cobrador " + m.getCobrador() + "...");
                         registraCreditoCuentaCobrador(m);
-                        
-                        
-                        
+
                         txtLog.append("\nListo!");
                         txtLog.append("\n------------------------");
                         txtLog.setCaretPosition(txtLog.getDocument().getLength());

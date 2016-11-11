@@ -59,7 +59,6 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         venc.set(Calendar.DAY_OF_MONTH, 15);
         dpVencimiento.setDate(venc.getTime());
         muestraContenidoTabla();
-        
 
     }
 
@@ -107,28 +106,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
                     if (tblMensualidades.getSelectedRow() != -1) {
 
                         mensualidadSeleccionada = listMensualidades.get(tblMensualidades.getSelectedRow());
-
-                        if (mensualidadSeleccionada.getEnviado() == false) {
-                            if (mensualidadSeleccionada.getFechaVencimiento().after(new Date())) {
-                                btnEnviarTalonCobrosYa.setEnabled(true);
-                            }
-                            btnReenviarEmail.setEnabled(false);
-                            btnEnviarTalonesSMSIndividual.setEnabled(false);
-                        } else {
-                            btnEnviarTalonCobrosYa.setEnabled(false);
-                            if (mensualidadSeleccionada.getFechaVencimiento().after(new Date())) {
-
-                                btnReenviarEmail.setEnabled(true);
-                                btnEnviarTalonesSMSIndividual.setEnabled(true);
-                            }
-
-                        }
-                    } else {
-                        btnEnviarTalonCobrosYa.setEnabled(false);
-                        btnReenviarEmail.setEnabled(false);
-                        btnEnviarTalonesSMSIndividual.setEnabled(false);
                     }
-
                 }
             }
         });
@@ -167,11 +145,8 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         txtLog = new javax.swing.JTextArea();
         chPrueba = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
-        btnEnviarTalonCobrosYa = new javax.swing.JButton();
-        btnReenviarEmail = new javax.swing.JButton();
         btnEnviarTalonesPendientes = new javax.swing.JButton();
         btnEnviarTalonesSMSMasivo = new javax.swing.JButton();
-        btnEnviarTalonesSMSIndividual = new javax.swing.JButton();
         btnEnviarRecordatorioSMSPendientes = new javax.swing.JButton();
 
         setClosable(true);
@@ -265,6 +240,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblMensualidades.setToolTipText("Mantenga precionado el CTRL y selecciones las lineas");
         tblMensualidades.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         tblMensualidades.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -293,7 +269,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipady = 100;
+        gridBagConstraints.ipady = 150;
         gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
         jPanel6.add(scrollpane, gridBagConstraints);
 
@@ -314,28 +290,6 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        btnEnviarTalonCobrosYa.setText("Enviar talón Cobros Ya");
-        btnEnviarTalonCobrosYa.setEnabled(false);
-        btnEnviarTalonCobrosYa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEnviarTalonCobrosYaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
-        jPanel5.add(btnEnviarTalonCobrosYa, gridBagConstraints);
-
-        btnReenviarEmail.setText("Re-enviar email");
-        btnReenviarEmail.setEnabled(false);
-        btnReenviarEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReenviarEmailActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
-        jPanel5.add(btnReenviarEmail, gridBagConstraints);
-
         btnEnviarTalonesPendientes.setText("Generar talones CobrosYa y enviar email");
         btnEnviarTalonesPendientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -348,7 +302,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(btnEnviarTalonesPendientes, gridBagConstraints);
 
-        btnEnviarTalonesSMSMasivo.setText("Enviar talones por SMS Masivamente");
+        btnEnviarTalonesSMSMasivo.setText("Enviar talones SMS Seleccionados");
         btnEnviarTalonesSMSMasivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarTalonesSMSMasivoActionPerformed(evt);
@@ -359,17 +313,6 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(btnEnviarTalonesSMSMasivo, gridBagConstraints);
-
-        btnEnviarTalonesSMSIndividual.setText("Enviar talón por SMS");
-        btnEnviarTalonesSMSIndividual.setEnabled(false);
-        btnEnviarTalonesSMSIndividual.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEnviarTalonesSMSIndividualActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
-        jPanel5.add(btnEnviarTalonesSMSIndividual, gridBagConstraints);
 
         btnEnviarRecordatorioSMSPendientes.setText("Enviar recordatorio SMS Seleccionados");
         btnEnviarRecordatorioSMSPendientes.addActionListener(new java.awt.event.ActionListener() {
@@ -401,49 +344,36 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblMensualidadesMouseClicked
 
-    private void btnEnviarTalonCobrosYaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonCobrosYaActionPerformed
-
-        List<Mensualidades> mensualidades = new ArrayList<>();
-        mensualidades.add(mensualidadSeleccionada);
-        LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, cobradorCobrosYa, parametros, mensualidades);
-        log.setLocationRelativeTo(null);
-        log.setVisible(true);
-        log.toFront();
-
-    }//GEN-LAST:event_btnEnviarTalonCobrosYaActionPerformed
-
-    private void btnReenviarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReenviarEmailActionPerformed
-        String email = mensualidadSeleccionada.getSocio().getEmail();
-        if (ValidaEmail.validateEmail(email) == false) {
-            int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Formato de email inválido, se utilizara la casilla Default: " + parametros.getEmailPadron(), "Esta seguro?", JOptionPane.YES_NO_OPTION);
-            email = parametros.getEmailPadron();
-            if (showConfirmDialog == JOptionPane.YES_OPTION) {
-                enviaEmail(mensualidadSeleccionada, email);
-            }
-        } else {
-            int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Confirma el envio del email a: " + email, "Esta seguro?", JOptionPane.YES_NO_OPTION);
-            if (showConfirmDialog == JOptionPane.YES_OPTION) {
-                enviaEmail(mensualidadSeleccionada, email);
-            }
-        }
-
-
-    }//GEN-LAST:event_btnReenviarEmailActionPerformed
-
     private void btnEnviarTalonesPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonesPendientesActionPerformed
 
-        LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, cobradorCobrosYa, parametros, listMensualidades);
-        log.setLocationRelativeTo(null);
-        log.setVisible(true);
-        log.toFront();
+        List<Mensualidades> seleccionados = new ArrayList();
+        for (int i : tblMensualidades.getSelectedRows()) {
+            seleccionados.add(listMensualidades.get(i));
+        }
+        int tamano = seleccionados.size();
 
+        if (tamano == 0) {
+            JOptionPane.showMessageDialog(null, "No posee mensualidades seleccionadas en la grilla", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+
+            LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, cobradorCobrosYa, parametros, seleccionados);
+            log.setLocationRelativeTo(null);
+            log.setVisible(true);
+            log.toFront();
+        }
 
     }//GEN-LAST:event_btnEnviarTalonesPendientesActionPerformed
 
     private void btnEnviarTalonesSMSMasivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonesSMSMasivoActionPerformed
 
         List<Mensualidades> listSMS = new ArrayList();
-        for (Mensualidades m : listMensualidades) {
+        List<Mensualidades> seleccionados = new ArrayList();
+        for (int i : tblMensualidades.getSelectedRows()) {
+            seleccionados.add(listMensualidades.get(i));
+        }
+
+        for (Mensualidades m : seleccionados) {
             if (!m.getNroTalonCobrosYa().equals("")) {
                 listSMS.add(m);
             }
@@ -452,7 +382,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         int tamano = listSMS.size();
 
         if (tamano == 0) {
-            JOptionPane.showMessageDialog(null, "No posee talones CobrosYa disponibles para enviar en la fecha vencimiento seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No posee mensualidades seleccionadas en la grilla", "Error", JOptionPane.ERROR_MESSAGE);
 
         } else if (tamano >= 500) {
             JOptionPane.showMessageDialog(null, "La campaña tiene " + tamano + " Socios seleccionados, puede enviar como máximo 500 sms por camapaña", "Error", JOptionPane.ERROR_MESSAGE);
@@ -464,27 +394,6 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_btnEnviarTalonesSMSMasivoActionPerformed
-
-    private void btnEnviarTalonesSMSIndividualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarTalonesSMSIndividualActionPerformed
-
-        List<Mensualidades> listSMS = new ArrayList();
-        listSMS.add(mensualidadSeleccionada);
-
-        int tamano = listSMS.size();
-
-        if (tamano == 0) {
-            JOptionPane.showMessageDialog(null, "No posee talones CobrosYa disponibles para enviar en la fecha vencimiento seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
-
-        } else if (tamano >= 500) {
-            JOptionPane.showMessageDialog(null, "La campaña tiene " + tamano + " Socios seleccionados, puede enviar como máximo 500 sms por camapaña", "Error", JOptionPane.ERROR_MESSAGE);
-
-        } else {
-
-            ThreadEnviaSMSTalonCobrosYa envia = new ThreadEnviaSMSTalonCobrosYa("Talón CobrosYa", txtLog, this, listSMS, chPrueba.isSelected());
-            envia.execute();
-        }
-
-    }//GEN-LAST:event_btnEnviarTalonesSMSIndividualActionPerformed
 
     private void btnEnviarRecordatorioSMSPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarRecordatorioSMSPendientesActionPerformed
 
@@ -522,11 +431,8 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEnviarRecordatorioSMSPendientes;
-    private javax.swing.JButton btnEnviarTalonCobrosYa;
     private javax.swing.JButton btnEnviarTalonesPendientes;
-    private javax.swing.JButton btnEnviarTalonesSMSIndividual;
     private javax.swing.JButton btnEnviarTalonesSMSMasivo;
-    private javax.swing.JButton btnReenviarEmail;
     private javax.swing.ButtonGroup buttonGroup1;
     public javax.swing.JCheckBox chPrueba;
     private org.jdesktop.swingx.JXDatePicker dpVencimiento;

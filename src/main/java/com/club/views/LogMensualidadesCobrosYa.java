@@ -48,17 +48,16 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
         new Thread() {
             @Override
             public void run() {
-                prueba();
+                generarTalones();
 
             }
         }.start();
 
     }
 
-    void prueba() {
+    void generarTalones() {
 
         this.txtLog.append("Analizando mensualidades....\n");
-
         //mensualidadesDAO = new MensualidadesDAO();
         //talonesPendientes = mensualidadesDAO.BuscaPorCobradorSituacion(cobradorCobrosYa, "Pendiente de Pago");
         for (Mensualidades m : listMensualidades) {
@@ -74,7 +73,7 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
                 this.txtLog.append("\nSocio " + m.getSocio());
                 this.txtLog.append("\nRecibo " + m.getId() + ", Nro Talón CobrosYa " + m.getNroTalonCobrosYa() + "Pago " + formato.format(m.getFechaHoraTransaccionCobrosYa()));
                 this.txtLog.append("\n--------------------------");
-            }  else if (ValidaCelular.validateEmail(m.getSocio().getCelular()) == false) {
+            } else if (ValidaCelular.validateEmail(m.getSocio().getCelular()) == false) {
                 this.txtLog.append("\n Formato de celular inválido");
             } else {
                 enviarTalon(m.getSocio(), m);
@@ -84,6 +83,7 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
         this.txtLog.append("\n");
         this.txtLog.append("\n Listo!");
         this.txtLog.setCaretPosition(this.txtLog.getDocument().getLength());
+
     }
 
     void enviarTalon(Socio socio, Mensualidades mensualidadSeleccionada) {
@@ -152,7 +152,6 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
 
         txtLog.setColumns(20);
         txtLog.setRows(5);
-        txtLog.setPreferredSize(new java.awt.Dimension(500, 600));
         jScrollPane2.setViewportView(txtLog);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -168,6 +167,6 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane2;
-    public javax.swing.JTextArea txtLog;
+    private javax.swing.JTextArea txtLog;
     // End of variables declaration//GEN-END:variables
 }

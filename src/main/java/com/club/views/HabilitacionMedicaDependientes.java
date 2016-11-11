@@ -445,7 +445,7 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
 
                     JOptionPane.showMessageDialog(null, "Ficha aprovada, precione OK para imprimir.");
                     parametros.clear();
-                    parametros.put("logoClub", "./imagenes/Escudo 2.jpg");
+                    parametros.put("logoClub", "./Imagenes/Escudo.jpg");
                     parametros.put("idDependiente", dependienteSelecionado.getId());
                     fichaMedica.setReportParameters(parametros);
                     fichaMedica.setReportURL("/Reportes/fichaMedicadeDependientes.jasper");

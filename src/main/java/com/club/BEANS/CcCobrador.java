@@ -43,6 +43,9 @@ public class CcCobrador implements Serializable {
     @JoinColumn(name = "ID_COBRADOR", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Cobrador cobrador;
+    @JoinColumn(name = "id_mensualidad", referencedColumnName = "ID")
+    @ManyToOne(optional = true)
+    private Mensualidades mensualidades;
 
     public Cobrador getCobrador() {
         return cobrador;
@@ -107,6 +110,15 @@ public class CcCobrador implements Serializable {
     public void setCredito(Double credito) {
         this.credito = credito;
     }
+
+    public Mensualidades getMensualidades() {
+        return mensualidades;
+    }
+
+    public void setMensualidades(Mensualidades mensualidades) {
+        this.mensualidades = mensualidades;
+    }
+    
 
     @Override
     public int hashCode() {
