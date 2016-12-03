@@ -1,44 +1,59 @@
 package com.club.views;
 
 import Utilidades.Utilidades;
-import com.Renderers.MyDateCellRenderer;
-import com.Renderers.MyDefaultCellRenderer;
 import com.club.BEANS.Dependiente;
 import com.club.BEANS.Funcionario;
+import com.club.BEANS.Sectores;
+import com.club.BEANS.SectoresFuncionario;
 import com.club.BEANS.Situacion;
 import com.club.DAOs.DepDAO;
 import com.club.DAOs.FuncionarioDAO;
+import com.club.DAOs.SectorDAO;
+import com.club.DAOs.SectoresFuncionarioDAO;
+import com.club.Renderers.MeDateCellRenderer;
 import com.club.huellas.BioMini;
+import com.club.modelos.FuncionarioTableModel;
+import com.club.modelos.SectoresFuncionarioTableModel;
 import java.awt.Color;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
+import javax.swing.JComboBox;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
 public final class FuncionarioView extends javax.swing.JInternalFrame {
 
     private FuncionarioDAO funcionarioDAO;
     private List<Funcionario> listFuncionarios;
-    private Funcionario funcionario;
-    private DefaultTableModel tblModel;
+    private FuncionarioTableModel tblModelFuncionario;
     private ListSelectionModel listModelFuncionarios;
     private ImageIcon foto;
     private Icon icono;
     private Funcionario funcionarioSeleccionado;
+    private Funcionario funcionario;
     private HashMap parametros;
     BioMini bioMini;
+    private List<SectoresFuncionario> listSectoresFuncionario;
+    private List<SectoresFuncionario> listSectoresFuncionarioToRemove;
+    private List<SectoresFuncionario> sectoresSeleccionados;
+    SectoresFuncionarioTableModel tblModelSectoresFuncionario;
+    ListSelectionModel listModelSectores;
+    SectoresFuncionarioDAO sectoresFuncionarioDAO;
+    int cifras = (int) Math.pow(10, 2);
 
     public FuncionarioView() {
         initComponents();
@@ -47,22 +62,28 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
         parametros = new HashMap();
         DefineModeloTbl();
         buscaTodosLosRegistros();
-        muestraContenidoTbl();
+        configTblSectores();
+        buscaSectoresAsignados();
         cbSituacion.setModel(new DefaultComboBoxModel(Situacion.values()));
 
     }
 
     private void buscaTodosLosRegistros() {
         funcionarioDAO = new FuncionarioDAO();
-        listFuncionarios = funcionarioDAO.BuscaTodos(Funcionario.class);
-
+        listFuncionarios.addAll(funcionarioDAO.BuscaTodos(Funcionario.class));
+        tblModelFuncionario.fireTableDataChanged();
     }
 
     private void DefineModeloTbl() {
 
         ((DefaultTableCellRenderer) tblFuncionario.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        tblModel = (DefaultTableModel) tblFuncionario.getModel();
+        listFuncionarios = new ArrayList<>();
+        tblModelFuncionario = new FuncionarioTableModel(listFuncionarios);
 
+        tblFuncionario.setModel(tblModelFuncionario);
+
+        tblFuncionario.getColumn("Ingreso").setCellRenderer(new MeDateCellRenderer());
+        tblFuncionario.getColumn("Egreso").setCellRenderer(new MeDateCellRenderer());
         listModelFuncionarios = tblFuncionario.getSelectionModel();
         listModelFuncionarios.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
@@ -77,27 +98,6 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
             }
         });
 
-    }
-
-    private void muestraContenidoTbl() {
-
-        try {
-
-            tblModel.setNumRows(0);
-            for (Funcionario funcionario1 : listFuncionarios) {
-                tblModel.addRow(new Object[]{
-                    funcionario1.getId(),
-                    funcionario1.getNombre(),
-                    funcionario1.getCi(),
-                    funcionario1.getFechaingreso(),
-                    funcionario1.getFechaegreso(),
-                    funcionario1.getSituacion()});
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Funcionarios no encontrado");
-            e.printStackTrace();
-        }
     }
 
     private void muestraDetalles() {
@@ -127,14 +127,16 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
                 jlblFoto.setIcon(icono);
                 txtFoto.setText(funcionarioSeleccionado.getFoto());
 
+                buscaSectoresAsignados();
+
                 if (funcionarioSeleccionado.getCalidad() == null) {
                     lblStatusHuella.setText("Por favor registre la huella del funcionario");
                     lblStatusHuella.setForeground(Color.red);
                 } else {
                     lblStatusHuella.setText("Funcionario posee huella registrada correctamente!");
                     lblStatusHuella.setForeground(Color.GREEN);
-                   /*bioMini = new BioMini();
-                    bioMini.imagenBDFuncionario(imagePanel1, funcionarioSeleccionado);*/
+                    /*bioMini = new BioMini();
+                     bioMini.imagenBDFuncionario(imagePanel1, funcionarioSeleccionado);*/
                 }
                 txtAreaDescripcion.setText(funcionarioSeleccionado.getDescripcion());
 
@@ -146,6 +148,95 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
 
     }
 
+    void configTblSectores() {
+        ((DefaultTableCellRenderer) tblSectores.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        listSectoresFuncionario = new ArrayList<>();
+        listSectoresFuncionarioToRemove = new ArrayList<>();
+        sectoresSeleccionados = new ArrayList<>();
+        tblModelSectoresFuncionario = new SectoresFuncionarioTableModel(listSectoresFuncionario);
+        tblSectores.setModel(tblModelSectoresFuncionario);
+
+        tblSectores.setRowHeight(25);
+        //tblSectores.removeColumn(tblSectores.getColumn("Inmueble"));
+        tblSectores.getColumn("Sector").setCellEditor(new ComboBoxCellEditor(new ComboSectores()));
+
+        listModelSectores = tblSectores.getSelectionModel();
+        listModelSectores.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent lse) {
+                if (tblSectores.getSelectedRow() != -1) {
+
+                    btnEliminarSector.setEnabled(true);
+                } else {
+                    btnEliminar.setEnabled(false);
+                }
+            }
+        });
+
+    }
+
+    void agregarNuevoSector() {
+
+        tblModelSectoresFuncionario.agregar(new SectoresFuncionario(new Sectores(), funcionarioSeleccionado, new Double(0.0)));
+
+        for (SectoresFuncionario sectores : listSectoresFuncionario) {
+            Double procentage = 100.00 / listSectoresFuncionario.size();
+            sectores.setProcentageSector(Math.rint((procentage * cifras) / cifras));
+        }
+        tblModelSectoresFuncionario.fireTableDataChanged();
+    }
+
+    void elminarSectorSeleccionado() {
+
+        SectoresFuncionario sectoresToRemove = listSectoresFuncionario.get(tblSectores.getSelectedRow());
+        listSectoresFuncionario.remove(sectoresToRemove);
+        listSectoresFuncionarioToRemove.add(sectoresToRemove);
+        tblModelSectoresFuncionario.fireTableDataChanged();
+        for (SectoresFuncionario sectores : listSectoresFuncionario) {
+            Double procentage = 100.00 / listSectoresFuncionario.size();
+            sectores.setProcentageSector(Math.rint((procentage * cifras) / cifras));
+        }
+        tblModelSectoresFuncionario.fireTableStructureChanged();
+    }
+
+    void buscaSectoresAsignados() {
+
+        sectoresFuncionarioDAO = new SectoresFuncionarioDAO();
+
+        for (SectoresFuncionario sectores : sectoresFuncionarioDAO.BuscaPorFuncionario(funcionarioSeleccionado)) {
+            tblModelSectoresFuncionario.agregar(sectores);
+        }
+
+    }
+
+    boolean VerificaPorcentage() {
+
+        Double verificaPorcentaje = new Double(0.0);
+
+        for (SectoresFuncionario sectores : listSectoresFuncionario) {
+
+            if ((sectores.getProcentageSector() == 0)) {
+                return false;
+            } else {
+                verificaPorcentaje = verificaPorcentaje + sectores.getProcentageSector();
+            }
+        }
+        return verificaPorcentaje == 100;
+
+    }
+
+    private class ComboSectores extends JComboBox<Object> {
+
+        public ComboSectores() {
+            AutoCompleteDecorator.decorate(this);
+            SectorDAO sectorDAO = new SectorDAO();
+            List<Sectores> sectores = sectorDAO.BuscaTodos(Sectores.class);
+            for (Sectores sector : sectores) {
+                this.addItem(sector);
+            }
+        }
+    }
+
     private void filtros() {
 
         if (rbCodigo.isSelected()) {
@@ -153,18 +244,20 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
             funcionario = (Funcionario) funcionarioDAO.BuscaPorID(Funcionario.class, Integer.parseInt(txtFiltro.getText()));
 
             listFuncionarios.clear();
+
             listFuncionarios.add(funcionario);
-            muestraContenidoTbl();
+
+            tblModelFuncionario.fireTableDataChanged();
 
         } else if (rbCI.isSelected()) {
             funcionarioDAO = new FuncionarioDAO();
-            listFuncionarios = funcionarioDAO.BuscaPorCI(txtFiltro.getText());
-            muestraContenidoTbl();
+            listFuncionarios.addAll(funcionarioDAO.BuscaPorCI(txtFiltro.getText()));
+            tblModelFuncionario.fireTableDataChanged();
 
         } else if (rbNombre.isSelected()) {
             funcionarioDAO = new FuncionarioDAO();
-            listFuncionarios = funcionarioDAO.BuscaPorNombre(txtFiltro.getText());
-            muestraContenidoTbl();
+            listFuncionarios.addAll(funcionarioDAO.BuscaPorNombre(txtFiltro.getText()));
+            tblModelFuncionario.fireTableDataChanged();
 
         }
 
@@ -193,7 +286,7 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
         tblFuncionario.setEnabled(false);
         tblFuncionario.setVisible(false);
         txtAreaDescripcion.setEditable(true);
-
+        tblSectores.setEnabled(true);
     }
 
     private void desabilitaCampos() {
@@ -218,6 +311,7 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
         tblFuncionario.setEnabled(true);
         tblFuncionario.setVisible(true);
         txtAreaDescripcion.setEditable(false);
+        tblSectores.setEnabled(false);
     }
 
     private void desabilitaBotones() {
@@ -227,6 +321,8 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
         btnEditar.setEnabled(true);
         btnEliminar.setEnabled(true);
         btnFoto.setEnabled(false);
+        btnAgregarSector.setEnabled(false);
+        btnEliminarSector.setEnabled(false);
     }
 
     private void habilitaBotones() {
@@ -237,6 +333,8 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
         btnEliminar.setEnabled(false);
         btnBuscar.setEnabled(true);
         btnFoto.setEnabled(true);
+        btnAgregarSector.setEnabled(true);
+        btnEliminarSector.setEnabled(true);
     }
 
     private void limpiaCampos() {
@@ -257,6 +355,8 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
         jlblFoto.setIcon(null);
         txtAreaDescripcion.setText("");
         txtFoto.setText("");
+        listSectoresFuncionario.clear();
+        tblModelSectoresFuncionario.fireTableDataChanged();
 
     }
 
@@ -326,6 +426,12 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
         btnHuella = new javax.swing.JButton();
         imagePanel1 = new imagepanel.ImagePanel();
         lblStatusHuella = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblSectores = new javax.swing.JTable();
+        jPanel11 = new javax.swing.JPanel();
+        btnAgregarSector = new javax.swing.JButton();
+        btnEliminarSector = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -357,42 +463,17 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
 
         tblFuncionario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Nombre", "C.I.", "Fecha Ingreso", "Fecha Egreso", "Situación"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         tblFuncionario.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblFuncionario);
-        if (tblFuncionario.getColumnModel().getColumnCount() > 0) {
-            tblFuncionario.getColumnModel().getColumn(0).setPreferredWidth(30);
-            tblFuncionario.getColumnModel().getColumn(0).setCellRenderer(new MyDefaultCellRenderer());
-            tblFuncionario.getColumnModel().getColumn(1).setPreferredWidth(150);
-            tblFuncionario.getColumnModel().getColumn(1).setCellRenderer(new MyDefaultCellRenderer());
-            tblFuncionario.getColumnModel().getColumn(2).setPreferredWidth(60);
-            tblFuncionario.getColumnModel().getColumn(2).setCellRenderer(new MyDefaultCellRenderer());
-            tblFuncionario.getColumnModel().getColumn(3).setPreferredWidth(60);
-            tblFuncionario.getColumnModel().getColumn(3).setCellRenderer(new MyDateCellRenderer());
-            tblFuncionario.getColumnModel().getColumn(4).setPreferredWidth(60);
-            tblFuncionario.getColumnModel().getColumn(4).setCellRenderer(new MyDateCellRenderer());
-            tblFuncionario.getColumnModel().getColumn(5).setPreferredWidth(40);
-        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -566,10 +647,8 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
         });
 
         dpIngreso.setEnabled(false);
-        dpIngreso.setFormats("dd/MM/yyyy");
 
         txtFechaNacimiento.setEnabled(false);
-        txtFechaNacimiento.setFormats("dd/MM/yyyy");
 
         jLabel15.setText("Situacion"); // NOI18N
 
@@ -578,7 +657,6 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
         jLabel20.setText("Fecha de Ingreso"); // NOI18N
 
         dpEgreso.setEnabled(false);
-        dpEgreso.setFormats("dd/MM/yyyy");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -857,6 +935,61 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Huella", jPanel9);
 
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+        tblSectores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(tblSectores);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipady = 1;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel5.add(jScrollPane4, gridBagConstraints);
+
+        jPanel11.setLayout(new java.awt.GridBagLayout());
+
+        btnAgregarSector.setText("Agregar Sector");
+        btnAgregarSector.setEnabled(false);
+        btnAgregarSector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarSectorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel11.add(btnAgregarSector, gridBagConstraints);
+
+        btnEliminarSector.setText("Eliminar Sector");
+        btnEliminarSector.setEnabled(false);
+        btnEliminarSector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarSectorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel11.add(btnEliminarSector, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel5.add(jPanel11, gridBagConstraints);
+
+        jTabbedPane1.addTab("Distribución Sectores", jPanel5);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -920,6 +1053,9 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
                     funcionario.setDescripcion(txtAreaDescripcion.getText());
                     funcionario.setFoto(txtFoto.getText());
 
+                    sectoresFuncionarioDAO = new SectoresFuncionarioDAO();
+                    sectoresFuncionarioDAO.SalvarList(listSectoresFuncionario);
+
                     funcionarioDAO = new FuncionarioDAO();
                     if ((funcionarioDAO.VerificaCI(ftxtCI.getText())) == true) {
 
@@ -930,7 +1066,6 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
                         funcionarioDAO.Salvar(funcionario);
                         JOptionPane.showMessageDialog(null, "Funcionario registrado correctamente!");
                         buscaTodosLosRegistros();
-                        muestraContenidoTbl();
                         desabilitaCampos();
                         desabilitaBotones();
                         btnHuella.setEnabled(true);
@@ -938,6 +1073,7 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
 
                 } catch (Exception error) {
                     JOptionPane.showMessageDialog(null, "No fue posible salvar el funcionario" + error);
+                    error.printStackTrace();
                 }
 
             } else {  //procedimento realizado cuando se desea alterar un registro
@@ -976,26 +1112,40 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
                         funcionarioDAO = new FuncionarioDAO();
                         funcionarioDAO.Actualizar(funcionarioSeleccionado);
 
-                        JOptionPane.showMessageDialog(null, "Funcionario alterado correctamente!");
+                        if (!listSectoresFuncionarioToRemove.isEmpty()) {
+                            for (SectoresFuncionario toRemove : listSectoresFuncionarioToRemove) {
+                                sectoresFuncionarioDAO = new SectoresFuncionarioDAO();
+                                sectoresFuncionarioDAO.elminiar(SectoresFuncionario.class, toRemove.getId());
+                            }
+                        }
+                        if (!listSectoresFuncionario.isEmpty()) {
+                            for (SectoresFuncionario actualizar : listSectoresFuncionario) {
+                                sectoresFuncionarioDAO = new SectoresFuncionarioDAO();
+                                sectoresFuncionarioDAO.Actualizar(actualizar);
+                            }
+                        }
+
+                        JOptionPane.showMessageDialog(null, "Funcionario modificado correctamente!");
 
                         buscaTodosLosRegistros();
-                        muestraContenidoTbl();
                         desabilitaCampos();
                         desabilitaBotones();
                         btnHuella.setEnabled(true);
 
                     } catch (Exception error) {
                         JOptionPane.showMessageDialog(null, "No fue posible ejecutar el SQL deseado " + error);
+                        error.printStackTrace();
                     }
                 }
             }
-
+            listSectoresFuncionarioToRemove.clear();
         }
 
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        listSectoresFuncionarioToRemove.clear();
 
         desabilitaBotones();
         desabilitaCampos();
@@ -1020,19 +1170,20 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
         try {
+
             if (tblFuncionario.getSelectedRow() != -1) {
                 int respuesta = JOptionPane.showConfirmDialog(this, "Esta seguro que desea excluir al Funcionario?", "Confirmación", JOptionPane.YES_NO_OPTION);
                 if (respuesta == JOptionPane.YES_OPTION) {
 
                     funcionarioDAO = new FuncionarioDAO();
                     funcionarioSeleccionado = listFuncionarios.get(tblFuncionario.getSelectedRow());
-                    funcionarioDAO.elminiar(Funcionario.class, funcionarioSeleccionado);
+                    funcionarioDAO
+                            .elminiar(Funcionario.class, funcionarioSeleccionado);
 
                 }
             } else {
 
                 buscaTodosLosRegistros();
-                muestraContenidoTbl();
 
                 JOptionPane.showMessageDialog(this, "Seleccione un Funcionario en la tabla", "Atención", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -1102,11 +1253,21 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnHuellaActionPerformed
 
+    private void btnAgregarSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarSectorActionPerformed
+        agregarNuevoSector();
+    }//GEN-LAST:event_btnAgregarSectorActionPerformed
+
+    private void btnEliminarSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSectorActionPerformed
+        elminarSectorSeleccionado();
+    }//GEN-LAST:event_btnEliminarSectorActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarSector;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnEliminarSector;
     private javax.swing.JButton btnFoto;
     private javax.swing.JButton btnHuella;
     private javax.swing.JButton btnNuevo;
@@ -1137,14 +1298,17 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel jlCodigoFuncionario;
     private javax.swing.JLabel jlblFoto;
@@ -1153,6 +1317,7 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbCodigo;
     private javax.swing.JRadioButton rbNombre;
     private javax.swing.JTable tblFuncionario;
+    public javax.swing.JTable tblSectores;
     private java.awt.TextArea txtAreaDescripcion;
     private javax.swing.JTextField txtBarrio;
     private javax.swing.JTextField txtCiudad;

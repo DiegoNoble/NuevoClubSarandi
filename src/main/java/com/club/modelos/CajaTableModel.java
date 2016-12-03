@@ -5,7 +5,10 @@
  */
 package com.club.modelos;
 
+import com.club.BEANS.Caja;
 import com.club.BEANS.Rubro;
+import com.club.BEANS.Sectores;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -14,25 +17,25 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Diego Noble
  */
-public class RubroTableModel extends AbstractTableModel {
+public class CajaTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Cod. Referencia", "Nombre", "Valor Fijo", "Valor"};
+    private final String[] colunas = new String[]{"Fecha", "Rubro", "Sector", "Concepto", "Entrada", "Salida", "Saldo"};
     //lista para a manipulacao do objeto
-    private List<Rubro> listRubros;
+    private List<Caja> listCajas;
 
-    public RubroTableModel() {
-        listRubros = new LinkedList<Rubro>();
+    public CajaTableModel() {
+        listCajas = new LinkedList<Caja>();
     }
 
-    public RubroTableModel(List<Rubro> listRubros) {
-        this.listRubros = listRubros;
+    public CajaTableModel(List<Caja> listCajas) {
+        this.listCajas = listCajas;
     }
 
     //numero de linhas
     @Override
     public int getRowCount() {
-        return listRubros.size();
+        return listCajas.size();
     }
 
     //numero de colunas
@@ -44,16 +47,22 @@ public class RubroTableModel extends AbstractTableModel {
     //define o que cada coluna conterï¿½ do objeto
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Rubro c = listRubros.get(rowIndex);
+        Caja c = listCajas.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return c.getCodRef();
+                return c.getFechaMovimiento();
             case 1:
-                return c.getNombreRubro();
+                return c.getRubro();
             case 2:
-                return c.getValorFijo();
+                return c.getSectores();
             case 3:
-                return c.getValor();
+                return c.getConcepto();
+            case 4:
+                return c.getEntrada();
+            case 5:
+                return c.getSalida();
+            case 6:
+                return c.getSaldo();
             default:
                 return null;
         }
@@ -70,12 +79,18 @@ public class RubroTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return String.class;
+                return Date.class;
             case 1:
-                return String.class;
+                return Rubro.class;
             case 2:
-                return Boolean.class;
+                return Sectores.class;
             case 3:
+                return String.class;
+            case 4:
+                return Double.class;
+            case 5:
+                return Double.class;
+            case 6:
                 return Double.class;
             default:
                 return null;
@@ -89,24 +104,24 @@ public class RubroTableModel extends AbstractTableModel {
 
     }
 
-    public void agregar(Rubro propiedad) {
-        listRubros.add(propiedad);
+    public void agregar(Caja propiedad) {
+        listCajas.add(propiedad);
 
-        this.fireTableRowsInserted(listRubros.size() - 1, listRubros.size() - 1);
+        this.fireTableRowsInserted(listCajas.size() - 1, listCajas.size() - 1);
     }
 
     public void eliminar(int row) {
-        listRubros.remove(row);
+        listCajas.remove(row);
         this.fireTableRowsDeleted(row, row);
     }
 
-    public void atualizar(int row, Rubro propiedad) {
-        listRubros.set(row, propiedad);
+    public void atualizar(int row, Caja propiedad) {
+        listCajas.set(row, propiedad);
         this.fireTableRowsUpdated(row, row);
     }
 
-    public Rubro getCliente(int row) {
-        return listRubros.get(row);
+    public Caja getCliente(int row) {
+        return listCajas.get(row);
     }
 
 }

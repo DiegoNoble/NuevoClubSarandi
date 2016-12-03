@@ -30,6 +30,8 @@ public class Rubro implements Serializable {
     private Integer id;
     @Column(name = "NOMBRE_RUBRO")
     private String nombreRubro;
+    @Column(name = "cod_ref")
+    private String codRef;
     private Boolean valorFijo;
     private Double valor;
     private TipoMovimientoCaja tipoMovimientoCaja;
@@ -80,6 +82,16 @@ public class Rubro implements Serializable {
     public void setTipoMovimientoCaja(TipoMovimientoCaja tipoMovimientoCaja) {
         this.tipoMovimientoCaja = tipoMovimientoCaja;
     }
+
+    public String getCodRef() {
+        return codRef;
+    }
+
+    public void setCodRef(String codRef) {
+        this.codRef = codRef;
+    }
+    
+    
 
     @Override
     public int hashCode() {

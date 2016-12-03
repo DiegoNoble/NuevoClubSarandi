@@ -5,7 +5,8 @@
  */
 package com.club.modelos;
 
-import com.club.BEANS.Rubro;
+import com.club.BEANS.Funcionario;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -14,25 +15,25 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Diego Noble
  */
-public class RubroTableModel extends AbstractTableModel {
+public class FuncionarioTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Cod. Referencia", "Nombre", "Valor Fijo", "Valor"};
+    private final String[] colunas = new String[]{"Nombre", "CI", "Ingreso", "Egreso"};
     //lista para a manipulacao do objeto
-    private List<Rubro> listRubros;
+    private List<Funcionario> listFuncionarios;
 
-    public RubroTableModel() {
-        listRubros = new LinkedList<Rubro>();
+    public FuncionarioTableModel() {
+        listFuncionarios = new LinkedList<Funcionario>();
     }
 
-    public RubroTableModel(List<Rubro> listRubros) {
-        this.listRubros = listRubros;
+    public FuncionarioTableModel(List<Funcionario> listFuncionarios) {
+        this.listFuncionarios = listFuncionarios;
     }
 
     //numero de linhas
     @Override
     public int getRowCount() {
-        return listRubros.size();
+        return listFuncionarios.size();
     }
 
     //numero de colunas
@@ -44,16 +45,16 @@ public class RubroTableModel extends AbstractTableModel {
     //define o que cada coluna conterï¿½ do objeto
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Rubro c = listRubros.get(rowIndex);
+        Funcionario c = listFuncionarios.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return c.getCodRef();
+                return c.getNombre();
             case 1:
-                return c.getNombreRubro();
+                return c.getCi();
             case 2:
-                return c.getValorFijo();
+                return c.getFechaingreso();
             case 3:
-                return c.getValor();
+                return c.getFechaegreso();
             default:
                 return null;
         }
@@ -74,9 +75,9 @@ public class RubroTableModel extends AbstractTableModel {
             case 1:
                 return String.class;
             case 2:
-                return Boolean.class;
+                return Date.class;
             case 3:
-                return Double.class;
+                return Date.class;
             default:
                 return null;
         }
@@ -89,24 +90,24 @@ public class RubroTableModel extends AbstractTableModel {
 
     }
 
-    public void agregar(Rubro propiedad) {
-        listRubros.add(propiedad);
+    public void agregar(Funcionario propiedad) {
+        listFuncionarios.add(propiedad);
 
-        this.fireTableRowsInserted(listRubros.size() - 1, listRubros.size() - 1);
+        this.fireTableRowsInserted(listFuncionarios.size() - 1, listFuncionarios.size() - 1);
     }
 
     public void eliminar(int row) {
-        listRubros.remove(row);
+        listFuncionarios.remove(row);
         this.fireTableRowsDeleted(row, row);
     }
 
-    public void atualizar(int row, Rubro propiedad) {
-        listRubros.set(row, propiedad);
+    public void atualizar(int row, Funcionario propiedad) {
+        listFuncionarios.set(row, propiedad);
         this.fireTableRowsUpdated(row, row);
     }
 
-    public Rubro getCliente(int row) {
-        return listRubros.get(row);
+    public Funcionario getCliente(int row) {
+        return listFuncionarios.get(row);
     }
 
 }

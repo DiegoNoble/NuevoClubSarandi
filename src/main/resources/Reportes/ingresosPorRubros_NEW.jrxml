@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="resumenCaja" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c1006259-bf81-4184-a2a2-43d03529998d">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="fecha1" class="java.util.Date"/>
+	<parameter name="fecha2" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+     sum(entrada),
+     tbcaja.`rubro`,
+     tbcaja.`sector`,
+     tbrubros.`ID` AS tbrubros_ID,
+     tbrubros.`NOMBRE_RUBRO` AS tbrubros_NOMBRE_RUBRO,
+     tbsectores.`ID` AS tbsectores_ID,
+     tbsectores.`NOMBRE_SECTOR` AS tbsectores_NOMBRE_SECTOR
+FROM
+     `tbrubros` tbrubros INNER JOIN `tbcaja` tbcaja ON tbrubros.`ID` = tbcaja.`rubro`
+     INNER JOIN `tbsectores` tbsectores ON tbcaja.`sector` = tbsectores.`ID`
+WHERE
+     entrada!= 0 and tbcaja.fecha_movimiento between $P{fecha1} and $P{fecha2}
+GROUP BY
+     rubro,
+     sector]]>
+	</queryString>
+	<field name="sum(entrada)" class="java.lang.Double"/>
+	<field name="rubro" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sector" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tbrubros_ID" class="java.lang.Long"/>
+	<field name="tbrubros_NOMBRE_RUBRO" class="java.lang.String"/>
+	<field name="tbsectores_ID" class="java.lang.Long"/>
+	<field name="tbsectores_NOMBRE_SECTOR" class="java.lang.String"/>
+	<variable name="tbcaja_ENTRADA" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{sum(entrada)}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="57">
+			<staticText>
+				<reportElement x="15" y="0" width="404" height="33" forecolor="#333333" uuid="df139f15-7eb9-4eda-aeb2-ca739becffdc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe de ingresos por rubro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="34" width="312" height="22" forecolor="#000000" uuid="690b9e75-7f89-4285-96a9-fde1369d9cb2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="18"/>
+				</textElement>
+				<text><![CDATA[Deportivo Social Sarandí Universitario]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="115" y="0" width="72" height="20" uuid="e8369940-663f-4d22-9ca3-8a731804f634"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Período:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="197" y="0" width="100" height="20" uuid="0d4e3c49-3822-411b-8ab2-3225bdd7f7b4"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="339" y="0" width="100" height="20" uuid="13b5dbf2-ef9a-4101-91b5-d102d38eef11"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="300" y="0" width="31" height="20" uuid="6e8bbc44-424b-4bfa-bc84-3de1b1f53593"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[al]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="450" y="1" width="100" height="20" uuid="60754d80-2985-4330-a894-d95084b2dc76"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Resumen Entradas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="279" y="1" width="160" height="20" uuid="7e55c19a-704e-4f03-bb1d-a8f519d8b80a"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Nombre Rubro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="15" y="1" width="69" height="20" uuid="72ef06fa-c068-4bef-b3a3-ce8672fd9221"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Cod. Sector]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="93" y="1" width="100" height="20" uuid="8bb42d6f-379a-4d8b-844a-a2108127294f"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Nombre Sector]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="201" y="1" width="66" height="20" uuid="5cc647cb-3af0-4377-9100-c6524e285062"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Cod. Rubro]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField pattern="$U #,##0.00">
+				<reportElement x="450" y="1" width="100" height="10" uuid="40588a7b-4134-437a-88e7-583d2956a8b4"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sum(entrada)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="1" width="160" height="10" uuid="d6692481-1cdd-4e4b-b8ba-aca2fd53f93e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbrubros_NOMBRE_RUBRO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="27" y="1" width="46" height="10" uuid="f11e9f5f-ea2d-44cc-a46d-5ca68c84f032"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sector}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="1" width="100" height="10" uuid="2eba6968-88a2-49a7-9ed8-117011bb30e4"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbsectores_NOMBRE_SECTOR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="0" width="31" height="11" uuid="9ef71484-62c3-4cb5-b818-eb23ebe7dc57"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbrubros_ID}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20">
+			<textField pattern="$U #,##0.00">
+				<reportElement x="457" y="0" width="98" height="20" uuid="a9552342-c864-405b-99ad-87e93bf26f59"/>
+				<textFieldExpression><![CDATA[$V{tbcaja_ENTRADA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="353" y="0" width="98" height="20" uuid="4fa59398-4032-44b1-a50d-c529a9184e59"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Total de Salidas:]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="24">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="b39dc04b-c628-4e07-b2af-ed6bc33e27b4"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="428" y="4" width="80" height="20" uuid="7892b936-439d-44ca-a389-979f82149fd5"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="508" y="4" width="40" height="20" uuid="5a4589d2-4d14-4ae4-8414-a96e7c1a3815"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

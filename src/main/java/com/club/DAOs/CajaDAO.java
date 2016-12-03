@@ -24,6 +24,17 @@ public class CajaDAO extends DaoGenerico {
 
     }
 
+    public List<Caja> BuscaTodosOrdenaPorID() {
+
+        List toReturn = null;
+
+        Query qr = em.createQuery("FROM Caja AS c order by id asc");
+        toReturn = qr.getResultList();
+
+        return toReturn;
+
+    }
+
     public Double buscaSaldoAnterior(Date fecha) {
 
         String hql = "SELECT SUM(entrada)-SUM(salida)FROM Caja c WHERE c.fechaMovimiento < :fecha";
@@ -72,4 +83,14 @@ public class CajaDAO extends DaoGenerico {
 
     }
 
+    public Caja BuscaSaldoAnterior() {
+
+        Caja toReturn = null;
+
+        Query qr = em.createQuery("FROM Caja AS c WHERE c.id = (select max(id) from Caja)");
+        toReturn = (Caja) qr.getSingleResult();
+
+        return toReturn;
+
+    }
 }

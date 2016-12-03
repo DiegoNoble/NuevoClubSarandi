@@ -1,6 +1,8 @@
 package com.club.views;
 
+import com.club.BEANS.Caja;
 import com.club.BEANS.Usuario;
+import com.club.DAOs.CajaDAO;
 import com.club.control.utilidades.data;
 import com.club.smsmasivos.SMSMasivosController;
 import java.beans.PropertyVetoException;
@@ -14,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import com.club.smsmasivos.RecibeRespuestasSMSController;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 public class FormPrincipal extends javax.swing.JFrame {
 
@@ -167,6 +171,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemUsuarios = new javax.swing.JMenuItem();
         mnuItemUsuarios1 = new javax.swing.JMenuItem();
         mnuItemSalir = new javax.swing.JMenuItem();
+        mnuItemUsuarios2 = new javax.swing.JMenuItem();
         mnuRegistros = new javax.swing.JMenu();
         mnuItemSocios = new javax.swing.JMenuItem();
         mnuItemDependientes = new javax.swing.JMenuItem();
@@ -176,6 +181,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemCategoria1 = new javax.swing.JMenuItem();
         mnuItemCategoria3 = new javax.swing.JMenuItem();
         mnuItemCategoria2 = new javax.swing.JMenuItem();
+        mnuItemCaja1 = new javax.swing.JMenuItem();
         mnuConsultas = new javax.swing.JMenu();
         mnuItemConsultaSocio2 = new javax.swing.JMenuItem();
         mnuitemConsultaDependientes = new javax.swing.JMenuItem();
@@ -183,6 +189,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mniItemMovimientosCaja = new javax.swing.JMenuItem();
         mnuItemConsultaSocio1 = new javax.swing.JMenuItem();
         mnuItemConsultaSocio3 = new javax.swing.JMenuItem();
+        mniItemMovimientosCaja1 = new javax.swing.JMenuItem();
         mnuMensualidades = new javax.swing.JMenu();
         mnuItemRecibos = new javax.swing.JMenuItem();
         mnuItemPagos = new javax.swing.JMenuItem();
@@ -391,6 +398,14 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         mnuSistema.add(mnuItemSalir);
 
+        mnuItemUsuarios2.setText(" Act. Saldo Caja");
+        mnuItemUsuarios2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemUsuarios2ActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(mnuItemUsuarios2);
+
         jMenuBar1.add(mnuSistema);
 
         mnuRegistros.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -461,6 +476,14 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         mnuRegistros.add(mnuItemCategoria2);
 
+        mnuItemCaja1.setText("Movimientos de Caja NEW");
+        mnuItemCaja1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemCaja1ActionPerformed(evt);
+            }
+        });
+        mnuRegistros.add(mnuItemCaja1);
+
         jMenuBar1.add(mnuRegistros);
 
         mnuConsultas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -514,6 +537,14 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
         mnuConsultas.add(mnuItemConsultaSocio3);
+
+        mniItemMovimientosCaja1.setText("Movimientos de Caja NEW");
+        mniItemMovimientosCaja1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniItemMovimientosCaja1ActionPerformed(evt);
+            }
+        });
+        mnuConsultas.add(mniItemMovimientosCaja1);
 
         jMenuBar1.add(mnuConsultas);
 
@@ -1113,6 +1144,41 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_mnuItemRecibos3ActionPerformed
 
+    private void mnuItemCaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCaja1ActionPerformed
+
+        cajaFrameNEW caja = new cajaFrameNEW(usuario.getNombre());
+        jDesktopPane1.add(caja);
+        caja.setVisible(true);
+        centralizaVentanas(caja);
+
+    }//GEN-LAST:event_mnuItemCaja1ActionPerformed
+
+    private void mnuItemUsuarios2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemUsuarios2ActionPerformed
+        try {
+            CajaDAO cajaDAO = new CajaDAO();
+            List<Caja> BuscaTodosOrdenaPorID = cajaDAO.BuscaTodosOrdenaPorID();
+            Double saldo = 0.0;
+            for (Caja mov : BuscaTodosOrdenaPorID) {
+                saldo = saldo + (mov.getEntrada() - mov.getSalida());
+                mov.setSaldo(saldo);
+                cajaDAO = new CajaDAO();
+
+                cajaDAO.Actualizar(mov);
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + ex);
+        }
+    }//GEN-LAST:event_mnuItemUsuarios2ActionPerformed
+
+    private void mniItemMovimientosCaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniItemMovimientosCaja1ActionPerformed
+        consultaCajaFrameNEW consultaCaja = new consultaCajaFrameNEW();
+        jDesktopPane1.add(consultaCaja);
+        consultaCaja.setVisible(true);
+        centralizaVentanas(consultaCaja);
+    }//GEN-LAST:event_mniItemMovimientosCaja1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCaja;
@@ -1135,6 +1201,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblHora;
     private javax.swing.JMenuItem mniItemMovimientosCaja;
+    private javax.swing.JMenuItem mniItemMovimientosCaja1;
     private javax.swing.JMenu mnuArqueo;
     private javax.swing.JMenu mnuArqueo1;
     private javax.swing.JMenu mnuAyuda;
@@ -1148,6 +1215,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemArqueo4;
     private javax.swing.JMenuItem mnuItemArqueo5;
     private javax.swing.JMenuItem mnuItemCaja;
+    private javax.swing.JMenuItem mnuItemCaja1;
     private javax.swing.JMenuItem mnuItemCategoria;
     private javax.swing.JMenuItem mnuItemCategoria1;
     private javax.swing.JMenuItem mnuItemCategoria2;
@@ -1170,6 +1238,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemSocios;
     private javax.swing.JMenuItem mnuItemUsuarios;
     private javax.swing.JMenuItem mnuItemUsuarios1;
+    private javax.swing.JMenuItem mnuItemUsuarios2;
     private javax.swing.JMenu mnuMensualidades;
     private javax.swing.JMenu mnuRegistros;
     private javax.swing.JMenu mnuSistema;

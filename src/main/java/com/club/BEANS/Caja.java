@@ -41,9 +41,11 @@ public class Caja implements Serializable {
     private Integer cantidad;
     private Double unitario;
     @Column(name = "ENTRADA")
-    private Double entrada;
+    private Double entrada = 0.0;
     @Column(name = "SALIDA")
-    private Double salida;
+    private Double salida = 0.0;
+    @Column(name = "SALDO")
+    private Double saldo = 0.0;
     @JoinColumn(name = "SECTOR", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Sectores sectores;
@@ -147,6 +149,14 @@ public class Caja implements Serializable {
 
     public void setUnitario(Double unitario) {
         this.unitario = unitario;
+    }
+
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 
     @Override

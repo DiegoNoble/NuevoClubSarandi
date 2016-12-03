@@ -8,8 +8,11 @@ import com.club.BEANS.Sectores;
 import com.club.DAOs.CajaDAO;
 import com.club.DAOs.RubroDAO;
 import com.club.DAOs.SectorDAO;
+import com.club.Renderers.MeDateCellRenderer;
 import com.club.control.utilidades.ImprimiRecibo;
+import com.club.modelos.CajaTableModel;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -18,12 +21,11 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-public class cajaFrame extends javax.swing.JInternalFrame {
+public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
-    DefaultTableModel tblModelMensualidades;
+    CajaTableModel tblModelCaja;
     CajaDAO cajaDAO;
     RubroDAO rubroDAO;
     SectorDAO sectorDAO;
@@ -33,7 +35,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
     String nombreUsuario;
     ListSelectionModel listModel;
 
-    public cajaFrame(String nombreUsuario) {
+    public cajaFrameNEW(String nombreUsuario) {
         initComponents();
 
         dataPiker.setFormats("dd/MM/yyyy");
@@ -43,8 +45,8 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         AutoCompleteDecorator.decorate(cbSectores);
         AutoCompleteDecorator.decorate(cbTIpo);
         this.nombreUsuario = nombreUsuario;
-
-        muestraContenidoTabla();
+        defineModelo();
+        muestraMovimientos();
 
     }
 
@@ -70,17 +72,22 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         }
     }
 
-    private void muestraContenidoTabla() {
+    private void defineModelo() {
 
         try {
-            SimpleDateFormat formatoData = new SimpleDateFormat("yyyy/MM/dd");
-            Date data = dataPiker.getDate();
-
-            dataSeleccionada = formatoData.format(data);
-
             ((DefaultTableCellRenderer) tblCaja.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-            tblModelMensualidades = (DefaultTableModel) tblCaja.getModel();
-            tblModelMensualidades.setNumRows(0);
+            listMovimientosCaja = new ArrayList<>();
+            tblModelCaja = new CajaTableModel(listMovimientosCaja);
+            tblCaja.setModel(tblModelCaja);
+            tblCaja.getColumn("Fecha").setCellRenderer(new MeDateCellRenderer());
+            int[] anchos = {50, 100, 80, 300, 20, 20, 20};
+
+            for (int i = 0; i < tblCaja.getColumnCount(); i++) {
+
+                tblCaja.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+
+            }
+
             listModel = tblCaja.getSelectionModel();
             listModel.addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent e) {
@@ -95,20 +102,19 @@ public class cajaFrame extends javax.swing.JInternalFrame {
                     }
                 }
             });
+        } catch (Exception error) {
+            error.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + error, "Error", JOptionPane.ERROR_MESSAGE);
 
+        }
+    }
+
+    private void muestraMovimientos() {
+        try {
+            listMovimientosCaja.clear();
             cajaDAO = new CajaDAO();
-            listMovimientosCaja = cajaDAO.BuscaMovimientosPorFecha(dataPiker.getDate());
-            for (Caja caja : listMovimientosCaja) {
-                tblModelMensualidades.addRow(new Object[]{
-                    caja.getId(),
-                    caja.getFechaMovimiento(),
-                    caja.getRubro().getNombreRubro(),
-                    caja.getSectores().getNombreSector(),
-                    caja.getConcepto(),
-                    caja.getEntrada(),
-                    caja.getSalida()
-                });
-            }
+            listMovimientosCaja.addAll(cajaDAO.BuscaMovimientosPorFecha(dataPiker.getDate()));
+            tblModelCaja.fireTableDataChanged();
 
             cajaDAO = new CajaDAO();
             Double saldoAnterior = cajaDAO.buscaSaldoAnterior(dataPiker.getDate());
@@ -119,9 +125,17 @@ public class cajaFrame extends javax.swing.JInternalFrame {
             txtSaldoDelDia.setValue(saldoDelDia);
 
         } catch (Exception error) {
-
+            error.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + error, "Error", JOptionPane.ERROR_MESSAGE);
+
         }
+    }
+
+    Double buscaSaldoAnterior() {
+        Double saldoAnterior = 0.0;
+        cajaDAO = new CajaDAO();
+        saldoAnterior = cajaDAO.BuscaSaldoAnterior().getSaldo();
+        return saldoAnterior;
     }
 
     @SuppressWarnings("unchecked")
@@ -412,44 +426,16 @@ public class cajaFrame extends javax.swing.JInternalFrame {
 
         tblCaja.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Fecha", "Rubro", "Sector", "Concepto", "Entrada $", "Salida $"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane1.setViewportView(tblCaja);
-        if (tblCaja.getColumnModel().getColumnCount() > 0) {
-            tblCaja.getColumnModel().getColumn(0).setPreferredWidth(5);
-            tblCaja.getColumnModel().getColumn(0).setCellRenderer(new MyDefaultCellRenderer());
-            tblCaja.getColumnModel().getColumn(1).setPreferredWidth(40);
-            tblCaja.getColumnModel().getColumn(1).setCellRenderer(new MyDateCellRenderer());
-            tblCaja.getColumnModel().getColumn(2).setPreferredWidth(90);
-            tblCaja.getColumnModel().getColumn(2).setCellRenderer(new MyDefaultCellRenderer());
-            tblCaja.getColumnModel().getColumn(3).setPreferredWidth(40);
-            tblCaja.getColumnModel().getColumn(3).setCellRenderer(new MyDefaultCellRenderer());
-            tblCaja.getColumnModel().getColumn(4).setPreferredWidth(150);
-            tblCaja.getColumnModel().getColumn(4).setCellRenderer(new MyDefaultCellRenderer());
-            tblCaja.getColumnModel().getColumn(5).setPreferredWidth(20);
-            tblCaja.getColumnModel().getColumn(5).setCellRenderer(new MyDefaultCellRenderer());
-            tblCaja.getColumnModel().getColumn(6).setPreferredWidth(20);
-            tblCaja.getColumnModel().getColumn(6).setCellRenderer(new MyDefaultCellRenderer());
-        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -486,6 +472,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
                 movimiento.setEntrada(Double.valueOf(txtValor.getText()));
                 movimiento.setUsuario(nombreUsuario);
                 movimiento.setSalida(0.0);
+                movimiento.setSaldo(buscaSaldoAnterior() + movimiento.getEntrada());
 
                 cajaDAO = new CajaDAO();
                 cajaDAO.Salvar(movimiento);
@@ -508,6 +495,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
                 movimiento.setEntrada(0.0);
                 movimiento.setUsuario(nombreUsuario);
                 movimiento.setSalida(Double.valueOf(txtValor.getText()));
+                movimiento.setSaldo(buscaSaldoAnterior() - movimiento.getSalida());
 
                 cajaDAO = new CajaDAO();
                 cajaDAO.Salvar(movimiento);
@@ -523,12 +511,12 @@ public class cajaFrame extends javax.swing.JInternalFrame {
         txtConcepto.setText("");
         txtValor.setText("");
 
-        muestraContenidoTabla();
+        muestraMovimientos();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void dataPikerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataPikerActionPerformed
 
-        muestraContenidoTabla();
+        muestraMovimientos();
 
     }//GEN-LAST:event_dataPikerActionPerformed
 
@@ -551,7 +539,7 @@ public class cajaFrame extends javax.swing.JInternalFrame {
 
     private void btnReimprimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReimprimeActionPerformed
 
-        Caja movSeleccionado = (Caja) cajaDAO.BuscaPorID(Caja.class, (Integer) tblModelMensualidades.getValueAt(tblCaja.getSelectedRow(), 0));
+        Caja movSeleccionado = (Caja) cajaDAO.BuscaPorID(Caja.class, (Integer) tblModelCaja.getValueAt(tblCaja.getSelectedRow(), 0));
         new ImprimiRecibo().imprimieRecibo(movSeleccionado);
 
     }//GEN-LAST:event_btnReimprimeActionPerformed

@@ -29,6 +29,8 @@ public class Sectores implements Serializable {
     private Integer id;
     @Column(name = "NOMBRE_SECTOR")
     private String nombreSector;
+    @Column(name = "cod_ref")
+    private String codRef;
 
 
     public Sectores() {
@@ -61,7 +63,13 @@ public class Sectores implements Serializable {
         this.nombreSector = nombreSector;
     }
 
- 
+    public String getCodRef() {
+        return codRef;
+    }
+
+    public void setCodRef(String codRef) {
+        this.codRef = codRef;
+    }
 
     @Override
     public int hashCode() {

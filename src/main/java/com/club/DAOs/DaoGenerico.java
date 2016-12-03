@@ -25,6 +25,16 @@ public class DaoGenerico {
 
     }
 
+    public void SalvarList(List list) throws Exception {
+        for (Object obj : list) {
+            em.persist(obj);
+            em.flush();
+            em.clear();
+        }
+        em.getTransaction().commit();
+        em.close();
+    }
+
     public void Actualizar(Object obj) throws Exception {
         em.merge(obj);
         em.getTransaction().commit();
@@ -53,7 +63,7 @@ public class DaoGenerico {
     }
 
     public List BuscaPor(Class clase, String campo, String variable) {
-        Query qr = em.createQuery("from "+clase.getName()+" where "+campo+" like ?1");
+        Query qr = em.createQuery("from " + clase.getName() + " where " + campo + " like ?1");
         //qr.setParameter(1, clase.getName());
         //qr.setParameter(2, campo);
         qr.setParameter(1, "%" + variable + "%");
