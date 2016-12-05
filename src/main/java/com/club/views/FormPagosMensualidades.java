@@ -58,6 +58,8 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
                         pago.setRubro(new Rubro(1));
                         pago.setFechaMovimiento(new Date());
                         pago.setEntrada(reciboAPagar.getValor());
+                        pago.setSalida(0.0);
+                        pago.setSaldo(buscaSaldoAnterior() + pago.getEntrada());
                         pago.setSectores(new Sectores(1));
 
                         cajaDAO = new CajaDAO();
@@ -66,7 +68,7 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(null, "Pago registrado");
 
                     }
-                   
+
                 }
             }
         } catch (Exception ex) {
@@ -90,6 +92,13 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
             Logger.getLogger(FormPagosMensualidades.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    Double buscaSaldoAnterior() {
+        Double saldoAnterior = 0.0;
+        cajaDAO = new CajaDAO();
+        saldoAnterior = cajaDAO.BuscaSaldoAnterior().getSaldo();
+        return saldoAnterior;
     }
 
     @SuppressWarnings("unchecked")

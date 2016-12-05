@@ -168,7 +168,7 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
 
                     btnEliminarSector.setEnabled(true);
                 } else {
-                    btnEliminar.setEnabled(false);
+                    btnEliminarSector.setEnabled(false);
                 }
             }
         });
@@ -196,7 +196,7 @@ public final class FuncionarioView extends javax.swing.JInternalFrame {
             Double procentage = 100.00 / listSectoresFuncionario.size();
             sectores.setProcentageSector(Math.rint((procentage * cifras) / cifras));
         }
-        tblModelSectoresFuncionario.fireTableStructureChanged();
+        tblModelSectoresFuncionario.fireTableDataChanged();
     }
 
     void buscaSectoresAsignados() {

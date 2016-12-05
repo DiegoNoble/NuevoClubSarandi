@@ -182,6 +182,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemCategoria3 = new javax.swing.JMenuItem();
         mnuItemCategoria2 = new javax.swing.JMenuItem();
         mnuItemCaja1 = new javax.swing.JMenuItem();
+        mnuItemCaja2 = new javax.swing.JMenuItem();
         mnuConsultas = new javax.swing.JMenu();
         mnuItemConsultaSocio2 = new javax.swing.JMenuItem();
         mnuitemConsultaDependientes = new javax.swing.JMenuItem();
@@ -483,6 +484,14 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
         mnuRegistros.add(mnuItemCaja1);
+
+        mnuItemCaja2.setText("Pago Sueldos");
+        mnuItemCaja2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemCaja2ActionPerformed(evt);
+            }
+        });
+        mnuRegistros.add(mnuItemCaja2);
 
         jMenuBar1.add(mnuRegistros);
 
@@ -1179,6 +1188,13 @@ public class FormPrincipal extends javax.swing.JFrame {
         centralizaVentanas(consultaCaja);
     }//GEN-LAST:event_mniItemMovimientosCaja1ActionPerformed
 
+    private void mnuItemCaja2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCaja2ActionPerformed
+        PagoSueldosView pagoSueldos = new PagoSueldosView(usuario.toString());
+        jDesktopPane1.add(pagoSueldos);
+        pagoSueldos.setVisible(true);
+        centralizaVentanas(pagoSueldos);
+    }//GEN-LAST:event_mnuItemCaja2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCaja;
@@ -1216,6 +1232,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemArqueo5;
     private javax.swing.JMenuItem mnuItemCaja;
     private javax.swing.JMenuItem mnuItemCaja1;
+    private javax.swing.JMenuItem mnuItemCaja2;
     private javax.swing.JMenuItem mnuItemCategoria;
     private javax.swing.JMenuItem mnuItemCategoria1;
     private javax.swing.JMenuItem mnuItemCategoria2;
