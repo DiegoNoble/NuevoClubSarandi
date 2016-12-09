@@ -63,6 +63,7 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
     private void muestraContenidoTabla() {
         try {
             listMovCaja.clear();
+            cajaDAO = new CajaDAO();
             listMovCaja.addAll(cajaDAO.buscaMovEntreFechas(dpDesde.getDate(), dpHasta.getDate()));
             modelo.fireTableDataChanged();
 

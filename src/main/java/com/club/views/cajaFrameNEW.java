@@ -142,6 +142,32 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
         return saldoAnterior;
     }
 
+    Double buscaSaldoAnteriorFecha(Date fecha) {
+        Double saldoAnterior = 0.0;
+        cajaDAO = new CajaDAO();
+        saldoAnterior = cajaDAO.BuscaSaldoAnteriorFecha(fecha).getSaldo();
+        return saldoAnterior;
+    }
+
+    void ajustaSaldos(Double saldo) {
+        try {
+            cajaDAO = new CajaDAO();
+            List<Caja> todos = cajaDAO.BuscaTodosOrdenaPorIDFyFecha(dataPiker.getDate());
+
+            for (Caja mov : todos) {
+                saldo = saldo + (mov.getEntrada() - mov.getSalida());
+                mov.setSaldo(saldo);
+                cajaDAO = new CajaDAO();
+
+                cajaDAO.Actualizar(mov);
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + ex);
+        }
+    }
+
     void configTblSectores() {
         ((DefaultTableCellRenderer) tblSectores.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         listSectoresCaja = new ArrayList<>();
@@ -171,7 +197,7 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
     void agregarNuevoSector() {
 
-        tblModelSectoresCaja.agregar(new SectoresPorcentage(new Sectores(), new Double(0.0)));
+        listSectoresCaja.add(new SectoresPorcentage(new Sectores(1), new Double(0.0)));
 
         for (SectoresPorcentage sectores : listSectoresCaja) {
             Double procentage = 100.00 / listSectoresCaja.size();
@@ -582,13 +608,13 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
                     movimiento = new Caja();
                     movimiento.setConcepto(txtConcepto.getText());
                     movimiento.setRubro((Rubro) cbRubro.getSelectedItem());
-                    movimiento.setFechaMovimiento(new Date());
+                    movimiento.setFechaMovimiento(dataPiker.getDate());
                     movimiento.setSectores(sector.getSector());
 
                     movimiento.setEntrada((importe * sector.getPorcentage()) / 100);
                     movimiento.setUsuario(nombreUsuario);
                     movimiento.setSalida(0.0);
-                    movimiento.setSaldo(buscaSaldoAnterior() + movimiento.getEntrada());
+                    //movimiento.setSaldo(buscaSaldoAnterior() + movimiento.getEntrada());
 
                     cajaDAO = new CajaDAO();
                     cajaDAO.Salvar(movimiento);
@@ -597,7 +623,7 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
                     new ImprimiRecibo().imprimieRecibo(movimiento);
 
                 }
-
+                ajustaSaldos(buscaSaldoAnteriorFecha(dataPiker.getDate()));
             } else if (cbTIpo.getSelectedItem().equals("Salida")) {
 
                 for (SectoresPorcentage sector : listSectoresCaja) {
@@ -605,19 +631,20 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
                     movimiento = new Caja();
                     movimiento.setConcepto(txtConcepto.getText());
                     movimiento.setRubro((Rubro) cbRubro.getSelectedItem());
-                    movimiento.setFechaMovimiento(new Date());
+                    movimiento.setFechaMovimiento(dataPiker.getDate());
                     movimiento.setSectores(sector.getSector());
                     movimiento.setEntrada(0.0);
                     movimiento.setUsuario(nombreUsuario);
                     movimiento.setSalida((importe * sector.getPorcentage()) / 100);
-                    movimiento.setSaldo(buscaSaldoAnterior() - movimiento.getSalida());
+                    //movimiento.setSaldo(buscaSaldoAnterior() - movimiento.getSalida());
 
                     cajaDAO = new CajaDAO();
                     cajaDAO.Salvar(movimiento);
+
                     JOptionPane.showMessageDialog(null, "Movimiento registrado correctamente!");
                     new ImprimiRecibo().imprimieRecibo(movimiento);
                 }
-
+                ajustaSaldos(buscaSaldoAnteriorFecha(dataPiker.getDate()));
             }
 
         } catch (Exception error) {

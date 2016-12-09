@@ -34,6 +34,17 @@ public class CajaDAO extends DaoGenerico {
         return toReturn;
 
     }
+     public List<Caja> BuscaTodosOrdenaPorIDFyFecha(Date fecha) {
+
+        List toReturn = null;
+
+        Query qr = em.createQuery("FROM Caja AS c where fechaMovimiento >= :fecha order by fechaMovimiento,id asc");
+        qr.setParameter("fecha", fecha);
+        toReturn = qr.getResultList();
+
+        return toReturn;
+
+    }
 
     public Double buscaSaldoAnterior(Date fecha) {
 
@@ -62,7 +73,7 @@ public class CajaDAO extends DaoGenerico {
 
         List toReturn = null;
 
-        Query qr = em.createQuery("FROM Caja AS c WHERE c.fechaMovimiento between :desde and :hasta");
+        Query qr = em.createQuery("FROM Caja AS c WHERE c.fechaMovimiento between :desde and :hasta order by fechaMovimiento, id asc");
         qr.setParameter("desde", desde);
         qr.setParameter("hasta", hasta);
         toReturn = qr.getResultList();
@@ -88,6 +99,18 @@ public class CajaDAO extends DaoGenerico {
         Caja toReturn = null;
 
         Query qr = em.createQuery("FROM Caja AS c WHERE c.id = (select max(id) from Caja)");
+        toReturn = (Caja) qr.getSingleResult();
+
+        return toReturn;
+
+    }
+      public Caja BuscaSaldoAnteriorFecha(Date fecha) {
+
+        Caja toReturn = null;
+
+        Query qr = em.createQuery("FROM Caja AS c WHERE c.id = (select max(id) from Caja where fechaMovimiento <:fecha and"
+                + " fechaMovimiento = (select max(fechaMovimiento) from Caja where fechaMovimiento <:fecha))");
+        qr.setParameter("fecha", fecha);
         toReturn = (Caja) qr.getSingleResult();
 
         return toReturn;

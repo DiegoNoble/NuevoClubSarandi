@@ -214,7 +214,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemSobre = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Sis. Control de Clubes -- DNSoft .-");
+        setTitle("Sis. Control de Clubes -- DNSoft .- PRUEBA!");
         setBackground(new java.awt.Color(255, 255, 255));
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
