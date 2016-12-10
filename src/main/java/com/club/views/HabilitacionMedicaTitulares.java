@@ -438,7 +438,7 @@ public final class HabilitacionMedicaTitulares extends javax.swing.JInternalFram
 
                     JOptionPane.showMessageDialog(null, "Ficha aprovada, precione OK para imprimir.");
                     parametros.clear();
-                    parametros.put("logoClub", "./Imagenes/EscudoBN.jpg");
+                    parametros.put("logoClub", "./Imagenes/EscudoBN.png");
                     parametros.put("idSocio", socioSeleccionado.getId());
                     ImprimirReporte.setReportParameters(parametros);
                     ImprimirReporte.setReportURL("/Reportes/fichaMedica.jasper");

@@ -196,8 +196,8 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
     }
 
     void agregarNuevoSector() {
-
-        listSectoresCaja.add(new SectoresPorcentage(new Sectores(1), new Double(0.0)));
+     
+        tblModelSectoresCaja.agregar(new SectoresPorcentage(new Sectores(), new Double(0.0)));
 
         for (SectoresPorcentage sectores : listSectoresCaja) {
             Double procentage = 100.00 / listSectoresCaja.size();

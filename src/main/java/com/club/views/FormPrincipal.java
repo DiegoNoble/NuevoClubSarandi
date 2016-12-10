@@ -44,7 +44,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             mnuHabilitacionMedica.setEnabled(false);
             mnuMensualidades.setEnabled(false);
             mnuItemUsuarios.setEnabled(false);
-            mniItemMovimientosCaja.setEnabled(false);
+         //   mniItemMovimientosCaja.setEnabled(false);
         }
 
         if (jlbPerfil.getText().equals("Operador")) {
@@ -95,7 +95,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             mnuHabilitacionMedica.setEnabled(false);
             mnuMensualidades.setEnabled(false);
             mnuItemUsuarios.setEnabled(false);
-            mniItemMovimientosCaja.setEnabled(false);
+           // mniItemMovimientosCaja.setEnabled(false);
         }
 
         if (jlbPerfil.getText().equals("Operador")) {
@@ -177,7 +177,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemDependientes = new javax.swing.JMenuItem();
         mnuItemCobrador = new javax.swing.JMenuItem();
         mnuItemCategoria = new javax.swing.JMenuItem();
-        mnuItemCaja = new javax.swing.JMenuItem();
         mnuItemCategoria1 = new javax.swing.JMenuItem();
         mnuItemCategoria3 = new javax.swing.JMenuItem();
         mnuItemCategoria2 = new javax.swing.JMenuItem();
@@ -187,7 +186,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemConsultaSocio2 = new javax.swing.JMenuItem();
         mnuitemConsultaDependientes = new javax.swing.JMenuItem();
         mnuitemConsultaMensualidades = new javax.swing.JMenuItem();
-        mniItemMovimientosCaja = new javax.swing.JMenuItem();
         mnuItemConsultaSocio1 = new javax.swing.JMenuItem();
         mnuItemConsultaSocio3 = new javax.swing.JMenuItem();
         mniItemMovimientosCaja1 = new javax.swing.JMenuItem();
@@ -445,14 +443,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         mnuRegistros.add(mnuItemCategoria);
 
-        mnuItemCaja.setText("Movimientos de Caja");
-        mnuItemCaja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemCajaActionPerformed(evt);
-            }
-        });
-        mnuRegistros.add(mnuItemCaja);
-
         mnuItemCategoria1.setText("Rubros"); // NOI18N
         mnuItemCategoria1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -522,14 +512,6 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
         mnuConsultas.add(mnuitemConsultaMensualidades);
-
-        mniItemMovimientosCaja.setText("Movimientos de Caja");
-        mniItemMovimientosCaja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniItemMovimientosCajaActionPerformed(evt);
-            }
-        });
-        mnuConsultas.add(mniItemMovimientosCaja);
 
         mnuItemConsultaSocio1.setText("Prueba de Huella");
         mnuItemConsultaSocio1.addActionListener(new java.awt.event.ActionListener() {
@@ -876,23 +858,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuItemHabilitacionTitularesActionPerformed
 
-    private void mnuItemCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCajaActionPerformed
-
-        cajaFrame caja = new cajaFrame(usuario.getNombre());
-        jDesktopPane1.add(caja);
-        caja.setVisible(true);
-        centralizaVentanas(caja);
-    }//GEN-LAST:event_mnuItemCajaActionPerformed
-
-    private void mniItemMovimientosCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniItemMovimientosCajaActionPerformed
-
-        consultaCajaFrame consultaCaja = new consultaCajaFrame();
-        jDesktopPane1.add(consultaCaja);
-        consultaCaja.setVisible(true);
-        centralizaVentanas(consultaCaja);
-
-    }//GEN-LAST:event_mniItemMovimientosCajaActionPerformed
-
     private void mnuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemUsuariosActionPerformed
 
         registroUsuarios usuarios = new registroUsuarios();
@@ -1216,7 +1181,6 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jlbPerfil;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblHora;
-    private javax.swing.JMenuItem mniItemMovimientosCaja;
     private javax.swing.JMenuItem mniItemMovimientosCaja1;
     private javax.swing.JMenu mnuArqueo;
     private javax.swing.JMenu mnuArqueo1;
@@ -1230,7 +1194,6 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemArqueo3;
     private javax.swing.JMenuItem mnuItemArqueo4;
     private javax.swing.JMenuItem mnuItemArqueo5;
-    private javax.swing.JMenuItem mnuItemCaja;
     private javax.swing.JMenuItem mnuItemCaja1;
     private javax.swing.JMenuItem mnuItemCaja2;
     private javax.swing.JMenuItem mnuItemCategoria;
