@@ -470,9 +470,9 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
                 movimiento.setFechaMovimiento(new Date());
                 movimiento.setSectores(sector.getSector());
 
-                movimiento.setEntrada((importe * sector.getProcentageSector()) / 100);
+                movimiento.setEntrada(0.0);
                 movimiento.setUsuario(nombreUsuario);
-                movimiento.setSalida(0.0);
+                movimiento.setSalida((importe * sector.getProcentageSector()) / 100);
                 movimiento.setSaldo(buscaSaldoAnterior() + movimiento.getEntrada());
 
                 cajaDAO = new CajaDAO();
