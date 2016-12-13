@@ -148,12 +148,38 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
         }
 
     }
-    
+
     Double buscaSaldoAnterior() {
         Double saldoAnterior = 0.0;
         cajaDAO = new CajaDAO();
         saldoAnterior = cajaDAO.BuscaSaldoAnterior().getSaldo();
         return saldoAnterior;
+    }
+
+    Double buscaSaldoAnteriorFecha(Date fecha) {
+        Double saldoAnterior = 0.0;
+        cajaDAO = new CajaDAO();
+        saldoAnterior = cajaDAO.BuscaSaldoAnteriorFecha(fecha).getSaldo();
+        return saldoAnterior;
+    }
+
+    void ajustaSaldos(Double saldo) {
+        try {
+            cajaDAO = new CajaDAO();
+            List<Caja> todos = cajaDAO.BuscaTodosOrdenaPorIDFyFecha(dataPiker.getDate());
+
+            for (Caja mov : todos) {
+                saldo = saldo + (mov.getEntrada() - mov.getSalida());
+                mov.setSaldo(saldo);
+                cajaDAO = new CajaDAO();
+
+                cajaDAO.Actualizar(mov);
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -182,6 +208,8 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         txtConcepto = new javax.swing.JFormattedTextField();
         jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        dataPiker = new org.jdesktop.swingx.JXDatePicker();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblSectores = new javax.swing.JTable();
@@ -191,7 +219,7 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Control de Socios - Club Sarandi Universitario"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(850, 650));
+        setPreferredSize(new java.awt.Dimension(750, 550));
         setRequestFocusEnabled(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -314,7 +342,7 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
         jLabel2.setText("Concepto");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         jPanel3.add(jLabel2, gridBagConstraints);
 
         cbRubro.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
@@ -326,7 +354,7 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -336,7 +364,7 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
         jLabel5.setText("Importe total");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel3.add(jLabel5, gridBagConstraints);
@@ -350,7 +378,7 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 150;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -372,7 +400,7 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
         txtConcepto.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -382,8 +410,28 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
         jLabel6.setText("Rubro");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         jPanel3.add(jLabel6, gridBagConstraints);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("Fecha:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(jLabel8, gridBagConstraints);
+
+        dataPiker.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dataPikerActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(dataPiker, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -467,17 +515,17 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
                 Caja movimiento = new Caja();
                 movimiento.setConcepto(txtConcepto.getText());
                 movimiento.setRubro((Rubro) cbRubro.getSelectedItem());
-                movimiento.setFechaMovimiento(new Date());
+                movimiento.setFechaMovimiento(dataPiker.getDate());
                 movimiento.setSectores(sector.getSector());
 
                 movimiento.setEntrada(0.0);
                 movimiento.setUsuario(nombreUsuario);
                 movimiento.setSalida((importe * sector.getProcentageSector()) / 100);
-                movimiento.setSaldo(buscaSaldoAnterior() + movimiento.getEntrada());
+                //movimiento.setSaldo(buscaSaldoAnterior() + movimiento.getEntrada());
 
                 cajaDAO = new CajaDAO();
                 cajaDAO.Salvar(movimiento);
-
+                ajustaSaldos(buscaSaldoAnteriorFecha(dataPiker.getDate()));
                 JOptionPane.showMessageDialog(null, "Movimiento registrado correctamente!");
                 new ImprimiRecibo().imprimieRecibo(movimiento);
 
@@ -491,16 +539,23 @@ public final class PagoSueldosView extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void dataPikerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataPikerActionPerformed
+
+
+    }//GEN-LAST:event_dataPikerActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cbRubro;
+    private org.jdesktop.swingx.JXDatePicker dataPiker;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
