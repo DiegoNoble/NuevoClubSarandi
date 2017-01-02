@@ -338,7 +338,10 @@ public class ConsultaActualizaTalonCobrosYa extends javax.swing.JInternalFrame {
             public void run() {
                 try {
                     txtLog.append("\nConsultando talones CobrosYa Pagos....");
-                    ConsultaTalonesCobrosYa consultaTalonesCobrosYa = new ConsultaTalonesCobrosYa();
+                    parametrosDAO = new ParametrosDAO();
+                    parametros = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
+
+                    ConsultaTalonesCobrosYa consultaTalonesCobrosYa = new ConsultaTalonesCobrosYa(parametros);
                     List<Mensualidades> talonesPagos = consultaTalonesCobrosYa.enviarTalonMiWeb(dpVencimiento.getDate());
                     txtLog.append("\n Se cargaron " + talonesPagos.size() + " talones pagos");
                     txtLog.append("\n------------------------");

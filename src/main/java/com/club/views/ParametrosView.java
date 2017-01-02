@@ -32,6 +32,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtUsuarioSMS.setText(parametros.getUsuario_SMS());
         cbCobrosYa.setSelectedItem(parametros.getCobradorCobrosYa());
         txtApiUrlCrear.setText(parametros.getApiUrlCrear());
+        txtUrlConsultaCobranzas.setText(parametros.getUrlConsultaCobranzasCobrosYa());
     }
 
     void comboCobradores() {
@@ -50,6 +51,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtPswSms.setEnabled(true);
         txtTokenCobrosYa.setEnabled(true);
         txtUrlPost.setEnabled(true);
+        txtUrlConsultaCobranzas.setEnabled(true);
         txtApiUrlCrear.setEnabled(true);
         txtUsuarioSMS.setEnabled(true);
         txtEmailPadron.setEnabled(true);
@@ -57,7 +59,6 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         btnCancelar.setEnabled(true);
         btnGuardar.setEnabled(true);
         btnEditar.setEnabled(false);
-        
 
     }
 
@@ -67,6 +68,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtPswSms.setEnabled(false);
         txtTokenCobrosYa.setEnabled(false);
         txtUrlPost.setEnabled(false);
+        txtUrlConsultaCobranzas.setEnabled(false);
         txtApiUrlCrear.setEnabled(false);
         txtUsuarioSMS.setEnabled(false);
         txtEmailPadron.setEnabled(false);
@@ -103,6 +105,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtApiUrlCrear = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         txtEmailPadron = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        txtUrlConsultaCobranzas = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -243,10 +247,10 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel12, gridBagConstraints);
 
-        jLabel13.setText("URL Post CobrosYA");
+        jLabel13.setText("URL consulta Cobranzas CobrosYA");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel13, gridBagConstraints);
 
@@ -274,6 +278,22 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtEmailPadron, gridBagConstraints);
+
+        jLabel15.setText("URL Post CobrosYA");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel15, gridBagConstraints);
+
+        txtUrlConsultaCobranzas.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txtUrlConsultaCobranzas, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -343,6 +363,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
             parametros.setPsw_email(txtPswEmail.getText());
             parametros.setTokenCobrosYa(txtTokenCobrosYa.getText());
             parametros.setUrlPostCobrosYa(txtUrlPost.getText());
+            parametros.setUrlConsultaCobranzasCobrosYa(txtUrlConsultaCobranzas.getText());
             parametros.setUsuario_SMS(txtUsuarioSMS.getText());
             parametros.setApiUrlCrear(txtApiUrlCrear.getText());
             parametros.setEmailPadron(txtEmailPadron.getText());
@@ -371,6 +392,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -384,6 +406,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtPswEmail;
     private javax.swing.JTextField txtPswSms;
     private javax.swing.JTextField txtTokenCobrosYa;
+    private javax.swing.JTextField txtUrlConsultaCobranzas;
     private javax.swing.JTextField txtUrlPost;
     private javax.swing.JTextField txtUsuarioSMS;
     // End of variables declaration//GEN-END:variables

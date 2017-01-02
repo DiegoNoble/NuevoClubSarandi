@@ -6,6 +6,8 @@
 package Utilidades;
 
 import com.club.BEANS.Mensualidades;
+import com.club.BEANS.Parametros;
+import com.club.DAOs.ParametrosDAO;
 import java.util.List;
 
 import org.jdom.Document;
@@ -24,22 +26,24 @@ public class ConsultaTalonesCobrosYa {
 
     String response;
     List<Mensualidades> mensualidadesPagas = new ArrayList<>();
+    Parametros parametros;
 
-    public ConsultaTalonesCobrosYa() {
+    public ConsultaTalonesCobrosYa(Parametros parametros) {
+        this.parametros = parametros;
     }
 
     public List<Mensualidades> enviarTalonMiWeb(Date fecha) throws Exception {
         HttpClient client = new HttpClient();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat formatoBD = new SimpleDateFormat("yyyy-MM-dd");
-
+        
         client.setStrictMode(true);
         client.setTimeout(60000);
         client.setConnectionTimeout(5000);
         PostMethod post = null;
 
         //post = new PostMethod("http://192.185.112.100/~saltohoteluy/nuevo.php");
-        post = new PostMethod("http://192.185.112.100/~saltohoteluy/webserviceprueba.php");
+        post = new PostMethod(parametros.getUrlConsultaCobranzasCobrosYa());
 
         post.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
 

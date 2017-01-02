@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informeCaja" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0c436e42-e997-4a27-886a-ab9b99e87538">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ClubSarandi.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="sectores" class="java.util.List"/>
+	<parameter name="desde" class="java.util.Date"/>
+	<parameter name="hasta" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+     C.ID ,
+     C.CONCEPTO ,
+     C.FECHA_MOVIMIENTO ,
+     SUM(C.ENTRADA) AS ENTRADA ,
+     SUM(C.SALIDA) AS SALIDA,
+     C.SECTOR,
+     C.RUBRO,
+      S.NOMBRE_SECTOR ,
+     R.NOMBRE_RUBRO
+FROM
+    tbsectores AS S INNER JOIN tbcaja AS C ON S.ID = C.SECTOR
+     INNER JOIN tbrubros AS R ON C.RUBRO = R.ID
+     where 	 $X{IN,S.id, sectores} and 
+C.FECHA_MOVIMIENTO  between $P{desde} and  $P{hasta}
+GROUP BY C.SECTOR, C.RUBRO  ORDER BY C.SECTOR,C.RUBRO]]>
+	</queryString>
+	<field name="ID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CONCEPTO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="FECHA_MOVIMIENTO" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ENTRADA" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SALIDA" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SECTOR" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RUBRO" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NOMBRE_SECTOR" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NOMBRE_RUBRO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="tbcaja_ENTRADA" class="java.lang.Double" resetType="Group" resetGroup="SECTOR" calculation="Sum">
+		<variableExpression><![CDATA[$F{ENTRADA}]]></variableExpression>
+	</variable>
+	<variable name="tbcaja_SALIDA" class="java.lang.Double" resetType="Group" resetGroup="SECTOR" calculation="Sum">
+		<variableExpression><![CDATA[$F{SALIDA}]]></variableExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.Double" resetType="Group" resetGroup="SECTOR" calculation="Sum">
+		<variableExpression><![CDATA[$F{ENTRADA}-$F{SALIDA}]]></variableExpression>
+	</variable>
+	<group name="SECTOR">
+		<groupExpression><![CDATA[$F{SECTOR}]]></groupExpression>
+		<groupHeader>
+			<band height="53">
+				<staticText>
+					<reportElement style="Column header" x="16" y="6" width="60" height="21" uuid="b0c6c6ae-d053-4d3f-8fa0-f3da7a7ad98a"/>
+					<textElement>
+						<font size="18" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[Sector]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="77" y="6" width="20" height="21" uuid="3bb33cfd-a9fd-4712-8a43-aec880cc37d6"/>
+					<textElement>
+						<font fontName="Arial" size="18" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECTOR}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="97" y="6" width="208" height="21" uuid="d9a440f3-2062-4c8d-a919-d60e06e9a6a0"/>
+					<textElement>
+						<font fontName="Arial" size="18" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOMBRE_SECTOR}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="51" width="550" height="1" uuid="249e7688-7aeb-47d8-b771-6dac439658c8"/>
+				</line>
+				<staticText>
+					<reportElement style="Column header" x="357" y="29" width="74" height="22" uuid="7e122684-819c-4301-8a64-70edcc9da765"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Salida]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="217" y="29" width="86" height="22" uuid="31e62b3c-694a-48de-9149-59177b09924a"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Entrada]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="17" y="29" width="63" height="22" uuid="9c84ed0d-507a-4b95-b8cb-008b54241d06"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Rubro]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="29" width="550" height="1" uuid="941b4c2b-69c1-4e69-bff0-7548417c29f9"/>
+				</line>
+				<line>
+					<reportElement x="0" y="3" width="550" height="1" uuid="061b3bba-0f24-45a7-a451-477bd7ed559c"/>
+				</line>
+				<textField pattern="d/M/yy">
+					<reportElement x="372" y="9" width="60" height="17" uuid="0e700d6b-dacb-4e02-bdaa-29509a4251a1"/>
+					<textElement>
+						<font fontName="Arial" size="14" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{desde}]]></textFieldExpression>
+				</textField>
+				<textField pattern="d/M/yy">
+					<reportElement x="485" y="9" width="60" height="17" uuid="b11a4eda-176b-4d07-a48f-97b650343d8b"/>
+					<textElement>
+						<font fontName="Arial" size="14" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{hasta}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="317" y="6" width="60" height="21" uuid="942b05d9-80ee-495d-a264-0e047c74fef9"/>
+					<textElement>
+						<font size="18" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[Desde]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="432" y="6" width="48" height="21" uuid="631fa02f-fbce-4b89-ac5c-3c49209f21fd"/>
+					<textElement>
+						<font size="18" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[hasta]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField pattern="$ ######,##0.00">
+					<reportElement x="197" y="4" width="106" height="16" uuid="5a530ba4-b0c2-4269-8258-2d9f9d71cb97"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{tbcaja_ENTRADA}]]></textFieldExpression>
+				</textField>
+				<textField pattern="$ ######,##0.00">
+					<reportElement x="332" y="4" width="113" height="16" uuid="9312c50d-c483-4632-8355-73e1d963836f"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{tbcaja_SALIDA}]]></textFieldExpression>
+				</textField>
+				<textField pattern="$ ######,##0.00">
+					<reportElement x="451" y="4" width="99" height="16" uuid="0410cf65-8a43-4bbf-9180-3c38c192d813"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="94" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="17" y="10" width="453" height="43" forecolor="#333333" uuid="be04f0c3-8f40-4a49-be3c-ce67ba6f1df0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Informe de Movimientos por Sector:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="10" y="60" width="312" height="22" forecolor="#000000" uuid="49c69c52-4bab-4c45-b0e0-c7fd055618f8"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Deportivo Social Sarandí Universitario]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField>
+				<reportElement x="40" y="1" width="170" height="13" uuid="7cb7cae3-1d1c-4a94-8618-3ffeb0a3eacc"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE_RUBRO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="######,##0.00">
+				<reportElement style="Detail" x="212" y="1" width="111" height="13" uuid="a8de5d06-fc4d-485f-b0e0-6e22d1b5e788"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ENTRADA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="######,##0.00">
+				<reportElement style="Detail" x="352" y="1" width="106" height="13" uuid="9ba2004f-7bbc-4145-84a7-161b4bc08f82">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALIDA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="1" width="40" height="13" uuid="482435a1-5fd9-408f-aab5-670d514d1894"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RUBRO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="430" y="0" width="80" height="20" uuid="6f42b2b5-5782-4d29-a056-f5345ad958f0"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="510" y="0" width="40" height="20" uuid="e0fe4a35-9306-44cc-9f74-5b8887beb94f"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="ad932fde-8e0b-4e84-83a5-f21697034892"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -26,7 +26,7 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
 
         listMovCaja = new ArrayList<>();
         cajaDAO = new CajaDAO();
-        
+
         defineModelo();
         muestraContenidoTabla();
 
@@ -122,12 +122,13 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
         btnInformeResumen1 = new org.jasper.viewer.components.JasperRunnerButton();
         btnInformeGastos1 = new org.jasper.viewer.components.JasperRunnerButton();
         btnInformeIngresos1 = new org.jasper.viewer.components.JasperRunnerButton();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setPreferredSize(new java.awt.Dimension(900, 650));
+        setPreferredSize(new java.awt.Dimension(900, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
@@ -302,7 +303,7 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel3.add(jTabbedPane1, gridBagConstraints);
@@ -348,6 +349,17 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
         gridBagConstraints.ipady = 1;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel3.add(btnInformeIngresos1, gridBagConstraints);
+
+        jButton1.setText("Informe Sectores");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        jPanel3.add(jButton1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -405,6 +417,13 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnInformeIngresos1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        InformePorSectores informeSectores = new InformePorSectores(null, false);
+informeSectores.setLocationRelativeTo(null);
+        informeSectores.setVisible(true);
+        informeSectores.toFront();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private org.jasper.viewer.components.JasperRunnerButton btnInformeGastos1;
@@ -413,6 +432,7 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private org.jdesktop.swingx.JXDatePicker dpDesde;
     private org.jdesktop.swingx.JXDatePicker dpHasta;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel17;

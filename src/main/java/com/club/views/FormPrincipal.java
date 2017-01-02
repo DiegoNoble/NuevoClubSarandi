@@ -44,7 +44,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             mnuHabilitacionMedica.setEnabled(false);
             mnuMensualidades.setEnabled(false);
             mnuItemUsuarios.setEnabled(false);
-         //   mniItemMovimientosCaja.setEnabled(false);
+            //   mniItemMovimientosCaja.setEnabled(false);
         }
 
         if (jlbPerfil.getText().equals("Operador")) {
@@ -95,7 +95,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             mnuHabilitacionMedica.setEnabled(false);
             mnuMensualidades.setEnabled(false);
             mnuItemUsuarios.setEnabled(false);
-           // mniItemMovimientosCaja.setEnabled(false);
+            // mniItemMovimientosCaja.setEnabled(false);
         }
 
         if (jlbPerfil.getText().equals("Operador")) {
@@ -212,7 +212,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemSobre = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Sis. Control de Clubes -- DNSoft .- PRUEBA!");
+        setTitle("Sis. Control de Clubes -- DNSoft .");
         setBackground(new java.awt.Color(255, 255, 255));
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
@@ -467,7 +467,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         mnuRegistros.add(mnuItemCategoria2);
 
-        mnuItemCaja1.setText("Movimientos de Caja NEW");
+        mnuItemCaja1.setText("Movimientos de Caja");
         mnuItemCaja1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuItemCaja1ActionPerformed(evt);
@@ -529,7 +529,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         mnuConsultas.add(mnuItemConsultaSocio3);
 
-        mniItemMovimientosCaja1.setText("Movimientos de Caja NEW");
+        mniItemMovimientosCaja1.setText("Movimientos de Caja");
         mniItemMovimientosCaja1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniItemMovimientosCaja1ActionPerformed(evt);
@@ -1147,7 +1147,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemUsuarios2ActionPerformed
 
     private void mniItemMovimientosCaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniItemMovimientosCaja1ActionPerformed
-        consultaCajaFrameNEW consultaCaja = new consultaCajaFrameNEW();
+         consultaCajaFrameNEW consultaCaja = new consultaCajaFrameNEW();
         jDesktopPane1.add(consultaCaja);
         consultaCaja.setVisible(true);
         centralizaVentanas(consultaCaja);

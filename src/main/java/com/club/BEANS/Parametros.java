@@ -37,6 +37,8 @@ public class Parametros implements Serializable {
     private Integer id;
     @Column(name = "url_post_cobrosya")
     private String urlPostCobrosYa;
+    @Column(name = "url_consulta_cobranzas_cobrosya")
+    private String urlConsultaCobranzasCobrosYa;
     @Column(name = "token_cobrosya")
     private String tokenCobrosYa;
     private String casilla_email;
@@ -131,6 +133,14 @@ public class Parametros implements Serializable {
 
     public void setEmailPadron(String emailPadron) {
         this.emailPadron = emailPadron;
+    }
+
+    public String getUrlConsultaCobranzasCobrosYa() {
+        return urlConsultaCobranzasCobrosYa;
+    }
+
+    public void setUrlConsultaCobranzasCobrosYa(String urlConsultaCobranzasCobrosYa) {
+        this.urlConsultaCobranzasCobrosYa = urlConsultaCobranzasCobrosYa;
     }
 
 }

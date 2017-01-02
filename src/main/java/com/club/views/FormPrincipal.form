@@ -129,7 +129,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuItemCaja1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Movimientos de Caja NEW"/>
+                <Property name="text" type="java.lang.String" value="Movimientos de Caja"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemCaja1ActionPerformed"/>
@@ -200,7 +200,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniItemMovimientosCaja1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Movimientos de Caja NEW"/>
+                <Property name="text" type="java.lang.String" value="Movimientos de Caja"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniItemMovimientosCaja1ActionPerformed"/>
@@ -423,7 +423,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value="Sis. Control de Clubes -- DNSoft .- PRUEBA!"/>
+    <Property name="title" type="java.lang.String" value="Sis. Control de Clubes -- DNSoft ."/>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
     </Property>
