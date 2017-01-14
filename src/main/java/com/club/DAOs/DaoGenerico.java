@@ -59,7 +59,11 @@ public class DaoGenerico {
     }
 
     public List BuscaTodos(Class clase) {
-        return JPAUtil.getInstance().getList(clase, "from " + clase.getName() + "");
+        Query qr = em.createQuery("from " + clase.getName() + "");
+        List toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return toReturn;
     }
 
     public List BuscaPor(Class clase, String campo, String variable) {

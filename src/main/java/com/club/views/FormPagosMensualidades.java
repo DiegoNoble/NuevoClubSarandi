@@ -8,10 +8,13 @@ import com.club.BEANS.Sectores;
 import com.club.DAOs.CajaDAO;
 import com.club.DAOs.CcCobradorDAO;
 import com.club.DAOs.MensualidadesDAO;
+import com.club.DAOs.SectorDAO;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class FormPagosMensualidades extends javax.swing.JInternalFrame {
 
@@ -20,10 +23,28 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
     CajaDAO cajaDAO;
     CcCobrador credito;
     Mensualidades reciboAPagar;
+    SectorDAO sectorDAO;
 
     public FormPagosMensualidades() {
         initComponents();
+        actualizaComboBox();
 
+    }
+
+    public void actualizaComboBox() {
+
+        try {
+            AutoCompleteDecorator.decorate(cbSectores);
+            sectorDAO = new SectorDAO();
+            List<Sectores> listSectores = sectorDAO.BuscaTodos(Sectores.class);
+            for (Sectores sector : listSectores) {
+                cbSectores.addItem(sector);
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar comboboxes: " + ex);
+            ex.printStackTrace();
+        }
     }
 
     private void registraPago() {
@@ -60,7 +81,7 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
                         pago.setEntrada(reciboAPagar.getValor());
                         pago.setSalida(0.0);
                         pago.setSaldo(buscaSaldoAnterior() + pago.getEntrada());
-                        pago.setSectores(new Sectores(1));
+                        pago.setSectores((Sectores) cbSectores.getSelectedItem());
 
                         cajaDAO = new CajaDAO();
                         cajaDAO.Salvar(pago);
@@ -73,7 +94,9 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al ejecutar el SQL deseado : " + ex + "");
+            ex.printStackTrace();
         }
+        
 
     }
 
@@ -104,6 +127,7 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
@@ -113,17 +137,25 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         rbEfectivoCaja = new javax.swing.JRadioButton();
         btnConfirmaPago = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        cbSectores = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
+        setPreferredSize(new java.awt.Dimension(350, 400));
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel2.setText("Recibo Nro.:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel1.add(jLabel2, gridBagConstraints);
 
         txtIdRecibo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,8 +167,16 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
                 txtIdReciboKeyReleased(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 100;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txtIdRecibo, gridBagConstraints);
 
         buttonGroup1.add(rbEfectivoCaja);
+        rbEfectivoCaja.setSelected(true);
         rbEfectivoCaja.setText("Efectivo en caja");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -146,7 +186,7 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(rbEfectivoCaja)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(276, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,42 +198,55 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Forma de cobro", jPanel3);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(jTabbedPane1, gridBagConstraints);
+
+        btnConfirmaPago.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnConfirmaPago.setText("Confirmar");
         btnConfirmaPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfirmaPagoActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(btnConfirmaPago, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnConfirmaPago)
-                            .addComponent(txtIdRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtIdRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnConfirmaPago)
-                .addContainerGap())
-        );
+        jLabel3.setText("Sectores");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel1.add(jLabel3, gridBagConstraints);
+
+        cbSectores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSectoresActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(cbSectores, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        getContentPane().add(jPanel1, gridBagConstraints);
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 204));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -210,7 +263,7 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(jLabel4)
-                .addContainerGap(225, Short.MAX_VALUE))
+                .addContainerGap(265, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,21 +272,11 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
                 .addComponent(jLabel4))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        getContentPane().add(jPanel2, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -259,10 +302,16 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_txtIdReciboActionPerformed
 
+    private void cbSectoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSectoresActionPerformed
+
+    }//GEN-LAST:event_cbSectoresActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmaPago;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox cbSectores;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

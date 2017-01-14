@@ -818,7 +818,7 @@ public class DependienteFrameCompleto extends javax.swing.JInternalFrame {
                     dependiente.setSituacion(cbSituacion.getSelectedItem().toString());
                     dependiente.setHistoria(txtAreaHistorico.getText());
                     dependiente.setFoto(txtFoto.getText());
-
+                    depDAO = new DepDAO();
                     if ((depDAO.VerificaCI(ftxtCI.getText())) == true) {
 
                         JOptionPane.showMessageDialog(null, "El dependiente ya se encuentra en la base de datos!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -835,6 +835,7 @@ public class DependienteFrameCompleto extends javax.swing.JInternalFrame {
 
                 } catch (Exception error) {
                     JOptionPane.showMessageDialog(null, "No fue posible salvar el Dependiente" + error, "Error", JOptionPane.ERROR_MESSAGE);
+                    error.printStackTrace();
                 }
 
             } else {  //procedimento realizado cuando se desea alterar un registro
@@ -873,14 +874,14 @@ public class DependienteFrameCompleto extends javax.swing.JInternalFrame {
                         muestraContenidoTbl();
                         desabilitaBotones();
                         desabilitaCampos();
-                        
 
                     } catch (Exception error) {
                         JOptionPane.showMessageDialog(null, "Error " + error, "Error", JOptionPane.ERROR_MESSAGE);
+                        error.printStackTrace();
                     }
                 }
             }
-            
+
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed

@@ -154,15 +154,7 @@
             <type>jar</type>
         
         </dependency>
-        
-        <dependency>
-            <groupId>org.jasper.viewer.components</groupId>
-            <artifactId>JasperRunnerButton</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
-        
-        </dependency>
-        
+               
         <dependency>
             <groupId>com.toedter</groupId>
             <artifactId>jcalendar</artifactId>
@@ -262,6 +254,10 @@
             <artifactId>google-api-services-urlshortener</artifactId>
             <version>v1-rev45-1.22.0</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.jasper.viewer.components</groupId>
+            <artifactId>JasperRunnerButton</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>
