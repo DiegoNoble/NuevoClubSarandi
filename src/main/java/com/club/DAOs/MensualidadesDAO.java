@@ -93,9 +93,9 @@ public class MensualidadesDAO extends DaoGenerico {
         qr.setParameter("socio", socio.getId());
         Long numeroVencimientos = (Long) qr.getSingleResult();
 
-        if (numeroVencimientos >= 3) {
+        if (numeroVencimientos >= 2) {
             verifica = false;
-        } else if (numeroVencimientos < 3) {
+        } else if (numeroVencimientos < 2) {
             verifica = true;
         }
         em.getTransaction().commit();

@@ -22,7 +22,7 @@
     <class>com.club.BEANS.Sms</class>
     <class>com.club.BEANS.RespuestaSMS</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.1.2:3306/club_sarandi"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/club_sarandi"/>
       <property name="javax.persistence.jdbc.password" value="dieguito"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

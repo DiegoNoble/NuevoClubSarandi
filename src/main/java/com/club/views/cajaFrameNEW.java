@@ -608,7 +608,7 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
                     movimiento = new Caja();
                     movimiento.setConcepto(txtConcepto.getText());
                     movimiento.setRubro((Rubro) cbRubro.getSelectedItem());
-                    movimiento.setFechaMovimiento(dataPiker.getDate());
+                    movimiento.setFechaMovimiento(new Date());
                     movimiento.setSectores(sector.getSector());
 
                     movimiento.setEntrada((importe * sector.getPorcentage()) / 100);
@@ -631,7 +631,7 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
                     movimiento = new Caja();
                     movimiento.setConcepto(txtConcepto.getText());
                     movimiento.setRubro((Rubro) cbRubro.getSelectedItem());
-                    movimiento.setFechaMovimiento(dataPiker.getDate());
+                    movimiento.setFechaMovimiento(new Date());
                     movimiento.setSectores(sector.getSector());
                     movimiento.setEntrada(0.0);
                     movimiento.setUsuario(nombreUsuario);

@@ -814,7 +814,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void mnuItemRecibosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemRecibosActionPerformed
 
-        FormMensualidades mensualidades = new FormMensualidades();
+        FormMensualidadesNew mensualidades = new FormMensualidadesNew();
         jDesktopPane1.add(mensualidades);
         mensualidades.setVisible(true);
         centralizaVentanas(mensualidades);

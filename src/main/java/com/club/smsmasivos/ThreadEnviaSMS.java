@@ -10,7 +10,6 @@ import com.club.BEANS.Sms;
 import com.club.BEANS.Socio;
 import com.club.DAOs.CampanaSmsDAO;
 import com.club.DAOs.SmsDAO;
-import com.club.smsmasivos.EnvioSMSIndividual;
 
 import java.util.ArrayList;
 import java.util.Date;
