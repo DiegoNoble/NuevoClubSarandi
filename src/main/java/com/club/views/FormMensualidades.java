@@ -118,7 +118,7 @@ public class FormMensualidades extends javax.swing.JInternalFrame {
                 if (mensualidadesDAO.VerificaSiYaFueEmitida(socio, fechaMensualidad) == true) {
 
                     mensualidadesDAO = new MensualidadesDAO();
-                    if (mensualidadesDAO.VerificaCantidadVencimientos(socio) == true) {
+                   if (mensualidadesDAO.VerificaCantidadVencimientos(socio,2) == true) {
 
                         Cobrador cobrador = socio.getCobrador();
                         Double valorMensualidad = socio.getCategoria().getMensualidad();
@@ -200,7 +200,7 @@ public class FormMensualidades extends javax.swing.JInternalFrame {
 
                     mensualidadesDAO = new MensualidadesDAO();
 
-                    if (mensualidadesDAO.VerificaCantidadVencimientos(socioIndividual) == true) {
+                    if (mensualidadesDAO.VerificaCantidadVencimientos(socioIndividual,2) == true) {
 
                         Cobrador cobrador = socioIndividual.getCobrador();
                         Double valorMensualidad = socioIndividual.getCategoria().getMensualidad();

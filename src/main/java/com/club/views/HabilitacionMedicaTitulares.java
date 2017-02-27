@@ -418,7 +418,7 @@ public final class HabilitacionMedicaTitulares extends javax.swing.JInternalFram
             } else if (socioSeleccionado.getSituacion().equals("Activo")) {
                 mensualidadesDAO = new MensualidadesDAO();
 
-                 if (mensualidadesDAO.VerificaCantidadVencimientos(socioSeleccionado) == false ) {
+                 if (mensualidadesDAO.VerificaCantidadVencimientos(socioSeleccionado,2) == false ) {
                     JOptionPane.showMessageDialog(null, "El socio tiene mensualidades pendientes, no es posible emitir la Ficha Médica");
 
                     parametros.clear();

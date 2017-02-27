@@ -1,8 +1,11 @@
-
 package com.club.control.utilidades;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -17,7 +20,17 @@ public class JPAUtil {
 
     private JPAUtil() {
         try {
-            emf = Persistence.createEntityManagerFactory("ClubSarandiPU");
+
+            Properties props = new Properties();
+            InputStream datos = this.getClass().getClassLoader().getResourceAsStream("META-INF/application.properties");
+            props.load(datos);
+            HashMap parametros = new HashMap();
+            parametros.put("javax.persistence.jdbc.user", props.getProperty("jdbc.user"));
+            parametros.put("javax.persistence.jdbc.password", props.getProperty("jdbc.pass"));
+            parametros.put("javax.persistence.jdbc.driver", props.getProperty("jdbc.driver"));
+            parametros.put("javax.persistence.jdbc.url", props.getProperty("jdbc.url"));
+            emf = Persistence.createEntityManagerFactory("ClubSarandiPU", parametros);
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();
@@ -30,12 +43,12 @@ public class JPAUtil {
             if (me == null) {
                 me = new JPAUtil();
             }
-        
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();
         }
-            return me;
+        return me;
     }
 
     public EntityManager getEntityManager() {

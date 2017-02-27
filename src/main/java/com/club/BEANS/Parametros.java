@@ -51,6 +51,7 @@ public class Parametros implements Serializable {
     @Column(name = "api_url_crear")
     private String apiUrlCrear;
     private String emailPadron;
+    private Integer toleranciaRecibosPenientes;
 
     public Parametros() {
     }
@@ -141,6 +142,14 @@ public class Parametros implements Serializable {
 
     public void setUrlConsultaCobranzasCobrosYa(String urlConsultaCobranzasCobrosYa) {
         this.urlConsultaCobranzasCobrosYa = urlConsultaCobranzasCobrosYa;
+    }
+
+    public Integer getToleranciaRecibosPenientes() {
+        return toleranciaRecibosPenientes;
+    }
+
+    public void setToleranciaRecibosPenientes(Integer toleranciaRecibosPenientes) {
+        this.toleranciaRecibosPenientes = toleranciaRecibosPenientes;
     }
 
 }

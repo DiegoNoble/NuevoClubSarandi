@@ -33,6 +33,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         cbCobrosYa.setSelectedItem(parametros.getCobradorCobrosYa());
         txtApiUrlCrear.setText(parametros.getApiUrlCrear());
         txtUrlConsultaCobranzas.setText(parametros.getUrlConsultaCobranzasCobrosYa());
+
+        txttoleranciaRecibosPendientes.setText(parametros.getToleranciaRecibosPenientes().toString());
     }
 
     void comboCobradores() {
@@ -55,6 +57,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtApiUrlCrear.setEnabled(true);
         txtUsuarioSMS.setEnabled(true);
         txtEmailPadron.setEnabled(true);
+        txttoleranciaRecibosPendientes.setEnabled(true);
         cbCobrosYa.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnGuardar.setEnabled(true);
@@ -72,6 +75,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtApiUrlCrear.setEnabled(false);
         txtUsuarioSMS.setEnabled(false);
         txtEmailPadron.setEnabled(false);
+        txttoleranciaRecibosPendientes.setEnabled(false);
         cbCobrosYa.setEnabled(false);
         btnCancelar.setEnabled(false);
         btnGuardar.setEnabled(false);
@@ -107,6 +111,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtEmailPadron = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         txtUrlConsultaCobranzas = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        txttoleranciaRecibosPendientes = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -249,7 +255,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
 
         jLabel13.setText("URL consulta Cobranzas CobrosYA");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel13, gridBagConstraints);
@@ -288,12 +294,28 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
 
         txtUrlConsultaCobranzas.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtUrlConsultaCobranzas, gridBagConstraints);
+
+        jLabel16.setText("Tolerancia recibos pendientes");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel16, gridBagConstraints);
+
+        txttoleranciaRecibosPendientes.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txttoleranciaRecibosPendientes, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -368,6 +390,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
             parametros.setApiUrlCrear(txtApiUrlCrear.getText());
             parametros.setEmailPadron(txtEmailPadron.getText());
             parametros.setCobradorCobrosYa((Cobrador) cbCobrosYa.getSelectedItem());
+            parametros.setToleranciaRecibosPenientes(Integer.parseInt(txttoleranciaRecibosPendientes.getText()));
             parametrosDAO = new ParametrosDAO();
             parametrosDAO.Actualizar(parametros);
         } catch (Exception ex) {
@@ -393,6 +416,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -409,5 +433,6 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtUrlConsultaCobranzas;
     private javax.swing.JTextField txtUrlPost;
     private javax.swing.JTextField txtUsuarioSMS;
+    private javax.swing.JTextField txttoleranciaRecibosPendientes;
     // End of variables declaration//GEN-END:variables
 }

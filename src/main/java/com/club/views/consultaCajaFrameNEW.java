@@ -3,6 +3,7 @@ package com.club.views;
 import com.club.BEANS.Caja;
 import com.club.DAOs.CajaDAO;
 import com.club.Renderers.MeDateCellRenderer;
+import com.club.control.utilidades.LeeProperties;
 import com.club.modelos.CajaTableModel;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +18,7 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
     CajaDAO cajaDAO;
     List<Caja> listMovCaja;
     CajaTableModel modelo;
+    LeeProperties props = new LeeProperties();
 
     public consultaCajaFrameNEW() {
 
@@ -387,6 +389,11 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
         parametros.put("fecha1", dpDesde.getDate());
         parametros.put("fecha2", dpHasta.getDate());
 
+        btnInformeResumen1.setDatabaseDriver(props.getDriver());
+        btnInformeResumen1.setDatabasePassword(props.getPsw());
+        btnInformeResumen1.setDatabaseURL(props.getUrl());
+        btnInformeResumen1.setDatabaseUser(props.getUsr());
+
         btnInformeResumen1.setReportParameters(parametros);
         btnInformeResumen1.setReportURL("/Reportes/informeCaja_NEW.jasper");
 
@@ -400,6 +407,11 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
         parametros.put("fecha1", dpDesde.getDate());
         parametros.put("fecha2", dpHasta.getDate());
 
+        btnInformeGastos1.setDatabaseDriver(props.getDriver());
+        btnInformeGastos1.setDatabasePassword(props.getPsw());
+        btnInformeGastos1.setDatabaseURL(props.getUrl());
+        btnInformeGastos1.setDatabaseUser(props.getUsr());
+        
         btnInformeGastos1.setReportParameters(parametros);
         btnInformeGastos1.setReportURL("/Reportes/gastosPorRubros.jasper");
 
@@ -412,6 +424,12 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
         parametros.put("fecha1", dpDesde.getDate());
         parametros.put("fecha2", dpHasta.getDate());
 
+        
+        btnInformeIngresos1.setDatabaseDriver(props.getDriver());
+        btnInformeIngresos1.setDatabasePassword(props.getPsw());
+        btnInformeIngresos1.setDatabaseURL(props.getUrl());
+        btnInformeIngresos1.setDatabaseUser(props.getUsr());
+        
         btnInformeIngresos1.setReportParameters(parametros);
         btnInformeIngresos1.setReportURL("/Reportes/ingresosPorRubros.jasper");
 
@@ -419,7 +437,7 @@ public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         InformePorSectores informeSectores = new InformePorSectores(null, false);
-informeSectores.setLocationRelativeTo(null);
+        informeSectores.setLocationRelativeTo(null);
         informeSectores.setVisible(true);
         informeSectores.toFront();
     }//GEN-LAST:event_jButton1ActionPerformed

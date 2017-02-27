@@ -12,6 +12,7 @@ import com.club.DAOs.CategoriaDAO;
 import com.club.DAOs.CobradorDAO;
 import com.club.DAOs.DepDAO;
 import com.club.DAOs.SocioDAO;
+import com.club.control.utilidades.LeeProperties;
 import com.club.huellas.BioMini;
 import java.awt.Color;
 import java.io.File;
@@ -45,6 +46,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
     private Socio socioSeleccionado;
     private HashMap parametros;
     BioMini bioMini;
+    LeeProperties props = new LeeProperties();
 
     public SocioFrameCompleto() {
         initComponents();
@@ -1331,6 +1333,10 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
             parametros.clear();
             //parametros.put("fotoSocio", txtFoto.getText());
             parametros.put("idSocio", socioSeleccionado.getId());
+            btnFicha.setDatabaseDriver(props.getDriver());
+            btnFicha.setDatabasePassword(props.getPsw());
+            btnFicha.setDatabaseURL(props.getUrl());
+            btnFicha.setDatabaseUser(props.getUsr());
             btnFicha.setReportParameters(parametros);
 
             socioDAO = new SocioDAO();
@@ -1373,6 +1379,11 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
             parametros.put("fotoCarne", txtFoto.getText());
             parametros.put("logoClub", "Imagenes/Escudo.jpg");
             parametros.put("idSocio", socioSeleccionado.getId());
+            btnCarneSocio.setDatabaseDriver(props.getDriver());
+            btnCarneSocio.setDatabasePassword(props.getPsw());
+            btnCarneSocio.setDatabaseURL(props.getUrl());
+            btnCarneSocio.setDatabaseUser(props.getUsr());
+
             btnCarneSocio.setReportParameters(parametros);
             btnCarneSocio.setReportURL("/Reportes/carneSocio.jasper");
         } catch (Exception e) {

@@ -85,7 +85,7 @@ public class MensualidadesDAO extends DaoGenerico {
      * mas o = a 3 vencimientos
      * @return
      */
-    public Boolean VerificaCantidadVencimientos(Socio socio) throws Exception {
+    public Boolean VerificaCantidadVencimientos(Socio socio, Integer tolerancia) throws Exception {
 
         Boolean verifica = null;
 
@@ -93,9 +93,9 @@ public class MensualidadesDAO extends DaoGenerico {
         qr.setParameter("socio", socio.getId());
         Long numeroVencimientos = (Long) qr.getSingleResult();
 
-        if (numeroVencimientos >= 2) {
+        if (numeroVencimientos >= tolerancia) {
             verifica = false;
-        } else if (numeroVencimientos < 2) {
+        } else if (numeroVencimientos < tolerancia) {
             verifica = true;
         }
         em.getTransaction().commit();

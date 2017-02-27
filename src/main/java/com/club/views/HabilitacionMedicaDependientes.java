@@ -427,7 +427,7 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
                 Socio socioTitular = dependienteSelecionado.getSocio();
                 mensualidadesDAO = new MensualidadesDAO();
 
-                if (mensualidadesDAO.VerificaCantidadVencimientos(socioTitular) == false ) {
+                if (mensualidadesDAO.VerificaCantidadVencimientos(socioTitular,2) == false ) {
                     JOptionPane.showMessageDialog(null, "El Titular tiene mensualidades pendientes, no es posible emitir la Ficha Médica");
                     parametros.clear();
                     fichaMedica.setReportURL(null);

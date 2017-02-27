@@ -9,6 +9,7 @@ import com.club.DAOs.CobradorDAO;
 import com.club.DAOs.MensualidadesAnuladasDAO;
 import com.club.DAOs.MensualidadesDAO;
 import com.club.Renderers.MeDateCellRenderer;
+import com.club.control.utilidades.LeeProperties;
 import com.club.modelos.MensualidadesTableModel;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +34,7 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
     ListSelectionModel listModelMensualidades;
     Mensualidades mensualidadSeleccionada;
     List<Mensualidades> listMensualidades;
+    LeeProperties props = new LeeProperties();
 
     public ArqueoCobradoresView() {
 
@@ -387,8 +389,13 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         parametros.put("vencimiento", dpVencimiento.getDate());
         parametros.put("cobrador", ((Cobrador) cbCobrador.getSelectedItem()).getId());
 
+        jasperRunnerButton1.setDatabaseDriver(props.getDriver());
+        jasperRunnerButton1.setDatabasePassword(props.getPsw());
+        jasperRunnerButton1.setDatabaseURL(props.getUrl());
+        jasperRunnerButton1.setDatabaseUser(props.getUsr());
         jasperRunnerButton1.setReportParameters(parametros);
         jasperRunnerButton1.setReportURL("/Reportes/SociosMensualidades.jasper");
+        
     }//GEN-LAST:event_jasperRunnerButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

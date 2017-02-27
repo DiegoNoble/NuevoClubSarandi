@@ -7,30 +7,17 @@ package com.club.views;
 
 import com.club.BEANS.Sectores;
 import com.club.DAOs.SectorDAO;
-import com.club.control.utilidades.JPAUtil;
+import com.club.control.utilidades.LeeProperties;
 import com.club.modelos.SectoresTableModel;
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.servlet.ServletOutputStream;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperRunManager;
-import net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -43,6 +30,7 @@ public class InformePorSectores extends javax.swing.JDialog {
     private SectoresTableModel tblModel;
     private ListSelectionModel listModelSectoreses;
     private Sectores sectorSelecionado;
+    LeeProperties props = new LeeProperties();
 
     public InformePorSectores(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -94,6 +82,7 @@ public class InformePorSectores extends javax.swing.JDialog {
         jPanel4 = new javax.swing.JPanel();
         btnInformeIngresos1 = new org.jasper.viewer.components.JasperRunnerButton();
         btnInformeIngresos2 = new org.jasper.viewer.components.JasperRunnerButton();
+        btnInformeIngresos3 = new org.jasper.viewer.components.JasperRunnerButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -129,7 +118,7 @@ public class InformePorSectores extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(jScrollPane1, gridBagConstraints);
 
-        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
 
         btnInformeIngresos1.setText("Generar informe de sectores seleccionados");
         btnInformeIngresos1.addActionListener(new java.awt.event.ActionListener() {
@@ -137,7 +126,9 @@ public class InformePorSectores extends javax.swing.JDialog {
                 btnInformeIngresos1ActionPerformed(evt);
             }
         });
-        jPanel4.add(btnInformeIngresos1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(btnInformeIngresos1, gridBagConstraints);
 
         btnInformeIngresos2.setText("Balance por Sectores");
         btnInformeIngresos2.addActionListener(new java.awt.event.ActionListener() {
@@ -145,7 +136,21 @@ public class InformePorSectores extends javax.swing.JDialog {
                 btnInformeIngresos2ActionPerformed(evt);
             }
         });
-        jPanel4.add(btnInformeIngresos2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(btnInformeIngresos2, gridBagConstraints);
+
+        btnInformeIngresos3.setText("Generar informe de sectores seleccionados detallado");
+        btnInformeIngresos3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformeIngresos3ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(btnInformeIngresos3, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -216,7 +221,10 @@ public class InformePorSectores extends javax.swing.JDialog {
                 sectores.add(listSectoreses.get(selectedRow).getId());
             }
             parametros.put("sectores", sectores);
-
+            btnInformeIngresos1.setDatabaseDriver(props.getDriver());
+            btnInformeIngresos1.setDatabasePassword(props.getPsw());
+            btnInformeIngresos1.setDatabaseURL(props.getUrl());
+            btnInformeIngresos1.setDatabaseUser(props.getUsr());
             btnInformeIngresos1.setReportParameters(parametros);
             btnInformeIngresos1.setReportURL("/Reportes/informePorSector.jasper");
         } catch (Exception e) {
@@ -230,14 +238,42 @@ public class InformePorSectores extends javax.swing.JDialog {
             parametros.clear();
             parametros.put("desde", dpDesde.getDate());
             parametros.put("hasta", dpHasta.getDate());
-            
 
+            btnInformeIngresos2.setDatabaseDriver(props.getDriver());
+            btnInformeIngresos2.setDatabasePassword(props.getPsw());
+            btnInformeIngresos2.setDatabaseURL(props.getUrl());
+            btnInformeIngresos2.setDatabaseUser(props.getUsr());
             btnInformeIngresos2.setReportParameters(parametros);
             btnInformeIngresos2.setReportURL("/Reportes/balancePorSectores.jasper");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnInformeIngresos2ActionPerformed
+
+    private void btnInformeIngresos3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformeIngresos3ActionPerformed
+        try {
+            HashMap parametros = new HashMap();
+            parametros.clear();
+            parametros.put("desde", dpDesde.getDate());
+            parametros.put("hasta", dpHasta.getDate());
+            List sectores = new ArrayList();
+            int[] selectedRows = tblSectores.getSelectedRows();
+            for (int selectedRow : selectedRows) {
+                sectores.add(listSectoreses.get(selectedRow).getId());
+            }
+            parametros.put("sectores", sectores);
+
+            btnInformeIngresos3.setDatabaseDriver(props.getDriver());
+            btnInformeIngresos3.setDatabasePassword(props.getPsw());
+            btnInformeIngresos3.setDatabaseURL(props.getUrl());
+            btnInformeIngresos3.setDatabaseUser(props.getUsr());
+
+            btnInformeIngresos3.setReportParameters(parametros);
+            btnInformeIngresos3.setReportURL("/Reportes/informePorSectorDetallado.jasper");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnInformeIngresos3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -284,6 +320,7 @@ public class InformePorSectores extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jasper.viewer.components.JasperRunnerButton btnInformeIngresos1;
     private org.jasper.viewer.components.JasperRunnerButton btnInformeIngresos2;
+    private org.jasper.viewer.components.JasperRunnerButton btnInformeIngresos3;
     private org.jdesktop.swingx.JXDatePicker dpDesde;
     private org.jdesktop.swingx.JXDatePicker dpHasta;
     private javax.swing.JLabel jLabel1;

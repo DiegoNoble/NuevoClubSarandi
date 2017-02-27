@@ -816,6 +816,9 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         FormMensualidadesNew mensualidades = new FormMensualidadesNew();
         jDesktopPane1.add(mensualidades);
+
+        mensualidades.setSize(jDesktopPane1.getSize());
+        centralizaVentanas(mensualidades);
         mensualidades.setVisible(true);
         centralizaVentanas(mensualidades);
 
@@ -1147,7 +1150,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemUsuarios2ActionPerformed
 
     private void mniItemMovimientosCaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniItemMovimientosCaja1ActionPerformed
-         consultaCajaFrameNEW consultaCaja = new consultaCajaFrameNEW();
+        consultaCajaFrameNEW consultaCaja = new consultaCajaFrameNEW();
         jDesktopPane1.add(consultaCaja);
         consultaCaja.setVisible(true);
         centralizaVentanas(consultaCaja);

@@ -2,10 +2,11 @@ package com.club.views;
 
 import com.club.BEANS.Usuario;
 import com.club.DAOs.UsuarioDAO;
+import com.club.control.utilidades.JPAUtil;
 import java.awt.event.KeyEvent;
+import java.util.Iterator;
+import java.util.Map;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 public class frameLogin extends javax.swing.JFrame {
 
@@ -26,8 +27,6 @@ public class frameLogin extends javax.swing.JFrame {
         }
 
     }
-
-   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -193,7 +192,7 @@ public class frameLogin extends javax.swing.JFrame {
             this.dispose();
         }
 
-
+      
     }//GEN-LAST:event_btnOkActionPerformed
 
     private void txtPassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPassMouseClicked
@@ -233,7 +232,6 @@ public class frameLogin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOk;

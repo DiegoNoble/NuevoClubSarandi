@@ -8,6 +8,7 @@ import com.club.DAOs.CategoriaDAO;
 import com.club.DAOs.CobradorDAO;
 import com.club.DAOs.DepDAO;
 import com.club.DAOs.SocioDAO;
+import com.club.control.utilidades.LeeProperties;
 import com.club.huellas.BioMini;
 import java.awt.Color;
 import java.awt.Image;
@@ -45,6 +46,7 @@ public class DependienteFrameCompleto extends javax.swing.JInternalFrame {
     Dependiente depSeleccionado;
     HashMap parametros;
     BioMini bioMini;
+    LeeProperties props = new LeeProperties();
 
     public DependienteFrameCompleto() {
         initComponents();
@@ -983,6 +985,11 @@ public class DependienteFrameCompleto extends javax.swing.JInternalFrame {
             parametros.put("id", depSeleccionado.getId());
             parametros.put("fotoDependiente", camino);
             parametros.put("logoClub", caminoLogo);
+            btnCarneDependiente.setDatabaseDriver(props.getDriver());
+            btnCarneDependiente.setDatabasePassword(props.getPsw());
+            btnCarneDependiente.setDatabaseURL(props.getUrl());
+            btnCarneDependiente.setDatabaseUser(props.getUsr());
+
             btnCarneDependiente.setReportParameters(parametros);
             btnCarneDependiente.setReportURL("/Reportes/carneDependiente.jasper");
 
