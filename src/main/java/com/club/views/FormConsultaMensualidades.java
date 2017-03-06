@@ -15,6 +15,7 @@ import com.club.DAOs.MensualidadesDAO;
 import com.club.DAOs.ParametrosDAO;
 import com.club.DAOs.SocioDAO;
 import com.club.Renderers.TableRendererColorSituacion;
+import com.club.control.utilidades.LeeProperties;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,6 +46,8 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
     Mensualidades mensualidadSeleccionada;
     List<Socio> listSocios;
     List<Mensualidades> listMensualidades;
+    LeeProperties props = new LeeProperties();
+
 
     public FormConsultaMensualidades() {
 
@@ -160,6 +163,11 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
             parametros.clear();
             parametros.put("Msj", Msj);
             parametros.put("recibo", recibo);
+            btnCarneSocio.setDatabaseDriver(props.getDriver());
+            btnCarneSocio.setDatabasePassword(props.getPsw());
+            btnCarneSocio.setDatabaseURL(props.getUrl());
+            btnCarneSocio.setDatabaseUser(props.getUsr());
+
             btnCarneSocio.setReportParameters(parametros);
             btnCarneSocio.setReportURL("/Reportes/recibosIndividual.jasper");
 
