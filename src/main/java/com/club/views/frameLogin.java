@@ -185,7 +185,7 @@ public class frameLogin extends javax.swing.JFrame {
 
             Usuario usuario = usuarioDAO.buscaPerfilUsuario(txtNombre.getText(), String.valueOf(txtPass.getPassword()));
 
-            FormPrincipal mp = new FormPrincipal(usuario);
+            Principal mp = new Principal(usuario);
             mp.setVisible(true);
             this.dispose();
 

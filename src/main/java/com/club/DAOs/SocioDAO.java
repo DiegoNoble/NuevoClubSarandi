@@ -8,6 +8,7 @@ import com.club.BEANS.Categoria;
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.Dependiente;
 import com.club.BEANS.Socio;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -73,7 +74,7 @@ public class SocioDAO extends DaoGenerico {
         return toReturn;
 
     }
-    
+
     public List<Socio> BuscaPorNombreYCobrador(String name, Cobrador cobrador) {
 
         Query qr = em.createQuery("from Socio s where s.nombre like ?1 and s.Cobrador = ?2");
@@ -159,4 +160,17 @@ public class SocioDAO extends DaoGenerico {
         em.close();
         return toReturn;
     }
+
+    public List BuscaSociosInactivosEnElPeriodo(Date inicio, Date fin) {
+        Query qr = em.createQuery("select distinct(m.socio) from Mensualidades M \n"
+                + "where m.fechaVencimiento between :inicio and :fin and M.pago = 'Pendiente de Pago'\n"
+                + "and m.socio.situacion = 'Inactivo'");
+        qr.setParameter("inicio", inicio);
+        qr.setParameter("fin", fin);
+        List<Socio> toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return toReturn;
+    }
+
 }

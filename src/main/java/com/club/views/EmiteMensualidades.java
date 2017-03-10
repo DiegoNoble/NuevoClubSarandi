@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
-public class FormMensualidadesNew extends javax.swing.JInternalFrame {
+public class EmiteMensualidades extends javax.swing.JInternalFrame {
 
     private MensualidadesDAO mensualidadesDAO;
     private SocioDAO socioDAO;
@@ -51,7 +51,7 @@ public class FormMensualidadesNew extends javax.swing.JInternalFrame {
     SimpleDateFormat formato;
     Parametros param;
 
-    public FormMensualidadesNew() {
+    public EmiteMensualidades() {
 
         initComponents();
         parametrosDAO = new ParametrosDAO();
@@ -105,7 +105,7 @@ public class FormMensualidadesNew extends javax.swing.JInternalFrame {
             ccCobradorDAO = new CcCobradorDAO();
             ccCobradorDAO.Salvar(debito);
         } catch (Exception ex) {
-            Logger.getLogger(FormMensualidadesNew.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmiteMensualidades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -135,7 +135,7 @@ public class FormMensualidadesNew extends javax.swing.JInternalFrame {
             bw.write(txtLog.getText());
             bw.close();
         } catch (IOException ex) {
-            Logger.getLogger(FormMensualidadesNew.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmiteMensualidades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

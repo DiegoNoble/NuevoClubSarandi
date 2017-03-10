@@ -19,13 +19,13 @@ import com.club.smsmasivos.RecibeRespuestasSMSController;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class FormPrincipal extends javax.swing.JFrame {
+public class Principal extends javax.swing.JFrame {
 
     data muestraData;
     data muestraHora;
     Usuario usuario;
 
-    public FormPrincipal(Usuario usuario) {
+    public Principal(Usuario usuario) {
 
         initComponents();
         this.setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
@@ -80,7 +80,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     }
 
-    public FormPrincipal() {
+    public Principal() {
 
         initComponents();
 
@@ -195,6 +195,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnuItemRecibos1 = new javax.swing.JMenuItem();
         mnuItemRecibos2 = new javax.swing.JMenuItem();
         mnuItemRecibos3 = new javax.swing.JMenuItem();
+        mnuItemRecibos4 = new javax.swing.JMenuItem();
         mnuArqueo = new javax.swing.JMenu();
         mnuItemArqueo = new javax.swing.JMenuItem();
         mnuHabilitacionMedica = new javax.swing.JMenu();
@@ -583,6 +584,14 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         mnuMensualidades.add(mnuItemRecibos3);
 
+        mnuItemRecibos4.setText("Generar Recibos Inactivos");
+        mnuItemRecibos4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemRecibos4ActionPerformed(evt);
+            }
+        });
+        mnuMensualidades.add(mnuItemRecibos4);
+
         jMenuBar1.add(mnuMensualidades);
 
         mnuArqueo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -756,7 +765,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             socio.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_mnuItemSociosActionPerformed
@@ -778,7 +787,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             dependiente.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnuItemDependientesActionPerformed
 
@@ -814,7 +823,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void mnuItemRecibosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemRecibosActionPerformed
 
-        FormMensualidadesNew mensualidades = new FormMensualidadesNew();
+        EmiteMensualidades mensualidades = new EmiteMensualidades();
         jDesktopPane1.add(mensualidades);
 
         mensualidades.setSize(jDesktopPane1.getSize());
@@ -834,7 +843,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void mnuitemConsultaMensualidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuitemConsultaMensualidadesActionPerformed
 
-        FormConsultaMensualidades mensualidades = new FormConsultaMensualidades();
+        ConsultaMensualidades mensualidades = new ConsultaMensualidades();
         jDesktopPane1.add(mensualidades);
         mensualidades.setVisible(true);
         centralizaVentanas(mensualidades);
@@ -842,7 +851,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             mensualidades.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_mnuitemConsultaMensualidadesActionPerformed
@@ -857,7 +866,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             habilitacion.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnuItemHabilitacionTitularesActionPerformed
 
@@ -879,7 +888,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             habilitacion.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_mnuItemHabilitacionDependientesActionPerformed
@@ -894,7 +903,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void btnMensualidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMensualidadesActionPerformed
 
-        FormConsultaMensualidades mensualidades = new FormConsultaMensualidades();
+        ConsultaMensualidades mensualidades = new ConsultaMensualidades();
         jDesktopPane1.add(mensualidades);
         mensualidades.setVisible(true);
         centralizaVentanas(mensualidades);
@@ -902,7 +911,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             mensualidades.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnMensualidadesActionPerformed
 
@@ -928,7 +937,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             socio.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSocioActionPerformed
 
@@ -956,7 +965,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             socio.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnuItemConsultaSocio2ActionPerformed
 
@@ -969,7 +978,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             mensualidades.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnuItemConsultaSocio3ActionPerformed
 
@@ -982,7 +991,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             funcionarios.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnuItemArqueo1ActionPerformed
 
@@ -1000,7 +1009,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             consultaMarcajes.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnuItemArqueo2ActionPerformed
 
@@ -1019,7 +1028,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             socio.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btnTitularesActionPerformed
@@ -1032,7 +1041,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             dependiente.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRegistroDependientesActionPerformed
 
@@ -1045,7 +1054,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             mensualidades.setMaximum(true);
             //centralizaVentanas(socio);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(FormPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRegistroDependientes1ActionPerformed
 
@@ -1163,6 +1172,17 @@ public class FormPrincipal extends javax.swing.JFrame {
         centralizaVentanas(pagoSueldos);
     }//GEN-LAST:event_mnuItemCaja2ActionPerformed
 
+    private void mnuItemRecibos4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemRecibos4ActionPerformed
+
+        EmiteMensualidadesInactivos mensualidades = new EmiteMensualidadesInactivos(jDesktopPane1);
+        jDesktopPane1.add(mensualidades);
+
+        mensualidades.setSize(jDesktopPane1.getSize());
+        centralizaVentanas(mensualidades);
+        mensualidades.setVisible(true);
+        centralizaVentanas(mensualidades);
+    }//GEN-LAST:event_mnuItemRecibos4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCaja;
@@ -1216,6 +1236,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemRecibos1;
     private javax.swing.JMenuItem mnuItemRecibos2;
     private javax.swing.JMenuItem mnuItemRecibos3;
+    private javax.swing.JMenuItem mnuItemRecibos4;
     private javax.swing.JMenuItem mnuItemSalir;
     private javax.swing.JMenuItem mnuItemSobre;
     private javax.swing.JMenuItem mnuItemSocios;

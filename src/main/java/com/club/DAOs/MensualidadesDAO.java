@@ -118,6 +118,18 @@ public class MensualidadesDAO extends DaoGenerico {
 
     }
 
+    public List BuscaPendientes(Socio socio) {
+
+        List<Mensualidades> toReturn = null;
+
+        Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.socio= :socio and m.pago='Pendiente de Pago' order by id asc");
+        qr.setParameter("socio", socio);
+        toReturn = qr.getResultList();
+
+        return toReturn;
+
+    }
+
     public List BuscaPorCobradorVencimiento(Cobrador cobrador, Date vencimiento) {
 
         List<Mensualidades> toReturn = null;

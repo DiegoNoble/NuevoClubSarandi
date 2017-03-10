@@ -1,13 +1,10 @@
 package com.club.views;
 
-import Utilidades.EnviarEmail;
-import Utilidades.EnvioTalonCobrosYa;
 import com.Renderers.MyDateCellRenderer;
 import com.Renderers.MyDefaultCellRenderer;
 import com.club.BEANS.CcCobrador;
 import com.club.BEANS.Mensualidades;
 import com.club.BEANS.MensualidadesAnuladas;
-import com.club.BEANS.Parametros;
 import com.club.BEANS.Socio;
 import com.club.DAOs.CcCobradorDAO;
 import com.club.DAOs.MensualidadesAnuladasDAO;
@@ -30,7 +27,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
+public class ConsultaMensualidades extends javax.swing.JInternalFrame {
 
     MensualidadesDAO mensualidadesDAO;
     ParametrosDAO parametrosDAO;
@@ -48,12 +45,22 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
     List<Mensualidades> listMensualidades;
     LeeProperties props = new LeeProperties();
 
-
-    public FormConsultaMensualidades() {
+    public ConsultaMensualidades() {
 
         initComponents();
         defineModelo();
         muestraContenidoTabla();
+
+    }
+
+    public ConsultaMensualidades(Socio socio) {
+
+        initComponents();
+        txtFiltro.setText(socio.getId().toString());
+        rbCodSocio.setSelected(true);
+        defineModelo();
+        muestraContenidoTabla();
+        tblSocio.setRowSelectionInterval(0, 0);
 
     }
 
@@ -215,7 +222,7 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
                         null, "Mensualidad anulada correctamente");
                 muestraMensualidades();
             } catch (Exception ex) {
-                Logger.getLogger(FormConsultaMensualidades.class
+                Logger.getLogger(ConsultaMensualidades.class
                         .getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -523,6 +530,6 @@ public class FormConsultaMensualidades extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbNombre;
     private javax.swing.JTable tblMensualidades;
     private javax.swing.JTable tblSocio;
-    private javax.swing.JTextField txtFiltro;
+    public javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 }
