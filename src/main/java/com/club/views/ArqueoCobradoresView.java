@@ -10,7 +10,7 @@ import com.club.DAOs.MensualidadesAnuladasDAO;
 import com.club.DAOs.MensualidadesDAO;
 import com.club.Renderers.MeDateCellRenderer;
 import com.club.control.utilidades.LeeProperties;
-import com.club.modelos.MensualidadesTableModel;
+import com.club.tableModels.MensualidadesTableModel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

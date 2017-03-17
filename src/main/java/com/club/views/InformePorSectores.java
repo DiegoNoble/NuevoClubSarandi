@@ -8,7 +8,7 @@ package com.club.views;
 import com.club.BEANS.Sectores;
 import com.club.DAOs.SectorDAO;
 import com.club.control.utilidades.LeeProperties;
-import com.club.modelos.SectoresTableModel;
+import com.club.tableModels.SectoresTableModel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

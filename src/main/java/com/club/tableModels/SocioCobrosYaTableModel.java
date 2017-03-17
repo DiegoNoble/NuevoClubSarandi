@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.club.modelos;
+package com.club.tableModels;
 
-import com.club.BEANS.Caja;
-import com.club.BEANS.Rubro;
-import com.club.BEANS.Sectores;
+import com.club.BEANS.Categoria;
+import com.club.BEANS.Socio;
+import com.club.BEANS.Socio;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,25 +17,25 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Diego Noble
  */
-public class CajaTableModel extends AbstractTableModel {
+public class SocioCobrosYaTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Fecha", "Rubro", "Sector", "Concepto", "Entrada", "Salida", "Saldo"};
+    private final String[] colunas = new String[]{"Cod.", "Nombre", "Cel", "Email", "Categoria", "Situación"};
     //lista para a manipulacao do objeto
-    private List<Caja> listCajas;
+    private List<Socio> listSocio;
 
-    public CajaTableModel() {
-        listCajas = new LinkedList<Caja>();
+    public SocioCobrosYaTableModel() {
+        listSocio = new LinkedList<Socio>();
     }
 
-    public CajaTableModel(List<Caja> listCajas) {
-        this.listCajas = listCajas;
+    public SocioCobrosYaTableModel(List<Socio> listSocio) {
+        this.listSocio = listSocio;
     }
 
     //numero de linhas
     @Override
     public int getRowCount() {
-        return listCajas.size();
+        return listSocio.size();
     }
 
     //numero de colunas
@@ -44,25 +44,23 @@ public class CajaTableModel extends AbstractTableModel {
         return colunas.length;
     }
 
-    //define o que cada coluna conterï¿½ do objeto
+    //define o que cada coluna conterÃ¯Â¿Â½ do objeto
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Caja c = listCajas.get(rowIndex);
+        Socio c = listSocio.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return c.getFechaMovimiento();
+                return c.getId();
             case 1:
-                return c.getRubro();
+                return c.getNombre();
             case 2:
-                return c.getSectores();
+                return c.getCelular();
             case 3:
-                return c.getConcepto();
+                return c.getEmail();
             case 4:
-                return c.getEntrada();
+                return c.getCategoria();
             case 5:
-                return c.getSalida();
-            case 6:
-                return c.getSaldo();
+                return c.getSituacion();
             default:
                 return null;
         }
@@ -74,24 +72,22 @@ public class CajaTableModel extends AbstractTableModel {
         return colunas[column];
     }
 
-    //determina que tipo de objeto cada coluna irï¿½ suportar
+    //determina que tipo de objeto cada coluna irÃ¯Â¿Â½ suportar
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return Date.class;
+                return Integer.class;
             case 1:
-                return Rubro.class;
+                return String.class;
             case 2:
-                return Sectores.class;
+                return String.class;
             case 3:
                 return String.class;
             case 4:
-                return Double.class;
+                return Categoria.class;
             case 5:
-                return Double.class;
-            case 6:
-                return Double.class;
+                return String.class;
             default:
                 return null;
         }
@@ -104,24 +100,30 @@ public class CajaTableModel extends AbstractTableModel {
 
     }
 
-    public void agregar(Caja propiedad) {
-        listCajas.add(propiedad);
+    public void agregar(Socio propiedad) {
+        listSocio.add(propiedad);
 
-        this.fireTableRowsInserted(listCajas.size() - 1, listCajas.size() - 1);
+        this.fireTableRowsInserted(listSocio.size() - 1, listSocio.size() - 1);
+    }
+
+    public void agregarTodos(List<Socio> socios) {
+        listSocio.addAll(socios);
+
+        this.fireTableDataChanged();
     }
 
     public void eliminar(int row) {
-        listCajas.remove(row);
+        listSocio.remove(row);
         this.fireTableRowsDeleted(row, row);
     }
 
-    public void atualizar(int row, Caja propiedad) {
-        listCajas.set(row, propiedad);
+    public void atualizar(int row, Socio propiedad) {
+        listSocio.set(row, propiedad);
         this.fireTableRowsUpdated(row, row);
     }
 
-    public Caja getCliente(int row) {
-        return listCajas.get(row);
+    public Socio getCliente(int row) {
+        return listSocio.get(row);
     }
 
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.club.modelos;
+package com.club.tableModels;
 
 import com.club.BEANS.Sectores;
 import com.club.BEANS.SectoresPorcentage;

@@ -4,7 +4,7 @@ import com.club.BEANS.Caja;
 import com.club.DAOs.CajaDAO;
 import com.club.Renderers.MeDateCellRenderer;
 import com.club.control.utilidades.LeeProperties;
-import com.club.modelos.CajaTableModel;
+import com.club.tableModels.CajaTableModel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

@@ -19,8 +19,9 @@
               </Border>
             </Property>
             <Property name="text" type="java.lang.String" value="Sistema" noResource="true"/>
+            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="14" style="0"/>
+              <Font name="Verdana" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -66,8 +67,9 @@
               </Border>
             </Property>
             <Property name="text" type="java.lang.String" value="Registros" noResource="true"/>
+            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="14" style="0"/>
+              <Font name="Verdana" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -153,8 +155,9 @@
               </Border>
             </Property>
             <Property name="text" type="java.lang.String" value="Consultas"/>
+            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="14" style="0"/>
+              <Font name="Verdana" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -216,8 +219,9 @@
               </Border>
             </Property>
             <Property name="text" type="java.lang.String" value="Mensualidades"/>
+            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="14" style="0"/>
+              <Font name="Verdana" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -279,8 +283,9 @@
               </Border>
             </Property>
             <Property name="text" type="java.lang.String" value="Arqueo de Cobradores"/>
+            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="14" style="0"/>
+              <Font name="Verdana" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -302,8 +307,9 @@
               </Border>
             </Property>
             <Property name="text" type="java.lang.String" value="Habilitaci&#xf3;n Medica"/>
+            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="14" style="0"/>
+              <Font name="Verdana" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -333,8 +339,9 @@
               </Border>
             </Property>
             <Property name="text" type="java.lang.String" value="Control de presencia"/>
+            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="14" style="0"/>
+              <Font name="Verdana" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -372,8 +379,9 @@
               </Border>
             </Property>
             <Property name="text" type="java.lang.String" value="Campa&#xf1;as comunicaci&#xf3;n SMS"/>
+            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="14" style="0"/>
+              <Font name="Verdana" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -403,6 +411,46 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="mnuArqueo2">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+                <BevelBorder/>
+              </Border>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Campa&#xf1;a econ&#xf3;mica"/>
+            <Property name="borderPainted" type="boolean" value="true"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Verdana" size="12" style="0"/>
+            </Property>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo6">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Nueva campa&#xf1;a"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo6ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo7">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Recibe respuestas SMS"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo7ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Consulta campa&#xf1;as"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo8ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="mnuAyuda">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -411,8 +459,9 @@
               </Border>
             </Property>
             <Property name="text" type="java.lang.String" value="Ayuda" noResource="true"/>
+            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="14" style="0"/>
+              <Font name="Verdana" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -479,7 +528,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <Component id="jDesktopPane1" pref="637" max="32767" attributes="0"/>
+              <Component id="jDesktopPane1" pref="639" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>

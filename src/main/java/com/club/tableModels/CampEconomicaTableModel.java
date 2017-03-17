@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.club.modelos;
+package com.club.tableModels;
 
-import com.club.BEANS.Rubro;
+import com.club.BEANS.CampEconomica;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -14,25 +15,25 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Diego Noble
  */
-public class RubroTableModel extends AbstractTableModel {
+public class CampEconomicaTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Cod. Referencia", "Nombre", "Valor Fijo", "Valor"};
+    private final String[] colunas = new String[]{"id", "Fecha", "Nombre"};
     //lista para a manipulacao do objeto
-    private List<Rubro> listRubros;
+    private List<CampEconomica> listCampEconomicas;
 
-    public RubroTableModel() {
-        listRubros = new LinkedList<Rubro>();
+    public CampEconomicaTableModel() {
+        listCampEconomicas = new LinkedList<CampEconomica>();
     }
 
-    public RubroTableModel(List<Rubro> listRubros) {
-        this.listRubros = listRubros;
+    public CampEconomicaTableModel(List<CampEconomica> listCampEconomicas) {
+        this.listCampEconomicas = listCampEconomicas;
     }
 
     //numero de linhas
     @Override
     public int getRowCount() {
-        return listRubros.size();
+        return listCampEconomicas.size();
     }
 
     //numero de colunas
@@ -44,16 +45,14 @@ public class RubroTableModel extends AbstractTableModel {
     //define o que cada coluna conterï¿½ do objeto
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Rubro c = listRubros.get(rowIndex);
+        CampEconomica c = listCampEconomicas.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return c.getCodRef();
+                return c.getId();
             case 1:
-                return c.getNombreRubro();
+                return c.getFechacreacion();
             case 2:
-                return c.getValorFijo();
-            case 3:
-                return c.getValor();
+                return c.getNombre();
             default:
                 return null;
         }
@@ -70,13 +69,11 @@ public class RubroTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return String.class;
+                return Integer.class;
             case 1:
-                return String.class;
+                return Date.class;
             case 2:
-                return Boolean.class;
-            case 3:
-                return Double.class;
+                return String.class;
             default:
                 return null;
         }
@@ -89,24 +86,24 @@ public class RubroTableModel extends AbstractTableModel {
 
     }
 
-    public void agregar(Rubro propiedad) {
-        listRubros.add(propiedad);
+    public void agregar(CampEconomica propiedad) {
+        listCampEconomicas.add(propiedad);
 
-        this.fireTableRowsInserted(listRubros.size() - 1, listRubros.size() - 1);
+        this.fireTableRowsInserted(listCampEconomicas.size() - 1, listCampEconomicas.size() - 1);
     }
 
     public void eliminar(int row) {
-        listRubros.remove(row);
+        listCampEconomicas.remove(row);
         this.fireTableRowsDeleted(row, row);
     }
 
-    public void atualizar(int row, Rubro propiedad) {
-        listRubros.set(row, propiedad);
+    public void atualizar(int row, CampEconomica propiedad) {
+        listCampEconomicas.set(row, propiedad);
         this.fireTableRowsUpdated(row, row);
     }
 
-    public Rubro getCliente(int row) {
-        return listRubros.get(row);
+    public CampEconomica getCliente(int row) {
+        return listCampEconomicas.get(row);
     }
 
 }

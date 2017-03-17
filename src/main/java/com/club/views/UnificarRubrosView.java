@@ -5,7 +5,7 @@ import com.club.BEANS.Caja;
 import com.club.BEANS.Rubro;
 import com.club.DAOs.CajaDAO;
 import com.club.DAOs.RubroDAO;
-import com.club.modelos.RubroTableModel;
+import com.club.tableModels.RubroTableModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;

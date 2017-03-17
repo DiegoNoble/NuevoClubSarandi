@@ -1,8 +1,10 @@
 package com.club.views;
 
-import com.club.BEANS.Rubro;
-import com.club.DAOs.RubroDAO;
-import com.club.tableModels.RubroTableModel;
+import com.club.BEANS.CampEconomica;
+import com.club.BEANS.Numeros;
+import com.club.DAOs.CampEconomicaDAO;
+import com.club.DAOs.NumerosDAO;
+import com.club.tableModels.NumerosTableModel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -12,16 +14,18 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public final class RubrosView extends javax.swing.JInternalFrame {
+public final class NumerosView extends javax.swing.JInternalFrame {
 
-    private RubroDAO rubrosDAO;
-    private List<Rubro> listRubros;
-    private RubroTableModel tblModel;
-    private ListSelectionModel listModelRubros;
-    private Rubro rubroSelecionado;
+    private NumerosDAO numerosDAO;
+    private CampEconomicaDAO campEconomicaDAO;
+    private List<Numeros> listNros;
+    private NumerosTableModel tblModel;
+    private ListSelectionModel listModelNumeross;
+    private Numeros NumerosSelecionado;
 
-    public RubrosView() {
+    public NumerosView() {
         initComponents();
+        buscaCampañas();
         DefineModeloTbl();
         buscaTodosLosRegistros();
         deshabilitaCampos();
@@ -29,28 +33,36 @@ public final class RubrosView extends javax.swing.JInternalFrame {
         btnEliminar.setEnabled(false);
     }
 
+    private void buscaCampañas() {
+        campEconomicaDAO = new CampEconomicaDAO();
+        List<CampEconomica> campañas = campEconomicaDAO.BuscaTodos(CampEconomica.class);
+        for (CampEconomica campaña : campañas) {
+            cbCampañas.addItem(campaña);
+        }
+    }
+
     private void buscaTodosLosRegistros() {
-        listRubros.clear();
-        rubrosDAO = new RubroDAO();
-        listRubros.addAll(rubrosDAO.BuscaTodos(Rubro.class));
+        listNros.clear();
+        numerosDAO = new NumerosDAO();
+        listNros.addAll(numerosDAO.BuscaTodos(Numeros.class));
         tblModel.fireTableDataChanged();
     }
 
     private void DefineModeloTbl() {
 
-        ((DefaultTableCellRenderer) tblRubros.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        listRubros = new ArrayList<>();
-        tblModel = new RubroTableModel(listRubros);
-        tblRubros.setModel(tblModel);
+        ((DefaultTableCellRenderer) tbl.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        listNros = new ArrayList<>();
+        tblModel = new NumerosTableModel(listNros);
+        tbl.setModel(tblModel);
 
-        listModelRubros = tblRubros.getSelectionModel();
-        listModelRubros.addListSelectionListener(new ListSelectionListener() {
+        listModelNumeross = tbl.getSelectionModel();
+        listModelNumeross.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
 
-                    if (tblRubros.getSelectedRow() != -1) {
+                    if (tbl.getSelectedRow() != -1) {
 
-                        rubroSelecionado = listRubros.get(tblRubros.getSelectedRow());
+                        NumerosSelecionado = listNros.get(tbl.getSelectedRow());
                         btnEditar.setEnabled(true);
                         btnEliminar.setEnabled(true);
                     } else {
@@ -69,13 +81,12 @@ public final class RubrosView extends javax.swing.JInternalFrame {
 
         limpiaCampos();
 
-        if (tblRubros.getSelectedRow() != -1) {
+        if (tbl.getSelectedRow() != -1) {
             try {
 
-                txtValor.setText(rubroSelecionado.getValor().toString());
-                txtNombre.setText(rubroSelecionado.getNombreRubro());
-                txtCodRef.setText(rubroSelecionado.getCodRef());
-                chValorFijo.setSelected(rubroSelecionado.getValorFijo());
+                txtNro2.setText(NumerosSelecionado.getNro2().toString());
+                txtNro1.setText(NumerosSelecionado.getNro1().toString());
+                cbCampañas.setSelectedItem(NumerosSelecionado.getCampEconomica());
 
             } catch (Exception error) {
                 JOptionPane.showMessageDialog(null, "Error al mostrar detalles" + error);
@@ -87,11 +98,12 @@ public final class RubrosView extends javax.swing.JInternalFrame {
 
     private void filtros() {
 
-        listRubros.clear();
+        listNros.clear();
         if (txtFiltro.getText().equals("")) {
             buscaTodosLosRegistros();
         } else {
-            listRubros.addAll(rubrosDAO.BuscaPor(Rubro.class, "nombreRubro", txtFiltro.getText()));
+            numerosDAO = new NumerosDAO();
+            listNros.addAll(numerosDAO.BuscaPorCualquierCampo(txtFiltro.getText()));
             tblModel.fireTableDataChanged();
         }
 
@@ -99,18 +111,15 @@ public final class RubrosView extends javax.swing.JInternalFrame {
 
     private void limpiaCampos() {
 
-        chValorFijo.setSelected(false);
-        txtNombre.setText("");
-        txtValor.setText("");
+        txtNro2.setText("");
 
     }
 
     private void habilitaCampos() {
 
-        chValorFijo.setEnabled(true);
-        txtNombre.setEditable(true);
-        txtValor.setEditable(true);
-        txtCodRef.setEditable(true);
+        txtNro2.setEditable(true);
+        txtNro1.setEditable(true);
+        cbCampañas.setEditable(true);
         btnCancelar.setEnabled(true);
         btnGuardar.setEnabled(true);
         btnEditar.setEnabled(false);
@@ -121,10 +130,9 @@ public final class RubrosView extends javax.swing.JInternalFrame {
 
     private void deshabilitaCampos() {
 
-        chValorFijo.setEnabled(false);
-        txtNombre.setEditable(false);
-        txtCodRef.setEditable(false);
-        txtValor.setEditable(false);
+        txtNro2.setEditable(false);
+        txtNro1.setEditable(false);
+        cbCampañas.setEditable(false);
         btnCancelar.setEnabled(false);
         btnGuardar.setEnabled(false);
         btnEditar.setEnabled(true);
@@ -145,17 +153,16 @@ public final class RubrosView extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         txtFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblRubros = new javax.swing.JTable();
+        tbl = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        txtValor = new javax.swing.JFormattedTextField();
-        chValorFijo = new javax.swing.JCheckBox();
+        txtNro2 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtCodRef = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtNro1 = new javax.swing.JTextField();
+        cbCampañas = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -168,7 +175,7 @@ public final class RubrosView extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Control de Socios - Club Sarandi Universitario"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(600, 500));
         setRequestFocusEnabled(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -179,7 +186,7 @@ public final class RubrosView extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Rubros"); // NOI18N
+        jLabel1.setText("Numeros por Campaña"); // NOI18N
         jPanel1.add(jLabel1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -212,7 +219,7 @@ public final class RubrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtFiltro, gridBagConstraints);
 
-        tblRubros.setModel(new javax.swing.table.DefaultTableModel(
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -223,8 +230,8 @@ public final class RubrosView extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblRubros.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(tblRubros);
+        tbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(tbl);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -256,65 +263,57 @@ public final class RubrosView extends javax.swing.JInternalFrame {
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        jLabel4.setText("Cod. Referencia"); // NOI18N
+        txtNro2.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(jLabel4, gridBagConstraints);
-
-        txtNombre.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 100;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(txtNombre, gridBagConstraints);
+        jPanel3.add(txtNro2, gridBagConstraints);
 
-        jLabel13.setText("Valor"); // NOI18N
+        jLabel5.setText("Numero2 "); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(jLabel13, gridBagConstraints);
-
-        txtValor.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 100;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(txtValor, gridBagConstraints);
-
-        chValorFijo.setText("Valor fijo");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(chValorFijo, gridBagConstraints);
-
-        jLabel5.setText("Nombre"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel3.add(jLabel5, gridBagConstraints);
 
-        txtCodRef.setEditable(false);
+        jLabel6.setText("Campaña Economica"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel3.add(jLabel6, gridBagConstraints);
+
+        txtNro1.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 100;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(txtCodRef, gridBagConstraints);
+        jPanel3.add(txtNro1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(cbCampañas, gridBagConstraints);
+
+        jLabel7.setText("Numero 1"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel3.add(jLabel7, gridBagConstraints);
 
         jTabbedPane1.addTab("Datos", jPanel3);
 
@@ -400,7 +399,7 @@ public final class RubrosView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_FichaMedicaActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        rubroSelecionado = new Rubro();
+        NumerosSelecionado = new Numeros();
         limpiaCampos();
         habilitaCampos();
 
@@ -412,29 +411,36 @@ public final class RubrosView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try {
-            rubrosDAO = new RubroDAO();
-            if (rubroSelecionado.getId() != null) {
+        numerosDAO = new NumerosDAO();
+        List numeros = numerosDAO.BuscaNumeros(Integer.valueOf(txtNro1.getText()), Integer.valueOf(txtNro2.getText()), (CampEconomica) cbCampañas.getSelectedItem());
+        if (numeros.isEmpty()) {
 
-                rubroSelecionado.setNombreRubro(txtNombre.getText());
-                rubroSelecionado.setCodRef(txtCodRef.getText());
-                rubroSelecionado.setValor(Double.valueOf(txtValor.getText()));
-                rubroSelecionado.setValorFijo(chValorFijo.isSelected());
-                rubrosDAO.Actualizar(rubroSelecionado);
-                JOptionPane.showMessageDialog(null, "Rubro actuaizado correctamente");
-            } else {
-                rubroSelecionado.setNombreRubro(txtNombre.getText());
-                rubroSelecionado.setCodRef(txtCodRef.getText());
-                rubroSelecionado.setValor(Double.valueOf(txtValor.getText()));
-                rubroSelecionado.setValorFijo(chValorFijo.isSelected());
-                rubrosDAO.Salvar(rubroSelecionado);
-                JOptionPane.showMessageDialog(null, "Rubro guardado correctamente");
+            try {
+                numerosDAO = new NumerosDAO();
+                if (NumerosSelecionado.getId() != null) {
+
+                    NumerosSelecionado.setNro2(Integer.valueOf(txtNro2.getText()));
+                    NumerosSelecionado.setNro1(Integer.valueOf(txtNro1.getText()));
+                    NumerosSelecionado.setCampEconomica((CampEconomica) cbCampañas.getSelectedItem());
+
+                    numerosDAO.Actualizar(NumerosSelecionado);
+                    JOptionPane.showMessageDialog(null, "Numeros actuaizado correctamente");
+                } else {
+                    NumerosSelecionado.setNro2(Integer.valueOf(txtNro2.getText()));
+                    NumerosSelecionado.setNro1(Integer.valueOf(txtNro1.getText()));
+                    NumerosSelecionado.setDisponible(Boolean.TRUE);
+                    NumerosSelecionado.setCampEconomica((CampEconomica) cbCampañas.getSelectedItem());
+                    numerosDAO.Salvar(NumerosSelecionado);
+                    JOptionPane.showMessageDialog(null, "Numeros guardado correctamente");
+                }
+                deshabilitaCampos();
+                buscaTodosLosRegistros();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error al guardar datos" + ex);
+                ex.printStackTrace();
             }
-            deshabilitaCampos();
-            buscaTodosLosRegistros();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al guardar datos" + ex);
-            ex.printStackTrace();
+        } else {
+            JOptionPane.showMessageDialog(null, "Los numeros ya se encuentran registrados para la campaña seleccionada", "Atención", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -448,12 +454,12 @@ public final class RubrosView extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         try {
 
-            rubrosDAO.EliminarPorId(Rubro.class, rubroSelecionado.getId());
-            JOptionPane.showMessageDialog(null, "Rubro eliminado correctamente");
+            numerosDAO.EliminarPorId(Numeros.class, NumerosSelecionado.getId());
+            JOptionPane.showMessageDialog(null, "Numeros eliminado correctamente");
             deshabilitaCampos();
             buscaTodosLosRegistros();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "No se puede eliminar el Rubro, posee transacciones vinculadas" + ex);
+            JOptionPane.showMessageDialog(null, "No se puede eliminar el Numeros, posee transacciones vinculadas" + ex);
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -465,23 +471,22 @@ public final class RubrosView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JCheckBox chValorFijo;
+    private javax.swing.JComboBox cbCampañas;
     private javax.swing.ButtonGroup grupoBusqueda;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable tblRubros;
-    private javax.swing.JTextField txtCodRef;
+    private javax.swing.JTable tbl;
     private javax.swing.JTextField txtFiltro;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JFormattedTextField txtValor;
+    private javax.swing.JTextField txtNro1;
+    private javax.swing.JTextField txtNro2;
     // End of variables declaration//GEN-END:variables
 }

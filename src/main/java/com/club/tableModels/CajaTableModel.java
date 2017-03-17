@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.club.modelos;
+package com.club.tableModels;
 
-import com.club.BEANS.Categoria;
-import com.club.BEANS.Socio;
-import com.club.BEANS.Socio;
+import com.club.BEANS.Caja;
+import com.club.BEANS.Rubro;
+import com.club.BEANS.Sectores;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,25 +17,25 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Diego Noble
  */
-public class SocioCobrosYaTableModel extends AbstractTableModel {
+public class CajaTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Cod.", "Nombre", "Cel", "Email", "Categoria", "Situación"};
+    private final String[] colunas = new String[]{"Fecha", "Rubro", "Sector", "Concepto", "Entrada", "Salida", "Saldo"};
     //lista para a manipulacao do objeto
-    private List<Socio> listSocio;
+    private List<Caja> listCajas;
 
-    public SocioCobrosYaTableModel() {
-        listSocio = new LinkedList<Socio>();
+    public CajaTableModel() {
+        listCajas = new LinkedList<Caja>();
     }
 
-    public SocioCobrosYaTableModel(List<Socio> listSocio) {
-        this.listSocio = listSocio;
+    public CajaTableModel(List<Caja> listCajas) {
+        this.listCajas = listCajas;
     }
 
     //numero de linhas
     @Override
     public int getRowCount() {
-        return listSocio.size();
+        return listCajas.size();
     }
 
     //numero de colunas
@@ -44,23 +44,25 @@ public class SocioCobrosYaTableModel extends AbstractTableModel {
         return colunas.length;
     }
 
-    //define o que cada coluna conterÃ¯Â¿Â½ do objeto
+    //define o que cada coluna conterï¿½ do objeto
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Socio c = listSocio.get(rowIndex);
+        Caja c = listCajas.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return c.getId();
+                return c.getFechaMovimiento();
             case 1:
-                return c.getNombre();
+                return c.getRubro();
             case 2:
-                return c.getCelular();
+                return c.getSectores();
             case 3:
-                return c.getEmail();
+                return c.getConcepto();
             case 4:
-                return c.getCategoria();
+                return c.getEntrada();
             case 5:
-                return c.getSituacion();
+                return c.getSalida();
+            case 6:
+                return c.getSaldo();
             default:
                 return null;
         }
@@ -72,22 +74,24 @@ public class SocioCobrosYaTableModel extends AbstractTableModel {
         return colunas[column];
     }
 
-    //determina que tipo de objeto cada coluna irÃ¯Â¿Â½ suportar
+    //determina que tipo de objeto cada coluna irï¿½ suportar
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return Integer.class;
+                return Date.class;
             case 1:
-                return String.class;
+                return Rubro.class;
             case 2:
-                return String.class;
+                return Sectores.class;
             case 3:
                 return String.class;
             case 4:
-                return Categoria.class;
+                return Double.class;
             case 5:
-                return String.class;
+                return Double.class;
+            case 6:
+                return Double.class;
             default:
                 return null;
         }
@@ -100,30 +104,24 @@ public class SocioCobrosYaTableModel extends AbstractTableModel {
 
     }
 
-    public void agregar(Socio propiedad) {
-        listSocio.add(propiedad);
+    public void agregar(Caja propiedad) {
+        listCajas.add(propiedad);
 
-        this.fireTableRowsInserted(listSocio.size() - 1, listSocio.size() - 1);
-    }
-
-    public void agregarTodos(List<Socio> socios) {
-        listSocio.addAll(socios);
-
-        this.fireTableDataChanged();
+        this.fireTableRowsInserted(listCajas.size() - 1, listCajas.size() - 1);
     }
 
     public void eliminar(int row) {
-        listSocio.remove(row);
+        listCajas.remove(row);
         this.fireTableRowsDeleted(row, row);
     }
 
-    public void atualizar(int row, Socio propiedad) {
-        listSocio.set(row, propiedad);
+    public void atualizar(int row, Caja propiedad) {
+        listCajas.set(row, propiedad);
         this.fireTableRowsUpdated(row, row);
     }
 
-    public Socio getCliente(int row) {
-        return listSocio.get(row);
+    public Caja getCliente(int row) {
+        return listCajas.get(row);
     }
 
 }

@@ -209,6 +209,10 @@ public class Principal extends javax.swing.JFrame {
         mnuItemArqueo3 = new javax.swing.JMenuItem();
         mnuItemArqueo4 = new javax.swing.JMenuItem();
         mnuItemArqueo5 = new javax.swing.JMenuItem();
+        mnuArqueo2 = new javax.swing.JMenu();
+        mnuItemArqueo6 = new javax.swing.JMenuItem();
+        mnuItemArqueo7 = new javax.swing.JMenuItem();
+        mnuItemArqueo8 = new javax.swing.JMenuItem();
         mnuAyuda = new javax.swing.JMenu();
         mnuItemSobre = new javax.swing.JMenuItem();
 
@@ -372,7 +376,8 @@ public class Principal extends javax.swing.JFrame {
 
         mnuSistema.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuSistema.setText("Sistema"); // NOI18N
-        mnuSistema.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        mnuSistema.setBorderPainted(true);
+        mnuSistema.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         mnuItemUsuarios.setText("Usuarios");
         mnuItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -410,7 +415,8 @@ public class Principal extends javax.swing.JFrame {
 
         mnuRegistros.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuRegistros.setText("Registros"); // NOI18N
-        mnuRegistros.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        mnuRegistros.setBorderPainted(true);
+        mnuRegistros.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         mnuItemSocios.setText("Socios"); // NOI18N
         mnuItemSocios.addActionListener(new java.awt.event.ActionListener() {
@@ -488,7 +494,8 @@ public class Principal extends javax.swing.JFrame {
 
         mnuConsultas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuConsultas.setText("Consultas");
-        mnuConsultas.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        mnuConsultas.setBorderPainted(true);
+        mnuConsultas.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         mnuItemConsultaSocio2.setText("Socios");
         mnuItemConsultaSocio2.addActionListener(new java.awt.event.ActionListener() {
@@ -542,7 +549,8 @@ public class Principal extends javax.swing.JFrame {
 
         mnuMensualidades.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuMensualidades.setText("Mensualidades");
-        mnuMensualidades.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        mnuMensualidades.setBorderPainted(true);
+        mnuMensualidades.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         mnuItemRecibos.setText("Generar Recibos");
         mnuItemRecibos.addActionListener(new java.awt.event.ActionListener() {
@@ -596,7 +604,8 @@ public class Principal extends javax.swing.JFrame {
 
         mnuArqueo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuArqueo.setText("Arqueo de Cobradores");
-        mnuArqueo.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        mnuArqueo.setBorderPainted(true);
+        mnuArqueo.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         mnuItemArqueo.setText("Arqueos");
         mnuItemArqueo.addActionListener(new java.awt.event.ActionListener() {
@@ -610,7 +619,8 @@ public class Principal extends javax.swing.JFrame {
 
         mnuHabilitacionMedica.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuHabilitacionMedica.setText("Habilitación Medica");
-        mnuHabilitacionMedica.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        mnuHabilitacionMedica.setBorderPainted(true);
+        mnuHabilitacionMedica.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         mnuItemHabilitacionTitulares.setText("Emición de Habilitación Titulares");
         mnuItemHabilitacionTitulares.addActionListener(new java.awt.event.ActionListener() {
@@ -632,7 +642,8 @@ public class Principal extends javax.swing.JFrame {
 
         mnuControlPresencia.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuControlPresencia.setText("Control de presencia");
-        mnuControlPresencia.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        mnuControlPresencia.setBorderPainted(true);
+        mnuControlPresencia.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         mnuItemArqueo1.setText(" Funcionarios");
         mnuItemArqueo1.addActionListener(new java.awt.event.ActionListener() {
@@ -662,7 +673,8 @@ public class Principal extends javax.swing.JFrame {
 
         mnuArqueo1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuArqueo1.setText("Campañas comunicación SMS");
-        mnuArqueo1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        mnuArqueo1.setBorderPainted(true);
+        mnuArqueo1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         mnuItemArqueo3.setText("Nueva campaña");
         mnuItemArqueo3.addActionListener(new java.awt.event.ActionListener() {
@@ -690,9 +702,41 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuArqueo1);
 
+        mnuArqueo2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        mnuArqueo2.setText("Campaña económica");
+        mnuArqueo2.setBorderPainted(true);
+        mnuArqueo2.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+
+        mnuItemArqueo6.setText("Nueva campaña");
+        mnuItemArqueo6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemArqueo6ActionPerformed(evt);
+            }
+        });
+        mnuArqueo2.add(mnuItemArqueo6);
+
+        mnuItemArqueo7.setText("Recibe respuestas SMS");
+        mnuItemArqueo7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemArqueo7ActionPerformed(evt);
+            }
+        });
+        mnuArqueo2.add(mnuItemArqueo7);
+
+        mnuItemArqueo8.setText("Consulta campañas");
+        mnuItemArqueo8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemArqueo8ActionPerformed(evt);
+            }
+        });
+        mnuArqueo2.add(mnuItemArqueo8);
+
+        jMenuBar1.add(mnuArqueo2);
+
         mnuAyuda.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuAyuda.setText("Ayuda"); // NOI18N
-        mnuAyuda.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        mnuAyuda.setBorderPainted(true);
+        mnuAyuda.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         mnuItemSobre.setText("Sobre"); // NOI18N
         mnuItemSobre.addActionListener(new java.awt.event.ActionListener() {
@@ -731,7 +775,7 @@ public class Principal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1183,6 +1227,24 @@ public class Principal extends javax.swing.JFrame {
         centralizaVentanas(mensualidades);
     }//GEN-LAST:event_mnuItemRecibos4ActionPerformed
 
+    private void mnuItemArqueo6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo6ActionPerformed
+        CampañaEconomicaView campañaEconomicaView = new CampañaEconomicaView();
+        jDesktopPane1.add(campañaEconomicaView);
+        campañaEconomicaView.setVisible(true);
+        centralizaVentanas(campañaEconomicaView);
+    }//GEN-LAST:event_mnuItemArqueo6ActionPerformed
+
+    private void mnuItemArqueo7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo7ActionPerformed
+        NumerosView numerosView = new NumerosView();
+        jDesktopPane1.add(numerosView);
+        numerosView.setVisible(true);
+        centralizaVentanas(numerosView);
+    }//GEN-LAST:event_mnuItemArqueo7ActionPerformed
+
+    private void mnuItemArqueo8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mnuItemArqueo8ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCaja;
@@ -1207,6 +1269,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniItemMovimientosCaja1;
     private javax.swing.JMenu mnuArqueo;
     private javax.swing.JMenu mnuArqueo1;
+    private javax.swing.JMenu mnuArqueo2;
     private javax.swing.JMenu mnuAyuda;
     private javax.swing.JMenu mnuConsultas;
     private javax.swing.JMenu mnuControlPresencia;
@@ -1217,6 +1280,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemArqueo3;
     private javax.swing.JMenuItem mnuItemArqueo4;
     private javax.swing.JMenuItem mnuItemArqueo5;
+    private javax.swing.JMenuItem mnuItemArqueo6;
+    private javax.swing.JMenuItem mnuItemArqueo7;
+    private javax.swing.JMenuItem mnuItemArqueo8;
     private javax.swing.JMenuItem mnuItemCaja1;
     private javax.swing.JMenuItem mnuItemCaja2;
     private javax.swing.JMenuItem mnuItemCategoria;

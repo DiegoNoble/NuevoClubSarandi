@@ -15,7 +15,7 @@ import com.club.DAOs.ParametrosDAO;
 import com.club.DAOs.SocioDAO;
 import com.club.Renderers.MeDateCellRenderer;
 import com.club.Renderers.TableRendererColor;
-import com.club.modelos.MensualidadesCobrosYaTableModel;
+import com.club.tableModels.MensualidadesCobrosYaTableModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

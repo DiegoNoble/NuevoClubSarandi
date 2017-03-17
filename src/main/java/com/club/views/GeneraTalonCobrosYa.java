@@ -15,7 +15,7 @@ import com.club.DAOs.ParametrosDAO;
 import com.club.DAOs.SocioDAO;
 import com.club.Renderers.MeDateCellRenderer;
 import com.club.Renderers.TableRendererColor;
-import com.club.modelos.MensualidadesTableModel;
+import com.club.tableModels.MensualidadesTableModel;
 import com.club.smsmasivos.ThreadEnviaRecordatorioSMSTalonCobrosYa;
 import com.club.smsmasivos.ThreadEnviaSMSTalonCobrosYa;
 import java.text.SimpleDateFormat;

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.club.modelos;
+package com.club.tableModels;
 
-import com.club.BEANS.Funcionario;
-import java.util.Date;
+import com.club.BEANS.CampEconomica;
+import com.club.BEANS.Numeros;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -15,25 +15,25 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Diego Noble
  */
-public class FuncionarioTableModel extends AbstractTableModel {
+public class NumerosTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Nombre", "CI", "Ingreso", "Egreso"};
+    private final String[] colunas = new String[]{"Campaña", "Nro 1 ", "Nro 2", "Disponibilidad"};
     //lista para a manipulacao do objeto
-    private List<Funcionario> listFuncionarios;
+    private List<Numeros> listNumeross;
 
-    public FuncionarioTableModel() {
-        listFuncionarios = new LinkedList<Funcionario>();
+    public NumerosTableModel() {
+        listNumeross = new LinkedList<Numeros>();
     }
 
-    public FuncionarioTableModel(List<Funcionario> listFuncionarios) {
-        this.listFuncionarios = listFuncionarios;
+    public NumerosTableModel(List<Numeros> listNumeross) {
+        this.listNumeross = listNumeross;
     }
 
     //numero de linhas
     @Override
     public int getRowCount() {
-        return listFuncionarios.size();
+        return listNumeross.size();
     }
 
     //numero de colunas
@@ -45,16 +45,16 @@ public class FuncionarioTableModel extends AbstractTableModel {
     //define o que cada coluna conterï¿½ do objeto
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Funcionario c = listFuncionarios.get(rowIndex);
+        Numeros c = listNumeross.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return c.getNombre();
+                return c.getCampEconomica();
             case 1:
-                return c.getCi();
+                return c.getNro1();
             case 2:
-                return c.getFechaingreso();
+                return c.getNro2();
             case 3:
-                return c.getFechaegreso();
+                return c.getDisponible();
             default:
                 return null;
         }
@@ -71,13 +71,14 @@ public class FuncionarioTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return String.class;
+                return CampEconomica.class;
             case 1:
-                return String.class;
+                return Integer.class;
             case 2:
-                return Date.class;
+                return Integer.class;
             case 3:
-                return Date.class;
+                return Boolean.class;
+
             default:
                 return null;
         }
@@ -90,24 +91,24 @@ public class FuncionarioTableModel extends AbstractTableModel {
 
     }
 
-    public void agregar(Funcionario propiedad) {
-        listFuncionarios.add(propiedad);
+    public void agregar(Numeros propiedad) {
+        listNumeross.add(propiedad);
 
-        this.fireTableRowsInserted(listFuncionarios.size() - 1, listFuncionarios.size() - 1);
+        this.fireTableRowsInserted(listNumeross.size() - 1, listNumeross.size() - 1);
     }
 
     public void eliminar(int row) {
-        listFuncionarios.remove(row);
+        listNumeross.remove(row);
         this.fireTableRowsDeleted(row, row);
     }
 
-    public void atualizar(int row, Funcionario propiedad) {
-        listFuncionarios.set(row, propiedad);
+    public void atualizar(int row, Numeros propiedad) {
+        listNumeross.set(row, propiedad);
         this.fireTableRowsUpdated(row, row);
     }
 
-    public Funcionario getCliente(int row) {
-        return listFuncionarios.get(row);
+    public Numeros getCliente(int row) {
+        return listNumeross.get(row);
     }
 
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.club.modelos;
+package com.club.tableModels;
 
 import com.club.BEANS.Mensualidades;
 import com.club.BEANS.Socio;

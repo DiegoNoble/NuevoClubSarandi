@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.club.modelos;
+package com.club.tableModels;
 
-import com.club.BEANS.Sectores;
+import com.club.BEANS.Rubro;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -14,25 +14,25 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Diego Noble
  */
-public class SectoresTableModel extends AbstractTableModel {
+public class RubroTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Cod. Referencia", "Nombre"};
+    private final String[] colunas = new String[]{"Cod. Referencia", "Nombre", "Valor Fijo", "Valor"};
     //lista para a manipulacao do objeto
-    private List<Sectores> listSectoress;
+    private List<Rubro> listRubros;
 
-    public SectoresTableModel() {
-        listSectoress = new LinkedList<Sectores>();
+    public RubroTableModel() {
+        listRubros = new LinkedList<Rubro>();
     }
 
-    public SectoresTableModel(List<Sectores> listSectoress) {
-        this.listSectoress = listSectoress;
+    public RubroTableModel(List<Rubro> listRubros) {
+        this.listRubros = listRubros;
     }
 
     //numero de linhas
     @Override
     public int getRowCount() {
-        return listSectoress.size();
+        return listRubros.size();
     }
 
     //numero de colunas
@@ -44,12 +44,16 @@ public class SectoresTableModel extends AbstractTableModel {
     //define o que cada coluna conterï¿½ do objeto
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Sectores c = listSectoress.get(rowIndex);
+        Rubro c = listRubros.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return c.getCodRef();
             case 1:
-                return c.getNombreSector();
+                return c.getNombreRubro();
+            case 2:
+                return c.getValorFijo();
+            case 3:
+                return c.getValor();
             default:
                 return null;
         }
@@ -69,6 +73,10 @@ public class SectoresTableModel extends AbstractTableModel {
                 return String.class;
             case 1:
                 return String.class;
+            case 2:
+                return Boolean.class;
+            case 3:
+                return Double.class;
             default:
                 return null;
         }
@@ -81,24 +89,24 @@ public class SectoresTableModel extends AbstractTableModel {
 
     }
 
-    public void agregar(Sectores propiedad) {
-        listSectoress.add(propiedad);
+    public void agregar(Rubro propiedad) {
+        listRubros.add(propiedad);
 
-        this.fireTableRowsInserted(listSectoress.size() - 1, listSectoress.size() - 1);
+        this.fireTableRowsInserted(listRubros.size() - 1, listRubros.size() - 1);
     }
 
     public void eliminar(int row) {
-        listSectoress.remove(row);
+        listRubros.remove(row);
         this.fireTableRowsDeleted(row, row);
     }
 
-    public void atualizar(int row, Sectores propiedad) {
-        listSectoress.set(row, propiedad);
+    public void atualizar(int row, Rubro propiedad) {
+        listRubros.set(row, propiedad);
         this.fireTableRowsUpdated(row, row);
     }
 
-    public Sectores getCliente(int row) {
-        return listSectoress.get(row);
+    public Rubro getCliente(int row) {
+        return listRubros.get(row);
     }
 
 }
