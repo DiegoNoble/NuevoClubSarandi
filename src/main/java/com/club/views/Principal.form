@@ -435,7 +435,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo7">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Recibe respuestas SMS"/>
+                <Property name="text" type="java.lang.String" value="Numeros por campa&#xf1;a"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo7ActionPerformed"/>
@@ -443,7 +443,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo8">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Consulta campa&#xf1;as"/>
+                <Property name="text" type="java.lang.String" value=" Ventas camp. Eco."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo8ActionPerformed"/>

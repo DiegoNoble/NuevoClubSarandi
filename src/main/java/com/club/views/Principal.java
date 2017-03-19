@@ -715,7 +715,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuArqueo2.add(mnuItemArqueo6);
 
-        mnuItemArqueo7.setText("Recibe respuestas SMS");
+        mnuItemArqueo7.setText("Numeros por campaña");
         mnuItemArqueo7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuItemArqueo7ActionPerformed(evt);
@@ -723,7 +723,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuArqueo2.add(mnuItemArqueo7);
 
-        mnuItemArqueo8.setText("Consulta campañas");
+        mnuItemArqueo8.setText(" Ventas camp. Eco.");
         mnuItemArqueo8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuItemArqueo8ActionPerformed(evt);
@@ -1242,7 +1242,10 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemArqueo7ActionPerformed
 
     private void mnuItemArqueo8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo8ActionPerformed
-        // TODO add your handling code here:
+        VentasCampEcoView ventasCampEcoView = new VentasCampEcoView();
+        jDesktopPane1.add(ventasCampEcoView);
+        ventasCampEcoView.setVisible(true);
+        centralizaVentanas(ventasCampEcoView);
     }//GEN-LAST:event_mnuItemArqueo8ActionPerformed
 
 

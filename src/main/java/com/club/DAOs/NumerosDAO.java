@@ -32,16 +32,4 @@ public class NumerosDAO extends DaoGenerico {
 
     }
 
-    public List BuscaPorCualquierCampo(String dato) {
-
-        List<Numeros> toReturn = null;
-
-        Query qr = em.createQuery("FROM Numeros AS n WHERE n.nro1 =:dato or n. nro2=:dato "
-                + "or n.campEconomica.nombre like '%:dato %'");
-        qr.setParameter("dato", dato);
-        toReturn = qr.getResultList();
-
-        return toReturn;
-
-    }
 }

@@ -18,7 +18,7 @@ import javax.swing.table.AbstractTableModel;
 public class NumerosTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Campaña", "Nro 1 ", "Nro 2", "Disponibilidad"};
+    private final String[] colunas = new String[]{"","Campaña", "Nro 1 ", "Nro 2", "Disponibilidad"};
     //lista para a manipulacao do objeto
     private List<Numeros> listNumeross;
 
@@ -48,12 +48,14 @@ public class NumerosTableModel extends AbstractTableModel {
         Numeros c = listNumeross.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return c.getCampEconomica();
+                return rowIndex+1;
             case 1:
-                return c.getNro1();
+                return c.getCampEconomica();
             case 2:
-                return c.getNro2();
+                return c.getNro1();
             case 3:
+                return c.getNro2();
+            case 4:
                 return c.getDisponible();
             default:
                 return null;
@@ -71,12 +73,14 @@ public class NumerosTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return CampEconomica.class;
-            case 1:
                 return Integer.class;
+            case 1:
+                return CampEconomica.class;
             case 2:
                 return Integer.class;
             case 3:
+                return Integer.class;
+            case 4:
                 return Boolean.class;
 
             default:
