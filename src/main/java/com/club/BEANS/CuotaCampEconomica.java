@@ -57,6 +57,7 @@ public class CuotaCampEconomica implements Serializable {
     private Date fechaHoraTransaccionCobrosYa;
     private Integer medioPagoId;
     private String medioPago;
+    private int nroCuota;
 
     public CuotaCampEconomica() {
     }
@@ -173,4 +174,13 @@ public class CuotaCampEconomica implements Serializable {
         this.medioPago = medioPago;
     }
 
+    public int getNroCuota() {
+        return nroCuota;
+    }
+
+    public void setNroCuota(int nroCuota) {
+        this.nroCuota = nroCuota;
+    }
+
+    
 }

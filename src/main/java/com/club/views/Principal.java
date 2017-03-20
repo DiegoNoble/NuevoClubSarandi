@@ -1244,6 +1244,7 @@ public class Principal extends javax.swing.JFrame {
     private void mnuItemArqueo8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo8ActionPerformed
         VentasCampEcoView ventasCampEcoView = new VentasCampEcoView();
         jDesktopPane1.add(ventasCampEcoView);
+        ventasCampEcoView.setSize(jDesktopPane1.getWidth(), 500);
         ventasCampEcoView.setVisible(true);
         centralizaVentanas(ventasCampEcoView);
     }//GEN-LAST:event_mnuItemArqueo8ActionPerformed
