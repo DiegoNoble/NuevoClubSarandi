@@ -57,6 +57,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemUsuarios2ActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuItemUsuarios3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Backup BD"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemUsuarios3ActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuRegistros">
@@ -443,10 +451,18 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo8">
               <Properties>
-                <Property name="text" type="java.lang.String" value=" Ventas camp. Eco."/>
+                <Property name="text" type="java.lang.String" value="Ventas camp. Eco."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo8ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo9">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Consulta ventas | Registra pagos"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo9ActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

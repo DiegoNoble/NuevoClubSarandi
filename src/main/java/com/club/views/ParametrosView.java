@@ -2,11 +2,14 @@ package com.club.views;
 
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.Parametros;
+import com.club.BEANS.Rubro;
 import com.club.DAOs.CobradorDAO;
 import com.club.DAOs.ParametrosDAO;
+import com.club.DAOs.RubroDAO;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public final class ParametrosView extends javax.swing.JInternalFrame {
 
@@ -23,6 +26,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
 
     private void inicio() {
         comboCobradores();
+        comboRubros();
         txtEmail.setText(parametros.getCasilla_email());
         txtPswEmail.setText(parametros.getPsw_email());
         txtPswSms.setText(parametros.getPsw_SMS());
@@ -33,6 +37,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         cbCobrosYa.setSelectedItem(parametros.getCobradorCobrosYa());
         txtApiUrlCrear.setText(parametros.getApiUrlCrear());
         txtUrlConsultaCobranzas.setText(parametros.getUrlConsultaCobranzasCobrosYa());
+        cbRubro.setSelectedItem(parametros.getRubroPagoCuotasCampEco());
 
         txttoleranciaRecibosPendientes.setText(parametros.getToleranciaRecibosPenientes().toString());
     }
@@ -43,6 +48,22 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         List<Cobrador> cobradores = cobradorDAO.BuscaTodos(Cobrador.class);
         for (Cobrador cobrador : cobradores) {
             cbCobrosYa.addItem(cobrador);
+        }
+    }
+
+    public void comboRubros() {
+
+        try {
+
+            RubroDAO rubroDAO = new RubroDAO();
+            List<Rubro> listRubros = rubroDAO.BuscaTodos(Rubro.class);
+            for (Rubro rubro : listRubros) {
+                cbRubro.addItem(rubro);
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar comboboxes: " + ex);
+            ex.printStackTrace();
         }
     }
 
@@ -59,6 +80,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtEmailPadron.setEnabled(true);
         txttoleranciaRecibosPendientes.setEnabled(true);
         cbCobrosYa.setEnabled(true);
+        cbRubro.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnGuardar.setEnabled(true);
         btnEditar.setEnabled(false);
@@ -66,6 +88,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     }
 
     private void deshabilitaCampos() {
+        cbRubro.setEnabled(false);
         txtEmail.setEnabled(false);
         txtPswEmail.setEnabled(false);
         txtPswSms.setEnabled(false);
@@ -113,6 +136,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtUrlConsultaCobranzas = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         txttoleranciaRecibosPendientes = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        cbRubro = new javax.swing.JComboBox();
         jPanel6 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -317,6 +342,27 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txttoleranciaRecibosPendientes, gridBagConstraints);
 
+        jLabel3.setText("Rubro pago cuotas campaña economica");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel3, gridBagConstraints);
+
+        cbRubro.setEnabled(false);
+        cbRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbRubroActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbRubro, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -391,6 +437,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
             parametros.setEmailPadron(txtEmailPadron.getText());
             parametros.setCobradorCobrosYa((Cobrador) cbCobrosYa.getSelectedItem());
             parametros.setToleranciaRecibosPenientes(Integer.parseInt(txttoleranciaRecibosPendientes.getText()));
+            parametros.setRubroPagoCuotasCampEco((Rubro) cbRubro.getSelectedItem());
             parametrosDAO = new ParametrosDAO();
             parametrosDAO.Actualizar(parametros);
         } catch (Exception ex) {
@@ -404,11 +451,16 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void cbRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRubroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbRubroActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox cbCobrosYa;
+    private javax.swing.JComboBox cbRubro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -418,6 +470,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;

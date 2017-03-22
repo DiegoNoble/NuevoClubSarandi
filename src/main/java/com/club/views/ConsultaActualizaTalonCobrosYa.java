@@ -141,7 +141,7 @@ public class ConsultaActualizaTalonCobrosYa extends javax.swing.JInternalFrame {
                 ccCobradorDAO.Salvar(credito);
             }
         } catch (Exception ex) {
-            Logger.getLogger(FormPagosMensualidades.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RegistrarPagosMensualidades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

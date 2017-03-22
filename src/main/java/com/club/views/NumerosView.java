@@ -58,7 +58,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     private void DefineModeloTbl() {
 
         ((DefaultTableCellRenderer) tbl.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        
+
         tblModel = new NumerosTableModel(listNros);
         tbl.setModel(tblModel);
 
@@ -93,6 +93,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
 
                 txtNro2.setText(NumerosSelecionado.getNro2().toString());
                 txtNro1.setText(NumerosSelecionado.getNro1().toString());
+                chbDisponible.setSelected(NumerosSelecionado.getDisponible());
                 cbCampañas.setSelectedItem(NumerosSelecionado.getCampEconomica());
 
             } catch (Exception error) {
@@ -126,6 +127,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     private void habilitaCampos() {
 
         txtNro2.setEditable(true);
+        chbDisponible.setEnabled(true);
         txtNro1.setEditable(true);
         cbCampañas.setEditable(true);
         btnCancelar.setEnabled(true);
@@ -137,7 +139,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     }
 
     private void deshabilitaCampos() {
-
+        chbDisponible.setEnabled(false);
         txtNro2.setEditable(false);
         txtNro1.setEditable(false);
         cbCampañas.setEditable(false);
@@ -172,7 +174,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
         txtNro1 = new javax.swing.JTextField();
         cbCampañas = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        chbDisponible = new javax.swing.JCheckBox();
         jLabel9 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
@@ -340,15 +342,15 @@ public final class NumerosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel3.add(jLabel7, gridBagConstraints);
 
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("Disponible");
-        jCheckBox1.setEnabled(false);
+        chbDisponible.setSelected(true);
+        chbDisponible.setText("Disponible");
+        chbDisponible.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jCheckBox1, gridBagConstraints);
+        jPanel3.add(chbDisponible, gridBagConstraints);
 
         jLabel9.setText("Numero2 "); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -448,37 +450,41 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        numerosDAO = new NumerosDAO();
-        List numeros = numerosDAO.BuscaNumeros(Integer.valueOf(txtNro1.getText()), Integer.valueOf(txtNro2.getText()), (CampEconomica) cbCampañas.getSelectedItem());
-        if (numeros.isEmpty()) {
 
-            try {
+        try {
+            numerosDAO = new NumerosDAO();
+            if (NumerosSelecionado.getId() != null) {
+
+                NumerosSelecionado.setNro2(Integer.valueOf(txtNro2.getText()));
+                NumerosSelecionado.setNro1(Integer.valueOf(txtNro1.getText()));
+                NumerosSelecionado.setDisponible(chbDisponible.isSelected());
+                NumerosSelecionado.setCampEconomica((CampEconomica) cbCampañas.getSelectedItem());
+
+                numerosDAO.Actualizar(NumerosSelecionado);
+                JOptionPane.showMessageDialog(null, "Numeros actuaizado correctamente");
+            } else {
                 numerosDAO = new NumerosDAO();
-                if (NumerosSelecionado.getId() != null) {
+                List numeros = numerosDAO.BuscaNumeros(Integer.valueOf(txtNro1.getText()), Integer.valueOf(txtNro2.getText()), (CampEconomica) cbCampañas.getSelectedItem());
+                if (numeros.isEmpty()) {
 
                     NumerosSelecionado.setNro2(Integer.valueOf(txtNro2.getText()));
                     NumerosSelecionado.setNro1(Integer.valueOf(txtNro1.getText()));
-                    NumerosSelecionado.setCampEconomica((CampEconomica) cbCampañas.getSelectedItem());
-
-                    numerosDAO.Actualizar(NumerosSelecionado);
-                    JOptionPane.showMessageDialog(null, "Numeros actuaizado correctamente");
-                } else {
-                    NumerosSelecionado.setNro2(Integer.valueOf(txtNro2.getText()));
-                    NumerosSelecionado.setNro1(Integer.valueOf(txtNro1.getText()));
-                    NumerosSelecionado.setDisponible(Boolean.TRUE);
+                    NumerosSelecionado.setDisponible(chbDisponible.isSelected());
                     NumerosSelecionado.setCampEconomica((CampEconomica) cbCampañas.getSelectedItem());
                     numerosDAO.Salvar(NumerosSelecionado);
                     JOptionPane.showMessageDialog(null, "Numeros guardado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Los numeros ya se encuentran registrados para la campaña seleccionada", "Atención", JOptionPane.ERROR_MESSAGE);
                 }
-                deshabilitaCampos();
-                buscaTodosLosRegistros();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error al guardar datos" + ex);
-                ex.printStackTrace();
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Los numeros ya se encuentran registrados para la campaña seleccionada", "Atención", JOptionPane.ERROR_MESSAGE);
+            deshabilitaCampos();
+            buscaTodosLosRegistros();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al guardar datos" + ex);
+            ex.printStackTrace();
         }
+
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -491,7 +497,8 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         try {
 
-            numerosDAO.EliminarPorId(Numeros.class, NumerosSelecionado.getId());
+            numerosDAO.EliminarPorId(Numeros.class,
+                     NumerosSelecionado.getId());
             JOptionPane.showMessageDialog(null, "Numeros eliminado correctamente");
             deshabilitaCampos();
             buscaTodosLosRegistros();
@@ -517,8 +524,8 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNuevo1;
     private javax.swing.JComboBox cbCampañas;
     private javax.swing.JComboBox cbCampañas1;
+    private javax.swing.JCheckBox chbDisponible;
     private javax.swing.ButtonGroup grupoBusqueda;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;

@@ -570,7 +570,8 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
                 venta.setFechaVenta(new Date());
                 venta.setNumeros(numerosSelecionados);
                 venta.setSocio(socioSeleccionado);
-                venta.setValorCuota(valor);
+                venta.setValor(valor);
+                venta.setCampEconomica((CampEconomica) cbCampañas1.getSelectedItem());
                 VentaCampEcoDAO campEcoDAO = new VentaCampEcoDAO();
                 campEcoDAO.Salvar(venta);
                 
@@ -605,6 +606,8 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
             }
         }
 
+        buscarNumeros();
+        
 
     }//GEN-LAST:event_btnGenerarActionPerformed
 

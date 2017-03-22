@@ -283,6 +283,7 @@ public final class RubrosView extends javax.swing.JInternalFrame {
         jPanel3.add(jLabel13, gridBagConstraints);
 
         txtValor.setEditable(false);
+        txtValor.setText("0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;

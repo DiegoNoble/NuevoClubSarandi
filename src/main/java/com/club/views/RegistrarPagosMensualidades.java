@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-public class FormPagosMensualidades extends javax.swing.JInternalFrame {
+public class RegistrarPagosMensualidades extends javax.swing.JInternalFrame {
 
     MensualidadesDAO mensualidadesDAO;
     CcCobradorDAO ccCobradorDAO;
@@ -25,7 +25,7 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
     Mensualidades reciboAPagar;
     SectorDAO sectorDAO;
 
-    public FormPagosMensualidades() {
+    public RegistrarPagosMensualidades() {
         initComponents();
         actualizaComboBox();
 
@@ -112,7 +112,7 @@ public class FormPagosMensualidades extends javax.swing.JInternalFrame {
             ccCobradorDAO = new CcCobradorDAO();
             ccCobradorDAO.Salvar(credito);
         } catch (Exception ex) {
-            Logger.getLogger(FormPagosMensualidades.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RegistrarPagosMensualidades.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

@@ -7,6 +7,7 @@ package com.club.BEANS;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,6 +30,7 @@ public class VentaCampEco implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Temporal(TemporalType.DATE)
     private Date fechaVenta;
 
@@ -44,8 +46,12 @@ public class VentaCampEco implements Serializable {
     @ManyToOne(optional = false)
     private Numeros numeros;
 
+    @JoinColumn(name = "campeconomica_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private CampEconomica campEconomica;
+
     private Integer cantidadCuotas;
-    private Double valorCuota;
+    private Double valor;
 
     public VentaCampEco() {
     }
@@ -98,12 +104,20 @@ public class VentaCampEco implements Serializable {
         this.cantidadCuotas = cantidadCuotas;
     }
 
-    public Double getValorCuota() {
-        return valorCuota;
+    public Double getValor() {
+        return valor;
     }
 
-    public void setValorCuota(Double valorCuota) {
-        this.valorCuota = valorCuota;
+    public void setValor(Double valorCuota) {
+        this.valor = valorCuota;
+    }
+
+    public CampEconomica getCampEconomica() {
+        return campEconomica;
+    }
+
+    public void setCampEconomica(CampEconomica campEconomica) {
+        this.campEconomica = campEconomica;
     }
 
 }

@@ -3,6 +3,7 @@ package com.club.views;
 import com.club.BEANS.Caja;
 import com.club.BEANS.Usuario;
 import com.club.DAOs.CajaDAO;
+import com.club.control.utilidades.BackupDB;
 import com.club.control.utilidades.data;
 import com.club.smsmasivos.SMSMasivosController;
 import java.beans.PropertyVetoException;
@@ -172,6 +173,7 @@ public class Principal extends javax.swing.JFrame {
         mnuItemUsuarios1 = new javax.swing.JMenuItem();
         mnuItemSalir = new javax.swing.JMenuItem();
         mnuItemUsuarios2 = new javax.swing.JMenuItem();
+        mnuItemUsuarios3 = new javax.swing.JMenuItem();
         mnuRegistros = new javax.swing.JMenu();
         mnuItemSocios = new javax.swing.JMenuItem();
         mnuItemDependientes = new javax.swing.JMenuItem();
@@ -213,6 +215,7 @@ public class Principal extends javax.swing.JFrame {
         mnuItemArqueo6 = new javax.swing.JMenuItem();
         mnuItemArqueo7 = new javax.swing.JMenuItem();
         mnuItemArqueo8 = new javax.swing.JMenuItem();
+        mnuItemArqueo9 = new javax.swing.JMenuItem();
         mnuAyuda = new javax.swing.JMenu();
         mnuItemSobre = new javax.swing.JMenuItem();
 
@@ -410,6 +413,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         mnuSistema.add(mnuItemUsuarios2);
+
+        mnuItemUsuarios3.setText("Backup BD");
+        mnuItemUsuarios3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemUsuarios3ActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(mnuItemUsuarios3);
 
         jMenuBar1.add(mnuSistema);
 
@@ -723,13 +734,21 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuArqueo2.add(mnuItemArqueo7);
 
-        mnuItemArqueo8.setText(" Ventas camp. Eco.");
+        mnuItemArqueo8.setText("Ventas camp. Eco.");
         mnuItemArqueo8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuItemArqueo8ActionPerformed(evt);
             }
         });
         mnuArqueo2.add(mnuItemArqueo8);
+
+        mnuItemArqueo9.setText("Consulta ventas | Registra pagos");
+        mnuItemArqueo9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemArqueo9ActionPerformed(evt);
+            }
+        });
+        mnuArqueo2.add(mnuItemArqueo9);
 
         jMenuBar1.add(mnuArqueo2);
 
@@ -879,7 +898,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void mnuItemPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemPagosActionPerformed
 
-        FormPagosMensualidades pagos = new FormPagosMensualidades();
+        RegistrarPagosMensualidades pagos = new RegistrarPagosMensualidades();
         jDesktopPane1.add(pagos);
         pagos.setVisible(true);
         centralizaVentanas(pagos);
@@ -1249,6 +1268,23 @@ public class Principal extends javax.swing.JFrame {
         centralizaVentanas(ventasCampEcoView);
     }//GEN-LAST:event_mnuItemArqueo8ActionPerformed
 
+    private void mnuItemArqueo9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo9ActionPerformed
+
+        ConsultaVentasCampEcoView consultaVentasCampEcoView = new ConsultaVentasCampEcoView();
+        jDesktopPane1.add(consultaVentasCampEcoView);
+        //consultaVentasCampEcoView.setSize(jDesktopPane1.getWidth(), 500);
+        consultaVentasCampEcoView.setVisible(true);
+        centralizaVentanas(consultaVentasCampEcoView);
+
+
+    }//GEN-LAST:event_mnuItemArqueo9ActionPerformed
+
+    private void mnuItemUsuarios3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemUsuarios3ActionPerformed
+        LogBackup logBackup = new LogBackup();
+        logBackup.setVisible(true);
+        logBackup.toFront();
+    }//GEN-LAST:event_mnuItemUsuarios3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCaja;
@@ -1287,6 +1323,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemArqueo6;
     private javax.swing.JMenuItem mnuItemArqueo7;
     private javax.swing.JMenuItem mnuItemArqueo8;
+    private javax.swing.JMenuItem mnuItemArqueo9;
     private javax.swing.JMenuItem mnuItemCaja1;
     private javax.swing.JMenuItem mnuItemCaja2;
     private javax.swing.JMenuItem mnuItemCategoria;
@@ -1313,6 +1350,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemUsuarios;
     private javax.swing.JMenuItem mnuItemUsuarios1;
     private javax.swing.JMenuItem mnuItemUsuarios2;
+    private javax.swing.JMenuItem mnuItemUsuarios3;
     private javax.swing.JMenu mnuMensualidades;
     private javax.swing.JMenu mnuRegistros;
     private javax.swing.JMenu mnuSistema;

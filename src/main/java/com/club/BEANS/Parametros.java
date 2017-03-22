@@ -52,6 +52,9 @@ public class Parametros implements Serializable {
     private String apiUrlCrear;
     private String emailPadron;
     private Integer toleranciaRecibosPenientes;
+    @JoinColumn(name = "id_rubroPagoCuotasCampEco", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Rubro rubroPagoCuotasCampEco;
 
     public Parametros() {
     }
@@ -150,6 +153,14 @@ public class Parametros implements Serializable {
 
     public void setToleranciaRecibosPenientes(Integer toleranciaRecibosPenientes) {
         this.toleranciaRecibosPenientes = toleranciaRecibosPenientes;
+    }
+
+    public Rubro getRubroPagoCuotasCampEco() {
+        return rubroPagoCuotasCampEco;
+    }
+
+    public void setRubroPagoCuotasCampEco(Rubro rubroPagoCuotasCampEco) {
+        this.rubroPagoCuotasCampEco = rubroPagoCuotasCampEco;
     }
 
 }
