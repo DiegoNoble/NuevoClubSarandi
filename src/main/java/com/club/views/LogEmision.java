@@ -5,39 +5,11 @@
  */
 package com.club.views;
 
-import com.club.BEANS.Categoria;
-import com.club.BEANS.Cobrador;
-import com.club.BEANS.Dependiente;
-import com.club.BEANS.Mensualidades;
-import com.club.BEANS.Socio;
-import com.club.DAOs.DepDAO;
-import com.club.DAOs.MensualidadesDAO;
-import com.club.DAOs.SocioDAO;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import javax.swing.JOptionPane;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
-
 /**
  *
  * @author Diego
  */
 public class LogEmision extends javax.swing.JFrame {
-
-    private MensualidadesDAO mensualidadesDAO;
-    private SocioDAO socioDAO;
-    private DepDAO depDAO;
-
-    private List<Socio> listSocios;
-    String fecha;
-    private HashMap parametros;
-    SimpleDateFormat formato;
 
     public LogEmision() {
         initComponents();
@@ -77,8 +49,6 @@ public class LogEmision extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

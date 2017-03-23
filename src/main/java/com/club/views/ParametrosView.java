@@ -38,6 +38,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtApiUrlCrear.setText(parametros.getApiUrlCrear());
         txtUrlConsultaCobranzas.setText(parametros.getUrlConsultaCobranzasCobrosYa());
         cbRubro.setSelectedItem(parametros.getRubroPagoCuotasCampEco());
+        txtMysqlPath.setText(parametros.getMySql_Path());
+        txtNombreBasedeDatos.setText(parametros.getNombreBasesDatos());
 
         txttoleranciaRecibosPendientes.setText(parametros.getToleranciaRecibosPenientes().toString());
     }
@@ -69,6 +71,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
 
     private void habilitaCampos() {
 
+        txtMysqlPath.setEnabled(true);
+        txtNombreBasedeDatos.setEnabled(true);
         txtEmail.setEnabled(true);
         txtPswEmail.setEnabled(true);
         txtPswSms.setEnabled(true);
@@ -88,6 +92,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     }
 
     private void deshabilitaCampos() {
+        txtMysqlPath.setEnabled(false);
+        txtNombreBasedeDatos.setEnabled(false);
         cbRubro.setEnabled(false);
         txtEmail.setEnabled(false);
         txtPswEmail.setEnabled(false);
@@ -138,6 +144,10 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txttoleranciaRecibosPendientes = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         cbRubro = new javax.swing.JComboBox();
+        jLabel17 = new javax.swing.JLabel();
+        txtNombreBasedeDatos = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        txtMysqlPath = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -148,7 +158,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Control de Socios - Club Sarandi Universitario"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(900, 350));
+        setPreferredSize(new java.awt.Dimension(900, 450));
         setRequestFocusEnabled(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -363,6 +373,38 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(cbRubro, gridBagConstraints);
 
+        jLabel17.setText("Nombre base de datos");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel17, gridBagConstraints);
+
+        txtNombreBasedeDatos.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txtNombreBasedeDatos, gridBagConstraints);
+
+        jLabel18.setText("MySql Path");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel18, gridBagConstraints);
+
+        txtMysqlPath.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txtMysqlPath, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -438,6 +480,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
             parametros.setCobradorCobrosYa((Cobrador) cbCobrosYa.getSelectedItem());
             parametros.setToleranciaRecibosPenientes(Integer.parseInt(txttoleranciaRecibosPendientes.getText()));
             parametros.setRubroPagoCuotasCampEco((Rubro) cbRubro.getSelectedItem());
+            parametros.setMySql_Path(txtMysqlPath.getText());
+            parametros.setNombreBasesDatos(txtNombreBasedeDatos.getText());
             parametrosDAO = new ParametrosDAO();
             parametrosDAO.Actualizar(parametros);
         } catch (Exception ex) {
@@ -469,6 +513,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -480,6 +526,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtApiUrlCrear;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailPadron;
+    private javax.swing.JTextField txtMysqlPath;
+    private javax.swing.JTextField txtNombreBasedeDatos;
     private javax.swing.JTextField txtPswEmail;
     private javax.swing.JTextField txtPswSms;
     private javax.swing.JTextField txtTokenCobrosYa;

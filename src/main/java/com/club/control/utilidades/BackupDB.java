@@ -22,6 +22,7 @@ public class BackupDB {
     private static String SEPARATOR = File.separator;
     private String MYSQL_PATH;
     private String BackUp_Path;
+    private String nombreArchivo;
 
     // Lista dos bancos de dados a serem "backupeados"; se desejar adicionar mais,
     // basta colocar o nome separado por espaços dos outros nomes
@@ -51,11 +52,12 @@ public class BackupDB {
         // Início
         time1 = System.currentTimeMillis();
         for (String dbName : dbList) {
+            nombreArchivo = dbName + " " + dateFormat.format(new Date()) + ".sql";
             ProcessBuilder pb = new ProcessBuilder(command,
                     "--user=" + props.getUsr(),
                     "--password=" + props.getPsw(),
                     dbName,
-                    "--result-file=" + this.BackUp_Path + "" + dbName + " "+dateFormat.format(new Date()) + ".sql");
+                    "--result-file=" + this.BackUp_Path + "/" + nombreArchivo);
             try {
                 txtLog.append("Backup del banco de dados (" + i + "): " + dbName + " ...");
                 pb.start();
@@ -71,7 +73,7 @@ public class BackupDB {
         // Avisa do sucesso
         txtLog.append("\nBackups realizados correctamente.\n\n");
         txtLog.append("\nTempo total de processamento: " + time + " ms\n");
-        txtLog.append("\nRespalde el archivo exportado en " + this.BackUp_Path);
+        txtLog.append("\nRespalde el archivo exportado en " + this.BackUp_Path + "/" + nombreArchivo);
         txtLog.append("\nFinalizando...");
         try {
             // Paralisa por 2 segundos

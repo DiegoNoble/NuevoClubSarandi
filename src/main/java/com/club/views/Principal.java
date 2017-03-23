@@ -3,7 +3,6 @@ package com.club.views;
 import com.club.BEANS.Caja;
 import com.club.BEANS.Usuario;
 import com.club.DAOs.CajaDAO;
-import com.club.control.utilidades.BackupDB;
 import com.club.control.utilidades.data;
 import com.club.smsmasivos.SMSMasivosController;
 import java.beans.PropertyVetoException;
@@ -1280,7 +1279,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemArqueo9ActionPerformed
 
     private void mnuItemUsuarios3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemUsuarios3ActionPerformed
-        LogBackup logBackup = new LogBackup();
+        BackUpsView logBackup = new BackUpsView();
         logBackup.setVisible(true);
         logBackup.toFront();
     }//GEN-LAST:event_mnuItemUsuarios3ActionPerformed
