@@ -389,7 +389,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtNombreBasedeDatos, gridBagConstraints);
 
-        jLabel18.setText("MySql Path");
+        jLabel18.setText("MySql Path (termina en /)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
