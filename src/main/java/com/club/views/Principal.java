@@ -1269,7 +1269,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void mnuItemArqueo9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemArqueo9ActionPerformed
 
-        ConsultaVentasCampEcoView consultaVentasCampEcoView = new ConsultaVentasCampEcoView();
+        ConsultaVentasCampEcoView consultaVentasCampEcoView = new ConsultaVentasCampEcoView(jDesktopPane1);
         jDesktopPane1.add(consultaVentasCampEcoView);
         //consultaVentasCampEcoView.setSize(jDesktopPane1.getWidth(), 500);
         consultaVentasCampEcoView.setVisible(true);

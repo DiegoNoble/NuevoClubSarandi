@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 
 public final class NumerosView extends javax.swing.JInternalFrame {
 
@@ -61,7 +62,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
 
         tblModel = new NumerosTableModel(listNros);
         tbl.setModel(tblModel);
-
+        
         listModelNumeross = tbl.getSelectionModel();
         listModelNumeross.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
@@ -121,6 +122,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     private void limpiaCampos() {
 
         txtNro2.setText("");
+        txtNro1.setText("");
 
     }
 
@@ -498,7 +500,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
         try {
 
             numerosDAO.EliminarPorId(Numeros.class,
-                     NumerosSelecionado.getId());
+                    NumerosSelecionado.getId());
             JOptionPane.showMessageDialog(null, "Numeros eliminado correctamente");
             deshabilitaCampos();
             buscaTodosLosRegistros();

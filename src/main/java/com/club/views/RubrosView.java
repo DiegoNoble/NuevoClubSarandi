@@ -91,6 +91,7 @@ public final class RubrosView extends javax.swing.JInternalFrame {
         if (txtFiltro.getText().equals("")) {
             buscaTodosLosRegistros();
         } else {
+            rubrosDAO = new RubroDAO();
             listRubros.addAll(rubrosDAO.BuscaPor(Rubro.class, "nombreRubro", txtFiltro.getText()));
             tblModel.fireTableDataChanged();
         }

@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -43,6 +44,8 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
     SocioDAO socioDAO;
     SocioTableModel tblModelSocios;
     List<Socio> listSocios;
+    VentaCampEco ventaCampEcoModifica;
+    ConsultaVentasCampEcoView consultaVentasCampEcoView;
 
     public VentasCampEcoView() {
         initComponents();
@@ -59,6 +62,40 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
         txtFiltro.setDocument(new ControlarEntradaTexto(3, chs));
         txtValor.setDocument(new ControlarEntradaTexto(4, chs));
         txtCuotas.setDocument(new ControlarEntradaTexto(2, chs));
+    }
+
+    public VentasCampEcoView(VentaCampEco ventaCampEco, ConsultaVentasCampEcoView consultaVentasCampEcoView) {
+        initComponents();
+        this.ventaCampEcoModifica = ventaCampEco;
+        this.consultaVentasCampEcoView = consultaVentasCampEcoView;
+
+        dpVencimiento.setDate(new Date());
+        listNros = new ArrayList<>();
+        buscaCampañas();
+        TblModelNumeros();
+        TblModelSocios();
+        //buscaTodoslosNumeros();
+        //buscarSocios();
+        buscaCobradores();
+        listNros.add(ventaCampEco.getNumeros());
+        tblModelNumeros.fireTableDataChanged();
+
+        listSocios.clear();
+        listSocios.add(ventaCampEco.getSocio());
+        tblModelSocios.fireTableDataChanged();
+
+        cbCobrador.setSelectedItem(ventaCampEco.getCobrador());
+        cbCampañas1.setSelectedItem(ventaCampEco.getCampEconomica());
+        panelFiltroNumero.setVisible(false);
+        panelFiltroSocio.setVisible(false);
+        dpVencimiento.setDate(ventaCampEcoModifica.getFechaVenta());
+
+        txtCuotas.setText(ventaCampEcoModifica.getCantidadCuotas().toString());
+        txtValor.setText(ventaCampEcoModifica.getValor().toString());
+        txtValor.setEnabled(false);
+        txtCuotas.setEnabled(false);
+        dpVencimiento.setEnabled(false);
+        //txtCuotas.setDocument(new ControlarEntradaTexto(2, chs));
     }
 
     void buscaCobradores() {
@@ -153,7 +190,10 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
 
         int[] anchos = {20, 100, 100, 100, 50};
         new AjustaColumnas().ajustar(tblNumeros, anchos);
-
+        TableColumn column = tblNumeros.getColumn("");
+        TableColumn column1 = tblNumeros.getColumn("Campaña");
+        tblNumeros.removeColumn(column);
+        tblNumeros.removeColumn(column1);
         listModelNumeross = tblNumeros.getSelectionModel();
         listModelNumeross.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
@@ -184,6 +224,85 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
 
     }
 
+    void generarBono() {
+        if (socioSeleccionado == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un socio", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (numerosSelecionados == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un nro", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (txtCuotas.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Ingrese la cantidada de cuotas", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (txtValor.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Ingrese el valor", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (numerosSelecionados.getDisponible() == false) {
+            JOptionPane.showMessageDialog(null, "El nro seleccionado no esta disponible", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                Double valor = Double.valueOf(txtValor.getText());
+                Integer cuotas = Integer.valueOf(txtCuotas.getText());
+                Date fecha = dpVencimiento.getDate();
+                Cobrador cobrador = (Cobrador) cbCobrador.getSelectedItem();
+
+                VentaCampEco venta = new VentaCampEco();
+                venta.setCantidadCuotas(cuotas);
+                venta.setCobrador(cobrador);
+                venta.setFechaVenta(new Date());
+                venta.setNumeros(numerosSelecionados);
+                venta.setSocio(socioSeleccionado);
+                venta.setValor(valor);
+                venta.setCampEconomica((CampEconomica) cbCampañas1.getSelectedItem());
+                VentaCampEcoDAO campEcoDAO = new VentaCampEcoDAO();
+                campEcoDAO.Salvar(venta);
+
+                numerosSelecionados.setDisponible(false);
+                numerosDAO = new NumerosDAO();
+                numerosDAO.Actualizar(numerosSelecionados);
+                Calendar vencimiento = Calendar.getInstance();
+                vencimiento.setTime(fecha);
+                
+                for (int i = 1; i <= cuotas; i++) {
+                    CuotaCampEconomica cuota = new CuotaCampEconomica();
+                    cuota.setEnviado(false);
+
+                    cuota.setFechaVencimiento(vencimiento.getTime());
+
+                    cuota.setPago(false);
+                    cuota.setValor(valor / cuotas);
+                    cuota.setVentaCampEco(venta);
+                    cuota.setNroCuota(i);
+
+                    CuotaCampEconomicaDAO cuotaDAO = new CuotaCampEconomicaDAO();
+                    cuotaDAO.Salvar(cuota);
+                    vencimiento.add(Calendar.MONTH, 1);
+                }
+
+                JOptionPane.showMessageDialog(null, "Cuotas generadas correctamente!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al guardar datos", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        buscarNumeros();
+    }
+
+    void modificarBono() {
+        try {
+            Cobrador cobrador = (Cobrador) cbCobrador.getSelectedItem();
+
+            ventaCampEcoModifica.setCobrador(cobrador);
+            VentaCampEcoDAO campEcoDAO = new VentaCampEcoDAO();
+            campEcoDAO.Actualizar(ventaCampEcoModifica);
+
+            JOptionPane.showMessageDialog(null, "Bono modificado correctamente!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+            consultaVentasCampEcoView.filtros();
+            this.dispose();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al guardar datos", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -193,13 +312,14 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        txtFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblNumeros = new javax.swing.JTable();
-        jLabel8 = new javax.swing.JLabel();
-        cbCampañas1 = new javax.swing.JComboBox();
+        panelFiltroNumero = new javax.swing.JPanel();
         btnNuevo1 = new javax.swing.JButton();
+        cbCampañas1 = new javax.swing.JComboBox();
+        jLabel8 = new javax.swing.JLabel();
+        txtFiltro = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         txtCuotas = new javax.swing.JTextField();
@@ -215,7 +335,7 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSocios = new javax.swing.JTable();
-        jPanel7 = new javax.swing.JPanel();
+        panelFiltroSocio = new javax.swing.JPanel();
         rbCI = new javax.swing.JRadioButton();
         rbNombre = new javax.swing.JRadioButton();
         rbCodigo = new javax.swing.JRadioButton();
@@ -252,27 +372,6 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jLabel3.setText("Filtro por numero"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(jLabel3, gridBagConstraints);
-
-        txtFiltro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 40;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(txtFiltro, gridBagConstraints);
-
         tblNumeros.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         tblNumeros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -298,13 +397,20 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jScrollPane1, gridBagConstraints);
 
-        jLabel8.setText("Campaña Economica"); // NOI18N
+        panelFiltroNumero.setLayout(new java.awt.GridBagLayout());
+
+        btnNuevo1.setText("Buscar");
+        btnNuevo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevo1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel2.add(jLabel8, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelFiltroNumero.add(btnNuevo1, gridBagConstraints);
 
         cbCampañas1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -317,18 +423,38 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 100;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(cbCampañas1, gridBagConstraints);
+        panelFiltroNumero.add(cbCampañas1, gridBagConstraints);
 
-        btnNuevo1.setText("Buscar");
-        btnNuevo1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel8.setText("Campaña Economica"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        panelFiltroNumero.add(jLabel8, gridBagConstraints);
+
+        txtFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevo1ActionPerformed(evt);
+                txtFiltroActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 40;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(btnNuevo1, gridBagConstraints);
+        panelFiltroNumero.add(txtFiltro, gridBagConstraints);
+
+        jLabel3.setText("Filtro por numero"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelFiltroNumero.add(jLabel3, gridBagConstraints);
+
+        jPanel2.add(panelFiltroNumero, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -421,7 +547,7 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
 
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
-        btnGenerar.setText("Generar");
+        btnGenerar.setText("Guardar datos");
         btnGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarActionPerformed(evt);
@@ -464,14 +590,14 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(jScrollPane2, gridBagConstraints);
 
-        jPanel7.setLayout(new java.awt.GridBagLayout());
+        panelFiltroSocio.setLayout(new java.awt.GridBagLayout());
 
         grupoBusqueda.add(rbCI);
         rbCI.setText("Cédula");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        jPanel7.add(rbCI, gridBagConstraints);
+        panelFiltroSocio.add(rbCI, gridBagConstraints);
 
         grupoBusqueda.add(rbNombre);
         rbNombre.setSelected(true);
@@ -479,14 +605,14 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        jPanel7.add(rbNombre, gridBagConstraints);
+        panelFiltroSocio.add(rbNombre, gridBagConstraints);
 
         grupoBusqueda.add(rbCodigo);
         rbCodigo.setText("Código");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        jPanel7.add(rbCodigo, gridBagConstraints);
+        panelFiltroSocio.add(rbCodigo, gridBagConstraints);
 
         txtFiltroSocio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -499,14 +625,14 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 100;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel7.add(txtFiltroSocio, gridBagConstraints);
+        panelFiltroSocio.add(txtFiltroSocio, gridBagConstraints);
 
         jLabel9.setText("Filtro por Nombre"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipady = 9;
-        jPanel7.add(jLabel9, gridBagConstraints);
+        panelFiltroSocio.add(jLabel9, gridBagConstraints);
 
         btnBuscar.setText("Buscar"); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -518,9 +644,9 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel7.add(btnBuscar, gridBagConstraints);
+        panelFiltroSocio.add(btnBuscar, gridBagConstraints);
 
-        jPanel4.add(jPanel7, new java.awt.GridBagConstraints());
+        jPanel4.add(panelFiltroSocio, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -535,8 +661,7 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
-
-        buscarSocios();
+        buscarNumeros();
 
     }//GEN-LAST:event_txtFiltroActionPerformed
 
@@ -547,67 +672,11 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
 
-        if (socioSeleccionado == null) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un socio", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (numerosSelecionados == null) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un nro", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (txtCuotas.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Ingrese la cantidada de cuotas", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (txtValor.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Ingrese el valor", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (numerosSelecionados.getDisponible() == false) {
-            JOptionPane.showMessageDialog(null, "El nro seleccionado no esta disponible", "Error", JOptionPane.ERROR_MESSAGE);
+        if (ventaCampEcoModifica == null) {
+            generarBono();
         } else {
-            try {
-                Double valor = Double.valueOf(txtValor.getText());
-                Integer cuotas = Integer.valueOf(txtCuotas.getText());
-                Date fecha = dpVencimiento.getDate();
-                Cobrador cobrador = (Cobrador) cbCobrador.getSelectedItem();
-
-                VentaCampEco venta = new VentaCampEco();
-                venta.setCantidadCuotas(cuotas);
-                venta.setCobrador(cobrador);
-                venta.setFechaVenta(new Date());
-                venta.setNumeros(numerosSelecionados);
-                venta.setSocio(socioSeleccionado);
-                venta.setValor(valor);
-                venta.setCampEconomica((CampEconomica) cbCampañas1.getSelectedItem());
-                VentaCampEcoDAO campEcoDAO = new VentaCampEcoDAO();
-                campEcoDAO.Salvar(venta);
-                
-                numerosSelecionados.setDisponible(false);
-                numerosDAO = new NumerosDAO();
-                numerosDAO.Actualizar(numerosSelecionados);
-
-                for (int i = 1; i <= cuotas; i++) {
-                    CuotaCampEconomica cuota = new CuotaCampEconomica();
-                    cuota.setEnviado(false);
-
-                    Calendar vencimiento = Calendar.getInstance();
-                    vencimiento.setTime(fecha);
-                    vencimiento.add(Calendar.MONTH, i);
-                    cuota.setFechaVencimiento(vencimiento.getTime());
-
-                    cuota.setPago(false);
-                    cuota.setValor(valor / cuotas);
-                    cuota.setVentaCampEco(venta);
-                    cuota.setNroCuota(i);
-
-                    CuotaCampEconomicaDAO cuotaDAO = new CuotaCampEconomicaDAO();
-                    cuotaDAO.Salvar(cuota);
-                }
-                
-                JOptionPane.showMessageDialog(null, "Cuotas generadas correctamente!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                
-                
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error al guardar datos", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            modificarBono();
         }
-
-        buscarNumeros();
-        
 
     }//GEN-LAST:event_btnGenerarActionPerformed
 
@@ -653,10 +722,11 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel panelFiltroNumero;
+    private javax.swing.JPanel panelFiltroSocio;
     private javax.swing.JRadioButton rbCI;
     private javax.swing.JRadioButton rbCodigo;
     private javax.swing.JRadioButton rbNombre;
