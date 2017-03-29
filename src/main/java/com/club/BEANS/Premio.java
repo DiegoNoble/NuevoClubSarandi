@@ -19,26 +19,24 @@ import javax.persistence.Table;
  * @author Diego
  */
 @Entity
-@Table(name = "numeros")
+@Table(name = "premios")
 
-public class Numeros implements Serializable {
+public class Premio implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer nro1;
-    private Integer nro2;
-    private Boolean disponible;
+    private String descripcion;
 
     @JoinColumn(name = "campeconomica_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private CampEconomica campEconomica;
 
-    public Numeros() {
+    public Premio() {
     }
 
-    public Numeros(Integer id) {
+    public Premio(Integer id) {
         this.id = id;
     }
 
@@ -50,28 +48,12 @@ public class Numeros implements Serializable {
         this.id = id;
     }
 
-    public Integer getNro1() {
-        return nro1;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setNro1(Integer nro1) {
-        this.nro1 = nro1;
-    }
-
-    public Integer getNro2() {
-        return nro2;
-    }
-
-    public void setNro2(Integer nro2) {
-        this.nro2 = nro2;
-    }
-
-    public Boolean getDisponible() {
-        return disponible;
-    }
-
-    public void setDisponible(Boolean disponible) {
-        this.disponible = disponible;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public CampEconomica getCampEconomica() {
@@ -82,11 +64,11 @@ public class Numeros implements Serializable {
         this.campEconomica = campEconomica;
     }
 
+ 
+
     @Override
     public String toString() {
-        return nro1 + ", "+ nro2;
+        return descripcion;
     }
-
-    
 
 }

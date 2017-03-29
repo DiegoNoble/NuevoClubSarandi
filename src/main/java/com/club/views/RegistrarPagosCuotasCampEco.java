@@ -5,22 +5,15 @@
  */
 package com.club.views;
 
-import com.club.BEANS.Caja;
-import com.club.BEANS.CcCobrador;
+import com.club.BEANS.CajaCampEco;
 import com.club.BEANS.CuotaCampEconomica;
 import com.club.BEANS.Parametros;
-import com.club.BEANS.Rubro;
-import com.club.BEANS.Sectores;
-import com.club.DAOs.CajaDAO;
+import com.club.DAOs.CajaCampEcoDAO;
 import com.club.DAOs.CuotaCampEconomicaDAO;
 import com.club.DAOs.ParametrosDAO;
-import com.club.DAOs.RubroDAO;
-import com.club.DAOs.SectorDAO;
 import java.awt.Dialog;
 import java.util.Date;
-import java.util.List;
 import javax.swing.JOptionPane;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -32,9 +25,7 @@ public class RegistrarPagosCuotasCampEco extends javax.swing.JDialog {
      * Creates new form RegistraPago
      */
     CuotaCampEconomicaDAO cuotaCampEcoDAO;
-    CajaDAO cajaDAO;
-    CcCobrador credito;
-    SectorDAO sectorDAO;
+    CajaCampEcoDAO cajaDAO;
     CuotaCampEconomica cuotaCampEconomica;
     Parametros parametros;
 
@@ -42,26 +33,10 @@ public class RegistrarPagosCuotasCampEco extends javax.swing.JDialog {
         super(owner, modal);
         initComponents();
         this.cuotaCampEconomica = cuotaCampEconomica;
-        actualizaComboBox();
         setLocationRelativeTo(null);
         ParametrosDAO parametrosDAO = new ParametrosDAO();
         parametros = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
-    }
-
-    public void actualizaComboBox() {
-
-        try {
-            AutoCompleteDecorator.decorate(cbSectores);
-            sectorDAO = new SectorDAO();
-            List<Sectores> listSectores = sectorDAO.BuscaTodos(Sectores.class);
-            for (Sectores sector : listSectores) {
-                cbSectores.addItem(sector);
-            }
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al cargar comboboxes: " + ex);
-            ex.printStackTrace();
-        }
+        lblBono.setText(cuotaCampEconomica.toString());
     }
 
     private void registraPago() {
@@ -86,7 +61,7 @@ public class RegistrarPagosCuotasCampEco extends javax.swing.JDialog {
                         cuotaCampEcoDAO = new CuotaCampEconomicaDAO();
                         cuotaCampEcoDAO.Actualizar(cuotaCampEconomica);
 
-                        Caja pago = new Caja();
+                        CajaCampEco pago = new CajaCampEco();
 
                         pago.setConcepto("Cobro cuota " + cuotaCampEconomica.getNroCuota() + " Campaña Económica, socio '" + cuotaCampEconomica.getVentaCampEco().getSocio().toString() + "'");
                         pago.setRubro(parametros.getRubroPagoCuotasCampEco());
@@ -94,9 +69,9 @@ public class RegistrarPagosCuotasCampEco extends javax.swing.JDialog {
                         pago.setEntrada(cuotaCampEconomica.getValor());
                         pago.setSalida(0.0);
                         pago.setSaldo(buscaSaldoAnterior() + pago.getEntrada());
-                        pago.setSectores((Sectores) cbSectores.getSelectedItem());
+                        pago.setSectores(parametros.getSectorCampEco());
 
-                        cajaDAO = new CajaDAO();
+                        cajaDAO = new CajaCampEcoDAO();
                         cajaDAO.Salvar(pago);
 
                         JOptionPane.showMessageDialog(null, "Pago registrado");
@@ -114,7 +89,7 @@ public class RegistrarPagosCuotasCampEco extends javax.swing.JDialog {
 
     Double buscaSaldoAnterior() {
         Double saldoAnterior = 0.0;
-        cajaDAO = new CajaDAO();
+        cajaDAO = new CajaCampEcoDAO();
         saldoAnterior = cajaDAO.BuscaSaldoAnterior().getSaldo();
         return saldoAnterior;
     }
@@ -129,8 +104,7 @@ public class RegistrarPagosCuotasCampEco extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         rbEfectivoCaja = new javax.swing.JRadioButton();
         btnConfirmaPago = new javax.swing.JButton();
-        cbSectores = new javax.swing.JComboBox();
-        jLabel5 = new javax.swing.JLabel();
+        lblBono = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -151,7 +125,7 @@ public class RegistrarPagosCuotasCampEco extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(rbEfectivoCaja)
-                .addContainerGap(343, Short.MAX_VALUE))
+                .addContainerGap(282, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,25 +159,17 @@ public class RegistrarPagosCuotasCampEco extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(btnConfirmaPago, gridBagConstraints);
 
-        cbSectores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbSectoresActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(cbSectores, gridBagConstraints);
-
-        jLabel5.setText("Sector");
+        lblBono.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        lblBono.setForeground(new java.awt.Color(0, 51, 204));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel1.add(jLabel5, gridBagConstraints);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblBono, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -252,20 +218,15 @@ public class RegistrarPagosCuotasCampEco extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnConfirmaPagoActionPerformed
 
-    private void cbSectoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSectoresActionPerformed
-
-    }//GEN-LAST:event_cbSectoresActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmaPago;
-    private javax.swing.JComboBox cbSectores;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblBono;
     private javax.swing.JRadioButton rbEfectivoCaja;
     // End of variables declaration//GEN-END:variables
 }

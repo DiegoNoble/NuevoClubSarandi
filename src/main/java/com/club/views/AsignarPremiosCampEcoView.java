@@ -4,20 +4,23 @@ import Utilidades.AjustaColumnas;
 import com.club.BEANS.CampEconomica;
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.CuotaCampEconomica;
+import com.club.BEANS.EntregaPremio;
 import com.club.BEANS.Numeros;
+import com.club.BEANS.Premio;
 import com.club.BEANS.VentaCampEco;
 import com.club.DAOs.CampEconomicaDAO;
 import com.club.DAOs.CobradorDAO;
 import com.club.DAOs.CuotaCampEconomicaDAO;
+import com.club.DAOs.EntregaPremioDAO;
 import com.club.DAOs.NumerosDAO;
+import com.club.DAOs.PremioDAO;
 import com.club.DAOs.VentaCampEcoDAO;
-import com.club.Renderers.MeDateCellRenderer;
-import com.club.control.utilidades.LeeProperties;
-import com.club.tableModels.CuotasCampEcoTableModel;
 import com.club.tableModels.VentasCAmpEcoTableModel;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -26,32 +29,26 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame {
+public final class AsignarPremiosCampEcoView extends javax.swing.JInternalFrame {
 
     private VentaCampEcoDAO ventaCampEcoDAO;
     private CampEconomicaDAO campEconomicaDAO;
     private List<VentaCampEco> listVentas;
     private VentasCAmpEcoTableModel tblModelVentas;
-    CuotasCampEcoTableModel tblModelCuota;
-    List<CuotaCampEconomica> listCuotas;
     private ListSelectionModel listModelVentaCampEcos;
-    private ListSelectionModel listModelCuotas;
     private VentaCampEco VentaCampEcoSelecionado;
-    CuotaCampEconomica cuotaCampEconomicaSeleccionada;
-    CuotaCampEconomicaDAO cuotaCampEconomicaDAO;
     NumerosDAO numerosDAO;
-    JDesktopPane desktopPane;
-    LeeProperties props = new LeeProperties();
+    PremioDAO premioDAO;
 
-    public ConsultaVentasCampEcoView(JDesktopPane desktopPane) {
+    public AsignarPremiosCampEcoView() {
         initComponents();
-        this.desktopPane = desktopPane;
         listVentas = new ArrayList<>();
-        ModeloTblCuotas();
         DefineModeloTbl();
-        buscaCampañas();
         buscaCobradores();
+        buscaCampañas();
 
+        buscaPremios();
+        dpFecha.setDate(new Date());
         filtros();
     }
 
@@ -60,6 +57,16 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
         List<CampEconomica> campañas = campEconomicaDAO.BuscaTodos(CampEconomica.class);
         for (CampEconomica campaña : campañas) {
             cbCampañas.addItem(campaña);
+        }
+    }
+
+    void buscaPremios() {
+        PremioDAO premiosDAO = new PremioDAO();
+        List<Premio> premios = premiosDAO.BuscaTodosPorCampaña((CampEconomica) cbCampañas.getSelectedItem());
+        cbPremios.removeAllItems();
+        for (Premio premio : premios) {
+
+            cbPremios.addItem(premio);
         }
     }
 
@@ -128,45 +135,8 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
                 if (!e.getValueIsAdjusting()) {
 
                     if (tbl.getSelectedRow() != -1) {
-                        listCuotas.clear();
                         VentaCampEcoSelecionado = listVentas.get(tbl.getSelectedRow());
-                        CuotaCampEconomicaDAO cuotaCampEconomicaDAO = new CuotaCampEconomicaDAO();
-                        listCuotas.addAll(cuotaCampEconomicaDAO.BuscaPorVentaCampEco(VentaCampEcoSelecionado));
-                        tblModelCuota.fireTableDataChanged();
-                        btnEliminarBono.setEnabled(true);
-                        btnModificarBono.setEnabled(true);
-                    } else {
-                        listCuotas.clear();
-                        tblModelCuota.fireTableDataChanged();
-                    }
-                }
-            }
-        });
-
-    }
-
-    private void ModeloTblCuotas() {
-
-        ((DefaultTableCellRenderer) tblCuotas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        listCuotas = new ArrayList<>();
-        tblModelCuota = new CuotasCampEcoTableModel(listCuotas);
-        tblCuotas.setModel(tblModelCuota);
-        tblCuotas.getColumn("Vencimiento").setCellRenderer(new MeDateCellRenderer());
-        tblCuotas.getColumn("Fecha de Pago").setCellRenderer(new MeDateCellRenderer());
-
-        listModelCuotas = tblCuotas.getSelectionModel();
-        listModelCuotas.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-
-                    if (tblCuotas.getSelectedRow() != -1) {
-
-                        cuotaCampEconomicaSeleccionada = listCuotas.get(tblCuotas.getSelectedRow());
-                        if (cuotaCampEconomicaSeleccionada.getPago() == Boolean.FALSE) {
-                            btnRegistraPago.setEnabled(true);
-                        } else {
-                            btnRegistraPago.setEnabled(false);
-                        }
+                        btnRegistraPago.setEnabled(true);
                     } else {
                         btnRegistraPago.setEnabled(false);
                     }
@@ -174,35 +144,6 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
             }
         });
 
-    }
-
-    void eliminarBono() {
-        try {
-            listCuotas.clear();
-            VentaCampEcoSelecionado = listVentas.get(tbl.getSelectedRow());
-
-            cuotaCampEconomicaDAO = new CuotaCampEconomicaDAO();
-            listCuotas.addAll(cuotaCampEconomicaDAO.BuscaPorVentaCampEco(VentaCampEcoSelecionado));
-
-            for (CuotaCampEconomica cuota : listCuotas) {
-                cuotaCampEconomicaDAO = new CuotaCampEconomicaDAO();
-                cuotaCampEconomicaDAO.EliminarPorId(CuotaCampEconomica.class, cuota.getId());
-            }
-
-            Numeros numeros = VentaCampEcoSelecionado.getNumeros();
-            ventaCampEcoDAO = new VentaCampEcoDAO();
-            ventaCampEcoDAO.EliminarPorId(VentaCampEco.class, VentaCampEcoSelecionado.getId());
-
-            numerosDAO = new NumerosDAO();
-            numeros.setDisponible(true);
-            numerosDAO.Actualizar(numeros);
-
-            JOptionPane.showMessageDialog(null, "Elminado correctamente !", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al eliminar", "Error", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -224,15 +165,16 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
         txtFiltroSocio = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         cbCobrador = new javax.swing.JComboBox();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblCuotas = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         btnRegistraPago = new javax.swing.JButton();
-        btnModificarBono = new javax.swing.JButton();
-        btnEliminarBono = new javax.swing.JButton();
-        btnInformeResumen1 = new org.jasper.viewer.components.JasperRunnerButton();
+        jLabel10 = new javax.swing.JLabel();
+        cbPremios = new javax.swing.JComboBox();
+        dpFecha = new org.jdesktop.swingx.JXDatePicker();
+        jLabel11 = new javax.swing.JLabel();
+        txtObs = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -250,7 +192,7 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Consulta ventas camp. eco."); // NOI18N
+        jLabel1.setText("Premios por camp económica"); // NOI18N
         jPanel1.add(jLabel1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -362,13 +304,13 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
         gridBagConstraints.gridwidth = 5;
         jPanel2.add(jPanel7, gridBagConstraints);
 
-        jLabel10.setText("Cobrador"); // NOI18N
+        jLabel13.setText("Cobrador"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel2.add(jLabel10, gridBagConstraints);
+        jPanel2.add(jLabel13, gridBagConstraints);
 
         cbCobrador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -383,30 +325,6 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(cbCobrador, gridBagConstraints);
 
-        tblCuotas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblCuotas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane2.setViewportView(tblCuotas);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(jScrollPane2, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -417,7 +335,7 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
 
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
-        btnRegistraPago.setText("Registrar pago");
+        btnRegistraPago.setText("Asignar premio");
         btnRegistraPago.setEnabled(false);
         btnRegistraPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -425,44 +343,58 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(btnRegistraPago, gridBagConstraints);
 
-        btnModificarBono.setText("Modificar cobrador");
-        btnModificarBono.setEnabled(false);
-        btnModificarBono.addActionListener(new java.awt.event.ActionListener() {
+        jLabel10.setText("Observaciones"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel6.add(jLabel10, gridBagConstraints);
+
+        cbPremios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarBonoActionPerformed(evt);
+                cbPremiosActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel6.add(btnModificarBono, gridBagConstraints);
-
-        btnEliminarBono.setText("Eliminar bono");
-        btnEliminarBono.setEnabled(false);
-        btnEliminarBono.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarBonoActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel6.add(btnEliminarBono, gridBagConstraints);
-
-        btnInformeResumen1.setText("Informe disponibilidad de bonos");
-        btnInformeResumen1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInformeResumen1ActionPerformed(evt);
-            }
-        });
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel6.add(cbPremios, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel6.add(dpFecha, gridBagConstraints);
+
+        jLabel11.setText("Premios"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel6.add(jLabel11, gridBagConstraints);
+
+        txtObs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtObsActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel6.add(btnInformeResumen1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel6.add(txtObs, gridBagConstraints);
+
+        jLabel12.setText("Premios"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        jPanel6.add(jLabel12, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -480,17 +412,27 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
 
     private void btnRegistraPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistraPagoActionPerformed
 
-        RegistrarPagosCuotasCampEco pagos = new RegistrarPagosCuotasCampEco(null, true, cuotaCampEconomicaSeleccionada);
-        pagos.setVisible(true);
-        pagos.toBack();
-        listCuotas.clear();
-        VentaCampEcoSelecionado = listVentas.get(tbl.getSelectedRow());
-        CuotaCampEconomicaDAO cuotaCampEconomicaDAO = new CuotaCampEconomicaDAO();
-        listCuotas.addAll(cuotaCampEconomicaDAO.BuscaPorVentaCampEco(VentaCampEcoSelecionado));
-        tblModelCuota.fireTableDataChanged();
+        try {
+            EntregaPremio entregaPremio = new EntregaPremio();
+            entregaPremio.setFecha(dpFecha.getDate());
+            entregaPremio.setPremio((Premio) cbPremios.getSelectedItem());
+            entregaPremio.setObs(txtObs.getText());
+            entregaPremio.setVentaCampEco(VentaCampEcoSelecionado);
+            EntregaPremioDAO entregaPremioDAO = new EntregaPremioDAO();
+            entregaPremioDAO.Salvar(entregaPremio);
+            JOptionPane.showMessageDialog(null, "Premio asignado correctamente!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al guardar datos", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_btnRegistraPagoActionPerformed
 
     private void cbCampañasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCampañasActionPerformed
+
+        buscaPremios();
     }//GEN-LAST:event_cbCampañasActionPerformed
 
     private void txtFiltroSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroSocioActionPerformed
@@ -503,55 +445,34 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
         filtros();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void cbCobradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCobradorActionPerformed
+    private void cbPremiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPremiosActionPerformed
 
         //VentaCampEcoSelecionado = listVentas.get(tbl.getSelectedRow());
 
+    }//GEN-LAST:event_cbPremiosActionPerformed
+
+    private void txtObsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtObsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtObsActionPerformed
+
+    private void cbCobradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCobradorActionPerformed
+
+        //VentaCampEcoSelecionado = listVentas.get(tbl.getSelectedRow());
     }//GEN-LAST:event_cbCobradorActionPerformed
-
-    private void btnModificarBonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarBonoActionPerformed
-
-        VentaCampEcoSelecionado = listVentas.get(tbl.getSelectedRow());
-        VentasCampEcoView ventasCampEcoView = new VentasCampEcoView(VentaCampEcoSelecionado, this);
-        desktopPane.add(ventasCampEcoView);
-        ventasCampEcoView.setSize(desktopPane.getWidth(), 500);
-        ventasCampEcoView.setVisible(true);
-
-
-    }//GEN-LAST:event_btnModificarBonoActionPerformed
-
-    private void btnEliminarBonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarBonoActionPerformed
-        eliminarBono();
-        filtros();
-    }//GEN-LAST:event_btnEliminarBonoActionPerformed
-
-    private void btnInformeResumen1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformeResumen1ActionPerformed
-        HashMap parametros = new HashMap();
-        parametros.clear();
-
-        parametros.put("campEconomica", ((CampEconomica)cbCampañas.getSelectedItem()).getId());
-
-        btnInformeResumen1.setDatabaseDriver(props.getDriver());
-        btnInformeResumen1.setDatabasePassword(props.getPsw());
-        btnInformeResumen1.setDatabaseURL(props.getUrl());
-        btnInformeResumen1.setDatabaseUser(props.getUsr());
-
-        btnInformeResumen1.setReportParameters(parametros);
-        btnInformeResumen1.setReportURL("/Reportes/DisponibilidadBonos.jasper");
-
-    }//GEN-LAST:event_btnInformeResumen1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnEliminarBono;
-    private org.jasper.viewer.components.JasperRunnerButton btnInformeResumen1;
-    private javax.swing.JButton btnModificarBono;
     private javax.swing.JButton btnRegistraPago;
     private javax.swing.JComboBox cbCampañas;
     private javax.swing.JComboBox cbCobrador;
+    private javax.swing.JComboBox cbPremios;
+    private org.jdesktop.swingx.JXDatePicker dpFecha;
     private javax.swing.ButtonGroup grupoBusqueda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -559,11 +480,10 @@ public final class ConsultaVentasCampEcoView extends javax.swing.JInternalFrame 
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JRadioButton rbCodigo;
     private javax.swing.JRadioButton rbNombre;
     private javax.swing.JTable tbl;
-    private javax.swing.JTable tblCuotas;
     private javax.swing.JTextField txtFiltroSocio;
+    private javax.swing.JTextField txtObs;
     // End of variables declaration//GEN-END:variables
 }

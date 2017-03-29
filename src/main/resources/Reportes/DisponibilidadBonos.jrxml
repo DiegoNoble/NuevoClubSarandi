@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DisponibilidadBonos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f9ffae07-c10b-4f7f-bbb1-4c71c0f95321">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="campEconomica" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+c.nombre as campaña,
+     N.nro1,
+     N.nro2,
+vc.id idventa,
+CO.nombre nombre_cobrador,
+S.nombre nombre_socio,
+S.direccion direccion,
+S.celular celular
+FROM  ((((camp_economica C left join NUMEROS N on C.id = N.campeconomica_id)
+left join venta_camp_economica VC ON VC.id_numeros = N.id)
+left join tbcobrador CO on CO.id = VC.id_cobrador)
+left join tbsocio S on S.id = VC.id_socio)
+ where c.id= $P{campEconomica}
+ORDER BY N.nro1]]>
+	</queryString>
+	<field name="campaña" class="java.lang.String"/>
+	<field name="nro1" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nro2" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idventa" class="java.lang.Integer"/>
+	<field name="nombre_cobrador" class="java.lang.String"/>
+	<field name="nombre_socio" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="celular" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="4" y="0" width="494" height="23" backcolor="#CCCCCC" uuid="44f714a9-4fbc-47b6-b753-d00f6cd644cd"/>
+				<textElement>
+					<font fontName="Arial" size="20" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[DISPONIBILIDAD DE BONOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="0" width="494" height="22" uuid="81e3085b-5052-4ea4-816a-bc52d2377c87"/>
+				<textElement>
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{campaña}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="1" y="2" width="50" height="25" backcolor="#CCCCCC" uuid="7ba81fac-68a9-4a28-9400-d260f33537a3"/>
+				<textElement markup="none">
+					<font fontName="Serif" size="16" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[NRO1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="51" y="2" width="50" height="25" backcolor="#CCCCCC" uuid="392ce394-ed37-433e-875a-28a1d8723de4"/>
+				<textElement>
+					<font fontName="Serif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NRO2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="100" y="2" width="355" height="25" backcolor="#CCCCCC" uuid="a1b8c2b8-451b-43e7-a71b-d160333c0722"/>
+				<textElement>
+					<font fontName="Serif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOCIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="455" y="2" width="100" height="25" backcolor="#CCCCCC" uuid="3b664b63-99e8-4d9a-b77c-f0f26c9026ea"/>
+				<textElement>
+					<font fontName="Serif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VENDEDOR]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="27" width="555" height="1" uuid="a881013a-520c-4df7-bfdf-3c5e350849ff"/>
+			</line>
+			<line>
+				<reportElement x="454" y="2" width="1" height="27" uuid="798047f8-d57d-4af9-a8b8-802a1ea63b04"/>
+			</line>
+			<line>
+				<reportElement x="95" y="2" width="1" height="27" uuid="600d7f01-8334-4d08-a58f-846a7e64f52e"/>
+			</line>
+			<line>
+				<reportElement x="50" y="2" width="1" height="27" uuid="09f0ccf5-d0f1-4bbf-84fb-d59a345853f5"/>
+			</line>
+			<line>
+				<reportElement x="1" y="2" width="555" height="1" uuid="82913870-3b22-4f45-bad3-7d142e2e5d33"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="13" y="0" width="31" height="15" uuid="1092c605-2e4f-4672-8fc3-7426591c4161"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="59" y="0" width="30" height="15" uuid="958fcc4f-cbda-4f97-b2b9-cafe8a8939c0"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="456" y="0" width="100" height="15" uuid="7b95315b-471e-4d02-9bd2-4226c5c32a69"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_cobrador}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="188" height="15" uuid="f11d08dc-72a3-4477-ad10-a472046c824f"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_socio}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="288" y="0" width="100" height="15" uuid="b41dae5a-ff69-4fd4-b74a-c1a0ec64d028"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="388" y="0" width="67" height="15" uuid="5d9d546e-0a55-44b0-b43d-280942c8b0dc"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="15" width="555" height="1" uuid="cc89849e-6645-474c-8205-ddb6e8f171fc"/>
+			</line>
+			<line>
+				<reportElement x="50" y="0" width="1" height="15" uuid="d23e2382-6b51-46ec-bbc8-4bc691d7c395"/>
+			</line>
+			<line>
+				<reportElement x="95" y="1" width="1" height="15" uuid="303593a6-a706-468f-bd2d-4bc80cbbd5c3"/>
+			</line>
+			<line>
+				<reportElement x="454" y="1" width="1" height="15" uuid="ccd18ad1-784a-45b8-bc96-3e5917cb34f8"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

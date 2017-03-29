@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class FormConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
+public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
 
     MensualidadesDAO mensualidadesDAO;
     SocioDAO socioDAO;
@@ -28,7 +28,7 @@ public class FormConsultaMensualidadesXHuella extends javax.swing.JInternalFrame
     DepDAO daoD;
     Dependiente dependienteSeleccionado;
 
-    public FormConsultaMensualidadesXHuella() {
+    public ConsultaMensualidadesXHuella() {
 
         initComponents();
         defineModelo();

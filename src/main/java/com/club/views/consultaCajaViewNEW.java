@@ -13,14 +13,14 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class consultaCajaFrameNEW extends javax.swing.JInternalFrame {
+public class consultaCajaViewNEW extends javax.swing.JInternalFrame {
 
     CajaDAO cajaDAO;
     List<Caja> listMovCaja;
     CajaTableModel modelo;
     LeeProperties props = new LeeProperties();
 
-    public consultaCajaFrameNEW() {
+    public consultaCajaViewNEW() {
 
         initComponents();
         dpDesde.setDate(new Date());

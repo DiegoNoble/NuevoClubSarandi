@@ -433,22 +433,76 @@
             </Property>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo6">
+            <Menu class="javax.swing.JMenu" name="jMenu1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Nueva campa&#xf1;a"/>
+                <Property name="text" type="java.lang.String" value="Caja"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo6ActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo7">
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuItemCaja3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Movimientos de caja"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemCaja3ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="btnAsignarPremio">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Consulta movimientos"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAsignarPremioActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenu2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Numeros por campa&#xf1;a"/>
+                <Property name="text" type="java.lang.String" value="Campa&#xf1;as econ&#xf3;micas"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo7ActionPerformed"/>
-              </Events>
-            </MenuItem>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo6">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Campa&#xf1;as"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo6ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo7">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="N&#xfa;meros"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemArqueo7ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuItemCaja4">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Premios"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemCaja4ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mniItemMovimientosCaja3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Asignar premios"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniItemMovimientosCaja3ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mniItemMovimientosCaja4">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Consulta premios entregados"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniItemMovimientosCaja4ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
             <MenuItem class="javax.swing.JMenuItem" name="mnuItemArqueo8">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ventas camp. Eco."/>

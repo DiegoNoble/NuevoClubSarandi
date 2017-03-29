@@ -55,6 +55,10 @@ public class Parametros implements Serializable {
     @JoinColumn(name = "id_rubroPagoCuotasCampEco", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Rubro rubroPagoCuotasCampEco;
+    
+    @JoinColumn(name = "id_sectorCampEco", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Sectores sectorCampEco;
 
     private String MySql_Path;
     private String nombreBasesDatos;
@@ -182,4 +186,14 @@ public class Parametros implements Serializable {
         this.nombreBasesDatos = nombreBasesDatos;
     }
 
+    public Sectores getSectorCampEco() {
+        return sectorCampEco;
+    }
+
+    public void setSectorCampEco(Sectores sectorCampEco) {
+        this.sectorCampEco = sectorCampEco;
+    }
+
+    
+    
 }

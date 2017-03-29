@@ -1,11 +1,10 @@
 package com.club.views;
 
-import Utilidades.ControlarEntradaTexto;
 import com.club.BEANS.CampEconomica;
-import com.club.BEANS.Numeros;
+import com.club.BEANS.Premio;
 import com.club.DAOs.CampEconomicaDAO;
-import com.club.DAOs.NumerosDAO;
-import com.club.tableModels.NumerosTableModel;
+import com.club.DAOs.PremioDAO;
+import com.club.tableModels.PremiosTableModel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -14,30 +13,25 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumn;
 
-public final class NumerosView extends javax.swing.JInternalFrame {
+public final class PremiosView extends javax.swing.JInternalFrame {
 
-    private NumerosDAO numerosDAO;
+    private PremioDAO premiosDAO;
     private CampEconomicaDAO campEconomicaDAO;
-    private List<Numeros> listNros;
-    private NumerosTableModel tblModel;
-    private ListSelectionModel listModelNumeross;
-    private Numeros NumerosSelecionado;
+    private List<Premio> listPremios;
+    private PremiosTableModel tblModel;
+    private ListSelectionModel listModelPremios;
+    private Premio PremioSelecionado;
 
-    public NumerosView() {
+    public PremiosView() {
         initComponents();
-        listNros = new ArrayList<>();
+        listPremios = new ArrayList<>();
         buscaCampañas();
         DefineModeloTbl();
         buscaTodosLosRegistros();
         deshabilitaCampos();
         btnEditar.setEnabled(false);
         btnEliminar.setEnabled(false);
-        Character chs[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-        txtFiltro.setDocument(new ControlarEntradaTexto(3, chs));
-        txtNro1.setDocument(new ControlarEntradaTexto(3, chs));
-        txtNro2.setDocument(new ControlarEntradaTexto(3, chs));
     }
 
     private void buscaCampañas() {
@@ -50,9 +44,9 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     }
 
     private void buscaTodosLosRegistros() {
-        listNros.clear();
-        numerosDAO = new NumerosDAO();
-        listNros.addAll(numerosDAO.BuscaTodosyOrdena((CampEconomica) cbCampañas1.getSelectedItem()));
+        listPremios.clear();
+        premiosDAO = new PremioDAO();
+        listPremios.addAll(premiosDAO.BuscaTodosPorCampaña((CampEconomica) cbCampañas1.getSelectedItem()));
         tblModel.fireTableDataChanged();
     }
 
@@ -60,17 +54,17 @@ public final class NumerosView extends javax.swing.JInternalFrame {
 
         ((DefaultTableCellRenderer) tbl.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
-        tblModel = new NumerosTableModel(listNros);
+        tblModel = new PremiosTableModel(listPremios);
         tbl.setModel(tblModel);
-        
-        listModelNumeross = tbl.getSelectionModel();
-        listModelNumeross.addListSelectionListener(new ListSelectionListener() {
+
+        listModelPremios = tbl.getSelectionModel();
+        listModelPremios.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
 
                     if (tbl.getSelectedRow() != -1) {
 
-                        NumerosSelecionado = listNros.get(tbl.getSelectedRow());
+                        PremioSelecionado = listPremios.get(tbl.getSelectedRow());
                         btnEditar.setEnabled(true);
                         btnEliminar.setEnabled(true);
                     } else {
@@ -92,10 +86,8 @@ public final class NumerosView extends javax.swing.JInternalFrame {
         if (tbl.getSelectedRow() != -1) {
             try {
 
-                txtNro2.setText(NumerosSelecionado.getNro2().toString());
-                txtNro1.setText(NumerosSelecionado.getNro1().toString());
-                chbDisponible.setSelected(NumerosSelecionado.getDisponible());
-                cbCampañas.setSelectedItem(NumerosSelecionado.getCampEconomica());
+                txtDescrip.setText(PremioSelecionado.getDescripcion().toString());
+                cbCampañas.setSelectedItem(PremioSelecionado.getCampEconomica());
 
             } catch (Exception error) {
                 JOptionPane.showMessageDialog(null, "Error al mostrar detalles" + error);
@@ -107,13 +99,12 @@ public final class NumerosView extends javax.swing.JInternalFrame {
 
     private void filtros() {
 
-        listNros.clear();
+        listPremios.clear();
         if (txtFiltro.getText().equals("")) {
             buscaTodosLosRegistros();
         } else {
-            numerosDAO = new NumerosDAO();
-            listNros.addAll(numerosDAO.BuscaNumeros(Integer.valueOf(txtFiltro.getText()),
-                    Integer.valueOf(txtFiltro.getText()), (CampEconomica) cbCampañas.getSelectedItem()));
+            premiosDAO = new PremioDAO();
+            listPremios.addAll(premiosDAO.BuscaPremioPorCampaña((CampEconomica) cbCampañas1.getSelectedItem(), txtFiltro.getText()));
             tblModel.fireTableDataChanged();
         }
 
@@ -121,16 +112,13 @@ public final class NumerosView extends javax.swing.JInternalFrame {
 
     private void limpiaCampos() {
 
-        txtNro2.setText("");
-        txtNro1.setText("");
+        txtDescrip.setText("");
 
     }
 
     private void habilitaCampos() {
 
-        txtNro2.setEditable(true);
-        chbDisponible.setEnabled(true);
-        txtNro1.setEditable(true);
+        txtDescrip.setEditable(true);
         cbCampañas.setEditable(true);
         btnCancelar.setEnabled(true);
         btnGuardar.setEnabled(true);
@@ -141,9 +129,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     }
 
     private void deshabilitaCampos() {
-        chbDisponible.setEnabled(false);
-        txtNro2.setEditable(false);
-        txtNro1.setEditable(false);
+        txtDescrip.setEditable(false);
         cbCampañas.setEditable(false);
         btnCancelar.setEnabled(false);
         btnGuardar.setEnabled(false);
@@ -171,13 +157,10 @@ public final class NumerosView extends javax.swing.JInternalFrame {
         btnNuevo1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
-        txtNro2 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtNro1 = new javax.swing.JTextField();
+        txtDescrip = new javax.swing.JTextField();
         cbCampañas = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
-        chbDisponible = new javax.swing.JCheckBox();
-        jLabel9 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -190,7 +173,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Control de Socios - Club Sarandi Universitario"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(600, 500));
+        setPreferredSize(new java.awt.Dimension(800, 500));
         setRequestFocusEnabled(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -201,7 +184,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Números por Campaña"); // NOI18N
+        jLabel1.setText("Premios por Campaña"); // NOI18N
         jPanel1.add(jLabel1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -213,7 +196,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jLabel3.setText("Filtro por numero"); // NOI18N
+        jLabel3.setText("Buscar "); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -300,16 +283,6 @@ public final class NumerosView extends javax.swing.JInternalFrame {
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        txtNro2.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 100;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(txtNro2, gridBagConstraints);
-
         jLabel6.setText("Campaña Economica"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -318,15 +291,15 @@ public final class NumerosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel3.add(jLabel6, gridBagConstraints);
 
-        txtNro1.setEditable(false);
+        txtDescrip.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 100;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(txtNro1, gridBagConstraints);
+        jPanel3.add(txtDescrip, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -336,31 +309,13 @@ public final class NumerosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(cbCampañas, gridBagConstraints);
 
-        jLabel7.setText("Numero 1"); // NOI18N
+        jLabel7.setText("Descripción"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel3.add(jLabel7, gridBagConstraints);
-
-        chbDisponible.setSelected(true);
-        chbDisponible.setText("Disponible");
-        chbDisponible.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(chbDisponible, gridBagConstraints);
-
-        jLabel9.setText("Numero2 "); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(jLabel9, gridBagConstraints);
 
         jTabbedPane1.addTab("Datos", jPanel3);
 
@@ -440,7 +395,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_FichaMedicaActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        NumerosSelecionado = new Numeros();
+        PremioSelecionado = new Premio();
         limpiaCampos();
         habilitaCampos();
 
@@ -454,30 +409,21 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         try {
-            numerosDAO = new NumerosDAO();
-            if (NumerosSelecionado.getId() != null) {
+            premiosDAO = new PremioDAO();
+            if (PremioSelecionado.getId() != null) {
 
-                NumerosSelecionado.setNro2(Integer.valueOf(txtNro2.getText()));
-                NumerosSelecionado.setNro1(Integer.valueOf(txtNro1.getText()));
-                NumerosSelecionado.setDisponible(chbDisponible.isSelected());
-                NumerosSelecionado.setCampEconomica((CampEconomica) cbCampañas.getSelectedItem());
+                PremioSelecionado.setDescripcion(txtDescrip.getText());
+                PremioSelecionado.setCampEconomica((CampEconomica) cbCampañas.getSelectedItem());
 
-                numerosDAO.Actualizar(NumerosSelecionado);
-                JOptionPane.showMessageDialog(null, "Numeros actuaizado correctamente");
+                premiosDAO.Actualizar(PremioSelecionado);
+                JOptionPane.showMessageDialog(null, "Premio actuaizado correctamente");
             } else {
-                numerosDAO = new NumerosDAO();
-                List numeros = numerosDAO.BuscaNumeros(Integer.valueOf(txtNro1.getText()), Integer.valueOf(txtNro2.getText()), (CampEconomica) cbCampañas.getSelectedItem());
-                if (numeros.isEmpty()) {
+                premiosDAO = new PremioDAO();
 
-                    NumerosSelecionado.setNro2(Integer.valueOf(txtNro2.getText()));
-                    NumerosSelecionado.setNro1(Integer.valueOf(txtNro1.getText()));
-                    NumerosSelecionado.setDisponible(chbDisponible.isSelected());
-                    NumerosSelecionado.setCampEconomica((CampEconomica) cbCampañas.getSelectedItem());
-                    numerosDAO.Salvar(NumerosSelecionado);
-                    JOptionPane.showMessageDialog(null, "Numeros guardado correctamente");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Los numeros ya se encuentran registrados para la campaña seleccionada", "Atención", JOptionPane.ERROR_MESSAGE);
-                }
+                PremioSelecionado.setDescripcion(txtDescrip.getText());
+                PremioSelecionado.setCampEconomica((CampEconomica) cbCampañas.getSelectedItem());
+                premiosDAO.Salvar(PremioSelecionado);
+                JOptionPane.showMessageDialog(null, "Premio guardado correctamente");
             }
             deshabilitaCampos();
             buscaTodosLosRegistros();
@@ -499,13 +445,13 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         try {
 
-            numerosDAO.EliminarPorId(Numeros.class,
-                    NumerosSelecionado.getId());
-            JOptionPane.showMessageDialog(null, "Numeros eliminado correctamente");
+            premiosDAO.EliminarPorId(Premio.class,
+                    PremioSelecionado.getId());
+            JOptionPane.showMessageDialog(null, "Premio eliminado correctamente");
             deshabilitaCampos();
             buscaTodosLosRegistros();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "No se puede eliminar el Numeros, posee transacciones vinculadas" + ex);
+            JOptionPane.showMessageDialog(null, "No se puede eliminar el Premio, posee transacciones vinculadas" + ex);
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -526,14 +472,12 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNuevo1;
     private javax.swing.JComboBox cbCampañas;
     private javax.swing.JComboBox cbCampañas1;
-    private javax.swing.JCheckBox chbDisponible;
     private javax.swing.ButtonGroup grupoBusqueda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -541,8 +485,7 @@ public final class NumerosView extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tbl;
+    private javax.swing.JTextField txtDescrip;
     private javax.swing.JTextField txtFiltro;
-    private javax.swing.JTextField txtNro1;
-    private javax.swing.JTextField txtNro2;
     // End of variables declaration//GEN-END:variables
 }

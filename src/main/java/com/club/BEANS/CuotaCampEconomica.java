@@ -181,5 +181,11 @@ public class CuotaCampEconomica implements Serializable {
         this.nroCuota = nroCuota;
     }
 
+    @Override
+    public String toString() {
+        return "Cliente "+ventaCampEco.getSocio()+", bono "+ventaCampEco.getNumeros().toString() + ", valor=" + valor + ", fechaVencimiento=" + fechaVencimiento;
+    }
+
+    
     
 }

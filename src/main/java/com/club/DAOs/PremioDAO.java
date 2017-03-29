@@ -13,31 +13,30 @@ import javax.persistence.Query;
  *
  * @author Diego
  */
-public class NumerosDAO extends DaoGenerico {
+public class PremioDAO extends DaoGenerico {
 
-    public NumerosDAO() {
+    public PremioDAO() {
     }
 
-    public List BuscaNumeros(Integer nro1, Integer nro2, CampEconomica campEconomica) {
+    public List BuscaTodosPorCampaña(CampEconomica campEconomica) {
 
         List<Numeros> toReturn = null;
 
-        Query qr = em.createQuery("FROM Numeros AS n WHERE n.nro1 =:nro1 or n.nro1 =:nro2 or n.nro2 =:nro1 or n.nro2 =:nro2 and n.campEconomica =:campEconomica order by n.nro1");
-        qr.setParameter("nro1", nro1);
-        qr.setParameter("nro2", nro2);
+        Query qr = em.createQuery("FROM Premio AS n WHERE n.campEconomica =:campEconomica ");
         qr.setParameter("campEconomica", campEconomica);
         toReturn = qr.getResultList();
 
         return toReturn;
 
     }
-
-    public List BuscaTodosyOrdena(CampEconomica campEconomica) {
+    
+    public List BuscaPremioPorCampaña(CampEconomica campEconomica, String filtro) {
 
         List<Numeros> toReturn = null;
 
-        Query qr = em.createQuery("FROM Numeros AS n WHERE n.campEconomica =:campEconomica order by n.nro1");
+        Query qr = em.createQuery("FROM Premio AS n WHERE n.campEconomica =:campEconomica and n.descripcion like ?1");
         qr.setParameter("campEconomica", campEconomica);
+        qr.setParameter(1, "%" + filtro + "%");
         toReturn = qr.getResultList();
 
         return toReturn;

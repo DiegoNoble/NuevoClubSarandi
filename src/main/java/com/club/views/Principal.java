@@ -29,7 +29,7 @@ public class Principal extends javax.swing.JFrame {
 
         initComponents();
         this.setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
-
+jLabel1.setVisible(false);
         this.usuario = usuario;
         jlbNombre.setText(usuario.getNombre());
         jlbPerfil.setText(usuario.getPerfil());
@@ -211,8 +211,15 @@ public class Principal extends javax.swing.JFrame {
         mnuItemArqueo4 = new javax.swing.JMenuItem();
         mnuItemArqueo5 = new javax.swing.JMenuItem();
         mnuArqueo2 = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        mnuItemCaja3 = new javax.swing.JMenuItem();
+        btnAsignarPremio = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
         mnuItemArqueo6 = new javax.swing.JMenuItem();
         mnuItemArqueo7 = new javax.swing.JMenuItem();
+        mnuItemCaja4 = new javax.swing.JMenuItem();
+        mniItemMovimientosCaja3 = new javax.swing.JMenuItem();
+        mniItemMovimientosCaja4 = new javax.swing.JMenuItem();
         mnuItemArqueo8 = new javax.swing.JMenuItem();
         mnuItemArqueo9 = new javax.swing.JMenuItem();
         mnuAyuda = new javax.swing.JMenu();
@@ -717,21 +724,69 @@ public class Principal extends javax.swing.JFrame {
         mnuArqueo2.setBorderPainted(true);
         mnuArqueo2.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
-        mnuItemArqueo6.setText("Nueva campaña");
+        jMenu1.setText("Caja");
+
+        mnuItemCaja3.setText("Movimientos de caja");
+        mnuItemCaja3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemCaja3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuItemCaja3);
+
+        btnAsignarPremio.setText("Consulta movimientos");
+        btnAsignarPremio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsignarPremioActionPerformed(evt);
+            }
+        });
+        jMenu1.add(btnAsignarPremio);
+
+        mnuArqueo2.add(jMenu1);
+
+        jMenu2.setText("Campañas económicas");
+
+        mnuItemArqueo6.setText("Campañas");
         mnuItemArqueo6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuItemArqueo6ActionPerformed(evt);
             }
         });
-        mnuArqueo2.add(mnuItemArqueo6);
+        jMenu2.add(mnuItemArqueo6);
 
-        mnuItemArqueo7.setText("Numeros por campaña");
+        mnuItemArqueo7.setText("Números");
         mnuItemArqueo7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuItemArqueo7ActionPerformed(evt);
             }
         });
-        mnuArqueo2.add(mnuItemArqueo7);
+        jMenu2.add(mnuItemArqueo7);
+
+        mnuItemCaja4.setText("Premios");
+        mnuItemCaja4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemCaja4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mnuItemCaja4);
+
+        mniItemMovimientosCaja3.setText("Asignar premios");
+        mniItemMovimientosCaja3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniItemMovimientosCaja3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mniItemMovimientosCaja3);
+
+        mniItemMovimientosCaja4.setText("Consulta premios entregados");
+        mniItemMovimientosCaja4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniItemMovimientosCaja4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mniItemMovimientosCaja4);
+
+        mnuArqueo2.add(jMenu2);
 
         mnuItemArqueo8.setText("Ventas camp. Eco.");
         mnuItemArqueo8.addActionListener(new java.awt.event.ActionListener() {
@@ -834,7 +889,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void mnuItemCobradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCobradorActionPerformed
 
-        cobradorFrame cobrador = new cobradorFrame();
+        cobradorView cobrador = new cobradorView();
         jDesktopPane1.add(cobrador);
         cobrador.setVisible(true);
         centralizaVentanas(cobrador);
@@ -957,10 +1012,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCajaActionPerformed
 
-        cajaFrame caja = new cajaFrame(usuario.getNombre());
-        jDesktopPane1.add(caja);
-        caja.setVisible(true);
-        centralizaVentanas(caja);
+
     }//GEN-LAST:event_btnCajaActionPerformed
 
     private void btnMensualidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMensualidadesActionPerformed
@@ -1032,7 +1084,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemConsultaSocio2ActionPerformed
 
     private void mnuItemConsultaSocio3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemConsultaSocio3ActionPerformed
-        FormConsultaMensualidadesXHuella mensualidades = new FormConsultaMensualidadesXHuella();
+        ConsultaMensualidadesXHuella mensualidades = new ConsultaMensualidadesXHuella();
         jDesktopPane1.add(mensualidades);
         mensualidades.setVisible(true);
         centralizaVentanas(mensualidades);
@@ -1108,7 +1160,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroDependientesActionPerformed
 
     private void btnRegistroDependientes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroDependientes1ActionPerformed
-        FormConsultaMensualidadesXHuella mensualidades = new FormConsultaMensualidadesXHuella();
+        ConsultaMensualidadesXHuella mensualidades = new ConsultaMensualidadesXHuella();
         jDesktopPane1.add(mensualidades);
         mensualidades.setVisible(true);
         centralizaVentanas(mensualidades);
@@ -1194,7 +1246,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void mnuItemCaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCaja1ActionPerformed
 
-        cajaFrameNEW caja = new cajaFrameNEW(usuario.getNombre());
+        cajaView caja = new cajaView(usuario.getNombre());
         jDesktopPane1.add(caja);
         caja.setVisible(true);
         centralizaVentanas(caja);
@@ -1221,7 +1273,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemUsuarios2ActionPerformed
 
     private void mniItemMovimientosCaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniItemMovimientosCaja1ActionPerformed
-        consultaCajaFrameNEW consultaCaja = new consultaCajaFrameNEW();
+        consultaCajaViewNEW consultaCaja = new consultaCajaViewNEW();
         jDesktopPane1.add(consultaCaja);
         consultaCaja.setVisible(true);
         centralizaVentanas(consultaCaja);
@@ -1284,8 +1336,46 @@ public class Principal extends javax.swing.JFrame {
         logBackup.toFront();
     }//GEN-LAST:event_mnuItemUsuarios3ActionPerformed
 
+    private void btnAsignarPremioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarPremioActionPerformed
+        consultaCajaCampEcoFrameNEW consultaCaja = new consultaCajaCampEcoFrameNEW();
+        jDesktopPane1.add(consultaCaja);
+        consultaCaja.setVisible(true);
+        centralizaVentanas(consultaCaja);
+    }//GEN-LAST:event_btnAsignarPremioActionPerformed
+
+    private void mnuItemCaja3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCaja3ActionPerformed
+        cajaCampEcoView caja = new cajaCampEcoView(usuario.getNombre());
+        jDesktopPane1.add(caja);
+        caja.setVisible(true);
+        centralizaVentanas(caja);
+    }//GEN-LAST:event_mnuItemCaja3ActionPerformed
+
+    private void mnuItemCaja4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemCaja4ActionPerformed
+
+        PremiosView premios = new PremiosView();
+        jDesktopPane1.add(premios);
+        premios.setVisible(true);
+        centralizaVentanas(premios);
+
+    }//GEN-LAST:event_mnuItemCaja4ActionPerformed
+
+    private void mniItemMovimientosCaja3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniItemMovimientosCaja3ActionPerformed
+         AsignarPremiosCampEcoView asignarPremiosCampEcoView = new AsignarPremiosCampEcoView();
+        jDesktopPane1.add(asignarPremiosCampEcoView);
+        asignarPremiosCampEcoView.setVisible(true);
+        centralizaVentanas(asignarPremiosCampEcoView);
+    }//GEN-LAST:event_mniItemMovimientosCaja3ActionPerformed
+
+    private void mniItemMovimientosCaja4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniItemMovimientosCaja4ActionPerformed
+         EntregadePremiosView entregadePremiosView = new EntregadePremiosView();
+        jDesktopPane1.add(entregadePremiosView);
+        entregadePremiosView.setVisible(true);
+        centralizaVentanas(entregadePremiosView);
+    }//GEN-LAST:event_mniItemMovimientosCaja4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem btnAsignarPremio;
     private javax.swing.JButton btnCaja;
     private javax.swing.JButton btnMarcajes;
     private javax.swing.JButton btnMensualidades;
@@ -1298,6 +1388,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JToolBar jToolBar1;
@@ -1306,6 +1398,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblHora;
     private javax.swing.JMenuItem mniItemMovimientosCaja1;
+    private javax.swing.JMenuItem mniItemMovimientosCaja3;
+    private javax.swing.JMenuItem mniItemMovimientosCaja4;
     private javax.swing.JMenu mnuArqueo;
     private javax.swing.JMenu mnuArqueo1;
     private javax.swing.JMenu mnuArqueo2;
@@ -1325,6 +1419,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemArqueo9;
     private javax.swing.JMenuItem mnuItemCaja1;
     private javax.swing.JMenuItem mnuItemCaja2;
+    private javax.swing.JMenuItem mnuItemCaja3;
+    private javax.swing.JMenuItem mnuItemCaja4;
     private javax.swing.JMenuItem mnuItemCategoria;
     private javax.swing.JMenuItem mnuItemCategoria1;
     private javax.swing.JMenuItem mnuItemCategoria2;

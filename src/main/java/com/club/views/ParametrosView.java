@@ -3,9 +3,11 @@ package com.club.views;
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.Parametros;
 import com.club.BEANS.Rubro;
+import com.club.BEANS.Sectores;
 import com.club.DAOs.CobradorDAO;
 import com.club.DAOs.ParametrosDAO;
 import com.club.DAOs.RubroDAO;
+import com.club.DAOs.SectorDAO;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +29,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private void inicio() {
         comboCobradores();
         comboRubros();
+        comboSectores();
         txtEmail.setText(parametros.getCasilla_email());
         txtPswEmail.setText(parametros.getPsw_email());
         txtPswSms.setText(parametros.getPsw_SMS());
@@ -38,6 +41,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtApiUrlCrear.setText(parametros.getApiUrlCrear());
         txtUrlConsultaCobranzas.setText(parametros.getUrlConsultaCobranzasCobrosYa());
         cbRubro.setSelectedItem(parametros.getRubroPagoCuotasCampEco());
+        cbSector.setSelectedItem(parametros.getSectorCampEco());
         txtMysqlPath.setText(parametros.getMySql_Path());
         txtNombreBasedeDatos.setText(parametros.getNombreBasesDatos());
 
@@ -50,6 +54,15 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         List<Cobrador> cobradores = cobradorDAO.BuscaTodos(Cobrador.class);
         for (Cobrador cobrador : cobradores) {
             cbCobrosYa.addItem(cobrador);
+        }
+    }
+
+    void comboSectores() {
+        cbSector.removeAllItems();
+        SectorDAO sectorDAO = new SectorDAO();
+        List<Sectores> sectores = sectorDAO.BuscaTodos(Sectores.class);
+        for (Sectores sector : sectores) {
+            cbSector.addItem(sector);
         }
     }
 
@@ -85,6 +98,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txttoleranciaRecibosPendientes.setEnabled(true);
         cbCobrosYa.setEnabled(true);
         cbRubro.setEnabled(true);
+        cbSector.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnGuardar.setEnabled(true);
         btnEditar.setEnabled(false);
@@ -106,6 +120,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtEmailPadron.setEnabled(false);
         txttoleranciaRecibosPendientes.setEnabled(false);
         cbCobrosYa.setEnabled(false);
+        cbSector.setEnabled(false);
         btnCancelar.setEnabled(false);
         btnGuardar.setEnabled(false);
         btnEditar.setEnabled(true);
@@ -148,6 +163,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtNombreBasedeDatos = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         txtMysqlPath = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cbSector = new javax.swing.JComboBox();
         jPanel6 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -352,9 +369,9 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txttoleranciaRecibosPendientes, gridBagConstraints);
 
-        jLabel3.setText("Rubro pago cuotas campaña economica");
+        jLabel3.setText("Sector campaña economica");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel3, gridBagConstraints);
@@ -404,6 +421,27 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtMysqlPath, gridBagConstraints);
+
+        jLabel4.setText("Rubro pago cuotas campaña economica");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel4, gridBagConstraints);
+
+        cbSector.setEnabled(false);
+        cbSector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSectorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbSector, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -482,6 +520,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
             parametros.setRubroPagoCuotasCampEco((Rubro) cbRubro.getSelectedItem());
             parametros.setMySql_Path(txtMysqlPath.getText());
             parametros.setNombreBasesDatos(txtNombreBasedeDatos.getText());
+            parametros.setSectorCampEco((Sectores) cbSector.getSelectedItem());
             parametrosDAO = new ParametrosDAO();
             parametrosDAO.Actualizar(parametros);
         } catch (Exception ex) {
@@ -499,12 +538,17 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbRubroActionPerformed
 
+    private void cbSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSectorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbSectorActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox cbCobrosYa;
     private javax.swing.JComboBox cbRubro;
+    private javax.swing.JComboBox cbSector;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -517,6 +561,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;

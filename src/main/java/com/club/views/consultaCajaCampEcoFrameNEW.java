@@ -1,31 +1,35 @@
 package com.club.views;
 
-import com.club.BEANS.Caja;
-import com.club.DAOs.CajaDAO;
+import com.club.BEANS.CajaCampEco;
+import com.club.DAOs.CajaCampEcoDAO;
 import com.club.Renderers.MeDateCellRenderer;
-import javax.swing.table.DefaultTableModel;
+import com.club.control.utilidades.LeeProperties;
+import com.club.tableModels.CajaCampEcoTableModel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class consultaCajaFrame extends javax.swing.JInternalFrame {
+public class consultaCajaCampEcoFrameNEW extends javax.swing.JInternalFrame {
 
-    CajaDAO cajaDAO;
-    List<Caja> listMovCaja;
-    DefaultTableModel modelo;
+    CajaCampEcoDAO cajaCampEcoDAO;
+    List<CajaCampEco> listMovCajaCampEco;
+    CajaCampEcoTableModel modelo;
+    LeeProperties props = new LeeProperties();
 
-    public consultaCajaFrame() {
+    public consultaCajaCampEcoFrameNEW() {
 
         initComponents();
         dpDesde.setDate(new Date());
         dpHasta.setDate(new Date());
 
-        listMovCaja = new ArrayList<>();
-        cajaDAO = new CajaDAO();
+        listMovCajaCampEco = new ArrayList<>();
+        cajaCampEcoDAO = new CajaCampEcoDAO();
 
+        defineModelo();
         muestraContenidoTabla();
 
     }
@@ -37,40 +41,46 @@ public class consultaCajaFrame extends javax.swing.JInternalFrame {
         }
     }
 
+    private void defineModelo() {
+        try {
+            ((DefaultTableCellRenderer) tblCajaCampEco.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+            listMovCajaCampEco = new ArrayList<>();
+            modelo = new CajaCampEcoTableModel(listMovCajaCampEco);
+            tblCajaCampEco.setModel(modelo);
+            tblCajaCampEco.getColumn("Fecha").setCellRenderer(new MeDateCellRenderer());
+            int[] anchos = {50, 100, 80, 300, 20, 20, 20};
+
+            for (int i = 0; i < tblCajaCampEco.getColumnCount(); i++) {
+
+                tblCajaCampEco.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+
+            }
+        } catch (Exception error) {
+
+            JOptionPane.showMessageDialog(null, "No fue posible ejecutar la consulta" + error);
+            error.printStackTrace();
+        }
+    }
+
     private void muestraContenidoTabla() {
         try {
-            listMovCaja.clear();
-            listMovCaja.addAll(cajaDAO.buscaMovEntreFechas(dpDesde.getDate(), dpHasta.getDate()));
-
-            modelo = (DefaultTableModel) tblCaja.getModel();
-            modelo.setNumRows(0);
-
-            tblCaja.getColumn("Código").setPreferredWidth(5); //------> Ajusta el tamaño de las columnas
-            tblCaja.getColumn("Fecha del Movimiento").setPreferredWidth(100);
-            tblCaja.getColumn("Rubro").setPreferredWidth(150);
-            tblCaja.getColumn("Concepto").setPreferredWidth(150);
-            tblCaja.getColumn("Entrada $").setPreferredWidth(15);
-            tblCaja.getColumn("Salida $").setPreferredWidth(15);
+            listMovCajaCampEco.clear();
+            cajaCampEcoDAO = new CajaCampEcoDAO();
+            listMovCajaCampEco.addAll(cajaCampEcoDAO.buscaMovEntreFechas(dpDesde.getDate(), dpHasta.getDate()));
+            modelo.fireTableDataChanged();
 
             Double totalEntrada = 0.0;
             Double totalSalida = 0.0;
-            for (Caja movCaja : listMovCaja) {
-                if (movCaja.getEntrada() == null) {
-                    movCaja.setEntrada(0.0);
-                } else if (movCaja.getSalida() == null) {
-                    movCaja.setSalida(0.0);
+            for (CajaCampEco movCajaCampEco : listMovCajaCampEco) {
+                if (movCajaCampEco.getEntrada() == null) {
+                    movCajaCampEco.setEntrada(0.0);
+                } else if (movCajaCampEco.getSalida() == null) {
+                    movCajaCampEco.setSalida(0.0);
                 }
 
-                totalEntrada = totalEntrada + movCaja.getEntrada();
-                totalSalida = totalSalida + movCaja.getSalida();
-                modelo.addRow(new Object[]{
-                    movCaja.getId(),
-                    movCaja.getFechaMovimiento(),
-                    movCaja.getRubro().getNombreRubro(),
-                    movCaja.getSectores(),
-                    movCaja.getConcepto(),
-                    movCaja.getEntrada(),
-                    movCaja.getSalida()});
+                totalEntrada = totalEntrada + movCajaCampEco.getEntrada();
+                totalSalida = totalSalida + movCajaCampEco.getSalida();
+
             }
             Double resultado = totalEntrada - totalSalida;
             txtEntrada1.setText(totalEntrada.toString());
@@ -94,7 +104,7 @@ public class consultaCajaFrame extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblCaja = new javax.swing.JTable();
+        tblCajaCampEco = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         btnBuscar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
@@ -112,14 +122,12 @@ public class consultaCajaFrame extends javax.swing.JInternalFrame {
         txtTotal = new javax.swing.JTextField();
         txtEntrada1 = new javax.swing.JTextField();
         btnInformeResumen1 = new org.jasper.viewer.components.JasperRunnerButton();
-        btnInformeGastos1 = new org.jasper.viewer.components.JasperRunnerButton();
-        btnInformeIngresos1 = new org.jasper.viewer.components.JasperRunnerButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setPreferredSize(new java.awt.Dimension(900, 650));
+        setPreferredSize(new java.awt.Dimension(900, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
@@ -129,7 +137,7 @@ public class consultaCajaFrame extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Consulta Movimientos Caja"); // NOI18N
+        jLabel1.setText("Consulta movimientos caja camp. económica"); // NOI18N
         jPanel1.add(jLabel1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -142,34 +150,18 @@ public class consultaCajaFrame extends javax.swing.JInternalFrame {
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        tblCaja.setModel(new javax.swing.table.DefaultTableModel(
+        tblCajaCampEco.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Fecha del Movimiento", "Rubro", "Sector", "Concepto", "Entrada $", "Salida $"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tblCaja);
-        if (tblCaja.getColumnModel().getColumnCount() > 0) {
-            tblCaja.getColumnModel().getColumn(1).setCellRenderer(new MeDateCellRenderer
-                ());
-        }
+        ));
+        jScrollPane1.setViewportView(tblCajaCampEco);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -310,7 +302,7 @@ public class consultaCajaFrame extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel3.add(jTabbedPane1, gridBagConstraints);
@@ -328,34 +320,6 @@ public class consultaCajaFrame extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel3.add(btnInformeResumen1, gridBagConstraints);
-
-        btnInformeGastos1.setText("Generar informe de gastos agrupados por Rubros");
-        btnInformeGastos1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInformeGastos1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(btnInformeGastos1, gridBagConstraints);
-
-        btnInformeIngresos1.setText("Generar informe de Ingresos agrupados por Rubros");
-        btnInformeIngresos1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInformeIngresos1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(btnInformeIngresos1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -376,47 +340,26 @@ public class consultaCajaFrame extends javax.swing.JInternalFrame {
         HashMap parametros = new HashMap();
         parametros.clear();
 
-        Double saldoAnterior = cajaDAO.buscaSaldoAnterior(dpDesde.getDate());
-        Double saldoFinal = cajaDAO.buscaSaldoDelDia(dpDesde.getDate());
+        Double saldoAnterior = cajaCampEcoDAO.buscaSaldoAnterior(dpDesde.getDate());
+        Double saldoFinal = cajaCampEcoDAO.buscaSaldoDelDia(dpDesde.getDate());
         parametros.put("saldo_anterior", saldoAnterior);
         parametros.put("saldo_final", saldoFinal);
         parametros.put("fecha1", dpDesde.getDate());
         parametros.put("fecha2", dpHasta.getDate());
 
+        btnInformeResumen1.setDatabaseDriver(props.getDriver());
+        btnInformeResumen1.setDatabasePassword(props.getPsw());
+        btnInformeResumen1.setDatabaseURL(props.getUrl());
+        btnInformeResumen1.setDatabaseUser(props.getUsr());
+
         btnInformeResumen1.setReportParameters(parametros);
-        btnInformeResumen1.setReportURL("/Reportes/informeCaja.jasper");
+        btnInformeResumen1.setReportURL("/Reportes/informeCajaCampEco_NEW.jasper");
 
 
     }//GEN-LAST:event_btnInformeResumen1ActionPerformed
 
-    private void btnInformeGastos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformeGastos1ActionPerformed
-
-        HashMap parametros = new HashMap();
-        parametros.clear();
-        parametros.put("fecha1", dpDesde.getDate());
-        parametros.put("fecha2", dpHasta.getDate());
-
-        btnInformeGastos1.setReportParameters(parametros);
-        btnInformeGastos1.setReportURL("/Reportes/gastosPorRubros.jasper");
-
-    }//GEN-LAST:event_btnInformeGastos1ActionPerformed
-
-    private void btnInformeIngresos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformeIngresos1ActionPerformed
-
-        HashMap parametros = new HashMap();
-        parametros.clear();
-        parametros.put("fecha1", dpDesde.getDate());
-        parametros.put("fecha2", dpHasta.getDate());
-
-        btnInformeIngresos1.setReportParameters(parametros);
-        btnInformeIngresos1.setReportURL("/Reportes/ingresosPorRubros.jasper");
-
-    }//GEN-LAST:event_btnInformeIngresos1ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private org.jasper.viewer.components.JasperRunnerButton btnInformeGastos1;
-    private org.jasper.viewer.components.JasperRunnerButton btnInformeIngresos1;
     private org.jasper.viewer.components.JasperRunnerButton btnInformeResumen1;
     private javax.swing.ButtonGroup buttonGroup1;
     private org.jdesktop.swingx.JXDatePicker dpDesde;
@@ -435,7 +378,7 @@ public class consultaCajaFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable tblCaja;
+    private javax.swing.JTable tblCajaCampEco;
     private javax.swing.JTextField txtEntrada1;
     private javax.swing.JTextField txtSalida;
     private javax.swing.JTextField txtTotal;

@@ -12,7 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class cobradorFrame extends javax.swing.JInternalFrame {
+public class cobradorView extends javax.swing.JInternalFrame {
 
     private CobradorDAO cobradorDAO;
     private List<Cobrador> listCobrador;
@@ -20,7 +20,7 @@ public class cobradorFrame extends javax.swing.JInternalFrame {
     private ListSelectionModel listModelCobrador;
     private Cobrador cobradorSelecionado;
 
-    public cobradorFrame() {
+    public cobradorView() {
         initComponents();
         DefineModeloTbl();
         buscaTodosLosRegistros();

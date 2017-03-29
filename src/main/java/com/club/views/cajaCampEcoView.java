@@ -1,18 +1,15 @@
 package com.club.views;
 
-import com.club.BEANS.Caja;
+import com.club.BEANS.CajaCampEco;
 import com.club.BEANS.Rubro;
 import com.club.BEANS.Sectores;
-import com.club.BEANS.SectoresFuncionario;
 import com.club.BEANS.SectoresPorcentage;
-import com.club.DAOs.CajaDAO;
+import com.club.DAOs.CajaCampEcoDAO;
 import com.club.DAOs.RubroDAO;
 import com.club.DAOs.SectorDAO;
 import com.club.Renderers.MeDateCellRenderer;
-import com.club.control.utilidades.ImprimiRecibo;
-import com.club.tableModels.CajaTableModel;
+import com.club.tableModels.CajaCampEcoTableModel;
 import com.club.tableModels.SectoresCajaTableModel;
-import com.club.tableModels.SectoresFuncionarioTableModel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,25 +23,25 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
-public class cajaFrameNEW extends javax.swing.JInternalFrame {
+public class cajaCampEcoView extends javax.swing.JInternalFrame {
 
-    CajaTableModel tblModelCaja;
-    CajaDAO cajaDAO;
+    CajaCampEcoTableModel tblModelCajaCampEco;
+    CajaCampEcoDAO cajaCampEcoDAO;
     RubroDAO rubroDAO;
     SectorDAO sectorDAO;
-    List<Caja> listMovimientosCaja;
-    Caja movimiento;
+    List<CajaCampEco> listMovimientosCajaCampEco;
+    CajaCampEco movimiento;
     String dataSeleccionada;
     String nombreUsuario;
     ListSelectionModel listModel;
-    SectoresCajaTableModel tblModelSectoresCaja;
+    SectoresCajaTableModel tblModelSectoresCajaCampEco;
     ListSelectionModel listModelSectores;
-    private List<SectoresPorcentage> listSectoresCaja;
-    private List<SectoresPorcentage> listSectoresCajaToRemove;
+    private List<SectoresPorcentage> listSectoresCajaCampEco;
+    private List<SectoresPorcentage> listSectoresCajaCampEcoToRemove;
     private List<SectoresPorcentage> sectoresSeleccionados;
     int cifras = (int) Math.pow(10, 2);
 
-    public cajaFrameNEW(String nombreUsuario) {
+    public cajaCampEcoView(String nombreUsuario) {
         initComponents();
 
         dataPiker.setFormats("dd/MM/yyyy");
@@ -79,9 +76,9 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
         try {
             ((DefaultTableCellRenderer) tblCaja.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-            listMovimientosCaja = new ArrayList<>();
-            tblModelCaja = new CajaTableModel(listMovimientosCaja);
-            tblCaja.setModel(tblModelCaja);
+            listMovimientosCajaCampEco = new ArrayList<>();
+            tblModelCajaCampEco = new CajaCampEcoTableModel(listMovimientosCajaCampEco);
+            tblCaja.setModel(tblModelCajaCampEco);
             tblCaja.getColumn("Fecha").setCellRenderer(new MeDateCellRenderer());
             int[] anchos = {50, 100, 80, 300, 20, 20, 20};
 
@@ -97,9 +94,7 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
                     if (!e.getValueIsAdjusting()) {
 
                         if (tblCaja.getSelectedRow() != -1) {
-                            btnReimprime.setEnabled(true);
                         } else {
-                            btnReimprime.setEnabled(false);
                         }
 
                     }
@@ -114,17 +109,17 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
     private void muestraMovimientos() {
         try {
-            listMovimientosCaja.clear();
-            cajaDAO = new CajaDAO();
-            listMovimientosCaja.addAll(cajaDAO.BuscaMovimientosPorFecha(dataPiker.getDate()));
-            tblModelCaja.fireTableDataChanged();
+            listMovimientosCajaCampEco.clear();
+            cajaCampEcoDAO = new CajaCampEcoDAO();
+            listMovimientosCajaCampEco.addAll(cajaCampEcoDAO.BuscaMovimientosPorFecha(dataPiker.getDate()));
+            tblModelCajaCampEco.fireTableDataChanged();
 
-            cajaDAO = new CajaDAO();
-            Double saldoAnterior = cajaDAO.buscaSaldoAnterior(dataPiker.getDate());
+            cajaCampEcoDAO = new CajaCampEcoDAO();
+            Double saldoAnterior = cajaCampEcoDAO.buscaSaldoAnterior(dataPiker.getDate());
             txtSaldoAnterior.setValue(saldoAnterior);
 
-            cajaDAO = new CajaDAO();
-            Double saldoDelDia = cajaDAO.buscaSaldoDelDia(dataPiker.getDate());
+            cajaCampEcoDAO = new CajaCampEcoDAO();
+            Double saldoDelDia = cajaCampEcoDAO.buscaSaldoDelDia(dataPiker.getDate());
             txtSaldoDelDia.setValue(saldoDelDia);
 
         } catch (Exception error) {
@@ -137,29 +132,29 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
     Double buscaSaldoAnterior() {
         Double saldoAnterior = 0.0;
-        cajaDAO = new CajaDAO();
-        saldoAnterior = cajaDAO.BuscaSaldoAnterior().getSaldo();
+        cajaCampEcoDAO = new CajaCampEcoDAO();
+        saldoAnterior = cajaCampEcoDAO.BuscaSaldoAnterior().getSaldo();
         return saldoAnterior;
     }
 
     Double buscaSaldoAnteriorFecha(Date fecha) {
         Double saldoAnterior = 0.0;
-        cajaDAO = new CajaDAO();
-        saldoAnterior = cajaDAO.BuscaSaldoAnteriorFecha(fecha).getSaldo();
+        cajaCampEcoDAO = new CajaCampEcoDAO();
+        saldoAnterior = cajaCampEcoDAO.BuscaSaldoAnteriorFecha(fecha).getSaldo();
         return saldoAnterior;
     }
 
     void ajustaSaldos(Double saldo) {
         try {
-            cajaDAO = new CajaDAO();
-            List<Caja> todos = cajaDAO.BuscaTodosOrdenaPorIDFyFecha(dataPiker.getDate());
+            cajaCampEcoDAO = new CajaCampEcoDAO();
+            List<CajaCampEco> todos = cajaCampEcoDAO.BuscaTodosOrdenaPorIDFyFecha(dataPiker.getDate());
 
-            for (Caja mov : todos) {
+            for (CajaCampEco mov : todos) {
                 saldo = saldo + (mov.getEntrada() - mov.getSalida());
                 mov.setSaldo(saldo);
-                cajaDAO = new CajaDAO();
+                cajaCampEcoDAO = new CajaCampEcoDAO();
 
-                cajaDAO.Actualizar(mov);
+                cajaCampEcoDAO.Actualizar(mov);
 
             }
         } catch (Exception ex) {
@@ -170,15 +165,15 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
     void configTblSectores() {
         ((DefaultTableCellRenderer) tblSectores.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        listSectoresCaja = new ArrayList<>();
-        listSectoresCajaToRemove = new ArrayList<>();
+        listSectoresCajaCampEco = new ArrayList<>();
+        listSectoresCajaCampEcoToRemove = new ArrayList<>();
         sectoresSeleccionados = new ArrayList<>();
-        tblModelSectoresCaja = new SectoresCajaTableModel(listSectoresCaja);
-        tblSectores.setModel(tblModelSectoresCaja);
+        tblModelSectoresCajaCampEco = new SectoresCajaTableModel(listSectoresCajaCampEco);
+        tblSectores.setModel(tblModelSectoresCajaCampEco);
 
         tblSectores.setRowHeight(15);
         //tblSectores.removeColumn(tblSectores.getColumn("Inmueble"));
-        tblSectores.getColumn("Sector").setCellEditor(new ComboBoxCellEditor(new cajaFrameNEW.ComboSectores()));
+        tblSectores.getColumn("Sector").setCellEditor(new ComboBoxCellEditor(new cajaCampEcoView.ComboSectores()));
 
         listModelSectores = tblSectores.getSelectionModel();
         listModelSectores.addListSelectionListener(new ListSelectionListener() {
@@ -197,26 +192,26 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
     void agregarNuevoSector() {
      
-        tblModelSectoresCaja.agregar(new SectoresPorcentage(new Sectores(), new Double(0.0)));
+        tblModelSectoresCajaCampEco.agregar(new SectoresPorcentage(new Sectores(), new Double(0.0)));
 
-        for (SectoresPorcentage sectores : listSectoresCaja) {
-            Double procentage = 100.00 / listSectoresCaja.size();
+        for (SectoresPorcentage sectores : listSectoresCajaCampEco) {
+            Double procentage = 100.00 / listSectoresCajaCampEco.size();
             sectores.setPorcentage(Math.rint((procentage * cifras) / cifras));
         }
-        tblModelSectoresCaja.fireTableDataChanged();
+        tblModelSectoresCajaCampEco.fireTableDataChanged();
     }
 
     void elminarSectorSeleccionado() {
 
-        SectoresPorcentage sectoresToRemove = listSectoresCaja.get(tblSectores.getSelectedRow());
-        listSectoresCaja.remove(sectoresToRemove);
-        listSectoresCajaToRemove.add(sectoresToRemove);
-        tblModelSectoresCaja.fireTableDataChanged();
-        for (SectoresPorcentage sectores : listSectoresCaja) {
-            Double procentage = 100.00 / listSectoresCaja.size();
+        SectoresPorcentage sectoresToRemove = listSectoresCajaCampEco.get(tblSectores.getSelectedRow());
+        listSectoresCajaCampEco.remove(sectoresToRemove);
+        listSectoresCajaCampEcoToRemove.add(sectoresToRemove);
+        tblModelSectoresCajaCampEco.fireTableDataChanged();
+        for (SectoresPorcentage sectores : listSectoresCajaCampEco) {
+            Double procentage = 100.00 / listSectoresCajaCampEco.size();
             sectores.setPorcentage(Math.rint((procentage * cifras) / cifras));
         }
-        tblModelSectoresCaja.fireTableDataChanged();
+        tblModelSectoresCajaCampEco.fireTableDataChanged();
     }
 
     private class ComboSectores extends JComboBox<Object> {
@@ -257,7 +252,6 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
-        btnReimprime = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
@@ -456,7 +450,7 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Movimientos de Caja"); // NOI18N
+        jLabel4.setText("Movimientos de Caja Camp. Económica"); // NOI18N
         jPanel2.add(jLabel4);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -481,18 +475,6 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(btnRegistrar, gridBagConstraints);
-
-        btnReimprime.setText("Reimprimir recibo");
-        btnReimprime.setEnabled(false);
-        btnReimprime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReimprimeActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(btnReimprime, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -599,13 +581,13 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
         try {
             Double importe = Double.valueOf(txtValor.getText());
-            if (listSectoresCaja.isEmpty()) {
+            if (listSectoresCajaCampEco.isEmpty()) {
                 throw new Exception("Debe asignar al menos 1 sector al 100%");
             }
             if (cbTIpo.getSelectedItem().equals("Entrada")) {
-                for (SectoresPorcentage sector : listSectoresCaja) {
+                for (SectoresPorcentage sector : listSectoresCajaCampEco) {
 
-                    movimiento = new Caja();
+                    movimiento = new CajaCampEco();
                     movimiento.setConcepto(txtConcepto.getText());
                     movimiento.setRubro((Rubro) cbRubro.getSelectedItem());
                     movimiento.setFechaMovimiento(new Date());
@@ -616,19 +598,18 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
                     movimiento.setSalida(0.0);
                     //movimiento.setSaldo(buscaSaldoAnterior() + movimiento.getEntrada());
 
-                    cajaDAO = new CajaDAO();
-                    cajaDAO.Salvar(movimiento);
+                    cajaCampEcoDAO = new CajaCampEcoDAO();
+                    cajaCampEcoDAO.Salvar(movimiento);
 
                     JOptionPane.showMessageDialog(null, "Movimiento registrado correctamente!");
-                    new ImprimiRecibo().imprimieRecibo(movimiento);
 
                 }
                 ajustaSaldos(buscaSaldoAnteriorFecha(dataPiker.getDate()));
             } else if (cbTIpo.getSelectedItem().equals("Salida")) {
 
-                for (SectoresPorcentage sector : listSectoresCaja) {
+                for (SectoresPorcentage sector : listSectoresCajaCampEco) {
 
-                    movimiento = new Caja();
+                    movimiento = new CajaCampEco();
                     movimiento.setConcepto(txtConcepto.getText());
                     movimiento.setRubro((Rubro) cbRubro.getSelectedItem());
                     movimiento.setFechaMovimiento(new Date());
@@ -638,11 +619,10 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
                     movimiento.setSalida((importe * sector.getPorcentage()) / 100);
                     //movimiento.setSaldo(buscaSaldoAnterior() - movimiento.getSalida());
 
-                    cajaDAO = new CajaDAO();
-                    cajaDAO.Salvar(movimiento);
+                    cajaCampEcoDAO = new CajaCampEcoDAO();
+                    cajaCampEcoDAO.Salvar(movimiento);
 
                     JOptionPane.showMessageDialog(null, "Movimiento registrado correctamente!");
-                    new ImprimiRecibo().imprimieRecibo(movimiento);
                 }
                 ajustaSaldos(buscaSaldoAnteriorFecha(dataPiker.getDate()));
             }
@@ -654,8 +634,8 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
         txtConcepto.setText("");
         txtValor.setText("");
-        listSectoresCaja.clear();
-        tblModelSectoresCaja.fireTableDataChanged();
+        listSectoresCajaCampEco.clear();
+        tblModelSectoresCajaCampEco.fireTableDataChanged();
         muestraMovimientos();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -683,14 +663,6 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_cbRubroActionPerformed
 
-    private void btnReimprimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReimprimeActionPerformed
-
-        Caja movSeleccionado = (Caja) cajaDAO.BuscaPorID(Caja.class, (Integer) tblModelCaja.getValueAt(tblCaja.getSelectedRow(), 0));
-        new ImprimiRecibo()
-                .imprimieRecibo(movSeleccionado);
-
-    }//GEN-LAST:event_btnReimprimeActionPerformed
-
     private void btnAgregarSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarSectorActionPerformed
         agregarNuevoSector();
     }//GEN-LAST:event_btnAgregarSectorActionPerformed
@@ -703,7 +675,6 @@ public class cajaFrameNEW extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAgregarSector;
     private javax.swing.JButton btnEliminarSector;
     private javax.swing.JButton btnRegistrar;
-    private javax.swing.JButton btnReimprime;
     private javax.swing.JComboBox cbRubro;
     private javax.swing.JComboBox cbTIpo;
     private org.jdesktop.swingx.JXDatePicker dataPiker;
