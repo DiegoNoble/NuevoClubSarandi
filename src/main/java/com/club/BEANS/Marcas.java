@@ -6,6 +6,7 @@ package com.club.BEANS;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.annotation.Nullable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,6 +47,11 @@ public class Marcas implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private TipoMarca tipoMarca;
+
+    @Column(name = "origen", nullable = false, length = 10)
+    private String origen = "Reloj";
+    @Column(name = "anulada", nullable = false)
+    private Boolean anulada = false;
 
     public Marcas() {
     }
@@ -102,6 +108,22 @@ public class Marcas implements Serializable {
 
     public void setTipoMarca(TipoMarca tipoMarca) {
         this.tipoMarca = tipoMarca;
+    }
+
+    public String getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(String origen) {
+        this.origen = origen;
+    }
+
+    public Boolean getAnulada() {
+        return anulada;
+    }
+
+    public void setAnulada(Boolean anulada) {
+        this.anulada = anulada;
     }
 
 }

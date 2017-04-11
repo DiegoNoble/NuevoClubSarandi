@@ -29,7 +29,7 @@ public class Principal extends javax.swing.JFrame {
 
         initComponents();
         this.setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
-jLabel1.setVisible(false);
+//jLabel1.setVisible(false);
         this.usuario = usuario;
         jlbNombre.setText(usuario.getNombre());
         jlbPerfil.setText(usuario.getPerfil());

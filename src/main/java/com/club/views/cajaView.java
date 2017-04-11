@@ -196,7 +196,7 @@ public class cajaView extends javax.swing.JInternalFrame {
     }
 
     void agregarNuevoSector() {
-     
+
         tblModelSectoresCaja.agregar(new SectoresPorcentage(new Sectores(), new Double(0.0)));
 
         for (SectoresPorcentage sectores : listSectoresCaja) {
@@ -685,7 +685,9 @@ public class cajaView extends javax.swing.JInternalFrame {
 
     private void btnReimprimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReimprimeActionPerformed
 
-        Caja movSeleccionado = (Caja) cajaDAO.BuscaPorID(Caja.class, (Integer) tblModelCaja.getValueAt(tblCaja.getSelectedRow(), 0));
+        //Caja movSeleccionado = (Caja) cajaDAO.BuscaPorID(Caja.class, (Integer) tblModelCaja.getValueAt(tblCaja.getSelectedRow(), 0));
+        Caja movSeleccionado = listMovimientosCaja.get(tblCaja.getSelectedRow());
+
         new ImprimiRecibo()
                 .imprimieRecibo(movSeleccionado);
 
