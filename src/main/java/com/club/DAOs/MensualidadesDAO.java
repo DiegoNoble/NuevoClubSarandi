@@ -104,14 +104,15 @@ public class MensualidadesDAO extends DaoGenerico {
 
     }
 
-    public List BuscaPorCobradorSituacionVencimiento(Cobrador cobrador, String situcion, Date vencimiento) {
+    public List BuscaPorCobradorSituacionVencimiento(Cobrador cobrador, String situcion, Date desde, Date hasta) {
 
         List<Mensualidades> toReturn = null;
 
-        Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.cobrador =:cobrador and m.pago =:situcion and m.fechaVencimiento =:vencimiento");
+        Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.cobrador =:cobrador and m.pago =:situcion and m.fechaVencimiento between :desde and :hasta");
         qr.setParameter("cobrador", cobrador);
         qr.setParameter("situcion", situcion);
-        qr.setParameter("vencimiento", vencimiento);
+        qr.setParameter("desde", desde);
+        qr.setParameter("hasta", hasta);
         toReturn = qr.getResultList();
 
         return toReturn;
@@ -130,13 +131,14 @@ public class MensualidadesDAO extends DaoGenerico {
 
     }
 
-    public List BuscaPorCobradorVencimiento(Cobrador cobrador, Date vencimiento) {
+    public List BuscaPorCobradorVencimiento(Cobrador cobrador, Date desde, Date hasta) {
 
         List<Mensualidades> toReturn = null;
 
-        Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.cobrador =:cobrador  and m.fechaVencimiento =:vencimiento");
+        Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.cobrador =:cobrador  and m.fechaVencimiento between :desde and :hasta");
         qr.setParameter("cobrador", cobrador);
-        qr.setParameter("vencimiento", vencimiento);
+        qr.setParameter("desde", desde);
+        qr.setParameter("hasta", hasta);
         toReturn = qr.getResultList();
 
         return toReturn;

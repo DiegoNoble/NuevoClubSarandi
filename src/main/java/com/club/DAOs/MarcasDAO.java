@@ -26,7 +26,7 @@ public class MarcasDAO extends DaoGenerico {
     }
 
     public List<Marcas> BuscaPorFuncionarioAndFecha(Funcionario funcionario, Date fechaInicio, Date fechaFin) {
-        Query qr = em.createQuery("from Marcas m where m.funcionario = ?1 and m.fecha between  ?2 and ?3");
+        Query qr = em.createQuery("from Marcas m where m.funcionario = ?1 and m.anulada = false and m.fecha between  ?2 and ?3 order by m.hora");
         qr.setParameter(1, funcionario);
         qr.setParameter(2, fechaInicio);
         qr.setParameter(3, fechaFin);

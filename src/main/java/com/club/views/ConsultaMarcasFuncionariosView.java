@@ -8,6 +8,8 @@ import com.club.BEANS.Marcas;
 import com.club.BEANS.TipoMarca;
 import com.club.DAOs.FuncionarioDAO;
 import com.club.DAOs.MarcasDAO;
+import com.club.Renderers.MeDateCellRenderer;
+import com.club.Renderers.MeTimeCellRenderer;
 import com.club.Renderers.TableRendererColorMarcas;
 import com.club.control.utilidades.ExportarDatosExcel;
 import com.club.control.utilidades.LeeProperties;
@@ -23,7 +25,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
+import javax.swing.JSpinner;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -60,7 +64,6 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
         dpFin.setDate(new Date());
 
         cbTipoMarca.setModel(new DefaultComboBoxModel(TipoMarca.values()));
-        dpfechaHora.setFormats("dd/mm/yyyy hh:mm:ss");
 
     }
 
@@ -77,8 +80,8 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
 
         ((DefaultTableCellRenderer) tblMarcas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         tblModelMarcas = (DefaultTableModel) tblMarcas.getModel();
-        tblMarcas.getColumn("Día").setCellRenderer(new TableRendererColorMarcas());
-        tblMarcas.getColumn("Hora").setCellRenderer(new TableRendererColorMarcas());
+        tblMarcas.getColumn("Día").setCellRenderer(new MeDateCellRenderer());
+        tblMarcas.getColumn("Hora").setCellRenderer(new MeTimeCellRenderer());
         tblMarcas.getColumn("Tipo").setCellRenderer(new TableRendererColorMarcas());
         tblMarcas.getColumn("Horas").setCellRenderer(new TableRendererColorMarcas());
 
@@ -113,7 +116,7 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
                     if (tblMarcas.getSelectedRow() != -1) {
 
                         marcaSeleccionada = listMarcas.get(tblMarcas.getSelectedRow());
-                        dpfechaHora.setDate(marcaSeleccionada.getHora());
+                        hora.setValue(marcaSeleccionada.getHora());
                         cbTipoMarca.setSelectedItem(marcaSeleccionada.getTipoMarca());
 
                     } else {
@@ -161,7 +164,7 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
             tblModelMarcas.setNumRows(0);
             Boolean contieneErrores = false;
             for (Marcas marca : listMarcas) {
-                String diferencia = "";
+                String diferencia = " ";
 
                 if (marca.getTipoMarca() == TipoMarca.SALIDA) {
 
@@ -193,7 +196,7 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
                     marca.getTipoMarca(),
                     diferencia, indexError});
             }
-            if (contieneErrores = true) {
+            if (contieneErrores == true) {
                 JOptionPane.showMessageDialog(null, "La secuencia de marcas es incorrecta, debe corregirla", "Errores en marcas", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -250,7 +253,7 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
         jLabel4 = new javax.swing.JLabel();
         jlblFoto = new javax.swing.JLabel();
         jasperRunnerButton1 = new org.jasper.viewer.components.JasperRunnerButton();
-        jButton1 = new javax.swing.JButton();
+        btnExel = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblFuncionario = new javax.swing.JTable();
@@ -260,11 +263,11 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
         jPanel3 = new javax.swing.JPanel();
         btnAnular = new javax.swing.JButton();
         btnCrear = new javax.swing.JButton();
-        dpfechaHora = new org.jdesktop.swingx.JXDatePicker();
         jLabel6 = new javax.swing.JLabel();
         cbTipoMarca = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         btnModificar = new javax.swing.JButton();
+        hora = new javax.swing.JSpinner();
 
         setClosable(true);
         setIconifiable(true);
@@ -345,10 +348,11 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
             }
         });
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnExel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnExel.setText("Exportar a Excel");
+        btnExel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnExelActionPerformed(evt);
             }
         });
 
@@ -357,46 +361,42 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(95, 95, 95)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel2)))
+                .addGap(5, 5, 5)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel2)))
+                        .addGap(18, 18, 18)
+                        .addComponent(rbCodigo))
+                    .addComponent(dpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(rbNombre))
+                    .addComponent(jLabel4))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(rbCI))
+                    .addComponent(dpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(rbCodigo))
-                            .addComponent(dpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(rbNombre))
-                            .addComponent(jLabel4))
-                        .addGap(5, 5, 5)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(rbCI))
-                            .addComponent(dpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(btnBuscar))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jasperRunnerButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(10, 10, 10))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1)
-                        .addGap(182, 182, 182)))
+                        .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnBuscar))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jasperRunnerButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExel)))
+                .addGap(10, 10, 10)
                 .addComponent(jlblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -418,19 +418,17 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
                         .addComponent(jLabel4))
                     .addComponent(btnBuscar)
                     .addComponent(jlblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(rbCI)
-                                .addGap(46, 46, 46)
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(dpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jasperRunnerButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel7Layout.createSequentialGroup()
+                            .addGap(1, 1, 1)
+                            .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel7Layout.createSequentialGroup()
+                            .addComponent(rbCI)
+                            .addGap(46, 46, 46)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(dpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jasperRunnerButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnExel)))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -557,7 +555,7 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -571,25 +569,12 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(btnCrear, gridBagConstraints);
-
-        dpfechaHora.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dpfechaHoraActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(dpfechaHora, gridBagConstraints);
 
         jLabel6.setText("Fecha hora");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -622,12 +607,18 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(btnModificar, gridBagConstraints);
+
+        hora.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR_OF_DAY));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        jPanel3.add(hora, gridBagConstraints);
 
         jPanel9.add(jPanel3, new java.awt.GridBagConstraints());
 
@@ -684,7 +675,7 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
 
     }//GEN-LAST:event_jasperRunnerButton1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnExelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExelActionPerformed
 
         try {
 
@@ -694,35 +685,73 @@ public final class ConsultaMarcasFuncionariosView extends javax.swing.JInternalF
             Logger.getLogger(ConsultaMarcasFuncionariosView.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void dpfechaHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpfechaHoraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dpfechaHoraActionPerformed
+    }//GEN-LAST:event_btnExelActionPerformed
 
     private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            marcaSeleccionada.setAnulada(true);
+            marcasDAO = new MarcasDAO();
+            marcasDAO.Actualizar(marcaSeleccionada);
+            JOptionPane.showMessageDialog(null, "Marca anulada correctamente!");
+            muestraMarcas();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al modificar marca: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ConsultaMarcasFuncionariosView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAnularActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        // TODO add your handling code here:
+       
+        
+         try {
+            Marcas nuevaMarca = new Marcas();
+            nuevaMarca.setTipoMarca((TipoMarca) cbTipoMarca.getSelectedItem());
+            nuevaMarca.setAnulada(false);
+            nuevaMarca.setFuncionario(funcionarioSeleccionado);
+            nuevaMarca.setFecha((Date) hora.getValue());
+            nuevaMarca.setHora((Date) hora.getValue());
+            nuevaMarca.setOrigen("Usuario");
+            marcasDAO = new MarcasDAO();
+            marcasDAO.Salvar(nuevaMarca);
+            JOptionPane.showMessageDialog(null, "Marca creada correctamente!");
+            muestraMarcas();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al modificar marca: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ConsultaMarcasFuncionariosView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            marcaSeleccionada.setTipoMarca((TipoMarca) cbTipoMarca.getSelectedItem());
+            marcaSeleccionada.setFecha((Date) hora.getValue());
+            marcaSeleccionada.setHora((Date) hora.getValue());
+            marcaSeleccionada.setOrigen("Usuario");
+            marcasDAO = new MarcasDAO();
+            marcasDAO.Actualizar(marcaSeleccionada);
+            JOptionPane.showMessageDialog(null, "Marca modificada correctamente!");
+            muestraMarcas();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al modificar marca: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ConsultaMarcasFuncionariosView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnular;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCrear;
+    private javax.swing.JButton btnExel;
     private javax.swing.JButton btnModificar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbTipoMarca;
     private org.jdesktop.swingx.JXDatePicker dpFin;
     private org.jdesktop.swingx.JXDatePicker dpInicio;
-    private org.jdesktop.swingx.JXDatePicker dpfechaHora;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JSpinner hora;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

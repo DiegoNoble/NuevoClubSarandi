@@ -1385,7 +1385,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
             btnCarneSocio.setDatabaseUser(props.getUsr());
 
             btnCarneSocio.setReportParameters(parametros);
-            btnCarneSocio.setReportURL("/Reportes/carneSocio.jasper");
+            btnCarneSocio.setReportURL("/Reportes/carneSocioOLD.jasper");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al generar reporte " + e);
             e.printStackTrace();

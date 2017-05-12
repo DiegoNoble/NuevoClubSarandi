@@ -7,12 +7,16 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<parameter name="vencimiento" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="cobrador" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="situaciones" class="java.util.List">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="hasta" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="desde" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[SELECT    
      tbmensualidades.`ID_SOCIO` AS tbmensualidades_ID_SOCIO,
@@ -29,8 +33,10 @@ FROM
      `tbsocio` tbsocio INNER JOIN `tbmensualidades` tbmensualidades ON tbsocio.`ID` = tbmensualidades.`ID_SOCIO`
      INNER JOIN `tbcobrador` tbcobrador ON tbmensualidades.`ID_COBRADOR` = tbcobrador.`ID`
     WHERE
-     tbmensualidades.fecha_vencimiento = $P{vencimiento}
-     and tbmensualidades.id_cobrador = $P{cobrador} order by tbmensualidades_ID_SOCIO]]>
+     tbmensualidades.fecha_vencimiento between $P{desde} and $P{hasta}
+     and tbmensualidades.id_cobrador = $P{cobrador} 
+     and ( $X{IN,tbmensualidades.pago ,situaciones})
+ order by tbmensualidades.fecha_vencimiento,tbmensualidades_ID_SOCIO]]>
 	</queryString>
 	<field name="tbmensualidades_ID_SOCIO" class="java.lang.Integer"/>
 	<field name="tbmensualidades_VALOR" class="java.lang.Double"/>
@@ -73,40 +79,51 @@ FROM
 				<text><![CDATA[EMISIÓN CUOTAS SOCIOS]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="161" y="49" width="100" height="20" uuid="a611de12-68a4-4486-a0e0-86fcccabaadd"/>
+				<reportElement x="104" y="49" width="100" height="20" uuid="a611de12-68a4-4486-a0e0-86fcccabaadd"/>
 				<textElement>
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tbcobrador_NOMBRE}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="399" y="49" width="100" height="20" uuid="0aabb574-621f-41a0-85d1-a16c0a912922"/>
-				<textElement>
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tbmensualidades_FECHA_VENCIMIENTO}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="61" y="49" width="100" height="20" uuid="2bb72996-3aab-45af-8721-82236782ea6c"/>
+				<reportElement x="4" y="49" width="100" height="20" uuid="2bb72996-3aab-45af-8721-82236782ea6c"/>
 				<textElement>
 					<font fontName="Arial" size="14" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[COBRADOR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="293" y="49" width="100" height="20" uuid="0c779974-195b-4a54-a2f1-7d90458eb0e0"/>
+				<reportElement x="212" y="49" width="100" height="20" uuid="0c779974-195b-4a54-a2f1-7d90458eb0e0"/>
 				<textElement>
 					<font fontName="Arial" size="14" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[VENCIMIENTO]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="418" y="49" width="14" height="20" uuid="9b7fd819-4ea7-47fc-9251-d69fa67c1114"/>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[a]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="434" y="49" width="100" height="20" uuid="df4ea3cb-dc12-4fe5-8d49-b661ed9db17d"/>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hasta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="331" y="48" width="100" height="20" uuid="727631fa-8c9b-4dcf-b014-0e4a90fd6e42"/>
+				<textFieldExpression><![CDATA[$P{desde}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="25" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="21" width="555" height="1" uuid="4cffbb97-97cb-48e0-8996-1c9927a98e84"/>
 				<graphicElement>
@@ -122,20 +139,24 @@ FROM
 				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="432" y="5" width="42" height="15" uuid="27e7cfc6-8ed3-44f7-9774-d09f7c8b1436"/>
+				<reportElement style="Column header" x="458" y="5" width="31" height="15" uuid="27e7cfc6-8ed3-44f7-9774-d09f7c8b1436"/>
 				<text><![CDATA[Valor]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="485" y="5" width="64" height="15" uuid="a2d3d978-f6bb-4d48-a879-ede67f68508d"/>
+				<reportElement style="Column header" x="498" y="5" width="57" height="15" uuid="a2d3d978-f6bb-4d48-a879-ede67f68508d"/>
 				<text><![CDATA[Situación]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="359" y="5" width="42" height="15" uuid="ef984b2f-e6a7-41c1-aeac-b62cce3edad1"/>
+				<reportElement style="Column header" x="354" y="5" width="42" height="15" uuid="ef984b2f-e6a7-41c1-aeac-b62cce3edad1"/>
 				<text><![CDATA[Recibo]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="198" y="5" width="58" height="15" uuid="a95c787f-fe74-43b0-9a63-248e76ae91c9"/>
 				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="402" y="5" width="42" height="15" uuid="4c9ddf65-1576-489b-9e82-f6bf0e3339ee"/>
+				<text><![CDATA[Venc.]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -149,14 +170,14 @@ FROM
 				<textFieldExpression><![CDATA[$F{tbmensualidades_ID_SOCIO}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="369" y="0" width="38" height="15" uuid="5c2f60c1-d61e-48b3-af35-2ac107410f4b"/>
+				<reportElement x="356" y="0" width="38" height="15" uuid="5c2f60c1-d61e-48b3-af35-2ac107410f4b"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tbmensualidades_ID}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="432" y="0" width="42" height="15" uuid="441193f4-f495-465b-8567-0f241e557c7d"/>
+				<reportElement x="457" y="0" width="42" height="15" uuid="441193f4-f495-465b-8567-0f241e557c7d"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
@@ -170,7 +191,7 @@ FROM
 				<textFieldExpression><![CDATA[$F{tbsocio_NOMBRE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="490" y="0" width="52" height="15" uuid="9c4c6682-bcec-4ac6-8a23-e4c09ee981f9"/>
+				<reportElement x="501" y="0" width="52" height="15" uuid="9c4c6682-bcec-4ac6-8a23-e4c09ee981f9"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
@@ -189,6 +210,13 @@ FROM
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="396" y="1" width="53" height="15" uuid="bce4df4f-707b-44c3-9dd6-198024f4c7aa"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbmensualidades_FECHA_VENCIMIENTO}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>

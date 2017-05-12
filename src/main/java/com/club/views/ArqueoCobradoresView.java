@@ -9,6 +9,8 @@ import com.club.DAOs.CobradorDAO;
 import com.club.DAOs.MensualidadesAnuladasDAO;
 import com.club.DAOs.MensualidadesDAO;
 import com.club.Renderers.MeDateCellRenderer;
+import com.club.Renderers.TableRendererColor;
+import com.club.Renderers.TableRendererColorSituacion;
 import com.club.control.utilidades.LeeProperties;
 import com.club.tableModels.MensualidadesTableModel;
 import java.util.ArrayList;
@@ -41,13 +43,14 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         initComponents();
         listMensualidades = new ArrayList<>();
         //dpVencimiento.setFormats("15/MM/yyyy");
-        dpVencimiento.setDate(new Date());
+        dpHasta.setDate(new Date());
         completaCombos();
         defineModelo();
         buscarRecibos();
         Calendar venc = Calendar.getInstance();
         venc.set(Calendar.DAY_OF_MONTH, 15);
-        dpVencimiento.setDate(venc.getTime());
+        dpDesde.setDate(venc.getTime());
+        dpHasta.setDate(venc.getTime());
 
     }
 
@@ -66,7 +69,8 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         tblModelMensualidades = new MensualidadesTableModel(listMensualidades);
         tblMensualidades.setModel(tblModelMensualidades);
         tblMensualidades.getColumn("Vencimiento").setCellRenderer(new MeDateCellRenderer());
-        tblMensualidades.getColumn("Pago").setCellRenderer(new MeDateCellRenderer());
+        //tblMensualidades.getColumn("Pago").setCellRenderer(new MeDateCellRenderer());
+        tblMensualidades.getColumn("Pago").setCellRenderer(new TableRendererColor(5));
         int[] anchos = {1, 170, 5, 20, 10, 150, 20, 20, 5};
 
         for (int i = 0; i < tblMensualidades.getColumnCount(); i++) {
@@ -74,6 +78,12 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
             tblMensualidades.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
 
         }
+        tblMensualidades.getColumn("Situación").setMaxWidth(0);
+        tblMensualidades.getColumn("Situación").setMinWidth(0);
+        tblMensualidades.getColumn("Situación").setPreferredWidth(0);
+        tblMensualidades.getColumn("Situación").setWidth(0);
+        
+        
 
     }
 
@@ -82,11 +92,11 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         listMensualidades.clear();
 
         if (cbSituacion.getSelectedItem().toString().equals("Todos")) {
-            listMensualidades.addAll(mensualidadesDAO.BuscaPorCobradorVencimiento((Cobrador) cbCobrador.getSelectedItem(), dpVencimiento.getDate()));
+            listMensualidades.addAll(mensualidadesDAO.BuscaPorCobradorVencimiento((Cobrador) cbCobrador.getSelectedItem(), dpDesde.getDate(), dpHasta.getDate()));
         } else {
 
             listMensualidades.addAll(mensualidadesDAO.BuscaPorCobradorSituacionVencimiento((Cobrador) cbCobrador.getSelectedItem(),
-                    cbSituacion.getSelectedItem().toString(), dpVencimiento.getDate()));
+                    cbSituacion.getSelectedItem().toString(), dpDesde.getDate(), dpHasta.getDate()));
         }
         tblModelMensualidades.fireTableDataChanged();
         Integer cantTotal = 0;
@@ -127,7 +137,9 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         cbCobrador = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
-        dpVencimiento = new org.jdesktop.swingx.JXDatePicker();
+        dpHasta = new org.jdesktop.swingx.JXDatePicker();
+        jLabel8 = new javax.swing.JLabel();
+        dpDesde = new org.jdesktop.swingx.JXDatePicker();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -181,9 +193,9 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         jPanel2.add(cbSituacion, gridBagConstraints);
 
-        jLabel4.setText("Vencimiento"); // NOI18N
+        jLabel4.setText("hasta"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -202,10 +214,23 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel5, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(dpHasta, gridBagConstraints);
+
+        jLabel8.setText("Vencimiento desde"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel8, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(dpVencimiento, gridBagConstraints);
+        jPanel2.add(dpDesde, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -386,7 +411,16 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
     private void jasperRunnerButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jasperRunnerButton1ActionPerformed
 
         HashMap parametros = new HashMap();
-        parametros.put("vencimiento", dpVencimiento.getDate());
+        parametros.put("desde", dpDesde.getDate());
+        parametros.put("hasta", dpHasta.getDate());
+        List situaciones = new ArrayList();
+        if (cbSituacion.getSelectedItem().toString().equals("Todos")) {
+            situaciones.add("Pago");
+            situaciones.add("Pendiente de Pago");
+        } else {
+            situaciones.add(cbSituacion.getSelectedItem());
+        }
+        parametros.put("situaciones", situaciones);
         parametros.put("cobrador", ((Cobrador) cbCobrador.getSelectedItem()).getId());
 
         jasperRunnerButton1.setDatabaseDriver(props.getDriver());
@@ -395,7 +429,7 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         jasperRunnerButton1.setDatabaseUser(props.getUsr());
         jasperRunnerButton1.setReportParameters(parametros);
         jasperRunnerButton1.setReportURL("/Reportes/SociosMensualidades.jasper");
-        
+
     }//GEN-LAST:event_jasperRunnerButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -403,7 +437,8 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cbCobrador;
     private javax.swing.JComboBox cbSituacion;
-    private org.jdesktop.swingx.JXDatePicker dpVencimiento;
+    private org.jdesktop.swingx.JXDatePicker dpDesde;
+    private org.jdesktop.swingx.JXDatePicker dpHasta;
     private javax.swing.JFormattedTextField ftxtCant;
     private javax.swing.JFormattedTextField ftxtCantPagos;
     private javax.swing.JFormattedTextField ftxtCantPendientes;
@@ -417,6 +452,7 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
