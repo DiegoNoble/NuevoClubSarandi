@@ -18,6 +18,20 @@ public class SocioDAO extends DaoGenerico {
 
     }
 
+    public List<Socio> FiltroInteligenteSocios(String texto) {
+
+        Query qr = em.createNativeQuery("select * from tbsocio s where (select convert(s.id,char))\n"
+                + "like ?1 or s.nombre like  ?2 or s.ci like ?3",Socio.class);
+        qr.setParameter(1, "%" + texto + "%");
+        qr.setParameter(2, "%" + texto + "%");
+        qr.setParameter(3, "%" + texto + "%");
+        List<Socio> toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return toReturn;
+
+    }
+
     public List BuscaPorNombre(String name) {
         Query qr = em.createQuery("from Socio socio where socio.nombre like ?1");
         qr.setParameter(1, "%" + name + "%");
@@ -29,7 +43,7 @@ public class SocioDAO extends DaoGenerico {
 
     public List BuscaPorCI(String CI) {
         Query qr = em.createQuery("from Socio socio where socio.ci like ?1");
-        qr.setParameter(1, "%" + CI + "%");
+        qr.setParameter(1, "%" + CI.toString() + "%");
         List<Socio> toReturn = qr.getResultList();
         em.getTransaction().commit();
         em.close();
@@ -62,6 +76,8 @@ public class SocioDAO extends DaoGenerico {
         return toReturn;
 
     }
+
+
 
     public Socio BuscaPorCodigoYCobrador(String codigo, Cobrador cobrador) {
 
@@ -115,7 +131,7 @@ public class SocioDAO extends DaoGenerico {
         return exists;
     }
 
-    public List BuscaSocioTitular(Socio socio) {
+    public List<Dependiente> BuscaDependientes(Socio socio) {
 
         Query qr = em.createQuery("from Dependiente dependiente where dependiente.socio = ?1");
         qr.setParameter(1, socio);

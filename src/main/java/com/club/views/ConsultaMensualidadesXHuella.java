@@ -1,19 +1,24 @@
 package com.club.views;
 
-import com.Renderers.MyDateCellRenderer;
-import com.Renderers.MyDefaultCellRenderer;
 import com.club.BEANS.Dependiente;
 import com.club.BEANS.Mensualidades;
 import com.club.BEANS.Socio;
 import com.club.DAOs.DepDAO;
 import com.club.DAOs.MensualidadesDAO;
 import com.club.DAOs.SocioDAO;
-import com.club.Renderers.TableRendererColorSituacion;
 import com.club.huellas.BioMini;
-import javax.swing.table.DefaultTableModel;
+import com.club.tableModels.DependienteTableModel;
+import com.club.tableModels.SocioTableModelControlAcceso;
+import java.awt.Image;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
@@ -21,8 +26,13 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
     MensualidadesDAO mensualidadesDAO;
     SocioDAO socioDAO;
     Socio socioSeleccionado;
-    DefaultTableModel tblModelMensualidades;
+    SocioTableModelControlAcceso tblModelSocio;
+    DependienteTableModel tblModelDependiente;
     List<Mensualidades> listMensualidades;
+    List<Socio> listSocios;
+    List<Dependiente> listDependientes;
+    ImageIcon foto;
+    Icon icono;
 
     BioMini bioMini;
     DepDAO daoD;
@@ -31,82 +41,95 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
     public ConsultaMensualidadesXHuella() {
 
         initComponents();
+        jlblActivo.setVisible(false);
+        jlblInactivo.setVisible(false);
         defineModelo();
-        socioDAO = new SocioDAO();
-        daoD = new DepDAO();
+
     }
 
     private void defineModelo() {
 
-        ((DefaultTableCellRenderer) tblMensualidades.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        tblModelMensualidades = (DefaultTableModel) tblMensualidades.getModel();
-        tblMensualidades.getColumn("Estado").setCellRenderer(new TableRendererColorSituacion(5));
+        ((DefaultTableCellRenderer) tblSocios.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        listSocios = new ArrayList();
+        tblModelSocio = new SocioTableModelControlAcceso(listSocios);
+        tblSocios.setModel(tblModelSocio);
+        int[] anchos = {5, 400, 5, 5, 5, 5};
+
+        for (int i = 0; i < tblSocios.getColumnCount(); i++) {
+
+            tblSocios.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+
+        }
+        tblSocios.setRowHeight(25);
+
+        ((DefaultTableCellRenderer) tblDependientes.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        listDependientes = new ArrayList();
+        tblModelDependiente = new DependienteTableModel(listDependientes);
+        tblDependientes.setModel(tblModelDependiente);
+        int[] anchosD = {5, 400, 5, 5, 5, 5};
+
+        for (int i = 0; i < tblDependientes.getColumnCount(); i++) {
+
+            tblDependientes.getColumnModel().getColumn(i).setPreferredWidth(anchosD[i]);
+
+        }
+        tblDependientes.setRowHeight(25);
+
+        ListSelectionModel listModelSocios = tblSocios.getSelectionModel();
+        listModelSocios.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+
+                    if (tblSocios.getSelectedRow() != -1) {
+
+                        socioSeleccionado = listSocios.get(tblSocios.getSelectedRow());
+                    }
+                    if (socioSeleccionado.getSituacion().equals("Activo")) {
+
+                        jlblActivo.setVisible(true);
+                        jlblInactivo.setVisible(false);
+                    } else {
+                        jlblActivo.setVisible(false);
+                        jlblInactivo.setVisible(true);
+                    }
+
+                    muestraDependientes();
+                }
+            }
+
+        });
 
     }
 
     private void filtros() {
+        listSocios.clear();
 
-        if (rbCodigo.isSelected()) {
-            socioSeleccionado = new Socio();
-            socioSeleccionado = (Socio) socioDAO.BuscaPorID(Socio.class, Integer.parseInt(txtFiltro.getText()));
-            if (socioSeleccionado == null) {
+        socioDAO = new SocioDAO();
+        listSocios.addAll(socioDAO.FiltroInteligenteSocios(txtFiltro.getText()));
+        tblModelSocio.fireTableDataChanged();
 
-                Dependiente dep = (Dependiente) daoD.BuscaPorID(Dependiente.class, Integer.parseInt(txtFiltro.getText()));
-                if (dep != null) {
-                    txtSocio.setText(dep.toString());
-                    txtSituacion.setText(dep.getSituacion());
-                    socioSeleccionado = dep.getSocio();
-                }else{
-                    JOptionPane.showMessageDialog(this, "Socio no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                txtSocio.setText(socioSeleccionado.toString());
-                txtSituacion.setText(socioSeleccionado.getSituacion());
-                txtCategoria.setText(socioSeleccionado.getCategoria().toString());
+        daoD = new DepDAO();
+        listDependientes.clear();
+        listDependientes.addAll(daoD.FiltroInteligenteDependiente(txtFiltro.getText()));
+        if (listDependientes.isEmpty() && listSocios.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Socio no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            for (Dependiente dependiente : listDependientes) {
+                daoD = new DepDAO();
+
+                listSocios.add(daoD.BuscaTitular(dependiente).getSocio());
+                tblModelSocio.fireTableDataChanged();
             }
-        } else if (rbCI.isSelected()) {
-            socioDAO = new SocioDAO();
-            socioSeleccionado = socioDAO.BuscaPorCIIgual(txtFiltro.getText());
-            if (socioSeleccionado == null) {
-                Dependiente dep = (Dependiente) daoD.BuscaPorCIIgual(txtFiltro.getText());
-                if (dep != null) {
-                    txtSocio.setText(dep.toString());
-                    txtSituacion.setText(dep.getSituacion());
-                    socioSeleccionado = dep.getSocio();
-                }else{
-                    JOptionPane.showMessageDialog(this, "Socio no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                txtSocio.setText(socioSeleccionado.toString());
-                txtSituacion.setText(socioSeleccionado.getSituacion());
-                txtCategoria.setText(socioSeleccionado.getCategoria().toString());
-            }
+
         }
-        muestraMensualidades();
+
     }
 
-    private void muestraMensualidades() {
-        try {
-
-            mensualidadesDAO = new MensualidadesDAO();
-            listMensualidades = mensualidadesDAO.BuscaMensualidadesPorSocio(socioSeleccionado);
-
-            tblModelMensualidades.setNumRows(0);
-            for (Mensualidades mensualidades : listMensualidades) {
-                tblModelMensualidades.addRow(new Object[]{
-                    mensualidades.getSocio(),
-                    mensualidades.getId(),
-                    mensualidades.getFechaVencimiento(),
-                    mensualidades.getFechaPago(),
-                    mensualidades.getCobrador().getNombre(),
-                    mensualidades.getPago(),
-                    mensualidades.getValor()
-                });
-            }
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(this, "Socio no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
-            limpiaCampos();
-        }
+    void muestraDependientes() {
+        listDependientes.clear();
+        socioDAO = new SocioDAO();
+        listDependientes.addAll(socioDAO.BuscaDependientes(socioSeleccionado));
+        tblModelDependiente.fireTableDataChanged();
     }
 
     public Socio getSocioSeleccionado() {
@@ -115,16 +138,14 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
 
     public void setSocioSeleccionado(Socio socioSeleccionado) {
         try {
-            this.socioSeleccionado = socioSeleccionado;
-            txtSocio.setText(socioSeleccionado.toString());
-            txtSituacion.setText(socioSeleccionado.getSituacion());
-            txtCategoria.setText(socioSeleccionado.getCategoria().toString());
+            listSocios.clear();
+            listSocios.add(socioSeleccionado);
+            tblModelSocio.fireTableDataChanged();
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Socio no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
             limpiaCampos();
         }
 
-        muestraMensualidades();
     }
 
     public Dependiente getDependienteSeleccionado() {
@@ -132,25 +153,19 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
     }
 
     public void setDependienteSeleccionado(Dependiente dependienteSeleccionado) {
-        this.dependienteSeleccionado = dependienteSeleccionado;
         try {
-            this.socioSeleccionado = dependienteSeleccionado.getSocio();
-            txtSocio.setText(dependienteSeleccionado.toString());
-            txtSituacion.setText(dependienteSeleccionado.getSituacion());
-            txtCategoria.setText("Socio dependiente!");
+            listSocios.clear();
+            listSocios.add(dependienteSeleccionado.getSocio());
+            tblModelSocio.fireTableDataChanged();
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Socio no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
             limpiaCampos();
         }
 
-        muestraMensualidades();
     }
 
     public void limpiaCampos() {
-        tblModelMensualidades.setNumRows(0);
-        txtCategoria.setText("");
-        txtSituacion.setText("");
-        txtSocio.setText("");
+
     }
 
     @SuppressWarnings("unchecked")
@@ -161,24 +176,21 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        rbCI = new javax.swing.JRadioButton();
-        rbCodigo = new javax.swing.JRadioButton();
         txtFiltro = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         btnIdentificar = new javax.swing.JButton();
-        txtSocio = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtCategoria = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txtSituacion = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        jlblActivo = new javax.swing.JLabel();
+        jlblInactivo = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblMensualidades = new javax.swing.JTable();
+        tblSocios = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblDependientes = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -187,48 +199,22 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(900, 650));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
-
         jPanel7.setLayout(new java.awt.GridBagLayout());
 
-        buttonGroup1.add(rbCI);
-        rbCI.setSelected(true);
-        rbCI.setText("Cédula");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 23, 0, 0);
-        jPanel7.add(rbCI, gridBagConstraints);
-
-        buttonGroup1.add(rbCodigo);
-        rbCodigo.setText("Código");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 23, 0, 0);
-        jPanel7.add(rbCodigo, gridBagConstraints);
-
+        txtFiltro.setToolTipText("Digite Cod. Socio o Nombre o C.I.");
         txtFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFiltroActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 150;
+        gridBagConstraints.ipadx = 200;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(txtFiltro, gridBagConstraints);
-
-        jLabel3.setText("Categoría:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipady = 9;
-        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
-        jPanel7.add(jLabel3, gridBagConstraints);
 
         btnBuscar.setText("Buscar"); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -237,8 +223,8 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(btnBuscar, gridBagConstraints);
 
@@ -249,30 +235,13 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel7.add(btnIdentificar, gridBagConstraints);
 
-        txtSocio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtSocio.setDisabledTextColor(new java.awt.Color(255, 102, 102));
-        txtSocio.setEnabled(false);
-        txtSocio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSocioActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 150;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel7.add(txtSocio, gridBagConstraints);
-
-        jLabel4.setText("Filtro por Nombre"); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setText("Buscar por:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -280,60 +249,36 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
         jPanel7.add(jLabel4, gridBagConstraints);
 
-        txtCategoria.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtCategoria.setDisabledTextColor(new java.awt.Color(255, 102, 102));
-        txtCategoria.setEnabled(false);
-        txtCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCategoriaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 150;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel7.add(txtCategoria, gridBagConstraints);
+        jlblActivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pulgar_arriba.png"))); // NOI18N
+        jlblActivo.setPreferredSize(new java.awt.Dimension(3, 4));
 
-        jLabel5.setText("Nombre socio:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipady = 9;
-        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
-        jPanel7.add(jLabel5, gridBagConstraints);
+        jlblInactivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pare1.png"))); // NOI18N
+        jlblInactivo.setPreferredSize(new java.awt.Dimension(3, 4));
 
-        txtSituacion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtSituacion.setDisabledTextColor(new java.awt.Color(255, 102, 102));
-        txtSituacion.setEnabled(false);
-        txtSituacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSituacionActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 150;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel7.add(txtSituacion, gridBagConstraints);
-
-        jLabel6.setText("Situación:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipady = 9;
-        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
-        jPanel7.add(jLabel6, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel2.add(jPanel7, gridBagConstraints);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlblActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlblInactivo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlblInactivo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -341,14 +286,14 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(jPanel2, gridBagConstraints);
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel1.setBackground(new java.awt.Color(255, 0, 51));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 400));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Consulta de Mensualidades"); // NOI18N
+        jLabel1.setText("Control de accesos"); // NOI18N
         jPanel1.add(jLabel1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -359,62 +304,68 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 1.0;
         getContentPane().add(jPanel1, gridBagConstraints);
 
+        jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
-        tblMensualidades.setModel(new javax.swing.table.DefaultTableModel(
+        tblSocios.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tblSocios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Titular", "Nro. Recibo", "Fecha de Vencimiento", "Fecha de Pago", "Cobrador", "Estado", "Valor"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblMensualidades.addMouseListener(new java.awt.event.MouseAdapter() {
+        ));
+        tblSocios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblMensualidadesMouseClicked(evt);
+                tblSociosMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tblMensualidades);
-        if (tblMensualidades.getColumnModel().getColumnCount() > 0) {
-            tblMensualidades.getColumnModel().getColumn(1).setPreferredWidth(5);
-            tblMensualidades.getColumnModel().getColumn(1).setCellRenderer(new MyDefaultCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(2).setPreferredWidth(40);
-            tblMensualidades.getColumnModel().getColumn(2).setCellRenderer(new MyDateCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(3).setPreferredWidth(40);
-            tblMensualidades.getColumnModel().getColumn(3).setCellRenderer(new MyDateCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(4).setPreferredWidth(50);
-            tblMensualidades.getColumnModel().getColumn(4).setCellRenderer(new MyDefaultCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(5).setPreferredWidth(30);
-            tblMensualidades.getColumnModel().getColumn(5).setCellRenderer(new MyDefaultCellRenderer());
-            tblMensualidades.getColumnModel().getColumn(6).setPreferredWidth(30);
-            tblMensualidades.getColumnModel().getColumn(6).setCellRenderer(new MyDefaultCellRenderer());
-        }
+        jScrollPane2.setViewportView(tblSocios);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         jPanel6.add(jScrollPane2, gridBagConstraints);
 
-        jTabbedPane1.addTab("Mensualidades", jPanel6);
+        tblDependientes.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tblDependientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblDependientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDependientesMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblDependientes);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel6.add(jScrollPane3, gridBagConstraints);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setText("Dependientes:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipady = 9;
+        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
+        jPanel6.add(jLabel5, gridBagConstraints);
+
+        jTabbedPane1.addTab("Socio titular", jPanel6);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -422,13 +373,14 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         getContentPane().add(jTabbedPane1, gridBagConstraints);
+        jTabbedPane1.getAccessibleContext().setAccessibleName("Titular:");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblMensualidadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMensualidadesMouseClicked
+    private void tblSociosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSociosMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblMensualidadesMouseClicked
+    }//GEN-LAST:event_tblSociosMouseClicked
 
     private void btnIdentificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIdentificarActionPerformed
 
@@ -447,39 +399,28 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         filtros();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void txtSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSocioActionPerformed
+    private void tblDependientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDependientesMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtSocioActionPerformed
-
-    private void txtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCategoriaActionPerformed
-
-    private void txtSituacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSituacionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSituacionActionPerformed
+    }//GEN-LAST:event_tblDependientesMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnIdentificar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JRadioButton rbCI;
-    private javax.swing.JRadioButton rbCodigo;
-    private javax.swing.JTable tblMensualidades;
-    private javax.swing.JTextField txtCategoria;
+    private javax.swing.JLabel jlblActivo;
+    private javax.swing.JLabel jlblInactivo;
+    private javax.swing.JTable tblDependientes;
+    private javax.swing.JTable tblSocios;
     private javax.swing.JTextField txtFiltro;
-    private javax.swing.JTextField txtSituacion;
-    private javax.swing.JTextField txtSocio;
     // End of variables declaration//GEN-END:variables
 }

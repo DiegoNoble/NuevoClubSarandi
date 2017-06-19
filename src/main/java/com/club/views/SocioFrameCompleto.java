@@ -1340,7 +1340,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
             btnFicha.setReportParameters(parametros);
 
             socioDAO = new SocioDAO();
-            List dp = socioDAO.BuscaSocioTitular(socioSeleccionado);
+            List dp = socioDAO.BuscaDependientes(socioSeleccionado);
             if (dp.size() == 0) {
 
                 btnFicha.setReportURL("/Reportes/solicitudSocioSinDep.jasper");

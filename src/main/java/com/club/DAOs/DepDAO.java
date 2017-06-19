@@ -19,10 +19,35 @@ public class DepDAO extends DaoGenerico {
 
     }
 
+    public List<Dependiente> FiltroInteligenteDependiente(String texto) {
+
+        Query qr = em.createNativeQuery("select * from tbdependiente d where (select convert(d.id,char))\n"
+                + "like ?1 or d.nombre like  ?2 or d.ci like ?3", Dependiente.class);
+        qr.setParameter(1, "%" + texto + "%");
+        qr.setParameter(2, "%" + texto + "%");
+        qr.setParameter(3, "%" + texto + "%");
+        List<Dependiente> toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return toReturn;
+
+    }
+
     public List<Dependiente> BuscaPorCodigodeSocio(Socio socio) {
 
         Query qr = em.createQuery("from Dependiente dependiente where dependiente.socio = ?1");
         qr.setParameter(1, socio);
+        List toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return toReturn;
+
+    }
+
+    public List<Dependiente> BuscaPorCodigoLike(String ci) {
+
+        Query qr = em.createQuery("from Dependiente d where str(d.id) like ?1");
+        qr.setParameter(1, ci.toString());
         List toReturn = qr.getResultList();
         em.getTransaction().commit();
         em.close();
@@ -108,7 +133,7 @@ public class DepDAO extends DaoGenerico {
     }
 
     public Dependiente BuscaTitular(Dependiente dependiente) {
-        
+
         Query qr = em.createQuery("from Dependiente d join fetch d.socio where d.id = ?1");
         qr.setParameter(1, dependiente.getId());
         Dependiente toReturn = (Dependiente) qr.getSingleResult();
@@ -118,4 +143,5 @@ public class DepDAO extends DaoGenerico {
 
     }
 
+    
 }
