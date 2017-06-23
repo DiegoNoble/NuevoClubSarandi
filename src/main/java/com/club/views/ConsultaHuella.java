@@ -17,9 +17,9 @@ public final class ConsultaHuella extends javax.swing.JDialog {
     BioMini bioMini;
     SocioDAO daoS;
     DepDAO daoD;
-    ConsultaMensualidadesXHuella form;
+    ControlDeAccesos form;
 
-    public ConsultaHuella(java.awt.Frame parent, boolean modal, ConsultaMensualidadesXHuella form) {
+    public ConsultaHuella(java.awt.Frame parent, boolean modal, ControlDeAccesos form) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);

@@ -18,6 +18,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.jdom.input.SAXBuilder;
 
 public class EnvioTalonCobrosYa {
@@ -69,9 +70,15 @@ public class EnvioTalonCobrosYa {
         parametersList[7] = new NameValuePair("moneda", "858");
 //monto Numerico10.2 Mondo de la transacción
         parametersList[8] = new NameValuePair("monto", mensualidad.getValor().toString());
-        parametersList[9] = new NameValuePair("monto_vencido", mensualidad.getValor().toString());
+parametersList[9] = new NameValuePair("monto_vencido", mensualidad.getValor().toString());
 //fecha_vencimineto Fecha YYYY-MM-DD Vencimiento del pago en redes de Cobranza. OPCIONAL
-        parametersList[10] = new NameValuePair("fecha_vencimiento", formatoFecha.format(mensualidad.getFechaVencimiento()));
+        if (mensualidad.getFechaVencimiento().before(new Date())) {
+            parametersList[10] = new NameValuePair("fecha_vencimiento", null);
+        } else {
+            
+            parametersList[10] = new NameValuePair("fecha_vencimiento", formatoFecha.format(mensualidad.getFechaVencimiento()));
+        }
+
 //url_respuesta String200 URL para redirigir al usuario al finalizar la transacción
         parametersList[11] = new NameValuePair("url_respuesta", "http://www.sarandiuniversitario.com/");
 //consumo_final Numerico1 1=consumidor final, 0=venta con rut. Para ley de inclusión

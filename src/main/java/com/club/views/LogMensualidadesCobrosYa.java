@@ -65,11 +65,11 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
                 this.txtLog.append("\nSocio " + m.getSocio());
                 this.txtLog.append("\nRecibo " + m.getId() + ", ya enviado, nro Talón CobrosYa " + m.getNroTalonCobrosYa());
                 this.txtLog.append("\n--------------------------");
-            } else if (m.getFechaVencimiento().before(new Date())) {
+            } /*else if (m.getFechaVencimiento().before(new Date())) {
                 this.txtLog.append("\nSocio " + m.getSocio());
                 this.txtLog.append("\nRecibo " + m.getId() + ", Fecha de vencimiento inválida, debe ser mayor que hoy.");
                 this.txtLog.append("\n--------------------------");
-            } else if (m.getPago().equals("Pago")) {
+            } */else if (m.getPago().equals("Pago")) {
                 this.txtLog.append("\nSocio " + m.getSocio());
                 this.txtLog.append("\nRecibo " + m.getId() + ", Nro Talón CobrosYa " + m.getNroTalonCobrosYa() + "Pago " + formato.format(m.getFechaHoraTransaccionCobrosYa()));
                 this.txtLog.append("\n--------------------------");

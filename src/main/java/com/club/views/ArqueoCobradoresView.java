@@ -13,14 +13,21 @@ import com.club.Renderers.TableRendererColor;
 import com.club.Renderers.TableRendererColorSituacion;
 import com.club.control.utilidades.LeeProperties;
 import com.club.tableModels.MensualidadesTableModel;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
 
@@ -124,6 +131,28 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         ftxtValor.setValue(total);
     }
 
+    
+    public void informeRecibosPendientes() {
+        try {
+            HashMap parametros = new HashMap();
+            parametros.clear();
+            parametros.put("Cobrador", ((Cobrador)cbCobrador.getSelectedItem()).getId());
+            
+            Connection conexion = DriverManager.getConnection(props.getUrl(), props.getUsr(), props.getPsw());
+
+            InputStream resource = getClass().getClassLoader().getResourceAsStream("Reportes/recibos_pendientes_por_cobrador.jasper");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, conexion);
+            JasperViewer reporte = new JasperViewer(jasperPrint, false);
+            reporte.setVisible(true);
+
+            reporte.toFront();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error! "+e,"Error",JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -156,6 +185,7 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         ftxtCantPendientes = new javax.swing.JFormattedTextField();
         ftxtCantPagos = new javax.swing.JFormattedTextField();
         ftxtCant = new javax.swing.JFormattedTextField();
+        btnBuscar1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -181,7 +211,7 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -390,6 +420,18 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(ftxtCant, gridBagConstraints);
 
+        btnBuscar1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnBuscar1.setText("Informe recibos pendientes"); // NOI18N
+        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        jPanel5.add(btnBuscar1, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -432,8 +474,14 @@ public class ArqueoCobradoresView extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jasperRunnerButton1ActionPerformed
 
+    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+
+         informeRecibosPendientes();
+    }//GEN-LAST:event_btnBuscar1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnBuscar1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cbCobrador;
     private javax.swing.JComboBox cbSituacion;

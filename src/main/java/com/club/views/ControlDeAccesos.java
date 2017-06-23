@@ -9,7 +9,6 @@ import com.club.DAOs.SocioDAO;
 import com.club.huellas.BioMini;
 import com.club.tableModels.DependienteTableModel;
 import com.club.tableModels.SocioTableModelControlAcceso;
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Icon;
@@ -17,11 +16,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
+public class ControlDeAccesos extends javax.swing.JInternalFrame {
 
     MensualidadesDAO mensualidadesDAO;
     SocioDAO socioDAO;
@@ -38,9 +38,10 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
     DepDAO daoD;
     Dependiente dependienteSeleccionado;
 
-    public ConsultaMensualidadesXHuella() {
+    public ControlDeAccesos() {
 
         initComponents();
+        status.setVisible(false);
         jlblActivo.setVisible(false);
         jlblInactivo.setVisible(false);
         defineModelo();
@@ -83,6 +84,15 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
                     if (tblSocios.getSelectedRow() != -1) {
 
                         socioSeleccionado = listSocios.get(tblSocios.getSelectedRow());
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                jlblActivo.setVisible(false);
+                                jlblInactivo.setVisible(false);
+                            }
+                        }).start();
+
                     }
                     if (socioSeleccionado.getSituacion().equals("Activo")) {
 
@@ -95,9 +105,11 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
 
                     muestraDependientes();
                 }
+
             }
 
-        });
+        }
+        );
 
     }
 
@@ -122,6 +134,14 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
             }
 
         }
+
+        status.setVisible(false);
+        status.setBusy(false);
+        txtFiltro.setEnabled(true);
+        tblSocios.setEnabled(true);
+        tblDependientes.setEnabled(true);
+        btnBuscar.setEnabled(true);
+        btnIdentificar.setEnabled(true);
 
     }
 
@@ -174,23 +194,26 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         txtFiltro = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         btnIdentificar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        status = new org.jdesktop.swingx.JXBusyLabel();
+        jPanel3 = new javax.swing.JPanel();
         jlblActivo = new javax.swing.JLabel();
         jlblInactivo = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jLabel2 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSocios = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblDependientes = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -198,93 +221,6 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         setResizable(true);
         setPreferredSize(new java.awt.Dimension(900, 650));
         getContentPane().setLayout(new java.awt.GridBagLayout());
-
-        jPanel7.setLayout(new java.awt.GridBagLayout());
-
-        txtFiltro.setToolTipText("Digite Cod. Socio o Nombre o C.I.");
-        txtFiltro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 200;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel7.add(txtFiltro, gridBagConstraints);
-
-        btnBuscar.setText("Buscar"); // NOI18N
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel7.add(btnBuscar, gridBagConstraints);
-
-        btnIdentificar.setText("Buscar Socio por Huella");
-        btnIdentificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIdentificarActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel7.add(btnIdentificar, gridBagConstraints);
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setText("Buscar por:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipady = 9;
-        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
-        jPanel7.add(jLabel4, gridBagConstraints);
-
-        jlblActivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pulgar_arriba.png"))); // NOI18N
-        jlblActivo.setPreferredSize(new java.awt.Dimension(3, 4));
-
-        jlblInactivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pare1.png"))); // NOI18N
-        jlblInactivo.setPreferredSize(new java.awt.Dimension(3, 4));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlblActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jlblInactivo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlblInactivo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlblActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        getContentPane().add(jPanel2, gridBagConstraints);
 
         jPanel1.setBackground(new java.awt.Color(255, 0, 51));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -304,7 +240,118 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 1.0;
         getContentPane().add(jPanel1, gridBagConstraints);
 
-        jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        jPanel7.setLayout(new java.awt.GridBagLayout());
+
+        txtFiltro.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtFiltro.setToolTipText("Digite Cod. Socio o Nombre o C.I.");
+        txtFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFiltroActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 250;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel7.add(txtFiltro, gridBagConstraints);
+
+        btnBuscar.setText("Buscar"); // NOI18N
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel7.add(btnBuscar, gridBagConstraints);
+
+        btnIdentificar.setText("Buscar Socio por Huella");
+        btnIdentificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIdentificarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel7.add(btnIdentificar, gridBagConstraints);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setText("Buscar por:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipady = 9;
+        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
+        jPanel7.add(jLabel4, gridBagConstraints);
+
+        status.setText("Aguarde un momento...");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        jPanel7.add(status, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel2.add(jPanel7, gridBagConstraints);
+
+        jlblActivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pulgar_arriba.png"))); // NOI18N
+        jlblActivo.setPreferredSize(new java.awt.Dimension(3, 4));
+
+        jlblInactivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pare1.png"))); // NOI18N
+        jlblInactivo.setPreferredSize(new java.awt.Dimension(3, 4));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 325, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jlblActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jlblInactivo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 156, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jlblActivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jlblInactivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel2.add(jPanel3, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 5;
+        getContentPane().add(jPanel2, gridBagConstraints);
 
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
@@ -317,6 +364,7 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblSocios.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblSocios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblSociosMouseClicked(evt);
@@ -326,10 +374,10 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weighty = 2.0;
         jPanel6.add(jScrollPane2, gridBagConstraints);
 
         tblDependientes.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -350,9 +398,8 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         jPanel6.add(jScrollPane3, gridBagConstraints);
 
@@ -360,20 +407,27 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         jLabel5.setText("Dependientes:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.ipady = 9;
         gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
         jPanel6.add(jLabel5, gridBagConstraints);
 
-        jTabbedPane1.addTab("Socio titular", jPanel6);
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Titulares"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipady = 9;
+        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
+        jPanel6.add(jLabel6, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        getContentPane().add(jTabbedPane1, gridBagConstraints);
-        jTabbedPane1.getAccessibleContext().setAccessibleName("Titular:");
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        getContentPane().add(jPanel6, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -382,6 +436,10 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblSociosMouseClicked
 
+    private void tblDependientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDependientesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblDependientesMouseClicked
+
     private void btnIdentificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIdentificarActionPerformed
 
         ConsultaHuella consultaHuella = new ConsultaHuella(null, true, this);
@@ -389,36 +447,63 @@ public class ConsultaMensualidadesXHuella extends javax.swing.JInternalFrame {
         consultaHuella.toFront();
     }//GEN-LAST:event_btnIdentificarActionPerformed
 
-    private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
-
-        filtros();
-    }//GEN-LAST:event_txtFiltroActionPerformed
-
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
 
-        filtros();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                status.setVisible(true);
+                status.setBusy(true);
+                txtFiltro.setEnabled(false);
+                tblSocios.setEnabled(false);
+                tblDependientes.setEnabled(false);
+                btnBuscar.setEnabled(false);
+                btnIdentificar.setEnabled(false);
+                filtros();
+
+            }
+        }).start();
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void tblDependientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDependientesMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblDependientesMouseClicked
+    private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                status.setVisible(true);
+                status.setBusy(true);
+                txtFiltro.setEnabled(false);
+                tblSocios.setEnabled(false);
+                tblDependientes.setEnabled(false);
+                btnBuscar.setEnabled(false);
+                btnIdentificar.setEnabled(false);
+                filtros();
+
+            }
+        }).start();
+    }//GEN-LAST:event_txtFiltroActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnIdentificar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel jlblActivo;
     private javax.swing.JLabel jlblInactivo;
+    private org.jdesktop.swingx.JXBusyLabel status;
     private javax.swing.JTable tblDependientes;
     private javax.swing.JTable tblSocios;
     private javax.swing.JTextField txtFiltro;
