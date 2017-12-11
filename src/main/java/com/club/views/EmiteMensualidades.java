@@ -1,18 +1,23 @@
 package com.club.views;
 
+import com.club.BEANS.Caja;
 import com.club.BEANS.Categoria;
 import com.club.BEANS.CcCobrador;
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.Dependiente;
 import com.club.BEANS.Mensualidades;
 import com.club.BEANS.Parametros;
+import com.club.BEANS.Rubro;
+import com.club.BEANS.Sectores;
 import com.club.BEANS.Socio;
+import com.club.DAOs.CajaDAO;
 import com.club.DAOs.CategoriaDAO;
 import com.club.DAOs.CcCobradorDAO;
 import com.club.DAOs.CobradorDAO;
 import com.club.DAOs.DepDAO;
 import com.club.DAOs.MensualidadesDAO;
 import com.club.DAOs.ParametrosDAO;
+import com.club.DAOs.SectorDAO;
 import com.club.DAOs.SocioDAO;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,6 +39,7 @@ import javax.swing.JTextArea;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class EmiteMensualidades extends javax.swing.JInternalFrame {
 
@@ -57,6 +63,7 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
         parametrosDAO = new ParametrosDAO();
         param = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
         rellentaComboBox();
+
         formato = new SimpleDateFormat("15/MM/yyyy");
         dp.setDateFormat(formato);
     }
@@ -76,6 +83,13 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
             cbCobrador.removeAllItems();
             for (Cobrador cobrador : listCobradores) {
                 cbCobrador.addItem(cobrador);
+            }
+
+            AutoCompleteDecorator.decorate(cbSectores);
+            SectorDAO sectorDAO = new SectorDAO();
+            List<Sectores> listSectores = sectorDAO.BuscaTodos(Sectores.class);
+            for (Sectores sector : listSectores) {
+                cbSectores.addItem(sector);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al cargar cobradores y categorias", "Error", JOptionPane.ERROR_MESSAGE);
@@ -241,8 +255,9 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
 
     }
 
-    private void EmisionMensualidad(String idSocio, JTextArea txtLog) throws Exception {
+    private Mensualidades EmisionMensualidad(String idSocio, JTextArea txtLog) throws Exception {
 
+        Mensualidades mensualidadPaga = null;
         mensualidadesDAO = new MensualidadesDAO();
         int emision = mensualidadesDAO.NroLanzamiento();
         int contadorRecibos = 0;
@@ -284,6 +299,7 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
 
                     mensualidadesDAO = new MensualidadesDAO();
                     mensualidadesDAO.Salvar(mensualidad);
+                    mensualidadPaga = mensualidad;
 
                     registraEnCcCobrador(socio.getCobrador(), mensualidad);
                     txtLog.append("\n Recibo nro.: " + mensualidad.getId() + ", socio: " + socio.toString() + " generado correctamente");
@@ -340,7 +356,67 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Error al imprimir recibo " + ex, "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
+        return mensualidadPaga;
 
+    }
+
+    private void registraPago(Mensualidades mensualidadeEmitida) {
+
+        try {
+
+            mensualidadesDAO = new MensualidadesDAO();
+
+            mensualidadeEmitida.setFechaPago(new Date());
+            mensualidadeEmitida.setPago("Pago");
+
+            mensualidadesDAO = new MensualidadesDAO();
+            mensualidadesDAO.Actualizar(mensualidadeEmitida);
+            registraCreditoCuentaCobrador(mensualidadeEmitida);
+
+            Caja pago = new Caja();
+
+            pago.setConcepto("Cobro mensualidad socio '" + mensualidadeEmitida.getSocio().getNombre() + "'");
+            pago.setRubro(new Rubro(1));
+            pago.setFechaMovimiento(new Date());
+            pago.setEntrada(mensualidadeEmitida.getValor());
+            pago.setSalida(0.0);
+            pago.setSaldo(buscaSaldoAnterior() + pago.getEntrada());
+            pago.setSectores((Sectores) cbSectores.getSelectedItem());
+
+            CajaDAO cajaDAO = new CajaDAO();
+            cajaDAO.Salvar(pago);
+
+            JOptionPane.showMessageDialog(null, "Pago registrado");
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al ejecutar el SQL deseado : " + ex + "");
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void registraCreditoCuentaCobrador(Mensualidades pago) {
+        try {
+            CcCobrador credito = new CcCobrador();
+            credito.setCobrador(pago.getCobrador());
+            credito.setCredito(pago.getValor());
+            credito.setDebito(0.0);
+            credito.setDescripcion("Recibo Nro: " + pago.getId());
+            credito.setFechaMovimiento(new Date());
+
+            ccCobradorDAO = new CcCobradorDAO();
+            ccCobradorDAO.Salvar(credito);
+        } catch (Exception ex) {
+            Logger.getLogger(RegistrarPagosMensualidades.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    Double buscaSaldoAnterior() {
+        Double saldoAnterior = 0.0;
+        CajaDAO cajaDAO = new CajaDAO();
+        saldoAnterior = cajaDAO.BuscaSaldoAnterior().getSaldo();
+        return saldoAnterior;
     }
 
     @SuppressWarnings("unchecked")
@@ -373,6 +449,8 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
         LblCodigoCobrador2 = new javax.swing.JLabel();
         txtUnSocio = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        cbSectores = new javax.swing.JComboBox();
         dp = new datechooser.beans.DateChooserCombo();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -548,7 +626,7 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
         LblCodigoCobrador2.setText("Sócio:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel6.add(LblCodigoCobrador2, gridBagConstraints);
 
@@ -559,7 +637,7 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(txtUnSocio, gridBagConstraints);
@@ -573,10 +651,30 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(jButton2, gridBagConstraints);
+
+        jLabel4.setText("Sectores");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel6.add(jLabel4, gridBagConstraints);
+
+        cbSectores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSectoresActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel6.add(cbSectores, gridBagConstraints);
 
         jTabbedPane4.addTab("Un solo Sócio", jPanel6);
 
@@ -692,13 +790,15 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
                     SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy hh'h'mm'm'ss");
                     String ahora = format.format(date);
                     txtLog.append("\n Inicio " + ahora);
+                    txtLog.append("\n Atención los recibos que se generen individualmente automáticamente se registraran como pagos e ingresaran en caja");
                     //txtLog.setCaretPosition(txtLog.getDocument().getLength());
 
                     if (txtUnSocio.getText().equals("")) {
                         txtLog.append("\n Debe rellenar todos los campos");
                         txtLog.setCaretPosition(txtLog.getDocument().getLength());
                     } else {
-                        EmisionMensualidad(txtUnSocio.getText(), txtLog);
+
+                        registraPago(EmisionMensualidad(txtUnSocio.getText(), txtLog));
                     }
 
                 } catch (Exception e) {
@@ -715,11 +815,16 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void cbSectoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSectoresActionPerformed
+
+    }//GEN-LAST:event_cbSectoresActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LblCodigoCobrador1;
     private javax.swing.JLabel LblCodigoCobrador2;
     private javax.swing.JComboBox cbCategoria;
     private javax.swing.JComboBox cbCobrador;
+    private javax.swing.JComboBox cbSectores;
     private datechooser.beans.DateChooserDialog dateChooserDialog1;
     private datechooser.beans.DateChooserCombo dp;
     private javax.swing.JButton jButton1;
@@ -728,6 +833,7 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;

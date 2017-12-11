@@ -331,6 +331,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemHabilitacionDependientesActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuItemHabilitacionTitulares1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Registra ex&#xe1;men medico Titulares"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuItemHabilitacionTitulares1ActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuControlPresencia">
@@ -663,7 +671,7 @@
                               <Component id="btnSocio" max="32767" attributes="1"/>
                               <Component id="btndependientes" alignment="0" max="32767" attributes="1"/>
                               <Component id="btnCaja" alignment="0" max="32767" attributes="1"/>
-                              <Component id="btnMensualidades" alignment="0" pref="185" max="32767" attributes="1"/>
+                              <Component id="btnMensualidades" alignment="0" pref="0" max="32767" attributes="1"/>
                               <Component id="btnTitulares" alignment="0" max="32767" attributes="0"/>
                               <Component id="btnRegistroDependientes" alignment="0" max="32767" attributes="0"/>
                           </Group>

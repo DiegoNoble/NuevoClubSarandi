@@ -62,7 +62,20 @@ public class Parametros implements Serializable {
 
     private String MySql_Path;
     private String nombreBasesDatos;
-
+    private Double valorFicha;
+    private Double comisionMedicoFicha;
+    private Integer vencimientoFicha;
+    @JoinColumn(name = "id_rubroFichaMedica", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Rubro rubroFichaMedica;
+    @JoinColumn(name = "id_rubroPagoDoctor", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Rubro rubroPagoDoctor;
+    
+    @JoinColumn(name = "id_sectorFicha", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Sectores sectorFicha;
+    
     public Parametros() {
     }
 
@@ -74,6 +87,23 @@ public class Parametros implements Serializable {
         this.id = id;
     }
 
+    public Double getComisionMedicoFicha() {
+        return comisionMedicoFicha;
+    }
+
+    public void setComisionMedicoFicha(Double comisionMedicoFicha) {
+        this.comisionMedicoFicha = comisionMedicoFicha;
+    }
+
+    public Sectores getSectorFicha() {
+        return sectorFicha;
+    }
+
+    public void setSectorFicha(Sectores sectorFicha) {
+        this.sectorFicha = sectorFicha;
+    }
+
+    
     public String getUrlPostCobrosYa() {
         return urlPostCobrosYa;
     }
@@ -194,6 +224,42 @@ public class Parametros implements Serializable {
         this.sectorCampEco = sectorCampEco;
     }
 
+  
+
+    public Double getValorFicha() {
+        return valorFicha;
+    }
+
+    public void setValorFicha(Double valorFicha) {
+        this.valorFicha = valorFicha;
+    }
+
+    public Integer getVencimientoFicha() {
+        return vencimientoFicha;
+    }
+
+    public void setVencimientoFicha(Integer vencimientoFicha) {
+        this.vencimientoFicha = vencimientoFicha;
+    }
+
+    public Rubro getRubroFichaMedica() {
+        return rubroFichaMedica;
+    }
+
+    public void setRubroFichaMedica(Rubro rubroFichaMedica) {
+        this.rubroFichaMedica = rubroFichaMedica;
+    }
+
+    public Rubro getRubroPagoDoctor() {
+        return rubroPagoDoctor;
+    }
+
+    public void setRubroPagoDoctor(Rubro rubroPagoDoctor) {
+        this.rubroPagoDoctor = rubroPagoDoctor;
+    }
+
+
+    
     
     
 }

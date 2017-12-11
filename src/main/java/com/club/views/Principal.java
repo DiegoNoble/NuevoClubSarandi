@@ -204,6 +204,7 @@ public class Principal extends javax.swing.JFrame {
         mnuHabilitacionMedica = new javax.swing.JMenu();
         mnuItemHabilitacionTitulares = new javax.swing.JMenuItem();
         mnuItemHabilitacionDependientes = new javax.swing.JMenuItem();
+        mnuItemHabilitacionTitulares1 = new javax.swing.JMenuItem();
         mnuControlPresencia = new javax.swing.JMenu();
         mnuItemArqueo1 = new javax.swing.JMenuItem();
         mnuItemMarcajes = new javax.swing.JMenuItem();
@@ -338,7 +339,7 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(btnSocio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btndependientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCaja, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnMensualidades, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                        .addComponent(btnMensualidades, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(btnTitulares, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegistroDependientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(btnMarcajes, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -650,6 +651,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         mnuHabilitacionMedica.add(mnuItemHabilitacionDependientes);
+
+        mnuItemHabilitacionTitulares1.setText("Registra exámen medico Titulares");
+        mnuItemHabilitacionTitulares1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemHabilitacionTitulares1ActionPerformed(evt);
+            }
+        });
+        mnuHabilitacionMedica.add(mnuItemHabilitacionTitulares1);
 
         jMenuBar1.add(mnuHabilitacionMedica);
 
@@ -967,7 +976,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void mnuItemHabilitacionTitularesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemHabilitacionTitularesActionPerformed
 
-        HabilitacionMedicaTitulares habilitacion = new HabilitacionMedicaTitulares();
+        HabilitacionMedica habilitacion = new HabilitacionMedica(usuario);
         jDesktopPane1.add(habilitacion);
         habilitacion.setVisible(true);
         centralizaVentanas(habilitacion);
@@ -989,7 +998,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void mnuItemHabilitacionDependientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemHabilitacionDependientesActionPerformed
 
-        HabilitacionMedicaDependientes habilitacion = new HabilitacionMedicaDependientes();
+        HabilitacionMedicaDependientes habilitacion = new HabilitacionMedicaDependientes(usuario);
         jDesktopPane1.add(habilitacion);
         habilitacion.setVisible(true);
         centralizaVentanas(habilitacion);
@@ -1365,6 +1374,13 @@ public class Principal extends javax.swing.JFrame {
         centralizaVentanas(entregadePremiosView);
     }//GEN-LAST:event_mniItemMovimientosCaja4ActionPerformed
 
+    private void mnuItemHabilitacionTitulares1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemHabilitacionTitulares1ActionPerformed
+         ConsultaFichasTitularesView consultaFichasTitularesView = new ConsultaFichasTitularesView(usuario);
+        jDesktopPane1.add(consultaFichasTitularesView);
+        consultaFichasTitularesView.setVisible(true);
+        centralizaVentanas(consultaFichasTitularesView);
+    }//GEN-LAST:event_mnuItemHabilitacionTitulares1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem btnAsignarPremio;
@@ -1424,6 +1440,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemDependientes;
     private javax.swing.JMenuItem mnuItemHabilitacionDependientes;
     private javax.swing.JMenuItem mnuItemHabilitacionTitulares;
+    private javax.swing.JMenuItem mnuItemHabilitacionTitulares1;
     private javax.swing.JMenuItem mnuItemMarcajes;
     private javax.swing.JMenuItem mnuItemPagos;
     private javax.swing.JMenuItem mnuItemRecibos;

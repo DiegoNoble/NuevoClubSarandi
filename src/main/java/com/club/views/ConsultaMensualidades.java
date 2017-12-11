@@ -48,6 +48,7 @@ public class ConsultaMensualidades extends javax.swing.JInternalFrame {
     public ConsultaMensualidades() {
 
         initComponents();
+        btnReeimprime.setVisible(false);
         defineModelo();
         muestraContenidoTabla();
 
@@ -170,13 +171,13 @@ public class ConsultaMensualidades extends javax.swing.JInternalFrame {
             parametros.clear();
             parametros.put("Msj", Msj);
             parametros.put("recibo", recibo);
-            btnCarneSocio.setDatabaseDriver(props.getDriver());
-            btnCarneSocio.setDatabasePassword(props.getPsw());
-            btnCarneSocio.setDatabaseURL(props.getUrl());
-            btnCarneSocio.setDatabaseUser(props.getUsr());
+            btnReeimprime.setDatabaseDriver(props.getDriver());
+            btnReeimprime.setDatabasePassword(props.getPsw());
+            btnReeimprime.setDatabaseURL(props.getUrl());
+            btnReeimprime.setDatabaseUser(props.getUsr());
 
-            btnCarneSocio.setReportParameters(parametros);
-            btnCarneSocio.setReportURL("/Reportes/recibosIndividual.jasper");
+            btnReeimprime.setReportParameters(parametros);
+            btnReeimprime.setReportURL("/Reportes/recibosIndividual.jasper");
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -251,7 +252,7 @@ public class ConsultaMensualidades extends javax.swing.JInternalFrame {
         tblMensualidades = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         btnAnularRecibo = new javax.swing.JButton();
-        btnCarneSocio = new org.jasper.viewer.components.JasperRunnerButton();
+        btnReeimprime = new org.jasper.viewer.components.JasperRunnerButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -466,13 +467,13 @@ public class ConsultaMensualidades extends javax.swing.JInternalFrame {
         });
         jPanel5.add(btnAnularRecibo);
 
-        btnCarneSocio.setText("Re-Impreción de Recibo");
-        btnCarneSocio.addActionListener(new java.awt.event.ActionListener() {
+        btnReeimprime.setText("Re-Impreción de Recibo");
+        btnReeimprime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCarneSocioActionPerformed(evt);
+                btnReeimprimeActionPerformed(evt);
             }
         });
-        jPanel5.add(btnCarneSocio);
+        jPanel5.add(btnReeimprime);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -504,17 +505,17 @@ public class ConsultaMensualidades extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnAnularReciboActionPerformed
 
-    private void btnCarneSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarneSocioActionPerformed
+    private void btnReeimprimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReeimprimeActionPerformed
 
         String Msj = JOptionPane.showInputDialog(null, "Digite el mensaje a imprimir en el recibo");
         ReimprimeRecibo(Msj, mensualidadSeleccionada.getId());
 
-    }//GEN-LAST:event_btnCarneSocioActionPerformed
+    }//GEN-LAST:event_btnReeimprimeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnularRecibo;
     private javax.swing.JButton btnBuscar;
-    private org.jasper.viewer.components.JasperRunnerButton btnCarneSocio;
+    private org.jasper.viewer.components.JasperRunnerButton btnReeimprime;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

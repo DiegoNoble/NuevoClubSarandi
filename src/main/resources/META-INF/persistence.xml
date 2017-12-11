@@ -7,7 +7,6 @@
     <class>com.club.BEANS.Cobrador</class>
     <class>com.club.BEANS.Dependiente</class>
     <class>com.club.BEANS.FichaMedica</class>
-    <class>com.club.BEANS.FichaMedicaDependientes</class>
     <class>com.club.BEANS.Mensualidades</class>
     <class>com.club.BEANS.Rubro</class>
     <class>com.club.BEANS.Sectores</class>

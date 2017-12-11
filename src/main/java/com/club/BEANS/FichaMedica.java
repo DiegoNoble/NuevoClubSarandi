@@ -40,10 +40,14 @@ public class FichaMedica implements Serializable {
     @Basic(optional = false)
     @Column(name = "FECHA_VENCIMIENTO")
     @Temporal(TemporalType.DATE)
-    private Calendar fechaVencimiento;
+    private Date fechaVencimiento;
     @JoinColumn(name = "ID_SOCIO", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private Socio socio;
+    @JoinColumn(name = "ID_DEPENDIENTE", referencedColumnName = "ID")
+    @ManyToOne(optional = true)
+    private Dependiente dependiente;
+    private Boolean examenMedico = false;
 
     public FichaMedica() {
     }
@@ -61,7 +65,14 @@ public class FichaMedica implements Serializable {
         this.id = id;
     }
 
+    public Dependiente getDependiente() {
+        return dependiente;
+    }
 
+    public void setDependiente(Dependiente dependiente) {
+        this.dependiente = dependiente;
+    }
+    
     public Date getFechaEmision() {
         return fechaEmision;
     }
@@ -70,11 +81,11 @@ public class FichaMedica implements Serializable {
         this.fechaEmision = fechaEmision;
     }
 
-    public Calendar getFechaVencimiento() {
+    public Date getFechaVencimiento() {
         return fechaVencimiento;
     }
 
-    public void setFechaVencimiento(Calendar fechaVencimiento) {
+    public void setFechaVencimiento(Date fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
     }
 
@@ -85,6 +96,16 @@ public class FichaMedica implements Serializable {
     public void setSocio(Socio socio) {
         this.socio = socio;
     }
+
+    public Boolean getExamenMedico() {
+        return examenMedico;
+    }
+
+    public void setExamenMedico(Boolean examenMedico) {
+        this.examenMedico = examenMedico;
+    }
+
+    
 
     @Override
     public int hashCode() {

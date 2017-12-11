@@ -359,12 +359,12 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnularReciboActionPerformed"/>
           </Events>
         </Component>
-        <Component class="org.jasper.viewer.components.JasperRunnerButton" name="btnCarneSocio">
+        <Component class="org.jasper.viewer.components.JasperRunnerButton" name="btnReeimprime">
           <Properties>
             <Property name="text" type="java.lang.String" value="Re-Impreci&#xf3;n de Recibo"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCarneSocioActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReeimprimeActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

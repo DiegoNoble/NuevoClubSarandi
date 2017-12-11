@@ -4,20 +4,27 @@
  */
 package com.club.DAOs;
 
-import com.club.control.utilidades.JPAUtil;
-import javax.persistence.EntityManager;
+import com.club.BEANS.FichaMedica;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Query;
 
 /**
  *
  * @author Diego
  */
 public class FichaMedicaDAO extends DaoGenerico {
-    
-    private EntityManager em;
-    
-    public FichaMedicaDAO(){
-        
-        em = JPAUtil.getInstance().getEntityManager();
+
+    public List<FichaMedica> fichasEntreFechas(Date desde, Date hasta) {
+
+        List<FichaMedica> toReturn = null;
+
+        Query qr = em.createQuery("from FichaMedica f where f.fechaEmision between ?1 and ?2");
+        qr.setParameter(1, desde);
+        qr.setParameter(2, hasta);
+        toReturn = qr.getResultList();
+
+        return toReturn;
     }
-    
+
 }

@@ -53,7 +53,7 @@ public class Dependiente implements Serializable {
     @Column(name = "PARENTESCO")
     private String parentesco;
     @JoinColumn(name = "ID_SOCIO", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Socio socio;
     @Lob
     @Column(name = "huella", columnDefinition = "blob")
@@ -188,7 +188,7 @@ public class Dependiente implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return id + ", " + nombre;
     }
 
 }

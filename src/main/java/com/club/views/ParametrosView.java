@@ -42,8 +42,15 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtUrlConsultaCobranzas.setText(parametros.getUrlConsultaCobranzasCobrosYa());
         cbRubro.setSelectedItem(parametros.getRubroPagoCuotasCampEco());
         cbSector.setSelectedItem(parametros.getSectorCampEco());
+        cbSectorFicha.setSelectedItem(parametros.getSectorFicha());
         txtMysqlPath.setText(parametros.getMySql_Path());
         txtNombreBasedeDatos.setText(parametros.getNombreBasesDatos());
+
+        txtValorFicha.setText(parametros.getValorFicha().toString());
+        txtComisionFicha.setText(parametros.getComisionMedicoFicha().toString());
+        txtVencimientoFicha.setText(parametros.getVencimientoFicha().toString());
+        cbRubroFichaMedica.setSelectedItem(parametros.getRubroFichaMedica());
+        cbRubroPagoDoctor.setSelectedItem(parametros.getRubroPagoDoctor());
 
         txttoleranciaRecibosPendientes.setText(parametros.getToleranciaRecibosPenientes().toString());
     }
@@ -54,6 +61,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         List<Cobrador> cobradores = cobradorDAO.BuscaTodos(Cobrador.class);
         for (Cobrador cobrador : cobradores) {
             cbCobrosYa.addItem(cobrador);
+            
         }
     }
 
@@ -63,6 +71,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         List<Sectores> sectores = sectorDAO.BuscaTodos(Sectores.class);
         for (Sectores sector : sectores) {
             cbSector.addItem(sector);
+            cbSectorFicha.addItem(sector);
         }
     }
 
@@ -74,6 +83,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
             List<Rubro> listRubros = rubroDAO.BuscaTodos(Rubro.class);
             for (Rubro rubro : listRubros) {
                 cbRubro.addItem(rubro);
+                cbRubroFichaMedica.addItem(rubro);
+                cbRubroPagoDoctor.addItem(rubro);
             }
 
         } catch (Exception ex) {
@@ -95,10 +106,16 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtApiUrlCrear.setEnabled(true);
         txtUsuarioSMS.setEnabled(true);
         txtEmailPadron.setEnabled(true);
+        txtValorFicha.setEnabled(true);
+        txtComisionFicha.setEnabled(true);
+        txtVencimientoFicha.setEnabled(true);
         txttoleranciaRecibosPendientes.setEnabled(true);
         cbCobrosYa.setEnabled(true);
         cbRubro.setEnabled(true);
+        cbRubroFichaMedica.setEnabled(true);
+        cbRubroPagoDoctor.setEnabled(true);
         cbSector.setEnabled(true);
+        cbSectorFicha.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnGuardar.setEnabled(true);
         btnEditar.setEnabled(false);
@@ -112,15 +129,21 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtEmail.setEnabled(false);
         txtPswEmail.setEnabled(false);
         txtPswSms.setEnabled(false);
+        txtComisionFicha.setEnabled(false);
         txtTokenCobrosYa.setEnabled(false);
         txtUrlPost.setEnabled(false);
         txtUrlConsultaCobranzas.setEnabled(false);
         txtApiUrlCrear.setEnabled(false);
         txtUsuarioSMS.setEnabled(false);
         txtEmailPadron.setEnabled(false);
+        txtValorFicha.setEnabled(false);
+        txtVencimientoFicha.setEnabled(false);
         txttoleranciaRecibosPendientes.setEnabled(false);
         cbCobrosYa.setEnabled(false);
+        cbRubroFichaMedica.setEnabled(true);
+        cbRubroPagoDoctor.setEnabled(true);
         cbSector.setEnabled(false);
+        cbSectorFicha.setEnabled(false);
         btnCancelar.setEnabled(false);
         btnGuardar.setEnabled(false);
         btnEditar.setEnabled(true);
@@ -165,6 +188,18 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtMysqlPath = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         cbSector = new javax.swing.JComboBox();
+        jLabel19 = new javax.swing.JLabel();
+        txtValorFicha = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        txtVencimientoFicha = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        cbRubroFichaMedica = new javax.swing.JComboBox();
+        jLabel8 = new javax.swing.JLabel();
+        cbRubroPagoDoctor = new javax.swing.JComboBox();
+        jLabel21 = new javax.swing.JLabel();
+        txtComisionFicha = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        cbSectorFicha = new javax.swing.JComboBox();
         jPanel6 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -369,10 +404,10 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txttoleranciaRecibosPendientes, gridBagConstraints);
 
-        jLabel3.setText("Sector campaña economica");
+        jLabel3.setText("Sector Ficha Médica");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel3, gridBagConstraints);
 
@@ -390,10 +425,10 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(cbRubro, gridBagConstraints);
 
-        jLabel17.setText("Nombre base de datos");
+        jLabel17.setText("Vencimiento ficha médica");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel17, gridBagConstraints);
 
@@ -406,10 +441,10 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtNombreBasedeDatos, gridBagConstraints);
 
-        jLabel18.setText("MySql Path (termina en /)");
+        jLabel18.setText("Comisión Ficha médica");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel18, gridBagConstraints);
 
@@ -422,10 +457,10 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtMysqlPath, gridBagConstraints);
 
-        jLabel4.setText("Rubro pago cuotas campaña economica");
+        jLabel4.setText("Rubro ficha medica");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel4, gridBagConstraints);
 
@@ -442,6 +477,117 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(cbSector, gridBagConstraints);
+
+        jLabel19.setText("MySql Path (termina en /)");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel19, gridBagConstraints);
+
+        txtValorFicha.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txtValorFicha, gridBagConstraints);
+
+        jLabel20.setText("Nombre base de datos");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel20, gridBagConstraints);
+
+        txtVencimientoFicha.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txtVencimientoFicha, gridBagConstraints);
+
+        jLabel6.setText("Rubro pago doctores");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel6, gridBagConstraints);
+
+        cbRubroFichaMedica.setEnabled(false);
+        cbRubroFichaMedica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbRubroFichaMedicaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbRubroFichaMedica, gridBagConstraints);
+
+        jLabel8.setText("Rubro pago cuotas campaña economica");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel8, gridBagConstraints);
+
+        cbRubroPagoDoctor.setEnabled(false);
+        cbRubroPagoDoctor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbRubroPagoDoctorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbRubroPagoDoctor, gridBagConstraints);
+
+        jLabel21.setText("Valor Ficha médica");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel21, gridBagConstraints);
+
+        txtComisionFicha.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txtComisionFicha, gridBagConstraints);
+
+        jLabel22.setText("Sector campaña economica");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel22, gridBagConstraints);
+
+        cbSectorFicha.setEnabled(false);
+        cbSectorFicha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSectorFichaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbSectorFicha, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -521,6 +667,15 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
             parametros.setMySql_Path(txtMysqlPath.getText());
             parametros.setNombreBasesDatos(txtNombreBasedeDatos.getText());
             parametros.setSectorCampEco((Sectores) cbSector.getSelectedItem());
+            parametros.setSectorFicha((Sectores) cbSectorFicha.getSelectedItem());
+
+            parametros.setValorFicha(Double.valueOf(txtValorFicha.getText()));
+            parametros.setComisionMedicoFicha(Double.valueOf(txtComisionFicha.getText()));
+            parametros.setVencimientoFicha(Integer.valueOf(txtVencimientoFicha.getText()));
+
+            parametros.setRubroFichaMedica((Rubro) cbRubroFichaMedica.getSelectedItem());
+            parametros.setRubroPagoDoctor((Rubro) cbRubroPagoDoctor.getSelectedItem());
+
             parametrosDAO = new ParametrosDAO();
             parametrosDAO.Actualizar(parametros);
         } catch (Exception ex) {
@@ -542,13 +697,28 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbSectorActionPerformed
 
+    private void cbRubroFichaMedicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRubroFichaMedicaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbRubroFichaMedicaActionPerformed
+
+    private void cbRubroPagoDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRubroPagoDoctorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbRubroPagoDoctorActionPerformed
+
+    private void cbSectorFichaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSectorFichaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbSectorFichaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox cbCobrosYa;
     private javax.swing.JComboBox cbRubro;
+    private javax.swing.JComboBox cbRubroFichaMedica;
+    private javax.swing.JComboBox cbRubroPagoDoctor;
     private javax.swing.JComboBox cbSector;
+    private javax.swing.JComboBox cbSectorFicha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -559,16 +729,23 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField txtApiUrlCrear;
+    private javax.swing.JTextField txtComisionFicha;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailPadron;
     private javax.swing.JTextField txtMysqlPath;
@@ -579,6 +756,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtUrlConsultaCobranzas;
     private javax.swing.JTextField txtUrlPost;
     private javax.swing.JTextField txtUsuarioSMS;
+    private javax.swing.JTextField txtValorFicha;
+    private javax.swing.JTextField txtVencimientoFicha;
     private javax.swing.JTextField txttoleranciaRecibosPendientes;
     // End of variables declaration//GEN-END:variables
 }

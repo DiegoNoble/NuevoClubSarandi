@@ -2,12 +2,21 @@ package com.club.views;
 
 import Utilidades.Utilidades;
 import com.Renderers.MyDefaultCellRenderer;
+import com.club.BEANS.Caja;
 import com.club.BEANS.Dependiente;
-import com.club.BEANS.FichaMedicaDependientes;
-import com.club.BEANS.Socio;
+import com.club.BEANS.FichaMedica;
+import com.club.BEANS.Parametros;
+import com.club.BEANS.Usuario;
+import com.club.DAOs.CajaDAO;
 import com.club.DAOs.DepDAO;
+import com.club.DAOs.FichaMedicaDAO;
 import com.club.DAOs.FichaMedicaDependienteDAO;
 import com.club.DAOs.MensualidadesDAO;
+import com.club.DAOs.ParametrosDAO;
+import com.club.control.utilidades.LeeProperties;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,23 +28,34 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+import org.joda.time.*;
 
 public final class HabilitacionMedicaDependientes extends javax.swing.JInternalFrame {
 
     private MensualidadesDAO mensualidadesDAO;
-    private FichaMedicaDependienteDAO fmDepDAO;
+    private FichaMedicaDAO fmDepDAO;
     private List<Dependiente> listDependientes;
     private Dependiente dependiente;
-    private FichaMedicaDependientes FichaMedicaDep;
+    private FichaMedica FichaMedicaDep;
     private DefaultTableModel tblModel;
     private ListSelectionModel listModelSocios;
     private Dependiente dependienteSelecionado;
     private HashMap parametros;
     private DepDAO dependienteDAO;
+    private ParametrosDAO parametrosDAO;
+    Caja movimientoCaja;
+    CajaDAO cajaDAO;
+    Usuario usuario;
+    LeeProperties props = new LeeProperties();
 
-    public HabilitacionMedicaDependientes() {
+    public HabilitacionMedicaDependientes(Usuario usuario) {
         initComponents();
+        this.usuario = usuario;
         parametros = new HashMap();
+
         DefineModeloTbl();
         buscaTodosLosRegistros();
         muestraContenidoTbl();
@@ -64,7 +84,6 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
 
                         dependienteSelecionado = listDependientes.get(tblDependientes.getSelectedRow());
                     }
-                    muestraDetalles();
                 }
             }
         });
@@ -73,43 +92,22 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
 
     private void muestraContenidoTbl() {
 
-
         try {
 
             tblModel.setNumRows(0);
 
             for (Dependiente dependiente : listDependientes) {
                 tblModel.addRow(new Object[]{
-                            dependiente.getId(),
-                            dependiente.getNombre(),
-                            dependiente.getCi(),
-                            dependiente.getSituacion()});
+                    dependiente.getId(),
+                    dependiente.getNombre(),
+                    dependiente.getCi(),
+                    dependiente.getSituacion()});
             }
-
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No fue posible cargar los registros" + e);
             e.printStackTrace();
         }
-    }
-
-    private void muestraDetalles() {
-
-        limpiaCampos();
-
-        if (tblDependientes.getSelectedRow() != -1) {
-            try {
-
-                jlCodigoSocio.setText(dependienteSelecionado.getId().toString());
-                txtNombre.setText(dependienteSelecionado.getNombre());
-                ftxtCI.setText(dependienteSelecionado.getCi());
-
-            } catch (Exception error) {
-                JOptionPane.showMessageDialog(null, "Error al mostrar detalles" + error);
-                error.printStackTrace();
-            }
-        }
-
     }
 
     private void filtros() {
@@ -135,13 +133,30 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
 
     }
 
-    private void limpiaCampos() {
+    void ajustaSaldos(Double saldo) {
+        try {
+            cajaDAO = new CajaDAO();
+            List<Caja> todos = cajaDAO.BuscaTodosOrdenaPorIDFyFecha(new Date());
 
-        jlCodigoSocio.setText("");
-        txtNombre.setText("");
-        ftxtCI.setText("");
+            for (Caja mov : todos) {
+                saldo = saldo + (mov.getEntrada() - mov.getSalida());
+                mov.setSaldo(saldo);
+                cajaDAO = new CajaDAO();
 
+                cajaDAO.Actualizar(mov);
 
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + ex);
+        }
+    }
+
+    Double buscaSaldoAnteriorFecha(Date fecha) {
+        Double saldoAnterior = 0.0;
+        cajaDAO = new CajaDAO();
+        saldoAnterior = cajaDAO.BuscaSaldoAnteriorFecha(fecha).getSaldo();
+        return saldoAnterior;
     }
 
     @SuppressWarnings("unchecked")
@@ -164,16 +179,10 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
         rbCI = new javax.swing.JRadioButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jlCodigoSocio = new javax.swing.JLabel();
-        ftxtCI = new javax.swing.JFormattedTextField();
         txtFechaEmision = new org.jdesktop.swingx.JXDatePicker();
+        jButton1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        fichaMedica = new org.jasper.viewer.components.JasperRunnerButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -249,10 +258,12 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
         });
         tblDependientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblDependientes);
-        tblDependientes.getColumnModel().getColumn(0).setCellRenderer(new MyDefaultCellRenderer());
-        tblDependientes.getColumnModel().getColumn(1).setCellRenderer(new MyDefaultCellRenderer());
-        tblDependientes.getColumnModel().getColumn(2).setCellRenderer(new MyDefaultCellRenderer());
-        tblDependientes.getColumnModel().getColumn(3).setCellRenderer(new MyDefaultCellRenderer());
+        if (tblDependientes.getColumnModel().getColumnCount() > 0) {
+            tblDependientes.getColumnModel().getColumn(0).setCellRenderer(new MyDefaultCellRenderer());
+            tblDependientes.getColumnModel().getColumn(1).setCellRenderer(new MyDefaultCellRenderer());
+            tblDependientes.getColumnModel().getColumn(2).setCellRenderer(new MyDefaultCellRenderer());
+            tblDependientes.getColumnModel().getColumn(3).setCellRenderer(new MyDefaultCellRenderer());
+        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -303,39 +314,6 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        jLabel2.setText("Código del Socio"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jLabel2, gridBagConstraints);
-
-        jLabel4.setText("Nombre"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jLabel4, gridBagConstraints);
-
-        txtNombre.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(txtNombre, gridBagConstraints);
-
-        jLabel13.setText("C.I."); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jLabel13, gridBagConstraints);
-
         jLabel14.setText("Fecha de Emisión"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -343,27 +321,18 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(jLabel14, gridBagConstraints);
-
-        jlCodigoSocio.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jlCodigoSocio, gridBagConstraints);
-
-        ftxtCI.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(ftxtCI, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         jPanel3.add(txtFechaEmision, gridBagConstraints);
+
+        jButton1.setText("Ficha Medica");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1, new java.awt.GridBagConstraints());
 
         jTabbedPane1.addTab("Personal", jPanel3);
 
@@ -375,15 +344,6 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
         getContentPane().add(jTabbedPane1, gridBagConstraints);
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-
-        fichaMedica.setText("Ficha Medica");
-        fichaMedica.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fichaMedicaActionPerformed(evt);
-            }
-        });
-        jPanel6.add(fichaMedica);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -407,48 +367,82 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
 
     private void jasperRunnerButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FichaMedicaActionPerformed
 
-        
 
     }//GEN-LAST:event_FichaMedicaActionPerformed
 
-    private void fichaMedicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fichaMedicaActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         try {
 
+            parametros.clear();
             if (dependienteSelecionado.getSituacion().equals("Inactivo")) {
                 JOptionPane.showMessageDialog(null, "Dependiente Inactivo, verifique la situacion de su Titular");
                 parametros.clear();
-                fichaMedica.setReportURL(null);
             } else if (dependienteSelecionado.getSituacion().equals("Renuncia")) {
                 JOptionPane.showMessageDialog(null, "El dependiente posee estado de renuncia, verifique estado de su Titular");
                 parametros.clear();
-                fichaMedica.setReportURL(null);
             } else if (dependienteSelecionado.getSituacion().equals("Activo")) {
-                Socio socioTitular = dependienteSelecionado.getSocio();
+                dependienteDAO = new DepDAO();
+                Dependiente dependienteFetch = dependienteDAO.BuscaTitular(dependienteSelecionado);
                 mensualidadesDAO = new MensualidadesDAO();
 
-                if (mensualidadesDAO.VerificaCantidadVencimientos(socioTitular,2) == false ) {
+                if (mensualidadesDAO.VerificaCantidadVencimientos(dependienteFetch.getSocio(), 2) == false) {
                     JOptionPane.showMessageDialog(null, "El Titular tiene mensualidades pendientes, no es posible emitir la Ficha Médica");
                     parametros.clear();
-                    fichaMedica.setReportURL(null);
                 } else {
-                    FichaMedicaDep = new FichaMedicaDependientes();
+                    FichaMedicaDep = new FichaMedica();
                     FichaMedicaDep.setDependiente(dependienteSelecionado);
                     FichaMedicaDep.setFechaEmision(Utilidades.RecibeDateRetornaDateFormatoBD(txtFechaEmision.getDate()));
                     Date fecha = txtFechaEmision.getDate();
                     Calendar fechaVencimiento = Calendar.getInstance();
                     fechaVencimiento.setTime(fecha);
-                    fechaVencimiento.add(Calendar.DAY_OF_MONTH, 40);
-                    FichaMedicaDep.setFechaVencimiento(fechaVencimiento);
-                    fmDepDAO = new FichaMedicaDependienteDAO();
+
+                    parametrosDAO = new ParametrosDAO();
+                    Parametros parametrosSistema = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
+                    fechaVencimiento.add(Calendar.DAY_OF_MONTH, parametrosSistema.getVencimientoFicha());
+                    FichaMedicaDep.setFechaVencimiento(fechaVencimiento.getTime());
+                    fmDepDAO = new FichaMedicaDAO();
                     fmDepDAO.Salvar(FichaMedicaDep);
 
-                    JOptionPane.showMessageDialog(null, "Ficha aprovada, precione OK para imprimir.");
-                    parametros.clear();
-                    parametros.put("logoClub", "./Imagenes/Escudo.jpg");
-                    parametros.put("idDependiente", dependienteSelecionado.getId());
-                    fichaMedica.setReportParameters(parametros);
-                    fichaMedica.setReportURL("/Reportes/fichaMedicadeDependientes.jasper");
+                    DateTime fechaNacimiento = new DateTime(dependienteSelecionado.getFechanacimiento());
+                    DateTime hoy = DateTime.now();
+                    int dias = Days.daysBetween(fechaNacimiento.toLocalDate(), hoy.toLocalDate()).getDays();
+
+                    if (dias > 2190) {
+                        movimientoCaja = new Caja();
+                        movimientoCaja.setConcepto("Ficha médica: " + FichaMedicaDep.getId() + ", socio," + FichaMedicaDep.getDependiente());
+
+                        parametros.put("valor", parametrosSistema.getValorFicha());
+
+                        movimientoCaja.setEntrada(parametrosSistema.getValorFicha());
+                        movimientoCaja.setRubro(parametrosSistema.getRubroFichaMedica());
+                        movimientoCaja.setSalida(0.0);
+                        movimientoCaja.setSectores(parametrosSistema.getSectorFicha());
+                        movimientoCaja.setUsuario(usuario.getNombre());
+                        movimientoCaja.setFechaMovimiento(new Date());
+
+                        cajaDAO = new CajaDAO();
+                        cajaDAO.Salvar(movimientoCaja);
+
+                        ajustaSaldos(buscaSaldoAnteriorFecha(new Date()));
+                        JOptionPane.showMessageDialog(null, "Ficha aprovada, precione OK para imprimir.");
+                    } else {
+                        parametros.put("valor", new Double(0.00));
+                        JOptionPane.showMessageDialog(null, "Ficha aprovada, menor de 6 años no paga.");
+
+                    }
+
+                    parametros.put("logoClub", "Imagenes/EscudoBN.png");
+                    parametros.put("idFicha", FichaMedicaDep.getId());
+
+                    Connection conexion = DriverManager.getConnection(props.getUrl(), props.getUsr(), props.getPsw());
+
+                    InputStream resource = getClass().getClassLoader().getResourceAsStream("Reportes/fichaMedica.jasper");
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, conexion);
+                    JasperViewer reporte = new JasperViewer(jasperPrint, false);
+                    reporte.setVisible(true);
+
+                    reporte.toFront();
                 }
             }
         } catch (Exception ex) {
@@ -456,19 +450,16 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
             ex.printStackTrace();
         }
 
-    }//GEN-LAST:event_fichaMedicaActionPerformed
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private org.jasper.viewer.components.JasperRunnerButton fichaMedica;
-    private javax.swing.JFormattedTextField ftxtCI;
     private javax.swing.ButtonGroup grupoBusqueda;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -476,13 +467,11 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel jlCodigoSocio;
     private javax.swing.JRadioButton rbCI;
     private javax.swing.JRadioButton rbCodigo;
     private javax.swing.JRadioButton rbNombre;
     private javax.swing.JTable tblDependientes;
     private org.jdesktop.swingx.JXDatePicker txtFechaEmision;
     private javax.swing.JTextField txtFiltro;
-    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
