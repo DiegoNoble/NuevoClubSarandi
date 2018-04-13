@@ -31,6 +31,18 @@ public class NumerosDAO extends DaoGenerico {
         return toReturn;
 
     }
+public List BuscaTodosNumerosPorCampana(CampEconomica campEconomica) {
+
+        List<Numeros> toReturn = null;
+
+        Query qr = em.createQuery("FROM Numeros AS n WHERE n.campEconomica =:campEconomica order by n.nro1");
+        qr.setParameter("campEconomica", campEconomica);
+        toReturn = qr.getResultList();
+
+        return toReturn;
+
+    }
+
 
     public List BuscaTodosyOrdena(CampEconomica campEconomica) {
 

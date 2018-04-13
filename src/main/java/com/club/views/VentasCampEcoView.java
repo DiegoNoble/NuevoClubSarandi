@@ -118,7 +118,7 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
     private void buscaTodoslosNumeros() {
         listNros.clear();
         numerosDAO = new NumerosDAO();
-        listNros.addAll(numerosDAO.BuscaTodos(Numeros.class));
+        listNros.addAll(numerosDAO.BuscaTodosNumerosPorCampana((CampEconomica) cbCampañas1.getSelectedItem()));
         tblModelNumeros.fireTableDataChanged();
     }
 
@@ -217,6 +217,7 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
             buscaTodoslosNumeros();
         } else {
             numerosDAO = new NumerosDAO();
+            listNros.clear();
             listNros.addAll(numerosDAO.BuscaNumeros(Integer.valueOf(txtFiltro.getText()),
                     Integer.valueOf(txtFiltro.getText()), (CampEconomica) cbCampañas1.getSelectedItem()));
             tblModelNumeros.fireTableDataChanged();
@@ -258,7 +259,7 @@ public final class VentasCampEcoView extends javax.swing.JInternalFrame {
                 numerosDAO.Actualizar(numerosSelecionados);
                 Calendar vencimiento = Calendar.getInstance();
                 vencimiento.setTime(fecha);
-                
+
                 for (int i = 1; i <= cuotas; i++) {
                     CuotaCampEconomica cuota = new CuotaCampEconomica();
                     cuota.setEnviado(false);
