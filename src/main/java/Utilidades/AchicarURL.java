@@ -12,15 +12,65 @@ import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import org.apache.commons.httpclient.methods.PostMethod;
 
 /**
  *
  * @author dnoble
  */
+
 public class AchicarURL {
 
     private String googUrl = "https://www.googleapis.com/urlshortener/v1/url?shortUrl=http://goo.gl/fbsS&key=AIzaSyC4194r9lTCsPoVurluDWK0ho5Eh-NWEQU";
 
+    public String prueba() {
+        
+        String shortUrl = null;
+
+        try {
+
+       String apikey = "72f31ec659864094a267653daa663bbc";
+       String destination = "facebook.com";
+            
+            URLConnection conn = new URL("https://api.rebrandly.com/v1/links").openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/json");
+            OutputStreamWriter wr
+                    = new OutputStreamWriter(conn.getOutputStream());
+            wr.write("{\"apikey\":\"" + apikey + "\"}");
+            wr.write("{\"destination\":\"" + destination + "\"}");
+            wr.flush();
+
+            // Get the response
+            BufferedReader rd
+                    = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream()));
+            String line;
+
+            while ((line = rd.readLine()) != null) {
+                if (line.indexOf("id") > -1) {
+                    // I'm sure there's a more elegant way of parsing
+                    // the JSON response, but this is quick/dirty =)
+                    shortUrl = line.substring(8, line.length() - 2);
+                    break;
+                }
+            }
+
+            wr.close();
+            rd.close();
+        } catch (MalformedURLException ex) {
+            System.out.println(ex);
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+
+        return shortUrl;
+    }
+    
+    public static void main(String[] args) {
+        new AchicarURL().prueba();
+    }
+    
     public String achicar(String UrlCobrosYa) {
         int cantidad = UrlCobrosYa.length();
         String codigoCobrosYa = UrlCobrosYa.substring(cantidad - 40, cantidad);

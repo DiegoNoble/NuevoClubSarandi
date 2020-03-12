@@ -381,8 +381,9 @@ public class consultaCajaViewNEW extends javax.swing.JInternalFrame {
     private void btnInformeResumen1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformeResumen1ActionPerformed
         HashMap parametros = new HashMap();
         parametros.clear();
-
+        cajaDAO = new CajaDAO();
         Double saldoAnterior = cajaDAO.buscaSaldoAnterior(dpDesde.getDate());
+        cajaDAO = new CajaDAO();
         Double saldoFinal = cajaDAO.buscaSaldoDelDia(dpDesde.getDate());
         parametros.put("saldo_anterior", saldoAnterior);
         parametros.put("saldo_final", saldoFinal);
@@ -411,7 +412,7 @@ public class consultaCajaViewNEW extends javax.swing.JInternalFrame {
         btnInformeGastos1.setDatabasePassword(props.getPsw());
         btnInformeGastos1.setDatabaseURL(props.getUrl());
         btnInformeGastos1.setDatabaseUser(props.getUsr());
-        
+
         btnInformeGastos1.setReportParameters(parametros);
         btnInformeGastos1.setReportURL("/Reportes/gastosPorRubros.jasper");
 
@@ -424,12 +425,11 @@ public class consultaCajaViewNEW extends javax.swing.JInternalFrame {
         parametros.put("fecha1", dpDesde.getDate());
         parametros.put("fecha2", dpHasta.getDate());
 
-        
         btnInformeIngresos1.setDatabaseDriver(props.getDriver());
         btnInformeIngresos1.setDatabasePassword(props.getPsw());
         btnInformeIngresos1.setDatabaseURL(props.getUrl());
         btnInformeIngresos1.setDatabaseUser(props.getUsr());
-        
+
         btnInformeIngresos1.setReportParameters(parametros);
         btnInformeIngresos1.setReportURL("/Reportes/ingresosPorRubros.jasper");
 

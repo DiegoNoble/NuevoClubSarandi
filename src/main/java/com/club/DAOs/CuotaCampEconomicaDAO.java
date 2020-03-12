@@ -25,7 +25,8 @@ public class CuotaCampEconomicaDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM CuotaCampEconomica c WHERE c.ventaCampEco =:ventaCampEco");
         qr.setParameter("ventaCampEco", ventaCampEco);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }

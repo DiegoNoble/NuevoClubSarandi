@@ -27,6 +27,8 @@ public class NumerosDAO extends DaoGenerico {
         qr.setParameter("nro2", nro2);
         qr.setParameter("campEconomica", campEconomica);
         toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
 
         return toReturn;
 
@@ -38,6 +40,8 @@ public List BuscaTodosNumerosPorCampana(CampEconomica campEconomica) {
         Query qr = em.createQuery("FROM Numeros AS n WHERE n.campEconomica =:campEconomica order by n.nro1");
         qr.setParameter("campEconomica", campEconomica);
         toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
 
         return toReturn;
 
@@ -51,6 +55,8 @@ public List BuscaTodosNumerosPorCampana(CampEconomica campEconomica) {
         Query qr = em.createQuery("FROM Numeros AS n WHERE n.campEconomica =:campEconomica order by n.nro1");
         qr.setParameter("campEconomica", campEconomica);
         toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
 
         return toReturn;
 

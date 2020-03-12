@@ -26,7 +26,8 @@ public class VentaCampEcoDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM VentaCampEco v WHERE v.campEconomica =:campEconomica");
         qr.setParameter("campEconomica", campEconomica);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -39,7 +40,8 @@ public class VentaCampEcoDAO extends DaoGenerico {
         qr.setParameter("campEconomica", campEconomica);
         qr.setParameter("cobrador", cobrador);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -53,7 +55,8 @@ public class VentaCampEcoDAO extends DaoGenerico {
         qr.setParameter("campEconomica", campEconomica);
 
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -66,12 +69,13 @@ public class VentaCampEcoDAO extends DaoGenerico {
         qr.setParameter(1, campEconomica);
         qr.setParameter(2, "%" + nombreSocio + "%");
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
-    
-     public List<VentaCampEco> BuscaVentasPorIdSocioYCobrador(CampEconomica campEconomica, Integer idSocio, Cobrador cobrador) {
+
+    public List<VentaCampEco> BuscaVentasPorIdSocioYCobrador(CampEconomica campEconomica, Integer idSocio, Cobrador cobrador) {
 
         List toReturn = null;
 
@@ -81,7 +85,8 @@ public class VentaCampEcoDAO extends DaoGenerico {
         qr.setParameter(3, cobrador);
 
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -95,9 +100,10 @@ public class VentaCampEcoDAO extends DaoGenerico {
         qr.setParameter(2, "%" + nombreSocio + "%");
         qr.setParameter(3, cobrador);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
-    
+
 }

@@ -6,7 +6,6 @@
 package Utilidades;
 
 import com.club.BEANS.Parametros;
-import com.club.DAOs.ParametrosDAO;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -25,13 +24,13 @@ import javax.mail.internet.MimeMultipart;
  */
 public class EnviarEmail {
 
-    ParametrosDAO parametrosDAO;
     Parametros parametros;
     Message mensaje;
     String modelo_email;
     String destinatario;
 
-    public EnviarEmail(String UrlCobrosYa, String destinatario) {
+    public EnviarEmail(Parametros parametros, String UrlCobrosYa, String destinatario) {
+        this.parametros = parametros;
         this.destinatario = destinatario;
         int cantidad = UrlCobrosYa.length();
         String codigoCobrosYa = UrlCobrosYa.substring(cantidad - 40, cantidad);
@@ -127,9 +126,6 @@ public class EnviarEmail {
     public Boolean enviaMail() {
         Boolean retorno;
         try {
-            parametrosDAO = new ParametrosDAO();
-            parametros = new Parametros();
-            parametros = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
 
             final String username = parametros.getCasilla_email();
             final String password = parametros.getPsw_email();

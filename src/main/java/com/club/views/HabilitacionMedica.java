@@ -98,7 +98,9 @@ public final class HabilitacionMedica extends javax.swing.JInternalFrame {
                     socio.getId(),
                     socio.getNombre(),
                     socio.getCi(),
-                    socio.getSituacion()});
+                    socio.getSituacion(),
+                    socio.getCategoria()
+                });
             }
 
         } catch (Exception e) {
@@ -111,6 +113,7 @@ public final class HabilitacionMedica extends javax.swing.JInternalFrame {
 
         if (rbCodigo.isSelected()) {
             socio = new Socio();
+            socioDAO = new SocioDAO();
             socio = (Socio) socioDAO.BuscaPorID(Socio.class, Integer.parseInt(txtFiltro.getText()));
             listSocios.clear();
             listSocios.add(socio);
@@ -186,7 +189,7 @@ public final class HabilitacionMedica extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Control de Socios - Club Sarandi Universitario"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(900, 700));
+        setPreferredSize(new java.awt.Dimension(800, 600));
         setRequestFocusEnabled(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -235,14 +238,14 @@ public final class HabilitacionMedica extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Código", "Nombre", "C.I.", "Situación"
+                "Código", "Nombre", "C.I.", "Situación", "Categoría"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -399,9 +402,9 @@ public final class HabilitacionMedica extends javax.swing.JInternalFrame {
                     movimientoCaja = new Caja();
                     movimientoCaja.setConcepto("Ficha médica: " + FichaMedica.getId() + ", socio," + FichaMedica.getSocio());
 
-                    if (socioSeleccionado.getCategoria().getId() == 105) {
-                        parametros.put("valor", new Double(100.00));
-                        movimientoCaja.setEntrada(100.00);
+                    if (socioSeleccionado.getCategoria().getDefinicion().contains("Becado") ) {
+                        parametros.put("valor", new Double(parametrosSistema.getValorFichaBecados()));
+                        movimientoCaja.setEntrada(parametrosSistema.getValorFichaBecados());
                     } else {
                         movimientoCaja.setEntrada(parametrosSistema.getValorFicha());
                         parametros.put("valor", parametrosSistema.getValorFicha());

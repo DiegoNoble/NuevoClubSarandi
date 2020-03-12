@@ -12,10 +12,11 @@ import org.apache.commons.httpclient.methods.PostMethod;
 
 public class EnvioSMSIndividual {
 
-    ParametrosDAO parametrosDAO;
+    Parametros parametros;
 
-    public String enviarSMSIndividual(String idInterno, String nro, String mensaje) {
+    public String enviarSMSIndividual(String idInterno, String nro, String mensaje, Parametros parametros) {
 
+        this.parametros = parametros;
         //Se inicia el objeto HTTP
         HttpClient client = new HttpClient();
 
@@ -38,8 +39,6 @@ public class EnvioSMSIndividual {
         NameValuePair[] parametersList = new NameValuePair[5];
 //XX, YY y ZZ se corresponden con los valores de identificaci ́on del
 //usuario en el sistema.
-        parametrosDAO = new ParametrosDAO();
-        Parametros parametros = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
         String usuario = parametros.getUsuario_SMS();
         String clave = parametros.getPsw_SMS();
         parametersList[0] = new NameValuePair("USUARIO", usuario);
@@ -84,8 +83,8 @@ public class EnvioSMSIndividual {
 
     }
 
-    public String pruebaEnviarSMSIndividual(String idInterno, String nro, String mensaje) {
-
+    public String pruebaEnviarSMSIndividual(String idInterno, String nro, String mensaje, Parametros parametros) {
+        this.parametros = parametros;
         //Se inicia el objeto HTTP
         HttpClient client = new HttpClient();
 
@@ -108,8 +107,6 @@ public class EnvioSMSIndividual {
         NameValuePair[] parametersList = new NameValuePair[6];
 //XX, YY y ZZ se corresponden con los valores de identificaci ́on del
 //usuario en el sistema.
-        parametrosDAO = new ParametrosDAO();
-        Parametros parametros = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
         String usuario = parametros.getUsuario_SMS();
         String clave = parametros.getPsw_SMS();
         parametersList[0] = new NameValuePair("USUARIO", usuario);
@@ -154,9 +151,5 @@ public class EnvioSMSIndividual {
         return response;
 
     }
-    
-    public static void main(String[] args) {
-        EnvioSMSIndividual sMSIndividual = new EnvioSMSIndividual();
-        sMSIndividual.pruebaEnviarSMSIndividual("101", "091390000", "otra prueba ID Interno");
-    }
+
 }

@@ -23,7 +23,8 @@ public class FichaMedicaDAO extends DaoGenerico {
         qr.setParameter(1, desde);
         qr.setParameter(2, hasta);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
     }
 

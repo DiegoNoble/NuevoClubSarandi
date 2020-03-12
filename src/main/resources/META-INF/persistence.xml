@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-  <persistence-unit name="ClubSarandiPU" transaction-type="RESOURCE_LOCAL">
-    <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>com.club.BEANS.Caja</class>
-    <class>com.club.BEANS.Categoria</class>
-    <class>com.club.BEANS.Cobrador</class>
-    <class>com.club.BEANS.Dependiente</class>
-    <class>com.club.BEANS.FichaMedica</class>
-    <class>com.club.BEANS.Mensualidades</class>
-    <class>com.club.BEANS.Rubro</class>
-    <class>com.club.BEANS.Sectores</class>
-    <class>com.club.BEANS.Socio</class>
-    <class>com.club.BEANS.Usuario</class>
-    <class>com.club.BEANS.CcCobrador</class>
-    <class>com.club.BEANS.MensualidadesAnuladas</class>
-    <class>com.club.BEANS.Funcionario</class>
-    <class>com.club.BEANS.Marcas</class>
-    <class>com.club.BEANS.Parametros</class>
-    <class>com.club.BEANS.Campanasms</class>
-    <class>com.club.BEANS.Sms</class>
-    <class>com.club.BEANS.RespuestaSMS</class>
-    <class>com.club.BEANS.CampEconomica</class>
-    <class>com.club.BEANS.CuotaCampEconomica</class>
-    <class>com.club.BEANS.Numeros</class>
-    <class>com.club.BEANS.SectoresFuncionario</class>
-    <class>com.club.BEANS.VentaCampEco</class>
-    <properties>
-      <property name="hibernate.cache.provider_class" value="org.hibernate.ejb.HibernatePersistence"/>
-      <property name="hibernate.hbm2ddl.auto" value="update"/>
-      <property name="hibernate.format_sql" value="true"/>
-      <property name="hibernate.show_sql" value="true"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="ClubSarandiPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.club.BEANS.Caja</class>
+        <class>com.club.BEANS.Categoria</class>
+        <class>com.club.BEANS.Cobrador</class>
+        <class>com.club.BEANS.Dependiente</class>
+        <class>com.club.BEANS.FichaMedica</class>
+        <class>com.club.BEANS.Mensualidades</class>
+        <class>com.club.BEANS.Rubro</class>
+        <class>com.club.BEANS.Sectores</class>
+        <class>com.club.BEANS.Socio</class>
+        <class>com.club.BEANS.Usuario</class>
+        <class>com.club.BEANS.CcCobrador</class>
+        <class>com.club.BEANS.MensualidadesAnuladas</class>
+        <class>com.club.BEANS.Funcionario</class>
+        <class>com.club.BEANS.Marcas</class>
+        <class>com.club.BEANS.Parametros</class>
+        <class>com.club.BEANS.Campanasms</class>
+        <class>com.club.BEANS.Sms</class>
+        <class>com.club.BEANS.RespuestaSMS</class>
+        <class>com.club.BEANS.CampEconomica</class>
+        <class>com.club.BEANS.CuotaCampEconomica</class>
+        <class>com.club.BEANS.Numeros</class>
+        <class>com.club.BEANS.SectoresFuncionario</class>
+        <class>com.club.BEANS.VentaCampEco</class>
+        <class>com.club.BEANS.CajaCampEco</class>
+        <class>com.club.BEANS.EntregaPremio</class>
+        <class>com.club.BEANS.Premio</class>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.id.new_generator_mappings" value="false"/>
+      
+            <property name="hibernate.c3p0.min_size" value="5"/>
+            <property name="hibernate.c3p0.max_size" value="20"/>
+            <property name="hibernate.c3p0.timeout" value="300"/>
+            <property name="hibernate.c3p0.max_statements" value="50"/>
+            <property name="hibernate.c3p0.idle_test_period" value="3000"/>
+  
+  
+        </properties>
+    </persistence-unit>
 </persistence>

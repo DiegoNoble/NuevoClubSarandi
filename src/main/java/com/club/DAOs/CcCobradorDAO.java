@@ -22,7 +22,8 @@ public class CcCobradorDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM CcCobrador AS cc WHERE cc.cobrador =:cobrador");
         qr.setParameter("cobrador", cobradorSeleccionado);
         listMovimientos = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return listMovimientos;
     }
 
@@ -31,7 +32,8 @@ public class CcCobradorDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM CcCobrador AS cc WHERE cc.mensualidades =:mensualidad");
         qr.setParameter("mensualidad", mensualidades);
         listMovimientos = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return listMovimientos;
     }
 

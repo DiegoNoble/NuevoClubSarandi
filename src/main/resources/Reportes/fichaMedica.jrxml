@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaMedica" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="729459b1-aef8-4c50-83ef-8c8861326502">
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaMedica" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="729459b1-aef8-4c50-83ef-8c8861326502">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -55,16 +56,16 @@ Sarandi Universitario]]></text>
 			<staticText>
 				<reportElement x="31" y="206" width="149" height="61" forecolor="#EBE8E8" uuid="00601726-c67d-4e58-b1d8-3a6776c5ec06"/>
 				<textElement rotation="None" markup="none">
-					<font fontName="Verdana" size="50" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+					<font fontName="Verdana" size="30" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[2018]]></text>
+				<text><![CDATA[2019/20]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="31" y="82" width="149" height="61" forecolor="#EBE8E8" uuid="e9bb7f5e-fbe0-463e-a2ec-698e78b835c5"/>
 				<textElement rotation="None" markup="none">
-					<font fontName="Verdana" size="50" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+					<font fontName="Verdana" size="30" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[2018]]></text>
+				<text><![CDATA[2019/20]]></text>
 			</staticText>
 			<line>
 				<reportElement x="20" y="82" width="173" height="1" uuid="20023921-0200-490d-812e-9765a2681f20"/>

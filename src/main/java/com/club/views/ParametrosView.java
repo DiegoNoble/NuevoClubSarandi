@@ -43,10 +43,13 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         cbRubro.setSelectedItem(parametros.getRubroPagoCuotasCampEco());
         cbSector.setSelectedItem(parametros.getSectorCampEco());
         cbSectorFicha.setSelectedItem(parametros.getSectorFicha());
+        
         txtMysqlPath.setText(parametros.getMySql_Path());
         txtNombreBasedeDatos.setText(parametros.getNombreBasesDatos());
 
         txtValorFicha.setText(parametros.getValorFicha().toString());
+        txtValorFichaBecados.setText(parametros.getValorFichaBecados().toString());
+        
         txtComisionFicha.setText(parametros.getComisionMedicoFicha().toString());
         txtVencimientoFicha.setText(parametros.getVencimientoFicha().toString());
         cbRubroFichaMedica.setSelectedItem(parametros.getRubroFichaMedica());
@@ -107,6 +110,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtUsuarioSMS.setEnabled(true);
         txtEmailPadron.setEnabled(true);
         txtValorFicha.setEnabled(true);
+        txtValorFichaBecados.setEnabled(true);
         txtComisionFicha.setEnabled(true);
         txtVencimientoFicha.setEnabled(true);
         txttoleranciaRecibosPendientes.setEnabled(true);
@@ -137,6 +141,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtUsuarioSMS.setEnabled(false);
         txtEmailPadron.setEnabled(false);
         txtValorFicha.setEnabled(false);
+        txtValorFichaBecados.setEnabled(false);
         txtVencimientoFicha.setEnabled(false);
         txttoleranciaRecibosPendientes.setEnabled(false);
         cbCobrosYa.setEnabled(false);
@@ -200,6 +205,8 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         txtComisionFicha = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         cbSectorFicha = new javax.swing.JComboBox();
+        jLabel23 = new javax.swing.JLabel();
+        txtValorFichaBecados = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -407,7 +414,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         jLabel3.setText("Sector Ficha Médica");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel3, gridBagConstraints);
 
@@ -444,7 +451,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         jLabel18.setText("Comisión Ficha médica");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel18, gridBagConstraints);
 
@@ -460,7 +467,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         jLabel4.setText("Rubro ficha medica");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel4, gridBagConstraints);
 
@@ -513,7 +520,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         jLabel6.setText("Rubro pago doctores");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel6, gridBagConstraints);
 
@@ -525,7 +532,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -546,23 +553,23 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(cbRubroPagoDoctor, gridBagConstraints);
 
-        jLabel21.setText("Valor Ficha médica");
+        jLabel21.setText("Valor Ficha becados");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel21, gridBagConstraints);
 
         txtComisionFicha.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -583,11 +590,27 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(cbSectorFicha, gridBagConstraints);
+
+        jLabel23.setText("Valor Ficha médica");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel23, gridBagConstraints);
+
+        txtValorFichaBecados.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txtValorFichaBecados, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -670,6 +693,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
             parametros.setSectorFicha((Sectores) cbSectorFicha.getSelectedItem());
 
             parametros.setValorFicha(Double.valueOf(txtValorFicha.getText()));
+            parametros.setValorFichaBecados(Double.valueOf(txtValorFichaBecados.getText()));
             parametros.setComisionMedicoFicha(Double.valueOf(txtComisionFicha.getText()));
             parametros.setVencimientoFicha(Integer.valueOf(txtVencimientoFicha.getText()));
 
@@ -734,6 +758,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -757,6 +782,7 @@ public final class ParametrosView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtUrlPost;
     private javax.swing.JTextField txtUsuarioSMS;
     private javax.swing.JTextField txtValorFicha;
+    private javax.swing.JTextField txtValorFichaBecados;
     private javax.swing.JTextField txtVencimientoFicha;
     private javax.swing.JTextField txttoleranciaRecibosPendientes;
     // End of variables declaration//GEN-END:variables

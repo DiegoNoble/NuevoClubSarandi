@@ -63,6 +63,7 @@ public class Parametros implements Serializable {
     private String MySql_Path;
     private String nombreBasesDatos;
     private Double valorFicha;
+    private Double valorFichaBecados;
     private Double comisionMedicoFicha;
     private Integer vencimientoFicha;
     @JoinColumn(name = "id_rubroFichaMedica", referencedColumnName = "ID")
@@ -101,6 +102,14 @@ public class Parametros implements Serializable {
 
     public void setSectorFicha(Sectores sectorFicha) {
         this.sectorFicha = sectorFicha;
+    }
+
+    public Double getValorFichaBecados() {
+        return valorFichaBecados;
+    }
+
+    public void setValorFichaBecados(Double valorFichaBecados) {
+        this.valorFichaBecados = valorFichaBecados;
     }
 
     

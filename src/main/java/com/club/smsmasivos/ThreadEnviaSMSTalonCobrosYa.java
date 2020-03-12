@@ -5,9 +5,9 @@
  */
 package com.club.smsmasivos;
 
-import Utilidades.AchicarURL;
 import com.club.BEANS.Campanasms;
 import com.club.BEANS.Mensualidades;
+import com.club.BEANS.Parametros;
 import com.club.BEANS.Sms;
 import com.club.DAOs.CampanaSmsDAO;
 import com.club.DAOs.SmsDAO;
@@ -35,15 +35,18 @@ public class ThreadEnviaSMSTalonCobrosYa extends SwingWorker<Void, Void> {
     SmsDAO smsDAO;
     String status;
     int tamanoLista;
+    //AchicarURLnew uRL = new AchicarURLnew();
     SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+    Parametros parametros;
 
-    public ThreadEnviaSMSTalonCobrosYa(String nombreCampaña, JTextArea txtStatus, JInternalFrame view, List listMensualidadesSMS, Boolean prueba) {
+    public ThreadEnviaSMSTalonCobrosYa(String nombreCampaña, JTextArea txtStatus, JInternalFrame view, List listMensualidadesSMS, Boolean prueba, Parametros parametros) {
         this.txtStatus = txtStatus;
         this.nombreCampaña = nombreCampaña;
         this.view = view;
         this.prueba = prueba;
         this.listMensualidadesSMS = listMensualidadesSMS;
         tamanoLista = listMensualidadesSMS.size();
+        this.parametros = parametros;
     }
 
     @Override
@@ -61,14 +64,23 @@ public class ThreadEnviaSMSTalonCobrosYa extends SwingWorker<Void, Void> {
             List<Sms> listSmsEnviados = new ArrayList<>();
             int i = 0;
             for (Mensualidades m : listMensualidadesSMS) {
-                AchicarURL uRL = new AchicarURL();
+
                 i++;
                 Sms sms = new Sms();
                 sms.setSocio(m.getSocio());
                 sms.setCampanasms(nuevaCampana);
                 sms.setMensajeTalonCobrosYa("Paga $" + m.getValor() + " a Club Sarandi Universitario en Redpagos "
-                        + "Servicio CobrosYA Nro Talon " + m.getNroTalonCobrosYa() + " Vto " + formato.format(m.getFechaVencimiento()) + " " + uRL.achicar(m.getUrlPDF()));
+                        + "Servicio CobrosYA Nro Talon " + m.getNroTalonCobrosYa() + " Vto " + formato.format(m.getFechaVencimiento()) + ". O utiliza el sig. link:");
+
+                Sms smsURL = new Sms();
+                smsURL.setSocio(m.getSocio());
+                smsURL.setCampanasms(nuevaCampana);
+                int cantidad = m.getUrlPDF().length();
+                String codigoCobrosYa = m.getUrlPDF().substring(cantidad - 40, cantidad);
+                smsURL.setMensajeTalonCobrosYa("https://api.cobrosya.com/mostrador/cobrar?t=" + codigoCobrosYa);
+
                 listSmsEnviados.add(sms);
+                listSmsEnviados.add(smsURL);
                 nuevaCampana.setSmsList(listSmsEnviados);
 
             }
@@ -80,7 +92,7 @@ public class ThreadEnviaSMSTalonCobrosYa extends SwingWorker<Void, Void> {
 
                 EnvioSMSIndividual enviaSMS = new EnvioSMSIndividual();
 
-                status = enviaSMS.enviarSMSIndividual(sms.getId().toString(), sms.getSocio().getCelular(), sms.getSocio().getNombre() + " " + sms.getMensajeTalonCobrosYa());
+                status = enviaSMS.enviarSMSIndividual(sms.getId().toString(), sms.getSocio().getCelular(), sms.getSocio().getNombre() + " " + sms.getMensajeTalonCobrosYa(), parametros);
 
                 sms.setStatus(status);
                 sms.setFechahoraemision(new Date());
@@ -99,12 +111,20 @@ public class ThreadEnviaSMSTalonCobrosYa extends SwingWorker<Void, Void> {
             int i = 0;
             for (Mensualidades m : listMensualidadesSMS) {
                 i++;
-                AchicarURL uRL = new AchicarURL();
                 Sms sms = new Sms();
                 sms.setSocio(m.getSocio());
                 sms.setMensajeTalonCobrosYa("Paga $" + m.getValor() + " a Club Sarandi Universitario en Redpagos "
-                        + "Servicio CobrosYA Nro Talon " + m.getNroTalonCobrosYa() + " Vto " + formato.format(m.getFechaVencimiento()) + " " + uRL.achicar(m.getUrlPDF()));
+                        + "Servicio CobrosYA Nro Talon " + m.getNroTalonCobrosYa() + " Vto " + formato.format(m.getFechaVencimiento()) + ". O utiliza el sig. link:");
+
+               Sms smsURL = new Sms();
+                smsURL.setSocio(m.getSocio());
+                int cantidad = m.getUrlPDF().length();
+                String codigoCobrosYa = m.getUrlPDF().substring(cantidad - 40, cantidad);
+                smsURL.setMensajeTalonCobrosYa("https://api.cobrosya.com/mostrador/cobrar?t=" + codigoCobrosYa);
+
+
                 listSmsEnviados.add(sms);
+                listSmsEnviados.add(smsURL);
 
             }
 
@@ -112,7 +132,7 @@ public class ThreadEnviaSMSTalonCobrosYa extends SwingWorker<Void, Void> {
 
                 EnvioSMSIndividual enviaSMS = new EnvioSMSIndividual();
 
-                status = enviaSMS.pruebaEnviarSMSIndividual(String.valueOf(listSmsEnviados.indexOf(sms)), sms.getSocio().getCelular(), sms.getSocio().getNombre() + " " + sms.getMensajeTalonCobrosYa());
+                status = enviaSMS.pruebaEnviarSMSIndividual(String.valueOf(listSmsEnviados.indexOf(sms)), sms.getSocio().getCelular(), sms.getSocio().getNombre() + " " + sms.getMensajeTalonCobrosYa(), parametros);
 
                 sms.setStatus(status);
                 sms.setFechahoraemision(new Date());

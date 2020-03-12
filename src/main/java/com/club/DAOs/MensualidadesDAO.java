@@ -39,7 +39,8 @@ public class MensualidadesDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.socio =:socio order by m.fechaVencimiento desc");
         qr.setParameter("socio", socio);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -50,7 +51,8 @@ public class MensualidadesDAO extends DaoGenerico {
 
         Query qr = em.createQuery("select distinct(m.fechaVencimiento) FROM  Mensualidades m order by m.fechaVencimiento desc");
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -114,7 +116,8 @@ public class MensualidadesDAO extends DaoGenerico {
         qr.setParameter("desde", desde);
         qr.setParameter("hasta", hasta);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -126,7 +129,8 @@ public class MensualidadesDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.socio= :socio and m.pago='Pendiente de Pago' order by id asc");
         qr.setParameter("socio", socio);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -140,7 +144,8 @@ public class MensualidadesDAO extends DaoGenerico {
         qr.setParameter("desde", desde);
         qr.setParameter("hasta", hasta);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -155,7 +160,8 @@ public class MensualidadesDAO extends DaoGenerico {
         qr.setParameter("vencimiento", vencimiento);
         qr.setParameter("situacion", situacion);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -167,7 +173,8 @@ public class MensualidadesDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.nroTalonCobrosYa =:nroTalon");
         qr.setParameter("nroTalon", nroTalon);
         toReturn = (Mensualidades) qr.getSingleResult();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -180,7 +187,8 @@ public class MensualidadesDAO extends DaoGenerico {
         qr.setParameter("cobrador", cobrador);
         qr.setParameter("situcion", situcion);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }

@@ -15,6 +15,7 @@ import com.club.BEANS.Parametros;
 import com.club.BEANS.Socio;
 import com.club.DAOs.MensualidadesDAO;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,12 +33,16 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     Parametros parametros;
     MensualidadesDAO mensualidadesDAO;
+    List<Mensualidades> listTalonesToReturn = new ArrayList<>();
+    volatile boolean ejecutando = true;
 
     public LogMensualidadesCobrosYa(java.awt.Frame parent, boolean modal, Cobrador cobradorCobrosYa, Parametros parametros, List<Mensualidades> listMensualidades) {
         super(parent, modal);
+
         this.cobradorCobrosYa = cobradorCobrosYa;
         this.parametros = parametros;
         this.listMensualidades = listMensualidades;
+
         initComponents();
 
         setSize(900, 500);
@@ -46,17 +51,27 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         new Thread() {
+
             @Override
             public void run() {
-                generarTalones();
+                try {
+
+                    while (ejecutando) {
+                        generarTalones();
+
+                    }
+                    mensualidadesDAO = new MensualidadesDAO();
+                    mensualidadesDAO.ActualizarList(listTalonesToReturn);
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                    ex.printStackTrace();
+                }
 
             }
         }.start();
-
     }
 
     void generarTalones() {
-
         this.txtLog.append("Analizando mensualidades....\n");
         //mensualidadesDAO = new MensualidadesDAO();
         //talonesPendientes = mensualidadesDAO.BuscaPorCobradorSituacion(cobradorCobrosYa, "Pendiente de Pago");
@@ -69,7 +84,7 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
                 this.txtLog.append("\nSocio " + m.getSocio());
                 this.txtLog.append("\nRecibo " + m.getId() + ", Fecha de vencimiento inválida, debe ser mayor que hoy.");
                 this.txtLog.append("\n--------------------------");
-            } */else if (m.getPago().equals("Pago")) {
+            } */ else if (m.getPago().equals("Pago")) {
                 this.txtLog.append("\nSocio " + m.getSocio());
                 this.txtLog.append("\nRecibo " + m.getId() + ", Nro Talón CobrosYa " + m.getNroTalonCobrosYa() + "Pago " + formato.format(m.getFechaHoraTransaccionCobrosYa()));
                 this.txtLog.append("\n--------------------------");
@@ -77,13 +92,13 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
                 this.txtLog.append("\n Formato de celular inválido");
             } else {
                 enviarTalon(m.getSocio(), m);
+
             }
         }
-
         this.txtLog.append("\n");
         this.txtLog.append("\n Listo!");
         this.txtLog.setCaretPosition(this.txtLog.getDocument().getLength());
-
+        ejecutando = false;
     }
 
     void enviarTalon(Socio socio, Mensualidades mensualidadSeleccionada) {
@@ -111,13 +126,14 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
                     mensualidadSeleccionada.setUrlPDF(cobrosYa.getUrl_pdf());
                     mensualidadSeleccionada.setIdSecreto(cobrosYa.getIdSecretoCobrosYa());
 
-                    mensualidadesDAO = new MensualidadesDAO();
-                    mensualidadesDAO.Actualizar(mensualidadSeleccionada);
+                    listTalonesToReturn.add(mensualidadSeleccionada);
+                    //mensualidadesDAO = new MensualidadesDAO();
+                    //mensualidadesDAO.Actualizar(mensualidadSeleccionada);
                     this.txtLog.append("\n Talón: " + mensualidadSeleccionada.getNroTalonCobrosYa() + " creado correctamente!");
 
                     this.txtLog.append("\n Enviando talón via Email...");
 
-                    EnviarEmail enviarEmail = new EnviarEmail(cobrosYa.getUrl_pdf(), email);
+                    EnviarEmail enviarEmail = new EnviarEmail(parametros, cobrosYa.getUrl_pdf(), email);
                     Boolean enviaMail = enviarEmail.enviaMail();
                     if (enviaMail == true) {
                         this.txtLog.append("\n Notificación por Email enviada correctamente a: " + email);
@@ -137,6 +153,7 @@ public class LogMensualidadesCobrosYa extends javax.swing.JDialog {
             ex.printStackTrace();
             this.txtLog.append("\n Error: " + ex);
         }
+
     }
 
     @SuppressWarnings("unchecked")

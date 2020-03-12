@@ -19,7 +19,8 @@ public class CajaDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM Caja AS c WHERE c.fechaMovimiento =:fecha");
         qr.setParameter("fecha", fecha);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -30,18 +31,21 @@ public class CajaDAO extends DaoGenerico {
 
         Query qr = em.createQuery("FROM Caja AS c order by id asc");
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
-     public List<Caja> BuscaTodosOrdenaPorIDFyFecha(Date fecha) {
+
+    public List<Caja> BuscaTodosOrdenaPorIDFyFecha(Date fecha) {
 
         List toReturn = null;
 
         Query qr = em.createQuery("FROM Caja AS c where fechaMovimiento >= :fecha order by fechaMovimiento,id asc");
         qr.setParameter("fecha", fecha);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -55,6 +59,8 @@ public class CajaDAO extends DaoGenerico {
         if (saldo == null) {
             saldo = 0.0;
         }
+        em.getTransaction().commit();
+        em.close();
         return saldo;
 
     }
@@ -65,6 +71,8 @@ public class CajaDAO extends DaoGenerico {
         Query q = em.createQuery(hql);
         q.setParameter("fecha", fecha);
         Double saldo = (Double) q.getSingleResult();
+        em.getTransaction().commit();
+        em.close();
         return saldo;
 
     }
@@ -77,7 +85,8 @@ public class CajaDAO extends DaoGenerico {
         qr.setParameter("desde", desde);
         qr.setParameter("hasta", hasta);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -89,7 +98,8 @@ public class CajaDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM Caja AS c WHERE c.rubro =:rubro");
         qr.setParameter("rubro", rubro);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -100,11 +110,13 @@ public class CajaDAO extends DaoGenerico {
 
         Query qr = em.createQuery("FROM Caja AS c WHERE c.id = (select max(id) from Caja)");
         toReturn = (Caja) qr.getSingleResult();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
-      public Caja BuscaSaldoAnteriorFecha(Date fecha) {
+
+    public Caja BuscaSaldoAnteriorFecha(Date fecha) {
 
         Caja toReturn = null;
 
@@ -112,7 +124,8 @@ public class CajaDAO extends DaoGenerico {
                 + " fechaMovimiento = (select max(fechaMovimiento) from Caja where fechaMovimiento <:fecha))");
         qr.setParameter("fecha", fecha);
         toReturn = (Caja) qr.getSingleResult();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }

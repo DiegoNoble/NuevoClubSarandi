@@ -25,7 +25,8 @@ public class PremioDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM Premio AS n WHERE n.campEconomica =:campEconomica ");
         qr.setParameter("campEconomica", campEconomica);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -38,7 +39,8 @@ public class PremioDAO extends DaoGenerico {
         qr.setParameter("campEconomica", campEconomica);
         qr.setParameter(1, "%" + filtro + "%");
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }

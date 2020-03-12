@@ -24,7 +24,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import javafx.scene.AccessibleAttribute;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -114,7 +115,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
     }
 
     void enviaEmail(Mensualidades mensualidad, String email) {
-        EnviarEmail enviarEmail = new EnviarEmail(mensualidad.getUrlPDF(), email);
+        EnviarEmail enviarEmail = new EnviarEmail(parametros, mensualidad.getUrlPDF(), email);
         if (enviarEmail.enviaMail() == true) {
             JOptionPane.showMessageDialog(this, "Email enviado correctamente a: " + email);
         } else {
@@ -314,7 +315,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(btnEnviarTalonesSMSMasivo, gridBagConstraints);
 
-        btnEnviarRecordatorioSMSPendientes.setText("Enviar recordatorio SMS Seleccionados");
+        btnEnviarRecordatorioSMSPendientes.setText("Enviar recordatorio");
         btnEnviarRecordatorioSMSPendientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarRecordatorioSMSPendientesActionPerformed(evt);
@@ -357,10 +358,16 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
         } else {
 
-            LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, cobradorCobrosYa, parametros, seleccionados);
-            log.setLocationRelativeTo(null);
-            log.setVisible(true);
-            log.toFront();
+            try {
+                LogMensualidadesCobrosYa log = new LogMensualidadesCobrosYa(null, true, cobradorCobrosYa, parametros, seleccionados);
+                log.setLocationRelativeTo(null);
+                log.setVisible(true);
+                log.toFront();
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+                ex.printStackTrace();
+            }
         }
 
     }//GEN-LAST:event_btnEnviarTalonesPendientesActionPerformed
@@ -389,7 +396,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
         } else {
 
-            ThreadEnviaSMSTalonCobrosYa envia = new ThreadEnviaSMSTalonCobrosYa("Talón CobrosYa", txtLog, this, listSMS, chPrueba.isSelected());
+            ThreadEnviaSMSTalonCobrosYa envia = new ThreadEnviaSMSTalonCobrosYa("Talón CobrosYa", txtLog, this, listSMS, chPrueba.isSelected(), parametros);
             envia.execute();
         }
 
@@ -406,6 +413,12 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
             if (!m.getNroTalonCobrosYa().equals("")) {
                 if (m.getPago().equals("Pendiente de Pago")) {
                     listSMS.add(m);
+                    String email = m.getSocio().getEmail();
+                    if (ValidaEmail.validateEmail(email) == false) {
+                        email = parametros.getEmailPadron();
+                    }
+                    EnviarEmail enviarEmail = new EnviarEmail(parametros, m.getUrlPDF(), email);
+                    System.out.println(enviarEmail.enviaMail());
                 }
 
             }
@@ -421,7 +434,7 @@ public class GeneraTalonCobrosYa extends javax.swing.JInternalFrame {
 
         } else {
 
-            ThreadEnviaRecordatorioSMSTalonCobrosYa envia = new ThreadEnviaRecordatorioSMSTalonCobrosYa("Talón CobrosYa", txtLog, this, listSMS, chPrueba.isSelected());
+            ThreadEnviaRecordatorioSMSTalonCobrosYa envia = new ThreadEnviaRecordatorioSMSTalonCobrosYa("Talón CobrosYa", txtLog, this, listSMS, chPrueba.isSelected(), parametros);
             envia.execute();
         }
 

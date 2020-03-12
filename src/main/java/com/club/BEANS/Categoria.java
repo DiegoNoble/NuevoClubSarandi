@@ -48,6 +48,10 @@ public class Categoria implements Serializable {
     public Categoria(Integer id) {
         this.id = id;
     }
+    
+    public Categoria(String definicion) {
+        this.definicion = definicion;
+    }
 
     public Categoria(Integer id, String definicion, Date fechacriacion, String descripcion, Double mensualidad) {
         this.id = id;

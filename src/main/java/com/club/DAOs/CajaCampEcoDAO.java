@@ -19,6 +19,8 @@ public class CajaCampEcoDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM CajaCampEco AS c WHERE c.fechaMovimiento =:fecha");
         qr.setParameter("fecha", fecha);
         toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
 
         return toReturn;
 
@@ -30,17 +32,22 @@ public class CajaCampEcoDAO extends DaoGenerico {
 
         Query qr = em.createQuery("FROM CajaCampEco AS c order by id asc");
         toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
 
         return toReturn;
 
     }
-     public List<CajaCampEco> BuscaTodosOrdenaPorIDFyFecha(Date fecha) {
+
+    public List<CajaCampEco> BuscaTodosOrdenaPorIDFyFecha(Date fecha) {
 
         List toReturn = null;
 
         Query qr = em.createQuery("FROM CajaCampEco AS c where fechaMovimiento >= :fecha order by fechaMovimiento,id asc");
         qr.setParameter("fecha", fecha);
         toReturn = qr.getResultList();
+        em.getTransaction().commit();
+        em.close();
 
         return toReturn;
 
@@ -55,6 +62,8 @@ public class CajaCampEcoDAO extends DaoGenerico {
         if (saldo == null) {
             saldo = 0.0;
         }
+        em.getTransaction().commit();
+        em.close();
         return saldo;
 
     }
@@ -65,6 +74,8 @@ public class CajaCampEcoDAO extends DaoGenerico {
         Query q = em.createQuery(hql);
         q.setParameter("fecha", fecha);
         Double saldo = (Double) q.getSingleResult();
+        em.getTransaction().commit();
+        em.close();
         return saldo;
 
     }
@@ -77,7 +88,8 @@ public class CajaCampEcoDAO extends DaoGenerico {
         qr.setParameter("desde", desde);
         qr.setParameter("hasta", hasta);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -89,7 +101,8 @@ public class CajaCampEcoDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM CajaCampEco AS c WHERE c.rubro =:rubro");
         qr.setParameter("rubro", rubro);
         toReturn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
@@ -100,11 +113,13 @@ public class CajaCampEcoDAO extends DaoGenerico {
 
         Query qr = em.createQuery("FROM CajaCampEco AS c WHERE c.id = (select max(id) from CajaCampEco)");
         toReturn = (CajaCampEco) qr.getSingleResult();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }
-      public CajaCampEco BuscaSaldoAnteriorFecha(Date fecha) {
+
+    public CajaCampEco BuscaSaldoAnteriorFecha(Date fecha) {
 
         CajaCampEco toReturn = null;
 
@@ -112,7 +127,8 @@ public class CajaCampEcoDAO extends DaoGenerico {
                 + " fechaMovimiento = (select max(fechaMovimiento) from CajaCampEco where fechaMovimiento <:fecha))");
         qr.setParameter("fecha", fecha);
         toReturn = (CajaCampEco) qr.getSingleResult();
-
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
 
     }

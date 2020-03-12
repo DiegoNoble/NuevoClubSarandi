@@ -114,6 +114,7 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
 
         if (rbCodigo.isSelected()) {
             dependiente = new Dependiente();
+            dependienteDAO = new DepDAO();
             dependiente = (Dependiente) dependienteDAO.BuscaPorID(Dependiente.class, Integer.parseInt(txtFiltro.getText()));
             listDependientes.clear();
             listDependientes.add(dependiente);
@@ -189,7 +190,7 @@ public final class HabilitacionMedicaDependientes extends javax.swing.JInternalF
         setMaximizable(true);
         setResizable(true);
         setTitle("Control de Socios - Club Sarandi Universitario"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(900, 700));
+        setPreferredSize(new java.awt.Dimension(800, 600));
         setRequestFocusEnabled(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 

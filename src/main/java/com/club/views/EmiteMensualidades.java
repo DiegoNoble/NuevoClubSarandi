@@ -64,7 +64,7 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
         param = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
         rellentaComboBox();
 
-        formato = new SimpleDateFormat("15/MM/yyyy");
+        formato = new SimpleDateFormat("dd/MM/yyyy");
         dp.setDateFormat(formato);
     }
 
@@ -364,7 +364,6 @@ public class EmiteMensualidades extends javax.swing.JInternalFrame {
 
         try {
 
-            mensualidadesDAO = new MensualidadesDAO();
 
             mensualidadeEmitida.setFechaPago(new Date());
             mensualidadeEmitida.setPago("Pago");

@@ -222,8 +222,9 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
     private void filtros() {
 
         if (rbCodigo.isSelected()) {
+            socioDAO = new SocioDAO();
             socio = new Socio();
-            socio = (Socio) socioDAO.BuscaPorID(Socio.class, Integer.parseInt(txtFiltro.getText()));
+            socio = socioDAO.BuscaPorCodigo(txtFiltro.getText());
 
             listSocios.clear();
             listSocios.add(socio);
@@ -1385,7 +1386,7 @@ public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
             btnCarneSocio.setDatabaseUser(props.getUsr());
 
             btnCarneSocio.setReportParameters(parametros);
-            btnCarneSocio.setReportURL("/Reportes/carneSocioOLD.jasper");
+            btnCarneSocio.setReportURL("/Reportes/carneSocio.jasper");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al generar reporte " + e);
             e.printStackTrace();

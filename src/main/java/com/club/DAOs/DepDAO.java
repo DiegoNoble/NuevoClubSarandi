@@ -4,10 +4,14 @@
  */
 package com.club.DAOs;
 
+import com.club.BEANS.Categoria;
 import com.club.BEANS.Dependiente;
 import com.club.BEANS.Socio;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
 
 /**
  *
@@ -31,6 +35,28 @@ public class DepDAO extends DaoGenerico {
         em.close();
         return toReturn;
 
+    }
+
+    public List consultaDependientes(List parentezco, Integer edad, List categorias) {
+
+        Query qr = em.createNativeQuery("select d.id as id_dep, d.nombre as nombre_dep, d.fechanacimiento,\n"
+                + " cd.EDAD_ACTUAL,\n"
+                + " d.situacion as situacion_dep, s.id as id_titular, s.nombre as nombre_titular, s.situacion as situacion_titular, c.definicion\n"
+                + "  from tbdependiente d, tbsocio s, tbcategoria c, (select dd.id, (YEAR(CURDATE())-YEAR(dd.fechanacimiento)+IF(DATE_FORMAT(CURDATE(),'%m-%d') > DATE_FORMAT(dd.fechanacimiento,'%m-%d'), 0 , -1 ))\n"
+                + "  AS EDAD_ACTUAL from tbdependiente as dd) as cd\n"
+                + "  where d.id_socio = s.id and s.idcategoria = c.id and cd.id = d.id and  d.situacion = 'Activo' and cd.EDAD_ACTUAL > ?2 and d.parentesco in (?1)\n"
+                + "and s.situacion = 'Activo' and c.id in(?3) order by c.id, s.situacion, cd.EDAD_ACTUAL desc", Tuple.class);
+
+        qr.setParameter(1, parentezco);
+        qr.setParameter(2, edad);
+        qr.setParameter(3, categorias);
+
+        List<Tuple> toReturn = qr.getResultList();
+
+        em.getTransaction().commit();
+        em.close();
+
+        return toReturn;
     }
 
     public List<Dependiente> BuscaPorCodigodeSocio(Socio socio) {
@@ -143,5 +169,4 @@ public class DepDAO extends DaoGenerico {
 
     }
 
-    
 }

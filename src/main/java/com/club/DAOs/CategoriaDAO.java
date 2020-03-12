@@ -19,11 +19,12 @@ public class CategoriaDAO extends DaoGenerico {
     EntityManager em = JPAUtil.getInstance().getEntityManager();
 
     public List categoriasQuePagan() {
-       
+
         List<Categoria> toRetorn = null;
         Query qr = em.createQuery("FROM Categoria AS c WHERE c.mensualidad not in(0)");
         toRetorn = qr.getResultList();
-
+        em.getTransaction().commit();
+        em.close();
         return toRetorn;
     }
 }

@@ -28,8 +28,9 @@ import javax.persistence.TemporalType;
 @Table(name = "tbsocio")
 
 public class Socio implements Serializable {
+
     private static final long serialVersionUID = 1L;
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
@@ -72,15 +73,17 @@ public class Socio implements Serializable {
     private String historia;
     @JoinColumn(name = "IDCOBRADOR", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Cobrador Cobrador;    
+    private Cobrador Cobrador;
     @JoinColumn(name = "IDCATEGORIA", referencedColumnName = "ID")
-    @ManyToOne(optional=false)
+    @ManyToOne(optional = false)
     private Categoria Categoria;
     @Lob
-    @Column(name="huella", columnDefinition="blob")
+    @Column(name = "huella", columnDefinition = "blob")
     private byte[] huella;
     private Integer tamano;
     private Integer calidad;
+    private Date ultimo_pago;
+     private Date vencimiento;
 
     public byte[] getHuella() {
         return huella;
@@ -105,7 +108,6 @@ public class Socio implements Serializable {
     public void setCalidad(Integer calidad) {
         this.calidad = calidad;
     }
-
 
     public Socio() {
     }
@@ -136,7 +138,7 @@ public class Socio implements Serializable {
         this.Categoria = Categoria;
     }
 
-       public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -256,7 +258,6 @@ public class Socio implements Serializable {
         this.email = email;
     }
 
-
     public String getHistoria() {
         return historia;
     }
@@ -264,7 +265,6 @@ public class Socio implements Serializable {
     public void setHistoria(String historia) {
         this.historia = historia;
     }
-
 
     public String getFoto() {
         return foto;
@@ -274,7 +274,6 @@ public class Socio implements Serializable {
         this.foto = foto;
     }
 
-    
     public com.club.BEANS.Cobrador getCobrador() {
         return Cobrador;
     }
@@ -299,6 +298,23 @@ public class Socio implements Serializable {
         this.celular = celular;
     }
 
+    public Date getUltimo_pago() {
+        return ultimo_pago;
+    }
+
+    public void setUltimo_pago(Date ultimo_pago) {
+        this.ultimo_pago = ultimo_pago;
+    }
+
+    public Date getVencimiento() {
+        return vencimiento;
+    }
+
+    public void setVencimiento(Date vencimiento) {
+        this.vencimiento = vencimiento;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 5;
@@ -320,15 +336,10 @@ public class Socio implements Serializable {
         }
         return true;
     }
-    
-    
 
     @Override
     public String toString() {
-        return id+", "+nombre;
+        return id + ", " + nombre;
     }
 
-   
-
-    
 }

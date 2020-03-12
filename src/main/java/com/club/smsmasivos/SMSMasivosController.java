@@ -9,10 +9,14 @@ import com.club.views.SMSMasivosView;
 import Utilidades.AjustaColumnas;
 import Utilidades.ControlarEntradaTexto;
 import com.club.BEANS.Categoria;
+import com.club.BEANS.Cobrador;
+import com.club.BEANS.Parametros;
 import com.club.BEANS.Socio;
 import com.club.DAOs.SocioDAO;
 import com.club.DAOs.CampanaSmsDAO;
 import com.club.DAOs.CategoriaDAO;
+import com.club.DAOs.CobradorDAO;
+import com.club.DAOs.ParametrosDAO;
 import com.club.tableModels.SocioTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +47,9 @@ public class SMSMasivosController implements ActionListener {
     ButtonColumn btnEditar;
     ButtonColumn btnEliminar;
     JDesktopPane jDesktopPane;
+    ParametrosDAO parametrosDAO;
+    Parametros parametros;
+    CobradorDAO cobradorDAO;
 
     public SMSMasivosController(SMSMasivosView view, JDesktopPane pane) {
 
@@ -76,6 +83,13 @@ public class SMSMasivosController implements ActionListener {
         for (Categoria categoria : list) {
             view.cbCategoria.addItem(categoria);
         }
+        
+        view.cbCobrador.removeAllItems();
+        cobradorDAO = new CobradorDAO();
+        List<Cobrador> listCobradores = cobradorDAO.BuscaTodos(Cobrador.class);
+        for (Cobrador cobrador : listCobradores) {
+            view.cbCobrador.addItem(cobrador);
+        }
 
         TableModel();
     }
@@ -90,7 +104,8 @@ public class SMSMasivosController implements ActionListener {
     void buscaSocios() {
         socioDAO = new SocioDAO();
         listSocios.clear();
-        List<Socio> socios = socioDAO.BuscaPorCategoriaSituacionConCelular((Categoria) view.cbCategoria.getSelectedItem(), view.cbSituacion.getSelectedItem().toString());
+        List<Socio> socios = socioDAO.BuscaPorCategoriaSituacionConCelular((Categoria) view.cbCategoria.getSelectedItem(),
+                (Cobrador) view.cbCobrador.getSelectedItem(), view.cbSituacion.getSelectedItem().toString());
         for (Socio socio : socios) {
             System.out.println(listSociosSMS.contains(socio));
 
@@ -164,7 +179,9 @@ public class SMSMasivosController implements ActionListener {
 
         } else {
 
-            ThreadEnviaSMS envia = new ThreadEnviaSMS(view.txtNombreCampaña.getText(), view.txtMensaje.getText(), view.txtLog, view, listSociosSMS, view.chPrueba.isSelected());
+            parametrosDAO = new ParametrosDAO();
+            parametros = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
+            ThreadEnviaSMS envia = new ThreadEnviaSMS(view.txtNombreCampaña.getText(), view.txtMensaje.getText(), view.txtLog, view, listSociosSMS, view.chPrueba.isSelected(),parametros);
             envia.execute();
         }
     }

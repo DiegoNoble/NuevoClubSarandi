@@ -87,9 +87,7 @@ public class RegistrarPagosMensualidades extends javax.swing.JInternalFrame {
                         cajaDAO.Salvar(pago);
 
                         JOptionPane.showMessageDialog(null, "Pago registrado");
-
                     }
-
                 }
             }
         } catch (Exception ex) {

@@ -37,7 +37,8 @@ public class MensualidadesAnuladasDAO extends DaoGenerico {
         Query qr = em.createQuery("FROM Mensualidades AS m WHERE m.socio =:socio order by m.fechaVencimiento");
         qr.setParameter("socio", socio);
         toReturn = qr.getResultList();
-        
+        em.getTransaction().commit();
+        em.close();
         return toReturn;
         
     }

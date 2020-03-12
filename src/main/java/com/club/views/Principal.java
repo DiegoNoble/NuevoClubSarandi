@@ -1,8 +1,6 @@
 package com.club.views;
 
-import com.club.BEANS.Caja;
 import com.club.BEANS.Usuario;
-import com.club.DAOs.CajaDAO;
 import com.club.control.utilidades.data;
 import com.club.smsmasivos.SMSMasivosController;
 import java.beans.PropertyVetoException;
@@ -16,8 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import com.club.smsmasivos.RecibeRespuestasSMSController;
-import java.util.List;
-import javax.swing.JOptionPane;
 
 public class Principal extends javax.swing.JFrame {
 
@@ -192,6 +188,8 @@ public class Principal extends javax.swing.JFrame {
         mnuItemConsultaSocio1 = new javax.swing.JMenuItem();
         mnuItemConsultaSocio3 = new javax.swing.JMenuItem();
         mniItemMovimientosCaja1 = new javax.swing.JMenuItem();
+        mnuItemConsultaSocio4 = new javax.swing.JMenuItem();
+        mnuItemConsultaSocio5 = new javax.swing.JMenuItem();
         mnuMensualidades = new javax.swing.JMenu();
         mnuItemRecibos = new javax.swing.JMenuItem();
         mnuItemPagos = new javax.swing.JMenuItem();
@@ -561,6 +559,22 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         mnuConsultas.add(mniItemMovimientosCaja1);
+
+        mnuItemConsultaSocio4.setText("Filtros avanzados de Socios");
+        mnuItemConsultaSocio4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemConsultaSocio4ActionPerformed(evt);
+            }
+        });
+        mnuConsultas.add(mnuItemConsultaSocio4);
+
+        mnuItemConsultaSocio5.setText("Filtros avanzados de Dependientes");
+        mnuItemConsultaSocio5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemConsultaSocio5ActionPerformed(evt);
+            }
+        });
+        mnuConsultas.add(mnuItemConsultaSocio5);
 
         jMenuBar1.add(mnuConsultas);
 
@@ -980,12 +994,7 @@ public class Principal extends javax.swing.JFrame {
         jDesktopPane1.add(habilitacion);
         habilitacion.setVisible(true);
         centralizaVentanas(habilitacion);
-        try {
-            habilitacion.setMaximum(true);
-            //centralizaVentanas(socio);
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
     }//GEN-LAST:event_mnuItemHabilitacionTitularesActionPerformed
 
     private void mnuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemUsuariosActionPerformed
@@ -1002,12 +1011,7 @@ public class Principal extends javax.swing.JFrame {
         jDesktopPane1.add(habilitacion);
         habilitacion.setVisible(true);
         centralizaVentanas(habilitacion);
-        try {
-            habilitacion.setMaximum(true);
-            //centralizaVentanas(socio);
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
 
     }//GEN-LAST:event_mnuItemHabilitacionDependientesActionPerformed
 
@@ -1255,7 +1259,10 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemCaja1ActionPerformed
 
     private void mnuItemUsuarios2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemUsuarios2ActionPerformed
-        try {
+   
+    
+        
+        /*try {
             CajaDAO cajaDAO = new CajaDAO();
             List<Caja> BuscaTodosOrdenaPorID = cajaDAO.BuscaTodosOrdenaPorID();
             Double saldo = 0.0;
@@ -1270,7 +1277,12 @@ public class Principal extends javax.swing.JFrame {
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + ex);
-        }
+        }*/
+        ActualizaSaldos as = new ActualizaSaldos(null, true);
+        as.setVisible(true);
+        as.toFront();
+        
+        
     }//GEN-LAST:event_mnuItemUsuarios2ActionPerformed
 
     private void mniItemMovimientosCaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniItemMovimientosCaja1ActionPerformed
@@ -1361,25 +1373,43 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemCaja4ActionPerformed
 
     private void mniItemMovimientosCaja3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniItemMovimientosCaja3ActionPerformed
-         AsignarPremiosCampEcoView asignarPremiosCampEcoView = new AsignarPremiosCampEcoView();
+        AsignarPremiosCampEcoView asignarPremiosCampEcoView = new AsignarPremiosCampEcoView();
         jDesktopPane1.add(asignarPremiosCampEcoView);
         asignarPremiosCampEcoView.setVisible(true);
         centralizaVentanas(asignarPremiosCampEcoView);
     }//GEN-LAST:event_mniItemMovimientosCaja3ActionPerformed
 
     private void mniItemMovimientosCaja4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniItemMovimientosCaja4ActionPerformed
-         EntregadePremiosView entregadePremiosView = new EntregadePremiosView();
+        EntregadePremiosView entregadePremiosView = new EntregadePremiosView();
         jDesktopPane1.add(entregadePremiosView);
         entregadePremiosView.setVisible(true);
         centralizaVentanas(entregadePremiosView);
     }//GEN-LAST:event_mniItemMovimientosCaja4ActionPerformed
 
     private void mnuItemHabilitacionTitulares1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemHabilitacionTitulares1ActionPerformed
-         ConsultaFichasTitularesView consultaFichasTitularesView = new ConsultaFichasTitularesView(usuario);
+        ConsultaFichasTitularesView consultaFichasTitularesView = new ConsultaFichasTitularesView(usuario);
         jDesktopPane1.add(consultaFichasTitularesView);
         consultaFichasTitularesView.setVisible(true);
         centralizaVentanas(consultaFichasTitularesView);
     }//GEN-LAST:event_mnuItemHabilitacionTitulares1ActionPerformed
+
+    private void mnuItemConsultaSocio4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemConsultaSocio4ActionPerformed
+
+        FiltroSocios filtroSocios = new FiltroSocios();
+        jDesktopPane1.add(filtroSocios);
+        filtroSocios.setVisible(true);
+        centralizaVentanas(filtroSocios);
+
+
+    }//GEN-LAST:event_mnuItemConsultaSocio4ActionPerformed
+
+    private void mnuItemConsultaSocio5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemConsultaSocio5ActionPerformed
+        FiltroDependientes filtroDependientes = new FiltroDependientes();
+        jDesktopPane1.add(filtroDependientes);
+        filtroDependientes.setVisible(true);
+        centralizaVentanas(filtroDependientes);
+        
+    }//GEN-LAST:event_mnuItemConsultaSocio5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1437,6 +1467,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemConsultaSocio1;
     private javax.swing.JMenuItem mnuItemConsultaSocio2;
     private javax.swing.JMenuItem mnuItemConsultaSocio3;
+    private javax.swing.JMenuItem mnuItemConsultaSocio4;
+    private javax.swing.JMenuItem mnuItemConsultaSocio5;
     private javax.swing.JMenuItem mnuItemDependientes;
     private javax.swing.JMenuItem mnuItemHabilitacionDependientes;
     private javax.swing.JMenuItem mnuItemHabilitacionTitulares;

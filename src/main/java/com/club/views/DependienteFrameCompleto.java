@@ -122,9 +122,10 @@ public class DependienteFrameCompleto extends javax.swing.JInternalFrame {
     private void muestraDetalles() {
 
         limpiaCampos();
-        depDAO = new DepDAO();
+        
         if (tblDependiente.getSelectedRow() != -1) {
             try {
+                depDAO = new DepDAO();
                 depSeleccionado = depDAO.BuscaTitular(depSeleccionado);
                 txtCodigoTitular.setText(depSeleccionado.getSocio().getId().toString());
                 txtNombreSocioTitular.setText(depSeleccionado.getNombre());

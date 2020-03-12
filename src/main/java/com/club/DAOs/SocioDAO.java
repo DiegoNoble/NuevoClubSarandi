@@ -8,9 +8,11 @@ import com.club.BEANS.Categoria;
 import com.club.BEANS.Cobrador;
 import com.club.BEANS.Dependiente;
 import com.club.BEANS.Socio;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
 
 public class SocioDAO extends DaoGenerico {
 
@@ -21,7 +23,7 @@ public class SocioDAO extends DaoGenerico {
     public List<Socio> FiltroInteligenteSocios(String texto) {
 
         Query qr = em.createNativeQuery("select * from tbsocio s where (select convert(s.id,char))\n"
-                + "like ?1 or s.nombre like  ?2 or s.ci like ?3",Socio.class);
+                + "like ?1 or s.nombre like  ?2 or s.ci like ?3", Socio.class);
         qr.setParameter(1, "%" + texto + "%");
         qr.setParameter(2, "%" + texto + "%");
         qr.setParameter(3, "%" + texto + "%");
@@ -30,6 +32,35 @@ public class SocioDAO extends DaoGenerico {
         em.close();
         return toReturn;
 
+    }
+
+    public List consultaSocios(List categorias, List situaciones) {
+
+        Query qr = em.createNativeQuery("select s.id,s.nombre, s.situacion, c.definicion,\n"
+                + "(select max(mm.fecha_pago) from tbmensualidades mm where mm.id_socio = m.id_socio)as ultimo_pago,\n"
+                + " (select MAX(mmm.fecha_vencimiento) from tbmensualidades mmm where mmm.id_socio = m.id_socio and mmm.fecha_pago <> 'NULL') as ultimo_vencimiento\n"
+                + "from tbsocio s\n"
+                + "left join tbcategoria c on s.idcategoria = c.id\n"
+                + "left join tbmensualidades m on m.id_socio = s.id\n"
+                + "where s.situacion in ?2 and c.id in(?1) group by s.id order by ultimo_vencimiento desc, ultimo_pago desc,  c.definicion, s.id", Tuple.class);
+        qr.setParameter(1, categorias);
+        qr.setParameter(2, situaciones);
+        List<Tuple> fromBD = qr.getResultList();
+        List<Socio> toReturn = new ArrayList<>();
+        for (Tuple tuple : fromBD) {
+            Socio s = new Socio();
+            s.setId((Integer) tuple.get(0));
+            s.setNombre((String) tuple.get(1));
+            s.setSituacion((String) tuple.get(2));
+            s.setCategoria(new Categoria((String) tuple.get(3)));
+            s.setUltimo_pago((Date) tuple.get(4));
+            s.setVencimiento((Date) tuple.get(5));
+            toReturn.add(s);
+        }
+        em.getTransaction().commit();
+        em.close();
+
+        return toReturn;
     }
 
     public List BuscaPorNombre(String name) {
@@ -76,8 +107,6 @@ public class SocioDAO extends DaoGenerico {
         return toReturn;
 
     }
-
-
 
     public Socio BuscaPorCodigoYCobrador(String codigo, Cobrador cobrador) {
 
@@ -167,10 +196,11 @@ public class SocioDAO extends DaoGenerico {
 
     }
 
-    public List BuscaPorCategoriaSituacionConCelular(Categoria categoria, String situacion) {
-        Query qr = em.createQuery("from Socio s where s.Categoria = ?1 and s.situacion = ?2 and s.celular <> ''");
+    public List BuscaPorCategoriaSituacionConCelular(Categoria categoria, Cobrador cobrador, String situacion) {
+        Query qr = em.createQuery("from Socio s where s.Categoria = ?1 and s.Cobrador = ?2 and s.situacion = ?3 and s.celular <> ''");
         qr.setParameter(1, categoria);
-        qr.setParameter(2, situacion);
+        qr.setParameter(2, cobrador);
+        qr.setParameter(3, situacion);
         List<Socio> toReturn = qr.getResultList();
         em.getTransaction().commit();
         em.close();

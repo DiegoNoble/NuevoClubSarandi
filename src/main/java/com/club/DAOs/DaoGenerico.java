@@ -41,8 +41,22 @@ public class DaoGenerico {
         em.close();
     }
 
+    public void ActualizarList(List list) throws Exception {
+        for (Object obj : list) {
+            em.merge(obj);
+            em.flush();
+            em.clear();
+        }
+        em.getTransaction().commit();
+        em.close();
+    }
+
     public Object BuscaPorID(Class clase, int id) {
-        return JPAUtil.getInstance().getEntity(clase, id);
+        Object toReturn = em.find(clase, id);
+        em.getTransaction().commit();
+        em.close();
+
+        return toReturn;
     }
 
     public void elminiar(Class clase, Object obj) {

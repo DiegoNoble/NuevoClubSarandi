@@ -6,9 +6,11 @@
 package com.club.smsmasivos;
 
 import com.club.BEANS.Campanasms;
+import com.club.BEANS.Parametros;
 import com.club.BEANS.Sms;
 import com.club.BEANS.Socio;
 import com.club.DAOs.CampanaSmsDAO;
+import com.club.DAOs.ParametrosDAO;
 import com.club.DAOs.SmsDAO;
 
 import java.util.ArrayList;
@@ -34,8 +36,9 @@ public class ThreadEnviaSMS extends SwingWorker<Void, Void> {
     SmsDAO smsDAO;
     String status;
     int tamanoLista;
+    Parametros parametros;
 
-    public ThreadEnviaSMS(String nombreCampaña, String mensaje, JTextArea txtStatus, JInternalFrame view, List listSociosSMS, Boolean prueba) {
+    public ThreadEnviaSMS(String nombreCampaña, String mensaje, JTextArea txtStatus, JInternalFrame view, List listSociosSMS, Boolean prueba,Parametros parametros) {
         this.txtStatus = txtStatus;
         this.mensaje = mensaje;
         this.nombreCampaña = nombreCampaña;
@@ -43,6 +46,8 @@ public class ThreadEnviaSMS extends SwingWorker<Void, Void> {
         this.prueba = prueba;
         this.listSociosSMS = listSociosSMS;
         tamanoLista = listSociosSMS.size();
+        
+        this.parametros = parametros;
     }
 
     @Override
@@ -76,7 +81,7 @@ public class ThreadEnviaSMS extends SwingWorker<Void, Void> {
 
                 EnvioSMSIndividual enviaSMS = new EnvioSMSIndividual();
 
-                status = enviaSMS.enviarSMSIndividual(sms.getId().toString(), sms.getSocio().getCelular(), sms.getSocio().getNombre() + " " + mensaje);
+                status = enviaSMS.enviarSMSIndividual(sms.getId().toString(), sms.getSocio().getCelular(), "Estimado socio " + mensaje,parametros);
 
                 sms.setStatus(status);
                 sms.setFechahoraemision(new Date());
@@ -103,9 +108,10 @@ public class ThreadEnviaSMS extends SwingWorker<Void, Void> {
 
             for (Sms sms : listSmsEnviados) {
 
+                try{
                 EnvioSMSIndividual enviaSMS = new EnvioSMSIndividual();
 
-                status = enviaSMS.pruebaEnviarSMSIndividual(String.valueOf(listSmsEnviados.indexOf(sms)), sms.getSocio().getCelular(), sms.getSocio().getNombre() + " " + mensaje);
+                status = enviaSMS.pruebaEnviarSMSIndividual(String.valueOf(listSmsEnviados.indexOf(sms)), sms.getSocio().getCelular(), "Estimado socio "+ mensaje,parametros);
 
                 sms.setStatus(status);
                 sms.setFechahoraemision(new Date());
@@ -113,6 +119,10 @@ public class ThreadEnviaSMS extends SwingWorker<Void, Void> {
                 this.txtStatus.append("\n");
                 this.txtStatus.append(status);
                 this.txtStatus.setCaretPosition(this.txtStatus.getDocument().getLength());
+                
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
 
         }

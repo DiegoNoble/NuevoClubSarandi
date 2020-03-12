@@ -113,9 +113,8 @@ public class ConsultaActualizaTalonCobrosYa extends javax.swing.JInternalFrame {
 
     }
 
-    void enviaEmail(Mensualidades mensualidad, String email
-    ) {
-        EnviarEmail enviarEmail = new EnviarEmail(mensualidad.getUrlPDF(), email);
+    void enviaEmail(Mensualidades mensualidad, String email) {
+        EnviarEmail enviarEmail = new EnviarEmail(parametros, mensualidad.getUrlPDF(), email);
         if (enviarEmail.enviaMail() == true) {
             JOptionPane.showMessageDialog(this, "Email enviado correctamente a: " + email);
         } else {
@@ -333,13 +332,14 @@ public class ConsultaActualizaTalonCobrosYa extends javax.swing.JInternalFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
 
+        parametrosDAO = new ParametrosDAO();
+        parametros = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
+        
         new Thread() {
             @Override
             public void run() {
                 try {
                     txtLog.append("\nConsultando talones CobrosYa Pagos....");
-                    parametrosDAO = new ParametrosDAO();
-                    parametros = (Parametros) parametrosDAO.BuscaPorID(Parametros.class, 1);
 
                     ConsultaTalonesCobrosYa consultaTalonesCobrosYa = new ConsultaTalonesCobrosYa(parametros);
                     List<Mensualidades> talonesPagos = consultaTalonesCobrosYa.enviarTalonMiWeb(dpVencimiento.getDate());

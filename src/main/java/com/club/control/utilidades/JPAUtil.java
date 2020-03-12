@@ -10,6 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
+import org.hibernate.cfg.Environment;
 
 public class JPAUtil {
 
@@ -28,6 +29,16 @@ public class JPAUtil {
             parametros.put("javax.persistence.jdbc.password", props.getProperty("jdbc.pass"));
             parametros.put("javax.persistence.jdbc.driver", props.getProperty("jdbc.driver"));
             parametros.put("javax.persistence.jdbc.url", props.getProperty("jdbc.url"));
+
+            parametros.put(Environment.C3P0_MIN_SIZE, 5);         //Minimum size of pool
+            parametros.put(Environment.C3P0_MAX_SIZE, 100);        //Maximum size of pool
+            parametros.put(Environment.C3P0_ACQUIRE_INCREMENT, 5);//Number of connections acquired at a time when pool is exhausted 
+            parametros.put(Environment.C3P0_TIMEOUT, 1800);       //Connection idle time
+            parametros.put(Environment.C3P0_MAX_STATEMENTS, 150); //PreparedStatement cache size
+
+            parametros.put(Environment.C3P0_CONFIG_PREFIX + ".initialPoolSize", 5);
+            //parametros.put(Environment.AUTO_CLOSE_SESSION, "true");
+
             emf = Persistence.createEntityManagerFactory("ClubSarandiPU", parametros);
 
         } catch (Exception e) {
