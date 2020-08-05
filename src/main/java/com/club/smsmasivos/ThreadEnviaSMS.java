@@ -81,7 +81,7 @@ public class ThreadEnviaSMS extends SwingWorker<Void, Void> {
 
                 EnvioSMSIndividual enviaSMS = new EnvioSMSIndividual();
 
-                status = enviaSMS.enviarSMSIndividual(sms.getId().toString(), sms.getSocio().getCelular(), "Estimado socio " + mensaje,parametros);
+                status = enviaSMS.enviarSMSIndividual(sms.getId().toString(), sms.getSocio().getCelular(), mensaje,parametros);
 
                 sms.setStatus(status);
                 sms.setFechahoraemision(new Date());
@@ -111,7 +111,7 @@ public class ThreadEnviaSMS extends SwingWorker<Void, Void> {
                 try{
                 EnvioSMSIndividual enviaSMS = new EnvioSMSIndividual();
 
-                status = enviaSMS.pruebaEnviarSMSIndividual(String.valueOf(listSmsEnviados.indexOf(sms)), sms.getSocio().getCelular(), "Estimado socio "+ mensaje,parametros);
+                status = enviaSMS.pruebaEnviarSMSIndividual(String.valueOf(listSmsEnviados.indexOf(sms)), sms.getSocio().getCelular(), mensaje,parametros);
 
                 sms.setStatus(status);
                 sms.setFechahoraemision(new Date());
