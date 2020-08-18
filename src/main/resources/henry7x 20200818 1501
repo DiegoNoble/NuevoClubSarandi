@@ -1,0 +1,1164 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.7.30-log
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema henry7x
+--
+
+CREATE DATABASE IF NOT EXISTS henry7x;
+USE henry7x;
+
+--
+-- Definition of table `he00`
+--
+
+DROP TABLE IF EXISTS `he00`;
+CREATE TABLE `he00` (
+  `HE00_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE00_BL_GRAVABANCO` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE00_BL_GRAVATXT` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE00_NR_TEMPODISPLAY` smallint(5) unsigned NOT NULL DEFAULT '5',
+  `HE00_BL_SERVERDATETIME` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE00_BL_SHOWBATIDA` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE00_BL_PASSREQUIRED` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE00_ST_PASSWORD` varchar(11) NOT NULL DEFAULT '',
+  `HE00_ST_SECRETPERG` varchar(40) NOT NULL DEFAULT '',
+  `HE00_ST_SECRETRESP` varchar(40) NOT NULL DEFAULT '',
+  `HE00_FL_LIBERACAOGIRO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE00_FL_VIEWLISTA` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE00_BL_ADVANCEDMODE` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE00_BL_LARGEICONS` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE00_BL_AUTOCADASTRO` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE00_FL_UPDATEMODE` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE00_BL_HELP` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE00_BL_FIRSTHIDE` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE00_BL_PLAYSOUND` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE00_FL_ONDETECTOFF` smallint(5) unsigned NOT NULL DEFAULT '1',
+  `HE00_BL_SINCRONIZAR` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE00_FL_HAMSTER` smallint(5) unsigned NOT NULL DEFAULT '2',
+  `HE00_ST_IDIOMA` varchar(30) NOT NULL DEFAULT 'ptbrasil.xml',
+  `HE00_ST_MSGUP` varchar(16) NOT NULL DEFAULT '',
+  `HE00_ST_MSGDOWN` varchar(16) NOT NULL DEFAULT '',
+  `HE00_FL_MSGUP_STYLE` smallint(5) unsigned NOT NULL DEFAULT '2',
+  `HE00_FL_MSGDOWN_STYLE` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE00_HR_APB` time NOT NULL DEFAULT '00:00:00',
+  `HE00_NR_SEARCHTIMEOUT` smallint(4) unsigned NOT NULL DEFAULT '0',
+  `HE00_NR_VERSAO` smallint(5) unsigned NOT NULL DEFAULT '7061',
+  `HE00_NR_NIVELSECBIO` smallint(5) unsigned NOT NULL DEFAULT '5',
+  `HE00_BL_SHOWID` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE00_BL_APBMODOENTSAI` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE00_NR_BIOQUALIDADE` smallint(5) unsigned NOT NULL DEFAULT '70',
+  PRIMARY KEY (`HE00_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Opciones de Sw';
+
+--
+-- Dumping data for table `he00`
+--
+
+/*!40000 ALTER TABLE `he00` DISABLE KEYS */;
+INSERT INTO `he00` (`HE00_AT_COD`,`HE00_BL_GRAVABANCO`,`HE00_BL_GRAVATXT`,`HE00_NR_TEMPODISPLAY`,`HE00_BL_SERVERDATETIME`,`HE00_BL_SHOWBATIDA`,`HE00_BL_PASSREQUIRED`,`HE00_ST_PASSWORD`,`HE00_ST_SECRETPERG`,`HE00_ST_SECRETRESP`,`HE00_FL_LIBERACAOGIRO`,`HE00_FL_VIEWLISTA`,`HE00_BL_ADVANCEDMODE`,`HE00_BL_LARGEICONS`,`HE00_BL_AUTOCADASTRO`,`HE00_FL_UPDATEMODE`,`HE00_BL_HELP`,`HE00_BL_FIRSTHIDE`,`HE00_BL_PLAYSOUND`,`HE00_FL_ONDETECTOFF`,`HE00_BL_SINCRONIZAR`,`HE00_FL_HAMSTER`,`HE00_ST_IDIOMA`,`HE00_ST_MSGUP`,`HE00_ST_MSGDOWN`,`HE00_FL_MSGUP_STYLE`,`HE00_FL_MSGDOWN_STYLE`,`HE00_HR_APB`,`HE00_NR_SEARCHTIMEOUT`,`HE00_NR_VERSAO`,`HE00_NR_NIVELSECBIO`,`HE00_BL_SHOWID`,`HE00_BL_APBMODOENTSAI`,`HE00_NR_BIOQUALIDADE`) VALUES 
+ (1,1,1,5,1,0,0,'','','',4,0,1,1,1,0,0,0,1,1,1,2,'espan.xml','','',2,0,'00:00:00',0,7077,5,1,0,70);
+/*!40000 ALTER TABLE `he00` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he01`
+--
+
+DROP TABLE IF EXISTS `he01`;
+CREATE TABLE `he01` (
+  `HE01_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE01_NR_MODELO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_BL_ORION` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE01_NR_MODO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_BL_CONFIRMADO` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE01_NR_NUM` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_ST_DESC` varchar(30) NOT NULL DEFAULT '',
+  `HE01_NR_CONFIG` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_NR_CONFIGDSP` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_NR_FORMATO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_NR_MSGPADRAO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_NR_TIPOCOM` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_ST_PORTA` varchar(8) NOT NULL DEFAULT '',
+  `HE01_NR_VELOCIDADE` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_NR_FIRMWARE` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_FL_PRIORITY` smallint(5) unsigned NOT NULL DEFAULT '2',
+  `HE01_ST_MAC` varchar(20) NOT NULL DEFAULT '',
+  `HE01_BL_CONECTADO` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE01_BL_ICMP` smallint(1) unsigned NOT NULL DEFAULT '1',
+  `HE01_NR_TCPPORT` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE01_ST_IP` varchar(20) NOT NULL DEFAULT '',
+  `HE01_ST_FONE` varchar(20) NOT NULL DEFAULT '',
+  `HE01_BL_ATIVO` smallint(1) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`HE01_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='Equipos';
+
+--
+-- Dumping data for table `he01`
+--
+
+/*!40000 ALTER TABLE `he01` DISABLE KEYS */;
+INSERT INTO `he01` (`HE01_AT_COD`,`HE01_NR_MODELO`,`HE01_BL_ORION`,`HE01_NR_MODO`,`HE01_BL_CONFIRMADO`,`HE01_NR_NUM`,`HE01_ST_DESC`,`HE01_NR_CONFIG`,`HE01_NR_CONFIGDSP`,`HE01_NR_FORMATO`,`HE01_NR_MSGPADRAO`,`HE01_NR_TIPOCOM`,`HE01_ST_PORTA`,`HE01_NR_VELOCIDADE`,`HE01_NR_FIRMWARE`,`HE01_FL_PRIORITY`,`HE01_ST_MAC`,`HE01_BL_CONECTADO`,`HE01_BL_ICMP`,`HE01_NR_TCPPORT`,`HE01_ST_IP`,`HE01_ST_FONE`,`HE01_BL_ATIVO`) VALUES 
+ (3,4,0,1,1,1,'Sarandi 2',1,1,1,1,1,'',0,7105,2,'',1,1,3000,'192.168.1.70','',1);
+/*!40000 ALTER TABLE `he01` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he02`
+--
+
+DROP TABLE IF EXISTS `he02`;
+CREATE TABLE `he02` (
+  `HE02_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE02_ST_MATRICULA` varchar(20) NOT NULL DEFAULT '',
+  `HE02_ST_MATRICULA_DESCRIPTO` varchar(20) NOT NULL DEFAULT '',
+  `HE02_ST_NOME` varchar(52) NOT NULL DEFAULT '',
+  `HE02_BL_DENTRO` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE02_NR_EMPRESA` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE02_FL_TPUSER` smallint(5) NOT NULL DEFAULT '0',
+  `HE02_NR_HORARIO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE02_FL_ACESSO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE02_DT_DENTRO` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `HE02_BL_VERIFDIG` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE02_ST_ACIONARELES` char(3) NOT NULL DEFAULT '0',
+  `HE02_DT_BLOQINI` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `HE02_DT_BLOQEND` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `HE02_BL_BLOQENABLED` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE02_ST_CTRLS` varchar(10) NOT NULL DEFAULT '',
+  `HE02_ST_PIS` varchar(12) DEFAULT '',
+  PRIMARY KEY (`HE02_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 COMMENT='Funcionarios';
+
+--
+-- Dumping data for table `he02`
+--
+
+/*!40000 ALTER TABLE `he02` DISABLE KEYS */;
+INSERT INTO `he02` (`HE02_AT_COD`,`HE02_ST_MATRICULA`,`HE02_ST_MATRICULA_DESCRIPTO`,`HE02_ST_NOME`,`HE02_BL_DENTRO`,`HE02_NR_EMPRESA`,`HE02_FL_TPUSER`,`HE02_NR_HORARIO`,`HE02_FL_ACESSO`,`HE02_DT_DENTRO`,`HE02_BL_VERIFDIG`,`HE02_ST_ACIONARELES`,`HE02_DT_BLOQINI`,`HE02_DT_BLOQEND`,`HE02_BL_BLOQENABLED`,`HE02_ST_CTRLS`,`HE02_ST_PIS`) VALUES 
+ (4,'00000000000000000003','','Prueba 3',0,2,0,0,126,'0000-00-00 00:00:00',1,'','2007-01-29 00:00:00','2007-01-29 00:00:00',0,'','000000000000'),
+ (5,'00000000000000000004','','Prueba 4',0,2,0,0,127,'0000-00-00 00:00:00',1,'','2007-01-29 00:00:00','2007-01-29 00:00:00',0,'','000000000000'),
+ (6,'00000000000000000005','','Prueba 5',0,2,0,1,126,'2020-08-02 09:12:42',0,'0','0000-00-00 00:00:00','0000-00-00 00:00:00',0,'',''),
+ (7,'00000000000000000006','','Prueba 6',0,2,0,0,126,'2020-08-02 09:22:40',0,'0','0000-00-00 00:00:00','0000-00-00 00:00:00',0,'',''),
+ (10,'0','','trigger',0,2,0,0,0,'0000-00-00 00:00:00',0,'0','0000-00-00 00:00:00','0000-00-00 00:00:00',0,'',''),
+ (11,'10766','','trigger2',0,2,0,0,0,'0000-00-00 00:00:00',0,'0','0000-00-00 00:00:00','0000-00-00 00:00:00',0,'',''),
+ (12,'00000000000000010766','','',0,0,0,0,126,'2020-08-12 20:54:30',0,'0','0000-00-00 00:00:00','0000-00-00 00:00:00',0,'',''),
+ (13,'6666','','Prueba Insert 6666',0,0,0,0,0,'0000-00-00 00:00:00',0,'0','0000-00-00 00:00:00','0000-00-00 00:00:00',0,'',''),
+ (14,'00000000000000066666','','Prueba Insert LPAD',0,0,0,0,0,'0000-00-00 00:00:00',0,'0','0000-00-00 00:00:00','0000-00-00 00:00:00',0,'','');
+/*!40000 ALTER TABLE `he02` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he03`
+--
+
+DROP TABLE IF EXISTS `he03`;
+CREATE TABLE `he03` (
+  `HE03_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE03_NR_FUNCOES` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE03_NR_FERIADOS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE03_NR_ACIONAMENTOS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE03_NR_LISTA` smallint(3) unsigned NOT NULL DEFAULT '0',
+  `HE03_NR_TABPER` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE03_NR_TABHOR` smallint(3) unsigned NOT NULL DEFAULT '0',
+  `HE03_NR_MSGESP` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE03_NR_REGISTROS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE03_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Participones de equipos';
+
+--
+-- Dumping data for table `he03`
+--
+
+/*!40000 ALTER TABLE `he03` DISABLE KEYS */;
+INSERT INTO `he03` (`HE03_AT_COD`,`HE03_NR_FUNCOES`,`HE03_NR_FERIADOS`,`HE03_NR_ACIONAMENTOS`,`HE03_NR_LISTA`,`HE03_NR_TABPER`,`HE03_NR_TABHOR`,`HE03_NR_MSGESP`,`HE03_NR_REGISTROS`) VALUES 
+ (1,0,0,0,0,0,512,0,513);
+/*!40000 ALTER TABLE `he03` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he04`
+--
+
+DROP TABLE IF EXISTS `he04`;
+CREATE TABLE `he04` (
+  `HE04_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE04_ST_EMPRESA` varchar(150) NOT NULL DEFAULT '',
+  `HE04_ST_NUMERO` varchar(6) NOT NULL DEFAULT '',
+  `HE04_ST_DOCUMENTO` varchar(18) NOT NULL DEFAULT '',
+  `HE04_ST_CEI` varchar(12) NOT NULL DEFAULT '',
+  `HE04_NR_TIPODOC` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE04_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COMMENT='empresas';
+
+--
+-- Dumping data for table `he04`
+--
+
+/*!40000 ALTER TABLE `he04` DISABLE KEYS */;
+INSERT INTO `he04` (`HE04_AT_COD`,`HE04_ST_EMPRESA`,`HE04_ST_NUMERO`,`HE04_ST_DOCUMENTO`,`HE04_ST_CEI`,`HE04_NR_TIPODOC`) VALUES 
+ (2,'Sarandi Universitario','000001','           ','            ',0);
+/*!40000 ALTER TABLE `he04` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he05`
+--
+
+DROP TABLE IF EXISTS `he05`;
+CREATE TABLE `he05` (
+  `HE05_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE05_ST_DESC` varchar(30) NOT NULL DEFAULT '',
+  `HE05_DT_FERIADO` date NOT NULL DEFAULT '0000-00-00',
+  PRIMARY KEY (`HE05_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='feriados';
+
+--
+-- Dumping data for table `he05`
+--
+
+/*!40000 ALTER TABLE `he05` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he05` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he06`
+--
+
+DROP TABLE IF EXISTS `he06`;
+CREATE TABLE `he06` (
+  `HE06_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE06_NR_SEC_LEVEL` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_SEC_LEVEL_IDENT` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_REG_QUAL` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_VER_QUAL` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_HIGH_SEC` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_SMART_CAP` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_BRIGHTNESS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_GAIN` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_IMG_QUALITY` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_SEC_FASTMODE` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_SENSITIVITY` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE06_NR_LIGHTING_CONDITION` smallint(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE06_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Conf. biometria';
+
+--
+-- Dumping data for table `he06`
+--
+
+/*!40000 ALTER TABLE `he06` DISABLE KEYS */;
+INSERT INTO `he06` (`HE06_AT_COD`,`HE06_NR_SEC_LEVEL`,`HE06_NR_SEC_LEVEL_IDENT`,`HE06_NR_REG_QUAL`,`HE06_NR_VER_QUAL`,`HE06_NR_HIGH_SEC`,`HE06_NR_SMART_CAP`,`HE06_NR_BRIGHTNESS`,`HE06_NR_GAIN`,`HE06_NR_IMG_QUALITY`,`HE06_NR_SEC_FASTMODE`,`HE06_NR_SENSITIVITY`,`HE06_NR_LIGHTING_CONDITION`) VALUES 
+ (1,80,0,0,0,0,0,0,0,49,54,55,1);
+/*!40000 ALTER TABLE `he06` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he07`
+--
+
+DROP TABLE IF EXISTS `he07`;
+CREATE TABLE `he07` (
+  `HE07_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE07_NR_EMPRESA` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE07_NR_EQUIPAMENTO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE07_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Empresa - equipo';
+
+--
+-- Dumping data for table `he07`
+--
+
+/*!40000 ALTER TABLE `he07` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he07` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he08`
+--
+
+DROP TABLE IF EXISTS `he08`;
+CREATE TABLE `he08` (
+  `HE08_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE08_ST_DESCRICAO` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`HE08_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Escalas';
+
+--
+-- Dumping data for table `he08`
+--
+
+/*!40000 ALTER TABLE `he08` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he08` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he09`
+--
+
+DROP TABLE IF EXISTS `he09`;
+CREATE TABLE `he09` (
+  `HE09_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE09_NR_HORARIO` int(10) unsigned NOT NULL DEFAULT '0',
+  `HE09_NR_PERIODO` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE09_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Horarios - Periodos';
+
+--
+-- Dumping data for table `he09`
+--
+
+/*!40000 ALTER TABLE `he09` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he09` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he10`
+--
+
+DROP TABLE IF EXISTS `he10`;
+CREATE TABLE `he10` (
+  `HE10_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE10_NR_USER` int(10) unsigned NOT NULL DEFAULT '0',
+  `HE10_NR_EQUIP` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE10_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1 COMMENT='Usuarios - equipos';
+
+--
+-- Dumping data for table `he10`
+--
+
+/*!40000 ALTER TABLE `he10` DISABLE KEYS */;
+INSERT INTO `he10` (`HE10_AT_COD`,`HE10_NR_USER`,`HE10_NR_EQUIP`) VALUES 
+ (23,4,3),
+ (24,5,3),
+ (25,6,3),
+ (26,7,3),
+ (27,11,3);
+/*!40000 ALTER TABLE `he10` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he11`
+--
+
+DROP TABLE IF EXISTS `he11`;
+CREATE TABLE `he11` (
+  `HE11_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE11_ST_DESCHOR` varchar(30) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE11_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Horarios';
+
+--
+-- Dumping data for table `he11`
+--
+
+/*!40000 ALTER TABLE `he11` DISABLE KEYS */;
+INSERT INTO `he11` (`HE11_AT_COD`,`HE11_ST_DESCHOR`) VALUES 
+ (1,'de 08 a 22');
+/*!40000 ALTER TABLE `he11` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he12`
+--
+
+DROP TABLE IF EXISTS `he12`;
+CREATE TABLE `he12` (
+  `HE12_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE12_NR_EQUIP` int(10) unsigned NOT NULL DEFAULT '0',
+  `HE12_BL_ACTIVE` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE12_BL_LIBACESSO` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE12_ST_MSG` varchar(16) NOT NULL DEFAULT '',
+  `HE12_NR_TEMPO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE12_FL_ATALHO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE12_BL_ISFNCESPEC` smallint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE12_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Funciones';
+
+--
+-- Dumping data for table `he12`
+--
+
+/*!40000 ALTER TABLE `he12` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he12` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he13`
+--
+
+DROP TABLE IF EXISTS `he13`;
+CREATE TABLE `he13` (
+  `HE13_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE13_NR_EQUIP` int(10) unsigned NOT NULL DEFAULT '0',
+  `HE13_NR_DIAS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE13_NR_TEMPO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE13_HR_HORARIO` time NOT NULL DEFAULT '00:00:00',
+  PRIMARY KEY (`HE13_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Accionamientos';
+
+--
+-- Dumping data for table `he13`
+--
+
+/*!40000 ALTER TABLE `he13` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he13` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he14`
+--
+
+DROP TABLE IF EXISTS `he14`;
+CREATE TABLE `he14` (
+  `HE14_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE14_NR_EQUIP` int(10) unsigned NOT NULL DEFAULT '0',
+  `HE14_NR_LAYOUT` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE14_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='Equipos - Conf. de Sada';
+
+--
+-- Dumping data for table `he14`
+--
+
+/*!40000 ALTER TABLE `he14` DISABLE KEYS */;
+INSERT INTO `he14` (`HE14_AT_COD`,`HE14_NR_EQUIP`,`HE14_NR_LAYOUT`) VALUES 
+ (3,3,1);
+/*!40000 ALTER TABLE `he14` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he15`
+--
+
+DROP TABLE IF EXISTS `he15`;
+CREATE TABLE `he15` (
+  `HE15_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE15_HR_HORINI` time NOT NULL DEFAULT '00:00:00',
+  `HE15_HR_HOREND` time NOT NULL DEFAULT '00:00:00',
+  `HE15_ST_DIAS` varchar(8) NOT NULL DEFAULT '',
+  PRIMARY KEY (`HE15_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Periodos';
+
+--
+-- Dumping data for table `he15`
+--
+
+/*!40000 ALTER TABLE `he15` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he15` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he16`
+--
+
+DROP TABLE IF EXISTS `he16`;
+CREATE TABLE `he16` (
+  `HE16_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE16_ST_P_MSG` varchar(32) NOT NULL DEFAULT '',
+  `HE16_ST_E_MSG` varchar(32) NOT NULL DEFAULT '',
+  `HE16_ST_S_MSG` varchar(32) NOT NULL DEFAULT '',
+  `HE16_NR_P_DUR` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE16_NR_E_DUR` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE16_NR_S_DUR` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE16_FL_P_STATUS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE16_FL_E_STATUS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE16_FL_S_STATUS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE16_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Msj Padrao';
+
+--
+-- Dumping data for table `he16`
+--
+
+/*!40000 ALTER TABLE `he16` DISABLE KEYS */;
+INSERT INTO `he16` (`HE16_AT_COD`,`HE16_ST_P_MSG`,`HE16_ST_E_MSG`,`HE16_ST_S_MSG`,`HE16_NR_P_DUR`,`HE16_NR_E_DUR`,`HE16_NR_S_DUR`,`HE16_FL_P_STATUS`,`HE16_FL_E_STATUS`,`HE16_FL_S_STATUS`) VALUES 
+ (1,'20:50  mi. 12/08CLUB SARANDI    ','0000000000000001BIENVENIDO      ','0000000000000001VUELVA SIEMPRE  ',1,3,3,169,189,189);
+/*!40000 ALTER TABLE `he16` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he17`
+--
+
+DROP TABLE IF EXISTS `he17`;
+CREATE TABLE `he17` (
+  `HE17_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE17_ST_DESCRICAO` varchar(30) NOT NULL DEFAULT '',
+  `HE17_ST_LOCAL` varchar(250) NOT NULL DEFAULT '',
+  `HE17_ST_LAYOUT` varchar(250) NOT NULL DEFAULT '',
+  `HE17_ST_FUNCOES` mediumtext NOT NULL,
+  `HE17_FL_TIPOS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE17_BL_SECINC` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE17_BL_READONLY` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE17_BL_NAOGIROU` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE17_BL_FUNCAOEXCLUSIVE` smallint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE17_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Conf. de Salida';
+
+--
+-- Dumping data for table `he17`
+--
+
+/*!40000 ALTER TABLE `he17` DISABLE KEYS */;
+INSERT INTO `he17` (`HE17_AT_COD`,`HE17_ST_DESCRICAO`,`HE17_ST_LOCAL`,`HE17_ST_LAYOUT`,`HE17_ST_FUNCOES`,`HE17_FL_TIPOS`,`HE17_BL_SECINC`,`HE17_BL_READONLY`,`HE17_BL_NAOGIROU`,`HE17_BL_FUNCAOEXCLUSIVE`) VALUES 
+ (1,'Henry7x (Padrão)','C:\\Users\\Diego\\Documents\\Henry\\MeusArquivosSaida\\Registros.txt','C:\\Users\\Diego\\Documents\\Henry\\MeusLayouts\\Padrao7x.lay7x',':00:01:02:03:04:05:06:07:08:09:10:11:12:13:14:15:16:17:18:19:20:21:22:23:24:25:26:27:28:29:30:31:32:33:34:35:36:37:38:39:40:41:42:43:44:45:46:47:48:49:50:51:52:53:54:55:56:57:58:59:60:61:62:63:64:65:66:67:68:69:70:71:72:73:74:75:76:77:78:79:80:81:82:83:84:85:86:87:88:89:90:91:92:93:94:95:96:97:98:99',255,0,1,0,0);
+/*!40000 ALTER TABLE `he17` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he18`
+--
+
+DROP TABLE IF EXISTS `he18`;
+CREATE TABLE `he18` (
+  `HE18_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE18_NR_EQUIP` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE18_NR_MSGESPEC` smallint(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE18_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Equipos - Msj Especificas';
+
+--
+-- Dumping data for table `he18`
+--
+
+/*!40000 ALTER TABLE `he18` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he18` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he19`
+--
+
+DROP TABLE IF EXISTS `he19`;
+CREATE TABLE `he19` (
+  `HE19_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE19_FL_STATUS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE19_ST_MENSAGEM` varchar(32) NOT NULL DEFAULT '',
+  `HE19_NR_DURACAO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE19_DT_MENSAGEM` date NOT NULL DEFAULT '0000-00-00',
+  `HE19_BL_ALLDAY` smallint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE19_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he19`
+--
+
+/*!40000 ALTER TABLE `he19` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he19` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he20`
+--
+
+DROP TABLE IF EXISTS `he20`;
+CREATE TABLE `he20` (
+  `HE20_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE20_NR_MSGESPEC` int(10) unsigned NOT NULL DEFAULT '0',
+  `HE20_NR_FUNC` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE20_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Funcionarios - Msj Especifica';
+
+--
+-- Dumping data for table `he20`
+--
+
+/*!40000 ALTER TABLE `he20` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he20` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he21`
+--
+
+DROP TABLE IF EXISTS `he21`;
+CREATE TABLE `he21` (
+  `HE21_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE21_BL_EXPANSION` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_ORIGEM` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_TECLADO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_RELE1_STATUS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_RELE1_NANF` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_RELE1_TEMPO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_RELE2_STATUS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_RELE2_NANF` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_RELE2_TEMPO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_RELE3_STATUS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_RELE3_NANF` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_RELE3_TEMPO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_LEITOR1` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_LEITOR2` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_LEITOR3` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_NIVELACESSO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_CTRLACESSO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_CTRLFLAG_GRAV` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRLFLAG_ATIVAMASTER` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRLFLAG_PASSREQUIRED` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRLFLAG_SINALIZA50PER` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRLFLAG_CATRACA` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRLFLAG_CATRACAINV` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_TOQUESATEND` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_BARCODE_PADRAOD` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_BARCODE_PADRAOT` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_BARCODE_LETRAS` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_BARCODE_PADRAOLIVRE` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_BARCODE_DIGITOSAUTO` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_NUMDIGITOS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_REVISTA_TIPO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_REVISTA_PERC` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_SENHA` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_EMPRESA0` varchar(6) NOT NULL DEFAULT '',
+  `HE21_NR_EMPRESA1` varchar(6) NOT NULL DEFAULT '',
+  `HE21_NR_EMPRESA2` varchar(6) NOT NULL DEFAULT '',
+  `HE21_NR_EMPRESA3` varchar(6) NOT NULL DEFAULT '',
+  `HE21_NR_EMPRESA4` varchar(6) NOT NULL DEFAULT '',
+  `HE21_NR_BIOMETRIA` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_HIDESEL` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_ST_DIGSEL` varchar(72) NOT NULL DEFAULT '',
+  `HE21_BL_APB` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_APBMODOENTSAI` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_APBTEMPO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_ANTIPASSBACK` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRL_SERVER_MATCH` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRL_TRATABLOQUEIO` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_FUNCS_ESPEC` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRL_CATBIOLIBAMBOS` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_RELE4_STATUS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_RELE4_NANF` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_RELE4_TEMPO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_RELE5_STATUS` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_RELE5_NANF` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_RELE5_TEMPO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRLFLAG_CATRACADUPLA` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_ST_SENSOR1` varchar(50) NOT NULL DEFAULT '',
+  `HE21_ST_SENSOR2` varchar(50) NOT NULL DEFAULT '',
+  `HE21_BL_CTRL_VISITANTE` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRL_TOUCH` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_CTRL_AUTOON` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_DIGITAIS11` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_BL_LEITORNOTVERIFDIG` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE21_FL_AUTOOFF` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_ST_CTRLS` varchar(10) NOT NULL DEFAULT '',
+  `HE21_BL_FAIXA` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_NR_RESET` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE21_ST_LOCAL` varchar(100) DEFAULT '',
+  `HE21_NR_PROC_ONLINE_TIMEOUT` smallint(5) unsigned NOT NULL DEFAULT '3',
+  `HE21_NR_LATENCIA_OFFLINE` smallint(5) unsigned NOT NULL DEFAULT '5',
+  `HE21_BL_MANUAL_CFG` smallint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE21_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Conf. de Equipos';
+
+--
+-- Dumping data for table `he21`
+--
+
+/*!40000 ALTER TABLE `he21` DISABLE KEYS */;
+INSERT INTO `he21` (`HE21_AT_COD`,`HE21_BL_EXPANSION`,`HE21_FL_ORIGEM`,`HE21_NR_TECLADO`,`HE21_FL_RELE1_STATUS`,`HE21_FL_RELE1_NANF`,`HE21_NR_RELE1_TEMPO`,`HE21_FL_RELE2_STATUS`,`HE21_FL_RELE2_NANF`,`HE21_NR_RELE2_TEMPO`,`HE21_FL_RELE3_STATUS`,`HE21_FL_RELE3_NANF`,`HE21_NR_RELE3_TEMPO`,`HE21_NR_LEITOR1`,`HE21_NR_LEITOR2`,`HE21_NR_LEITOR3`,`HE21_NR_NIVELACESSO`,`HE21_FL_CTRLACESSO`,`HE21_FL_CTRLFLAG_GRAV`,`HE21_BL_CTRLFLAG_ATIVAMASTER`,`HE21_BL_CTRLFLAG_PASSREQUIRED`,`HE21_BL_CTRLFLAG_SINALIZA50PER`,`HE21_BL_CTRLFLAG_CATRACA`,`HE21_BL_CTRLFLAG_CATRACAINV`,`HE21_NR_TOQUESATEND`,`HE21_BL_BARCODE_PADRAOD`,`HE21_BL_BARCODE_PADRAOT`,`HE21_BL_BARCODE_LETRAS`,`HE21_BL_BARCODE_PADRAOLIVRE`,`HE21_BL_BARCODE_DIGITOSAUTO`,`HE21_NR_NUMDIGITOS`,`HE21_NR_REVISTA_TIPO`,`HE21_NR_REVISTA_PERC`,`HE21_NR_SENHA`,`HE21_NR_EMPRESA0`,`HE21_NR_EMPRESA1`,`HE21_NR_EMPRESA2`,`HE21_NR_EMPRESA3`,`HE21_NR_EMPRESA4`,`HE21_NR_BIOMETRIA`,`HE21_NR_HIDESEL`,`HE21_ST_DIGSEL`,`HE21_BL_APB`,`HE21_BL_APBMODOENTSAI`,`HE21_NR_APBTEMPO`,`HE21_BL_ANTIPASSBACK`,`HE21_BL_CTRL_SERVER_MATCH`,`HE21_BL_CTRL_TRATABLOQUEIO`,`HE21_BL_FUNCS_ESPEC`,`HE21_BL_CTRL_CATBIOLIBAMBOS`,`HE21_FL_RELE4_STATUS`,`HE21_FL_RELE4_NANF`,`HE21_NR_RELE4_TEMPO`,`HE21_FL_RELE5_STATUS`,`HE21_FL_RELE5_NANF`,`HE21_NR_RELE5_TEMPO`,`HE21_BL_CTRLFLAG_CATRACADUPLA`,`HE21_ST_SENSOR1`,`HE21_ST_SENSOR2`,`HE21_BL_CTRL_VISITANTE`,`HE21_BL_CTRL_TOUCH`,`HE21_BL_CTRL_AUTOON`,`HE21_BL_DIGITAIS11`,`HE21_BL_LEITORNOTVERIFDIG`,`HE21_FL_AUTOOFF`,`HE21_ST_CTRLS`,`HE21_BL_FAIXA`,`HE21_NR_RESET`,`HE21_ST_LOCAL`,`HE21_NR_PROC_ONLINE_TIMEOUT`,`HE21_NR_LATENCIA_OFFLINE`,`HE21_BL_MANUAL_CFG`) VALUES 
+ (1,1,0,0,0,0,1,0,0,1,0,0,1,0,0,5,0,2,0,0,0,0,1,0,1,0,0,0,1,0,8,0,5,0,'000000','000000','000000','000000','000000',3,0,'',0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,'B','B',0,0,2,0,1,0,'',0,0,'',3,1,0);
+/*!40000 ALTER TABLE `he21` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he22`
+--
+
+DROP TABLE IF EXISTS `he22`;
+CREATE TABLE `he22` (
+  `HE22_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE22_NR_EQUIP` int(10) unsigned NOT NULL DEFAULT '0',
+  `HE22_ST_MATRICULA` varchar(30) NOT NULL DEFAULT '',
+  `HE22_BL_SAIDA` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE22_BL_LIBMASTER` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE22_BL_LIBFUNCAO` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE22_FL_FONTEENT` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE22_BL_ACESSONEG` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE22_FL_TIPONEG` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE22_NR_FUNCAO` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE22_BL_GIROU` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE22_DT_REGISTRO` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `HE22_BL_ISCATRACA` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE22_BL_EXPORTADO` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE22_NR_FLAG` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE22_NR_ORDEM` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE22_FL_ORDEM` smallint(3) unsigned NOT NULL DEFAULT '0',
+  `HE22_NR_CONTROLADOR` smallint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE22_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1 COMMENT='Registros';
+
+--
+-- Dumping data for table `he22`
+--
+
+/*!40000 ALTER TABLE `he22` DISABLE KEYS */;
+INSERT INTO `he22` (`HE22_AT_COD`,`HE22_NR_EQUIP`,`HE22_ST_MATRICULA`,`HE22_BL_SAIDA`,`HE22_BL_LIBMASTER`,`HE22_BL_LIBFUNCAO`,`HE22_FL_FONTEENT`,`HE22_BL_ACESSONEG`,`HE22_FL_TIPONEG`,`HE22_NR_FUNCAO`,`HE22_BL_GIROU`,`HE22_DT_REGISTRO`,`HE22_BL_ISCATRACA`,`HE22_BL_EXPORTADO`,`HE22_NR_FLAG`,`HE22_NR_ORDEM`,`HE22_FL_ORDEM`,`HE22_NR_CONTROLADOR`) VALUES 
+ (13,3,'00000000000000000005',1,0,0,2,1,2,255,0,'2020-08-02 09:12:42',1,0,0,0,0,0),
+ (14,3,'00000000000000000005',1,0,0,2,1,2,255,0,'2020-08-02 09:15:35',1,0,0,0,0,0),
+ (15,3,'00000000000000000005',1,0,0,2,1,2,255,0,'2020-08-02 09:16:09',1,0,0,0,0,0),
+ (16,3,'00000000000000000005',1,0,0,2,1,2,255,0,'2020-08-02 09:16:17',1,0,0,0,0,0),
+ (17,3,'00000000000000000005',1,0,0,2,1,2,255,0,'2020-08-02 09:17:52',1,0,0,0,0,0),
+ (18,3,'00000000000000000005',1,0,0,2,1,2,255,0,'2020-08-02 09:18:09',1,0,0,0,0,0),
+ (19,3,'00000000000000000005',1,0,0,2,1,2,255,0,'2020-08-02 09:18:44',1,0,0,0,0,0),
+ (20,3,'00000000000000000005',1,0,0,2,0,4,255,0,'2020-08-02 09:21:28',1,0,0,0,0,0),
+ (21,3,'00000000000000000005',1,0,0,2,0,4,255,0,'2020-08-02 09:21:39',1,0,0,0,0,0),
+ (22,3,'00000000000000000006',1,0,0,2,1,2,255,0,'2020-08-02 09:22:40',1,0,0,0,0,0),
+ (23,3,'00000000000000000006',1,0,0,2,1,2,255,0,'2020-08-02 09:26:44',1,0,0,0,0,0),
+ (24,3,'00000000000000000006',1,0,0,2,1,2,255,0,'2020-08-02 09:27:05',1,0,0,0,0,0),
+ (25,3,'00000000000000000006',1,0,0,2,1,2,255,0,'2020-08-02 09:27:20',1,0,0,0,0,0),
+ (26,3,'00000000000000000006',1,0,0,2,0,4,255,0,'2020-08-02 09:27:47',1,0,0,0,0,0),
+ (27,3,'00000000000000000003',1,0,0,2,0,4,255,0,'2020-08-02 09:34:52',1,0,0,0,0,0),
+ (28,3,'00000000000000000003',1,0,0,2,0,4,255,0,'2020-08-12 20:51:22',1,0,0,0,0,0),
+ (29,3,'00000000000000000005',1,0,0,2,0,4,255,0,'2020-08-12 20:51:32',1,0,0,0,0,0),
+ (30,3,'00000000000000000006',1,0,0,2,0,4,255,0,'2020-08-12 20:51:36',1,0,0,0,0,0),
+ (31,3,'00000000000000010766',1,0,0,2,1,2,255,0,'2020-08-12 20:54:30',1,0,0,0,0,0);
+/*!40000 ALTER TABLE `he22` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he23`
+--
+
+DROP TABLE IF EXISTS `he23`;
+CREATE TABLE `he23` (
+  `HE23_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE23_ST_MATRICULA` varchar(20) NOT NULL DEFAULT '0',
+  `HE23_FL_BIOMETRIA` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `HE23_BL_ALFAA` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE23_BL_MASTER` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE23_BN_TEMPLATE` mediumtext NOT NULL,
+  `HE23_DT_LASTEDIT` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`HE23_AT_COD`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='Digitales';
+
+--
+-- Dumping data for table `he23`
+--
+
+/*!40000 ALTER TABLE `he23` DISABLE KEYS */;
+INSERT INTO `he23` (`HE23_AT_COD`,`HE23_ST_MATRICULA`,`HE23_FL_BIOMETRIA`,`HE23_BL_ALFAA`,`HE23_BL_MASTER`,`HE23_BN_TEMPLATE`,`HE23_DT_LASTEDIT`) VALUES 
+ (1,'00000000000000000005',3,0,0,'\0\0\0\nE†\"UFB€©,Â°Ÿ„ð¯‰9PC‹4Å€œŠ‡¡­	@[‡HÑ6I€BÉ¨\rÊ‘«Ì!ŠŒ\r<Mð=‰>Î ™“:ÎA›„0Q;‡±\Zª\rÐ€5Ú€@L)=ƒ.Q1˜ƒ\rS7ÿÿ#33ÿÿÿñ#33ÿÿÿ#3DOÿþ\"#3DDÿà#3DDOî#4DDDî\"34DDDî\"34DDDî\"34DDDî\"34DDDî\0#4DDDÞ\0#4DDDÝà\"3DDDDÍà#4DDDUÌÞ#DDUDUª DEUUUU™‡EUUUUUˆwUUUUUV‡weUUUUV÷veUUUU_\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','2020-08-02 09:14:30'),
+ (2,'00000000000000000006',3,0,0,'\0\0\0E…\"UF€ðX‰&B0±0‰‚Ðh‡(C OÃàg‹D ‡†ð†3È;‡¡s ‰Á!°!Ê 1 $JQ6Ê Ž‹#\n1 Ìá†%Žq#…6NÀ0 -P(ˆ \'‰Ñ1‚q…‘ñ9ð‡&Ò1‡0Ò€ŠÓ\"ˆÿÿÝàÿÿÿÿÝà?ÿÿüÍÐ4ÿÿ¼ÌÞ\"4Oÿ¼ÌÐ#4Oú»¼Î4DEú«»Î4DUúª»½DUUúªª¼EUUúªªªuVffú©™˜vfffú©™ˆwfffù™ˆˆwwvfù™ˆˆ‡wwfù™ˆˆˆwwwˆ˜ˆ‰˜ˆ‡ˆˆˆ‰˜ˆˆˆˆˆ™™ˆˆ˜‡‰™™˜wøw‰ª™Ÿÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','2020-08-02 09:26:11'),
+ (3,'00000000000000000003',3,0,0,'\0\0\0E\"UFÁp‹Â‘\ZÄ v…áu#‡ &GAi‰Çñr‡9JPŠ	p„/\0cˆ!vÌ„2Ž±hN±x„	ñ0Qm4ÐÁY(\"q5Ñ°\ZO(ÑÁ6ÑÐ!L:ÒQ0ÿÿÌÍÞïÿÿÿ»¼ÌÝàÿÿú«»ÌÝîÿºª»ÌÝÞÿºª»ÌÝÞ\0ÿªª»ÌÍÝàªª»ÌÍÝàªª»ÌÌÝàªª»¼ÌÝàªª»¼ÌÝàªª»»ÌÍàºª«»ÌÍàºªª«¼Ìà»ªª«»Ìàªªªª»¼àªªªªª»á4ªªªªª«ÒDªªªªªª§eªªªªªª¨ù™ªªªª˜ÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0','2020-08-02 09:33:57');
+/*!40000 ALTER TABLE `he23` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he24`
+--
+
+DROP TABLE IF EXISTS `he24`;
+CREATE TABLE `he24` (
+  `HE24_NR_ESCALA` int(10) unsigned NOT NULL,
+  `HE24_DT_DIA` date NOT NULL DEFAULT '0000-00-00',
+  `HE24_NR_HORARIO` smallint(5) unsigned NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Escalas - Horarios';
+
+--
+-- Dumping data for table `he24`
+--
+
+/*!40000 ALTER TABLE `he24` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he24` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he25`
+--
+
+DROP TABLE IF EXISTS `he25`;
+CREATE TABLE `he25` (
+  `HE25_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE25_NR_EQUIP` int(10) NOT NULL DEFAULT '0',
+  `HE25_HR_COLETA` time NOT NULL DEFAULT '00:00:00',
+  `HE25_ST_DIAS` varchar(30) NOT NULL DEFAULT '',
+  PRIMARY KEY (`HE25_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Importaciones agendadas';
+
+--
+-- Dumping data for table `he25`
+--
+
+/*!40000 ALTER TABLE `he25` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he25` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he26`
+--
+
+DROP TABLE IF EXISTS `he26`;
+CREATE TABLE `he26` (
+  `HE26_NR_FNCESPEC` int(10) unsigned NOT NULL DEFAULT '0',
+  `HE26_NR_FUNC` int(10) unsigned NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Funciones especificas - Funcioarios';
+
+--
+-- Dumping data for table `he26`
+--
+
+/*!40000 ALTER TABLE `he26` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he26` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he27`
+--
+
+DROP TABLE IF EXISTS `he27`;
+CREATE TABLE `he27` (
+  `HE27_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE27_ST_DESC` varchar(30) NOT NULL DEFAULT '',
+  `HE27_NR_INDEX` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `HE27_NR_EQUIP` int(10) unsigned NOT NULL DEFAULT '0',
+  `HE27_BL_CATRACA` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE27_BL_WORKOFF` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `HE27_ST_LEITORA1` varchar(6) NOT NULL DEFAULT '',
+  `HE27_ST_LEITORA2` varchar(6) NOT NULL DEFAULT '',
+  `HE27_NR_TMPRELE1` smallint(3) unsigned NOT NULL DEFAULT '0',
+  `HE27_NR_TMPRELE2` smallint(3) unsigned NOT NULL DEFAULT '0',
+  `HE27_NR_TMPRELE3` smallint(3) unsigned NOT NULL DEFAULT '0',
+  `HE27_ST_SENSOR1` varchar(50) NOT NULL DEFAULT '',
+  `HE27_ST_SENSOR2` varchar(50) NOT NULL DEFAULT '',
+  `HE27_ST_SENSOR3` varchar(50) NOT NULL DEFAULT '',
+  `HE27_ST_FACILITY` varchar(40) NOT NULL DEFAULT '',
+  PRIMARY KEY (`HE27_AT_COD`),
+  UNIQUE KEY `HE27_at_cod` (`HE27_AT_COD`),
+  KEY `HE27_at_cod_2` (`HE27_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Conf. de Controladores';
+
+--
+-- Dumping data for table `he27`
+--
+
+/*!40000 ALTER TABLE `he27` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he27` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he28`
+--
+
+DROP TABLE IF EXISTS `he28`;
+CREATE TABLE `he28` (
+  `HE28_DT_DIA` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='control de fechas reportes';
+
+--
+-- Dumping data for table `he28`
+--
+
+/*!40000 ALTER TABLE `he28` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he28` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he29`
+--
+
+DROP TABLE IF EXISTS `he29`;
+CREATE TABLE `he29` (
+  `HE29_AT_COD` int(10) NOT NULL,
+  `HE29_NR_FUNCIONARIO` int(10) unsigned NOT NULL,
+  `HE29_ST_PATHIMAGEM` varchar(150) NOT NULL DEFAULT '',
+  PRIMARY KEY (`HE29_AT_COD`),
+  UNIQUE KEY `HE29_at_cod` (`HE29_AT_COD`),
+  KEY `HE29_at_cod_2` (`HE29_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he29`
+--
+
+/*!40000 ALTER TABLE `he29` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he29` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he30`
+--
+
+DROP TABLE IF EXISTS `he30`;
+CREATE TABLE `he30` (
+  `HE30_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE30_ST_ADMINNAME` varchar(30) NOT NULL DEFAULT '',
+  `HE30_ST_LOGIN` varchar(20) NOT NULL DEFAULT '',
+  `HE30_ST_SENHA` varchar(20) NOT NULL DEFAULT '',
+  `HE30_BL_CADADMIN` smallint(1) NOT NULL DEFAULT '0',
+  `HE30_BL_CADUSER` smallint(1) NOT NULL DEFAULT '0',
+  `HE30_BL_CADHOR` smallint(1) NOT NULL DEFAULT '0',
+  `HE30_BL_VIEWREPORT` smallint(1) NOT NULL DEFAULT '0',
+  `HE30_BL_LIBEXTRA` smallint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE30_AT_COD`),
+  UNIQUE KEY `HE30_at_cod` (`HE30_AT_COD`),
+  KEY `HE30_at_cod_2` (`HE30_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he30`
+--
+
+/*!40000 ALTER TABLE `he30` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he30` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he31`
+--
+
+DROP TABLE IF EXISTS `he31`;
+CREATE TABLE `he31` (
+  `HE31_AT_COD` int(10) NOT NULL,
+  `HE31_ST_DESCRICAO` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`HE31_AT_COD`),
+  UNIQUE KEY `HE31_at_cod` (`HE31_AT_COD`),
+  KEY `HE31_at_cod_2` (`HE31_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he31`
+--
+
+/*!40000 ALTER TABLE `he31` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he31` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he32`
+--
+
+DROP TABLE IF EXISTS `he32`;
+CREATE TABLE `he32` (
+  `HE32_NR_ROTA` smallint(10) NOT NULL,
+  `HE32_NR_EQUIP` int(10) NOT NULL,
+  `HE32_NR_ORDEM` smallint(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he32`
+--
+
+/*!40000 ALTER TABLE `he32` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he32` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he33`
+--
+
+DROP TABLE IF EXISTS `he33`;
+CREATE TABLE `he33` (
+  `HE33_AT_COD` int(10) NOT NULL,
+  `HE33_NR_EQUIP` int(10) unsigned DEFAULT NULL,
+  `HE33_NR_USERLIBEROU` smallint(10) unsigned DEFAULT NULL,
+  `HE33_DT_LIBERACAO` datetime DEFAULT NULL,
+  `HE33_NR_USUARIO` int(10) unsigned DEFAULT NULL,
+  `HE33_DT_UTILIZACAO` datetime DEFAULT NULL,
+  `HE33_BL_UTILIZADO` smallint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE33_AT_COD`),
+  UNIQUE KEY `HE33_at_cod` (`HE33_AT_COD`),
+  KEY `HE33_at_cod_2` (`HE33_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he33`
+--
+
+/*!40000 ALTER TABLE `he33` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he33` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he34`
+--
+
+DROP TABLE IF EXISTS `he34`;
+CREATE TABLE `he34` (
+  `HE34_AT_COD` int(10) NOT NULL,
+  `HE34_NR_VISITANTE` smallint(10) unsigned DEFAULT NULL,
+  `HE34_NR_ROTA` smallint(10) unsigned DEFAULT NULL,
+  `HE34_ST_MATRICULA` varchar(20) NOT NULL DEFAULT '',
+  `HE34_DT_ENTRADA` datetime DEFAULT NULL,
+  `HE34_DT_SAIDA` datetime DEFAULT NULL,
+  `HE34_NR_NIVEL_PREV` smallint(2) DEFAULT NULL,
+  `HE34_NR_NIVEL_NEXT` smallint(2) DEFAULT NULL,
+  PRIMARY KEY (`HE34_AT_COD`),
+  UNIQUE KEY `HE34_at_cod` (`HE34_AT_COD`),
+  KEY `HE34_at_cod_2` (`HE34_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he34`
+--
+
+/*!40000 ALTER TABLE `he34` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he34` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he35`
+--
+
+DROP TABLE IF EXISTS `he35`;
+CREATE TABLE `he35` (
+  `HE35_AT_COD` int(10) NOT NULL,
+  `HE35_ST_NOME` varchar(100) NOT NULL DEFAULT '',
+  `HE35_ST_CPF` varchar(20) NOT NULL DEFAULT '',
+  `HE35_ST_RG` varchar(20) NOT NULL DEFAULT '',
+  `HE35_BN_OBS` mediumtext NOT NULL,
+  PRIMARY KEY (`HE35_AT_COD`),
+  UNIQUE KEY `HE35_at_cod` (`HE35_AT_COD`),
+  KEY `HE35_at_cod_2` (`HE35_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he35`
+--
+
+/*!40000 ALTER TABLE `he35` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he35` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he36`
+--
+
+DROP TABLE IF EXISTS `he36`;
+CREATE TABLE `he36` (
+  `HE36_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE36_NR_EQUIP` int(10) NOT NULL,
+  `HE36_ST_MAT_INI` varchar(20) NOT NULL,
+  `HE36_ST_MAT_FIM` varchar(20) NOT NULL,
+  `HE36_FL_ACESSO` smallint(10) NOT NULL DEFAULT '0',
+  `HE36_FL_TPUSER` smallint(1) NOT NULL DEFAULT '0',
+  `HE36_NR_HORARIO` smallint(10) DEFAULT '0',
+  `HE36_ST_DESCHOR` varchar(30) DEFAULT NULL,
+  `HE36_BL_VERDIG` smallint(1) NOT NULL DEFAULT '1',
+  `HE36_BL_BLOQUEIO` smallint(1) NOT NULL DEFAULT '0',
+  `HE36_DT_BLOQINI` date DEFAULT NULL,
+  `HE36_DT_BLOQEND` date DEFAULT NULL,
+  `HE36_ST_RELES` varchar(3) NOT NULL DEFAULT '',
+  `HE36_ST_CONTROLADORES` varchar(10) NOT NULL DEFAULT '',
+  `HE36_BL_LISTADO` smallint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE36_AT_COD`),
+  UNIQUE KEY `HE36_at_cod` (`HE36_AT_COD`),
+  KEY `HE36_at_cod_2` (`HE36_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he36`
+--
+
+/*!40000 ALTER TABLE `he36` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he36` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he37`
+--
+
+DROP TABLE IF EXISTS `he37`;
+CREATE TABLE `he37` (
+  `HE37_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE37_NR_USUARIO` int(10) NOT NULL,
+  `HE37_ST_MATRICULA` varchar(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`HE37_AT_COD`),
+  UNIQUE KEY `HE37_at_cod` (`HE37_AT_COD`),
+  KEY `HE37_at_cod_2` (`HE37_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he37`
+--
+
+/*!40000 ALTER TABLE `he37` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he37` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he38`
+--
+
+DROP TABLE IF EXISTS `he38`;
+CREATE TABLE `he38` (
+  `HE38_NR_EQUIP` int(10) NOT NULL,
+  `HE38_ST_CAMINHO` varchar(200) DEFAULT '',
+  `HE38_DT_ULTIMA_COLETA` datetime DEFAULT NULL,
+  `HE38_BL_NOME_DINAMICO` smallint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he38`
+--
+
+/*!40000 ALTER TABLE `he38` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he38` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he39`
+--
+
+DROP TABLE IF EXISTS `he39`;
+CREATE TABLE `he39` (
+  `HE39_AT_COD` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `HE39_NR_EQUIP` int(10) NOT NULL DEFAULT '0',
+  `HE39_HR_ENVIO` time NOT NULL DEFAULT '00:00:00',
+  `HE39_ST_DIAS` varchar(30) NOT NULL DEFAULT '',
+  `HE39_NR_LAST_ID` int(10) NOT NULL DEFAULT '-1',
+  `HE39_NR_SEND` int(10) NOT NULL DEFAULT '0',
+  `HE39_ST_FILE` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`HE39_AT_COD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he39`
+--
+
+/*!40000 ALTER TABLE `he39` DISABLE KEYS */;
+/*!40000 ALTER TABLE `he39` ENABLE KEYS */;
+
+
+--
+-- Definition of table `he40`
+--
+
+DROP TABLE IF EXISTS `he40`;
+CREATE TABLE `he40` (
+  `HE40_NR_ID` int(10) NOT NULL,
+  `HE40_NR_NUM` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `he40`
+--
+
+/*!40000 ALTER TABLE `he40` DISABLE KEYS */;
+INSERT INTO `he40` (`HE40_NR_ID`,`HE40_NR_NUM`) VALUES 
+ (1,1),
+ (2,1);
+/*!40000 ALTER TABLE `he40` ENABLE KEYS */;
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

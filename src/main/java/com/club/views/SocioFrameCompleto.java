@@ -30,6 +30,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import org.jasper.viewer.components.JasperRunnerButton;
 
 public final class SocioFrameCompleto extends javax.swing.JInternalFrame {
 

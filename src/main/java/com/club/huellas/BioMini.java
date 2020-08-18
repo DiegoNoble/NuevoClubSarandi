@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 
 public class BioMini {
 
-    DaoGenerico dao;
+    //DaoGenerico dao;
     byte[] pImageData;
 
     private UFScannerClass libScanner = null;
@@ -37,7 +37,7 @@ public class BioMini {
     private PointerByReference refTemplateArray = null;
 
     public void iniciar() {
-        dao = new DaoGenerico();
+        //dao = new DaoGenerico();
         try {
             libScanner = (UFScannerClass) Native.loadLibrary("UFScanner", UFScannerClass.class);
             libMatcher = (UFMatcherClass) Native.loadLibrary("UFMatcher", UFMatcherClass.class);
@@ -201,6 +201,7 @@ public class BioMini {
                             socio.setTamano(tempsize);
                             //socio.setFotoHuella(path);
                             socio.setCalidad(refTemplateQuality.getValue());
+                            DaoGenerico dao = new DaoGenerico();
                             dao.Actualizar(socio);
                         } else {
                         }
@@ -245,6 +246,7 @@ public class BioMini {
                             dep.setHuella(bTemplate);
                             dep.setTamano(tempsize);
                             dep.setCalidad(refTemplateQuality.getValue());
+                            DaoGenerico dao = new DaoGenerico();
                             dao.Actualizar(dep);
                         } else {
                         }
@@ -438,6 +440,7 @@ public class BioMini {
                             funcionario.setTamano(tempsize);
                             //socio.setFotoHuella(path);
                             funcionario.setCalidad(refTemplateQuality.getValue());
+                            DaoGenerico dao = new DaoGenerico();
                             dao.Actualizar(funcionario);
                         } else {
                         }

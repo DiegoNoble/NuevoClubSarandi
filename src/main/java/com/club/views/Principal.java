@@ -32,7 +32,6 @@ public class Principal extends javax.swing.JFrame {
         muestraData = new data();
         muestraData.le_data();
         lblFecha.setText(muestraData.dia + "," + muestraData.dia_semana + " de " + muestraData.mes_del_ano + " de " + muestraData.ano);
-        timer1.start();
 
         if (jlbPerfil.getText().equals("Usuario")) {
 
@@ -85,7 +84,6 @@ public class Principal extends javax.swing.JFrame {
         muestraData = new data();
         muestraData.le_data();
         lblFecha.setText(muestraData.dia + "," + muestraData.dia_semana + " de " + muestraData.mes_del_ano + " de " + muestraData.ano);
-        timer1.start();
 
         if (jlbPerfil.getText().equals("Usuario")) {
 
@@ -145,7 +143,6 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        timer1 = new org.netbeans.examples.lib.timerbean.Timer();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -1492,6 +1489,5 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu mnuSistema;
     private javax.swing.JMenuItem mnuitemConsultaDependientes;
     private javax.swing.JMenuItem mnuitemConsultaMensualidades;
-    private org.netbeans.examples.lib.timerbean.Timer timer1;
     // End of variables declaration//GEN-END:variables
 }

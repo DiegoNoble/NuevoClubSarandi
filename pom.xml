@@ -110,7 +110,7 @@
         <repository>
             <id>central</id>
             <name>bintray</name>
-            <url>http://jcenter.bintray.com</url>
+            <url>https://jcenter.bintray.com</url>
         </repository>
         <repository>
             <id>unknown-jars-temp-repo</id>
@@ -149,24 +149,6 @@
             <type>jar</type>
         </dependency>    
         
-                
-        <dependency>
-            <groupId>MiSupremaJar</groupId>
-            <artifactId>MiSupremaJar-1.0-sources</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
-        
-        </dependency>
-        <dependency>
-            <groupId>ImagenPanel</groupId>
-            <artifactId>ImagenPanel-1.0</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
-        
-        </dependency>
-        
-       
-               
         <dependency>
             <groupId>com.toedter</groupId>
             <artifactId>jcalendar</artifactId>
@@ -178,26 +160,8 @@
             <version>4.1.0</version>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>unknown.binary</groupId>
-            <artifactId>DateChooser</artifactId>
-            <version>SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>unknown.binary</groupId>
-            <artifactId>TimerBean</artifactId>
-            <version>SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>unknown.binary</groupId>
-            <artifactId>BeanInfo</artifactId>
-            <version>SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>unknown.binary</groupId>
-            <artifactId>JasperReportViewer</artifactId>
-            <version>SNAPSHOT</version>
-        </dependency>
+      
+  
         <dependency>
             <groupId>xpp3</groupId>
             <artifactId>xpp3</artifactId>
@@ -256,21 +220,13 @@
             <artifactId>javax.mail</artifactId>
             <version>1.5.5</version>
         </dependency>
-        <dependency>
-            <groupId>unknown.binary</groupId>
-            <artifactId>MisBotones</artifactId>
-            <version>SNAPSHOT</version>
-        </dependency>
+        
         <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-urlshortener</artifactId>
             <version>v1-rev45-1.22.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.jasper.viewer.components</groupId>
-            <artifactId>JasperRunnerButton</artifactId>
-            <version>1.0</version>
-        </dependency>
+      
         
         <dependency>
             <groupId>net.sourceforge.jexcelapi</groupId>
@@ -294,6 +250,46 @@
             <artifactId>hibernate-c3p0</artifactId>
             <version>5.3.6.Final</version>
         </dependency>
+        <dependency>
+            <groupId>dnsoft.MiSupremaJar</groupId>
+            <artifactId>MiSupremaJar</artifactId>
+            <version>1.0</version>
+        </dependency>
         
+        <dependency>
+            <groupId>dnsfoft.TimerBean</groupId>
+            <artifactId>TimerBean</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>dnsoft.DataChooser</groupId>
+            <artifactId>DateChooser</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>dnsoft.BeanInfo</groupId>
+            <artifactId>BeanInfo</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>dnsoft.MisBotones</groupId>
+            <artifactId>MisBotones</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jasper.viewer.components</groupId>
+            <artifactId>JasperRunnerButton</artifactId>
+            <version>1.0</version>
+            
+        </dependency>
+        <dependency>
+            <groupId>Dnsoft.ImagenPanel</groupId>
+            <artifactId>ImagenPanel-1.0</artifactId>
+            <version>1.0</version>
+            
+        </dependency>
     </dependencies>
 </project>
